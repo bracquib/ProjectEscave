@@ -77,9 +77,9 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		System.out.println("Mouse moved: (" + e.getX() + "," + e.getY() + ")");
-		System.out.println("   modifiers=" + e.getModifiersEx());
-		System.out.println("   buttons=" + e.getButton());
+		// System.out.println("Mouse moved: (" + e.getX() + "," + e.getY() + ")");
+		// System.out.println(" modifiers=" + e.getModifiersEx());
+		// System.out.println(" buttons=" + e.getButton());
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void windowOpened() {
-		m_game.loadMusic();
+		// m_game.loadMusic();
 //    m_game.m_canvas.setTimer(6000);
 	}
 
@@ -121,7 +121,7 @@ public class CanvasListener implements GameCanvasListener {
 	@Override
 	public void endOfPlay(String name) {
 //    if (!m_expired) // only reload if it was a forced reload by timer
-		m_game.loadMusic();
+		// m_game.loadMusic();
 //    m_expired = false;
 	}
 

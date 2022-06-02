@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import info3.game.entities.Cowboy;
 import info3.game.entities.Entity;
 import info3.game.graphics.GameCanvas;
 import info3.game.sound.RandomFileInputStream;
@@ -57,13 +58,11 @@ public class Game {
 	JLabel m_text;
 	GameCanvas m_canvas;
 	CanvasListener m_listener;
-	Cowboy m_cowboy;
 	Sound m_music;
 
 	Game() throws Exception {
 		// creating a cowboy, that would be a model
 		// in an Model-View-Controller pattern (MVC)
-		m_cowboy = new Cowboy();
 		// creating a listener for all the events
 		// from the game canvas, that would be
 		// the controller in the MVC pattern
@@ -73,6 +72,7 @@ public class Game {
 		m_canvas = new GameCanvas(m_listener);
 
 		this.entities = new ArrayList<Entity>();
+		this.spawn(new Cowboy());
 
 		System.out.println("  - creating frame...");
 		Dimension d = new Dimension(1024, 768);
@@ -154,8 +154,6 @@ public class Game {
 			e.tick(elapsed);
 		}
 
-		m_cowboy.tick(elapsed);
-
 		// Update every second
 		// the text on top of the frame: tick and fps
 		m_textElapsed += elapsed;
@@ -185,9 +183,6 @@ public class Game {
 		// erase background
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, width, height);
-
-		// paint
-		m_cowboy.paint(g, width, height);
 
 		for (Entity e : this.entities) {
 			e.paint(g, Vec2.ZERO);

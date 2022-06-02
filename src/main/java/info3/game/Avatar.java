@@ -72,6 +72,7 @@ public class Avatar {
 	public Avatar(String file, int imageLen, long animationDelay) {
 		try {
 			this.images = loadSprite("resources/" + file, 1, imageLen);
+			this.animationDelay = animationDelay;
 		} catch (IOException ex) {
 			System.out.println("[WARN] Impossible de charger " + file);
 		}
