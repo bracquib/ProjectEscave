@@ -25,16 +25,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import info3.game.entities.Entity;
 import info3.game.graphics.GameCanvas;
 import info3.game.sound.RandomFileInputStream;
 
 public class Game {
 
 	static Game game;
+
+	/**
+	 * La liste de toutes les entités dans le monde.
+	 */
+	ArrayList<Entity> entities;
 
 	public static void main(String args[]) throws Exception {
 		try {
@@ -65,12 +72,23 @@ public class Game {
 		// that would be a part of the view in the MVC pattern
 		m_canvas = new GameCanvas(m_listener);
 
+		this.entities = new ArrayList<Entity>();
+
 		System.out.println("  - creating frame...");
 		Dimension d = new Dimension(1024, 768);
 		m_frame = m_canvas.createFrame(d);
 
 		System.out.println("  - setting up the frame...");
 		setupFrame();
+	}
+
+	/**
+	 * Ajoute une entité dans le monde.
+	 * 
+	 * @param e L'entité à faire apparaître
+	 */
+	public void spawn(Entity e) {
+		this.entities.add(e);
 	}
 
 	/*
@@ -132,6 +150,10 @@ public class Game {
 	 */
 	void tick(long elapsed) {
 
+		for (Entity e : this.entities) {
+			e.tick(elapsed);
+		}
+
 		m_cowboy.tick(elapsed);
 
 		// Update every second
@@ -166,6 +188,10 @@ public class Game {
 
 		// paint
 		m_cowboy.paint(g, width, height);
+
+		for (Entity e : this.entities) {
+			e.paint(g, Vec2.ZERO);
+		}
 	}
 
 }
