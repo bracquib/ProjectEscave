@@ -37,12 +37,29 @@ import info3.game.sound.RandomFileInputStream;
 
 public class Game {
 
+	/**
+	 * La largeur de la carte
+	 */
+	private static final int MAP_WIDTH = 1000;
+
 	static Game game;
 
 	/**
 	 * La liste de toutes les entités dans le monde.
 	 */
 	ArrayList<Entity> entities;
+
+	/**
+	 * La liste des blocs de la carte.
+	 * 
+	 * Les élements de ce tableau sont aussi dans le tableau `entities`. Cette
+	 * duplication permet d'accéder précisément à un bloc à une position donnée. En
+	 * réalité, il n'y a pas de duplication, juste de l'aliasing.
+	 * 
+	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
+	 * précis avec la méthode getBlock(x, y) de cette classe.
+	 */
+	ArrayList<Entity> map;
 
 	public static void main(String args[]) throws Exception {
 		try {
@@ -89,6 +106,62 @@ public class Game {
 	 */
 	public void spawn(Entity e) {
 		this.entities.add(e);
+	}
+
+	/**
+	 * Renvoie le bloc aux coordonnées (x, y) sur la carte, ou `null` si cet
+	 * emplacement est vide.
+	 * 
+	 * Les indices peuvent être plus grands que la taille de la carte, le fait que
+	 * le monde est circulaire est pris en compte.
+	 * 
+	 * @param x Coordonée x
+	 * @param y Coordonée y
+	 * @return Le bloc à cette position
+	 */
+	public Entity getBlock(int x, int y) {
+		// TODO: est ce que le monde est circulaire verticalement aussi ?
+		return this.map.get((x * MAP_WIDTH) % MAP_WIDTH + y);
+	}
+
+	/**
+	 * Renvoie toutes les entités dans un cercle donné
+	 * 
+	 * @param x      Abcisse du centre du cercle
+	 * @param y      Ordonnée du centre du cercle
+	 * @param radius Rayon du cercle
+	 * @return Une liste de toutes les entités dans ce cercle
+	 */
+	public ArrayList<Entity> getNearEntities(int x, int y, float radius) {
+		// TODO: ce code pourrait être optimisé en divisant la carte en chunks
+		// Chaque chunk fait X par X blocs, et contient toutes les entités dans ce carré
+		// Cet algorithme itèrerait alors d'abord sur les chunks pour trouver ceux dans
+		// le rayon voulu (plus rapide car on a X^2 moins de chunks que de blocs)
+		// puis à l'intérieur des chunks sélectionnés uniquement
+		//
+		// Seul difficulté : pour les entités qui se déplacent, il faut penser à les
+		// changer de chunk si besoin
+		ArrayList<Entity> nearEntities = new ArrayList<>();
+		Vec2 center = new Vec2((float) x, (float) y);
+		for (Entity e : this.entities) {
+			if (center.distance(e.getPosition()) < radius) {
+				nearEntities.add(e);
+			}
+		}
+		return nearEntities;
+	}
+
+	/**
+	 * Liste les entités visibles
+	 * 
+	 * @return une liste des entités affichées à l'écran
+	 */
+	public ArrayList<Entity> getVisibleEntities() {
+		int width = m_canvas.getWidth();
+		int height = m_canvas.getHeight();
+		int radius = Math.max(width, height);
+		// TODO: utiliser les vraies coordonnées de la caméra
+		return this.getNearEntities(0, 0, radius);
 	}
 
 	/*

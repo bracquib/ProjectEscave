@@ -26,6 +26,10 @@ public abstract class Entity {
 	 */
 	Avatar avatar;
 
+	public Vec2 getPosition() {
+		return this.position;
+	}
+
 	/**
 	 * Cette fonction est appelée à chaque tick de jeu
 	 * 

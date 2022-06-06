@@ -72,4 +72,16 @@ public class Vec2 {
 	public Vec2 minus(Vec2 other) {
 		return new Vec2(this.x - other.x, this.y - other.y);
 	}
+
+	/**
+	 * Calcule la distance entre deux vecteurs
+	 * 
+	 * @param other Le second vecteur
+	 * @return La distance entre les deux
+	 */
+	public float distance(Vec2 other) {
+		double x = Math.pow(this.x - other.x, 2.0);
+		double y = Math.pow(this.y - other.y, 2.0);
+		return (float) Math.sqrt(x + y);
+	}
 }
