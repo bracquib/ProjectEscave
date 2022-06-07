@@ -1,0 +1,16 @@
+image: maven:3.8-openjdk-18
+
+cache:
+  paths:
+    - .m2/repository
+
+.verify: &verify
+  stage: test
+  script:
+    - 'mvn verify'
+  except:
+    variables:
+      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+verify:openjdk-18:
+  <<: *verify
