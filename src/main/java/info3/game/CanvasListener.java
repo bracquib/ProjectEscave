@@ -27,10 +27,10 @@ import java.awt.event.MouseEvent;
 import info3.game.graphics.GameCanvasListener;
 
 public class CanvasListener implements GameCanvasListener {
-	Game m_game;
+	LocalView view;
 
-	CanvasListener(Game game) {
-		m_game = game;
+	CanvasListener(LocalView lv) {
+		this.view = lv;
 	}
 
 	@Override
@@ -99,12 +99,12 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void tick(long elapsed) {
-		m_game.tick(elapsed);
+		this.view.tick(elapsed);
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		m_game.paint(g);
+		this.view.paint(g);
 	}
 
 	@Override
