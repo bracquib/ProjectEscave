@@ -72,7 +72,7 @@ public class LocalAvatar extends Avatar {
 	public LocalAvatar(int id, String file, int imageLen, long animationDelay) {
 		super(id);
 		try {
-			this.images = loadSprite("resources/" + file, 1, imageLen);
+			this.images = loadSprite("src/main/resources/" + file, 1, imageLen);
 			this.animationDelay = animationDelay;
 		} catch (IOException ex) {
 			System.out.println("[WARN] Impossible de charger " + file);
