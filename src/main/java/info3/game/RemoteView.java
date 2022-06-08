@@ -3,6 +3,13 @@ package info3.game;
 public class RemoteView extends View {
 	ClientThread client;
 
+	/**
+	 * Constructeur réservé aux tests
+	 */
+	public RemoteView() {
+		super();
+	}
+
 	public RemoteView(ClientThread client) {
 		super();
 		this.controller = client.controller;

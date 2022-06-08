@@ -55,7 +55,9 @@ public class LocalController extends Controller {
 		for (View v : views) {
 			if (v instanceof RemoteView) {
 				RemoteView rv = (RemoteView) v;
-				rv.client.send(msg);
+				if (rv.client != null) {
+					rv.client.send(msg);
+				}
 			}
 		}
 	}
