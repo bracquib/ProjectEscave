@@ -25,12 +25,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import info3.game.graphics.GameCanvasListener;
+import info3.game.network.KeyPress;
 
 public class CanvasListener implements GameCanvasListener {
-	Game m_game;
+	LocalView view;
 
-	CanvasListener(Game game) {
-		m_game = game;
+	CanvasListener(LocalView lv) {
+		this.view = lv;
 	}
 
 	@Override
@@ -77,9 +78,9 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		System.out.println("Mouse moved: (" + e.getX() + "," + e.getY() + ")");
-		System.out.println("   modifiers=" + e.getModifiersEx());
-		System.out.println("   buttons=" + e.getButton());
+		// System.out.println("Mouse moved: (" + e.getX() + "," + e.getY() + ")");
+		// System.out.println(" modifiers=" + e.getModifiersEx());
+		// System.out.println(" buttons=" + e.getButton());
 	}
 
 	@Override
@@ -89,7 +90,8 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("Key pressed: " + e.getKeyChar() + " code=" + e.getKeyCode());
+		KeyPress kp = new KeyPress(e.getKeyCode());
+		this.view.controller.keyPressed(kp);
 	}
 
 	@Override
@@ -99,17 +101,18 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void tick(long elapsed) {
-		m_game.tick(elapsed);
+		this.view.tick(elapsed);
+		this.view.controller.tick(elapsed);
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		m_game.paint(g);
+		this.view.paint(g);
 	}
 
 	@Override
 	public void windowOpened() {
-		m_game.loadMusic();
+		// m_game.loadMusic();
 //    m_game.m_canvas.setTimer(6000);
 	}
 
@@ -121,7 +124,7 @@ public class CanvasListener implements GameCanvasListener {
 	@Override
 	public void endOfPlay(String name) {
 //    if (!m_expired) // only reload if it was a forced reload by timer
-		m_game.loadMusic();
+		// m_game.loadMusic();
 //    m_expired = false;
 	}
 

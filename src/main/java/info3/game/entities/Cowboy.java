@@ -18,8 +18,33 @@
  *  Created on: March, 2020
  *      Author: Pr. Olivier Gruber
  */
-package info3.game;
+package info3.game.entities;
 
-public class Game {
+import info3.game.Controller;
+import info3.game.Vec2;
 
+/**
+ * A simple class that holds the images of a sprite for an animated cowbow.
+ *
+ */
+public class Cowboy extends Entity {
+	int moveElapsed;
+	int maxX = 500;
+
+	public Cowboy(Controller controller) {
+		super(controller);
+		this.position = new Vec2(0.0f, 0.0f);
+		this.avatar = this.controller.createAvatar(this.position, "cowboy.png", 24, 200);
+	}
+
+	@Override
+	public void tick(long elapsed) {
+		super.tick(elapsed);
+		this.moveElapsed += elapsed;
+		if (this.moveElapsed > 24) {
+			this.moveElapsed = 0;
+			this.position.setX((this.position.getX() + 2) % maxX);
+			this.avatar.setPosition(this.position);
+		}
+	}
 }

@@ -504,7 +504,7 @@ public class GameCanvas extends Canvas {
 	}
 
 	private void _stopPlayers() {
-		if (m_musicPlayer == null) {
+		if (m_musicPlayer != null) {
 			m_musicPlayer.stop();
 			m_musicPlayer = null;
 		}

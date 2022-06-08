@@ -1,25 +1,25 @@
 package info3.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
+
+import info3.game.entities.Cowboy;
 
 public class CowboyTest {
 
 	@Test
 	public void testCowboy() {
-		Cowboy c = null;
-		try {
-			c = new Cowboy();
-		} catch (IOException e) {
-			fail("Failed to initialize Cowboy");
-		}
-		assertEquals(10, c.m_x);
-		c.tick(0);
-		assertEquals(10, c.m_x);
+		ArrayList<View> views = new ArrayList<View>();
+		views.add(new RemoteView());
+		Cowboy c = new Cowboy(new LocalController(views));
+		assertEquals(0, c.getPosition().x);
+		c.tick(10);
+		assertEquals(0, c.getPosition().y);
+		assertEquals(0, c.getPosition().x);
+		c.tick(20);
+		assertEquals(2, c.getPosition().x);
 	}
-
 }
