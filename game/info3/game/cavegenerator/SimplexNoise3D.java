@@ -9,6 +9,7 @@ public class SimplexNoise3D {
 
 	private static final int PSIZE = 2048;
 	private static final int PMASK = 2047;
+	double seuil = 0;
 
 	private short[] perm;
 	private Grad3[] permGrad3;
@@ -41,6 +42,24 @@ public class SimplexNoise3D {
 			permGrad3[i] = GRADIENTS_3D[perm[i]];
 			source[r] = source[i];
 		}
+	}
+
+	public int[][] generation(int seed, int psize, int pmask, double seuil, int width, int height, double featureSize) {
+		int[][] res = new int[width][height];
+		this.seuil = seuil;
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				double angle = (2 * Math.PI * x) / width;
+				double value = eval(256 * Math.cos(angle) / featureSize, y / featureSize,
+						256 * Math.sin(angle) / featureSize);
+				res[x][y] = (int) value;
+			}
+		}
+		return res;
+	}
+
+	public int[][] generation() {
+		return this.generation(15908475, 2048, 2047, 0.2, 1024, 256, 22);
 	}
 
 	// 3D OpenSimplex Noise.
@@ -635,7 +654,7 @@ public class SimplexNoise3D {
 		}
 		value = Math.abs(value);
 
-		if (value > 0.2)
+		if (value > this.seuil)
 			value = 1;
 		else
 			value = 0;
