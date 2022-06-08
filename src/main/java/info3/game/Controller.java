@@ -1,10 +1,9 @@
 package info3.game;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import info3.game.entities.Cowboy;
 import info3.game.entities.Entity;
+import info3.game.network.KeyPress;
 
 public abstract class Controller {
 	static Controller controller;
@@ -83,10 +82,18 @@ public abstract class Controller {
 		return nearEntities;
 	}
 
-	private Controller() {
+	protected Controller() {
+		Controller.controller = this;
 		this.entities = new ArrayList<Entity>();
-		this.spawn(new Cowboy());
 	}
 
-	public abstract void keyPressed(KeyEvent e);
+	public abstract void keyPressed(KeyPress e);
+
+	public abstract void tick(long elapsed);
+
+	public abstract void addView(View v);
+
+	static int avatarID = 0;
+
+	public abstract Avatar createAvatar(Vec2 pos, String string, int imageLen, int animationDelay);
 }

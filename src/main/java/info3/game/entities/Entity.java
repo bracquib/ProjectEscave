@@ -3,6 +3,7 @@ package info3.game.entities;
 import java.awt.Graphics;
 
 import info3.game.Avatar;
+import info3.game.Controller;
 import info3.game.Vec2;
 
 /**
@@ -26,8 +27,14 @@ public abstract class Entity {
 	 */
 	Avatar avatar;
 
+	Controller controller;
+
 	public Vec2 getPosition() {
 		return this.position;
+	}
+
+	public Entity(Controller c) {
+		this.controller = c;
 	}
 
 	/**

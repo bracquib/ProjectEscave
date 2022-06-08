@@ -1,5 +1,7 @@
 package info3.game;
 
+import java.io.Serializable;
+
 /**
  * Un vecteur à deux éléments.
  * 
@@ -17,7 +19,9 @@ package info3.game;
  * Des fonctions sont fournies dans cette classe pour faire la conversion entre
  * les deux.
  */
-public class Vec2 {
+public class Vec2 implements Serializable {
+	private static final long serialVersionUID = 2656759476741857908L;
+
 	/**
 	 * Le vecteur nul
 	 */

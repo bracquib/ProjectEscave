@@ -25,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import info3.game.graphics.GameCanvasListener;
+import info3.game.network.KeyPress;
 
 public class CanvasListener implements GameCanvasListener {
 	LocalView view;
@@ -89,7 +90,8 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("Key pressed: " + e.getKeyChar() + " code=" + e.getKeyCode());
+		KeyPress kp = new KeyPress(e.getKeyCode());
+		this.view.controller.keyPressed(kp);
 	}
 
 	@Override
@@ -100,6 +102,7 @@ public class CanvasListener implements GameCanvasListener {
 	@Override
 	public void tick(long elapsed) {
 		this.view.tick(elapsed);
+		this.view.controller.tick(elapsed);
 	}
 
 	@Override

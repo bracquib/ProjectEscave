@@ -20,7 +20,7 @@
  */
 package info3.game.entities;
 
-import info3.game.Avatar;
+import info3.game.Controller;
 import info3.game.Vec2;
 
 /**
@@ -31,9 +31,10 @@ public class Cowboy extends Entity {
 	int moveElapsed;
 	int maxX = 500;
 
-	public Cowboy() {
+	public Cowboy(Controller controller) {
+		super(controller);
 		this.position = new Vec2(0.0f, 0.0f);
-		this.avatar = new Avatar("cowboy.png", 24, 200);
+		this.avatar = this.controller.createAvatar(this.position, "cowboy.png", 24, 200);
 	}
 
 	@Override
@@ -43,6 +44,7 @@ public class Cowboy extends Entity {
 		if (this.moveElapsed > 24) {
 			this.moveElapsed = 0;
 			this.position.setX((this.position.getX() + 2) % maxX);
+			this.avatar.setPosition(this.position);
 		}
 	}
 }

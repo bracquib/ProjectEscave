@@ -12,13 +12,13 @@ public class Client {
 		try {
 			Controller backend;
 			if (args.length == 0) {
-				backend = new LocalBackend();
+				backend = new LocalController();
 			} else {
 				int port = 1906;
 				if (args.length == 2) {
 					port = Integer.parseInt(args[1]);
 				}
-				backend = new RemoteBackend(args[0], port);
+				backend = new RemoteController(args[0], port);
 			}
 			new LocalView(backend);
 		} catch (Throwable th) {

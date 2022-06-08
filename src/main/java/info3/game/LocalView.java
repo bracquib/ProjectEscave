@@ -5,17 +5,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import info3.game.entities.Entity;
 import info3.game.graphics.GameCanvas;
 import info3.game.sound.RandomFileInputStream;
 
 public class LocalView extends View {
-	Controller controller;
-
 	JFrame frame;
 	JLabel text;
 	GameCanvas canvas;
@@ -23,29 +21,16 @@ public class LocalView extends View {
 	Sound music;
 
 	public LocalView(Controller controller) {
+		super();
 		this.controller = controller;
-		// creating a cowboy, that would be a model
-		// in an Model-View-Controller pattern (MVC)
-		// creating a listener for all the events
-		// from the game canvas, that would be
-		// the controller in the MVC pattern
+		this.controller.addView(this);
+
 		this.listener = new CanvasListener(this);
-		// creating the game canvas to render the game,
-		// that would be a part of the view in the MVC pattern
+
 		this.canvas = new GameCanvas(this.listener);
-
-		System.out.println("  - creating frame...");
 		Dimension d = new Dimension(1024, 768);
-		m_frame = m_canvas.createFrame(d);
-
-		System.out.println("  - setting up the frame...");
+		this.frame = this.canvas.createFrame(d);
 		setupFrame();
-	}
-
-	@Override
-	public int spawnAvatar(String filename) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	/*
@@ -88,7 +73,7 @@ public class LocalView extends View {
 		try {
 			RandomAccessFile file = new RandomAccessFile(filename, "r");
 			RandomFileInputStream fis = new RandomFileInputStream(file);
-			m_canvas.playMusic(fis, 0, 1.0F);
+			this.canvas.playMusic(fis, 0, 1.0F);
 		} catch (Throwable th) {
 			th.printStackTrace(System.err);
 			System.exit(-1);
@@ -105,9 +90,8 @@ public class LocalView extends View {
 	 * that elapsed since the last time this method was invoked.
 	 */
 	void tick(long elapsed) {
-
-		for (Entity e : this.entities) {
-			e.tick(elapsed);
+		for (Avatar a : this.avatars.values()) {
+			a.tick(elapsed);
 		}
 
 		// Update every second
@@ -115,14 +99,14 @@ public class LocalView extends View {
 		m_textElapsed += elapsed;
 		if (m_textElapsed > 1000) {
 			m_textElapsed = 0;
-			float period = m_canvas.getTickPeriod();
-			int fps = m_canvas.getFPS();
+			float period = this.canvas.getTickPeriod();
+			int fps = this.canvas.getFPS();
 
 			String txt = "Tick=" + period + "ms";
 			while (txt.length() < 15)
 				txt += " ";
 			txt = txt + fps + " fps   ";
-			m_text.setText(txt);
+			this.text.setText(txt);
 		}
 	}
 
@@ -140,9 +124,42 @@ public class LocalView extends View {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, width, height);
 
-		for (Avatar a : this.avatars) {
-			a.paint(g, Vec2.ZERO);
+		for (Avatar a : this.avatars.values()) {
+			if (a instanceof LocalAvatar) { // normalement c'est toujours le cas vu qu'on est côté client
+				((LocalAvatar) a).paint(g, Vec2.ZERO);
+			}
 		}
 	}
 
+	/**
+	 * Liste les avatars visibles
+	 * 
+	 * @return une liste des avatars affichées à l'écran
+	 */
+	public ArrayList<Avatar> getVisibleAvatars() {
+		int width = this.canvas.getWidth();
+		int height = this.canvas.getHeight();
+		int radius = Math.max(width, height);
+		// TODO: utiliser les vraies coordonnées de la caméra
+		ArrayList<Avatar> result = new ArrayList<>();
+		for (Avatar a : this.avatars.values()) {
+			if (a.position.distance(Vec2.ZERO) < radius) {
+				result.add(a);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public LocalAvatar createAvatar(int id, Vec2 pos, String filename, int imageLen, int animationSpeed) {
+		LocalAvatar av = new LocalAvatar(id, filename, imageLen, animationSpeed);
+		av.position = pos;
+		this.avatars.put(id, av);
+		return av;
+	}
+
+	@Override
+	public void setController(Controller c) {
+		this.controller = c;
+	}
 }
