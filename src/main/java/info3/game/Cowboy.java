@@ -40,7 +40,7 @@ public class Cowboy {
 	int m_width;
 
 	Cowboy() throws IOException {
-		m_images = loadSprite("resources/winchester-4x6.png", 4, 6);
+		m_images = loadSprite("src/main/resources/winchester-4x6.png", 4, 6);
 	}
 
 	/*

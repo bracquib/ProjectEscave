@@ -109,7 +109,7 @@ public class Game {
 
 	void loadMusic() {
 		m_musicName = m_musicNames[m_musicIndex];
-		String filename = "resources/" + m_musicName + ".ogg";
+		String filename = "src/main/resources/" + m_musicName + ".ogg";
 		m_musicIndex = (m_musicIndex + 1) % m_musicNames.length;
 		try {
 			RandomAccessFile file = new RandomAccessFile(filename, "r");
