@@ -9,6 +9,7 @@ import info3.game.network.NetworkMessage;
 
 public class LocalController extends Controller {
 	ArrayList<View> views;
+	ArrayList<Entity> spawnQueue = new ArrayList<Entity>();
 
 	public LocalController() {
 		super();
@@ -29,15 +30,21 @@ public class LocalController extends Controller {
 
 	@Override
 	public void keyPressed(KeyPress e) {
-		System.out.println("key press on the server : " + e.code);
 		this.spawn(new Cowboy(this));
 	}
 
 	@Override
 	public void tick(long elapsed) {
+		this.entities.addAll(this.spawnQueue);
+		this.spawnQueue.clear();
 		for (Entity e : this.entities) {
 			e.tick(elapsed);
 		}
+	}
+
+	@Override
+	public void spawn(Entity e) {
+		this.spawnQueue.add(e);
 	}
 
 	@Override
@@ -60,5 +67,10 @@ public class LocalController extends Controller {
 				}
 			}
 		}
+	}
+
+	@Override
+	protected void removeView(RemoteView view) {
+		this.views.remove(view);
 	}
 }

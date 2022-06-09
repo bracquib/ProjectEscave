@@ -90,8 +90,10 @@ public class LocalView extends View {
 	 * that elapsed since the last time this method was invoked.
 	 */
 	void tick(long elapsed) {
-		for (Avatar a : this.avatars.values()) {
-			a.tick(elapsed);
+		synchronized (this.avatars) {
+			for (Avatar a : this.avatars.values()) {
+				a.tick(elapsed);
+			}
 		}
 
 		// Update every second
@@ -124,9 +126,11 @@ public class LocalView extends View {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, width, height);
 
-		for (Avatar a : this.avatars.values()) {
-			if (a instanceof LocalAvatar) { // normalement c'est toujours le cas vu qu'on est côté client
-				((LocalAvatar) a).paint(g, Vec2.ZERO);
+		synchronized (this.avatars) {
+			for (Avatar a : this.avatars.values()) {
+				if (a instanceof LocalAvatar) { // normalement c'est toujours le cas vu qu'on est côté client
+					((LocalAvatar) a).paint(g, Vec2.ZERO);
+				}
 			}
 		}
 	}
@@ -154,7 +158,9 @@ public class LocalView extends View {
 	public LocalAvatar createAvatar(int id, Vec2 pos, String filename, int imageLen, int animationSpeed) {
 		LocalAvatar av = new LocalAvatar(id, filename, imageLen, animationSpeed);
 		av.position = pos;
-		this.avatars.put(id, av);
+		synchronized (this.avatars) {
+			this.avatars.put(id, av);
+		}
 		return av;
 	}
 
