@@ -13,7 +13,7 @@ public class Launcher3D {
 	public static void main(String[] args) throws IOException {
 
 		SpawnGenerator spawnPlayer = new SpawnGenerator(WIDTH, HEIGHT);
-		int[][] values = spawnPlayer.spawnPlayer(3);
+		int[][] values = spawnPlayer.spawnPlayerTotal(3);
 		// SimplexNoise3D noise = new SimplexNoise3D();
 		// int[][] values = noise.generation();
 		BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -34,18 +34,26 @@ public class Launcher3D {
 
 				} else if (values[x][y] == 3) {
 					image.setRGB(x, y, 0xFF0000);
-				} else {
+				} else if (values[x][y] == 4) {
+					image.setRGB(x, y, 0x00FF00);
+				}
+
+				else {
 					image.setRGB(x, y, ~(values[x][y] * 0xFFFFFF));
 				}
 			}
 		}
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
+
+				if (values[x][y] == 4) {
+					image.setRGB(x, y, 0x00FF00);
+				}
 				if (values[x][y] == 3) {
 					image.setRGB(x, y, 0xFF0000);
 				}
 			}
 		}
-		ImageIO.write(image, "png", new File("playertest1.png"));
+		ImageIO.write(image, "png", new File("playertestzone.png"));
 	}
 }
