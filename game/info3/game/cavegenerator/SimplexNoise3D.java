@@ -654,6 +654,7 @@ public class SimplexNoise3D {
 		}
 		value = Math.abs(value);
 
+		// 1 c'est plein, 0 c'est vide
 		if (value > this.seuil)
 			value = 1;
 		else
