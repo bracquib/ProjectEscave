@@ -3,12 +3,15 @@ package info3.game;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
+import java.io.UTFDataFormatException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
+import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
 import info3.game.network.UpdateAvatar;
 
@@ -47,6 +50,14 @@ public class RemoteController extends Controller {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		return this.view.createAvatar(id, pos, string, imageLen, animationDelay);
+	}
+
+	@Override
+	protected void removeView(RemoteView view) {
+		// Ne doit jamais être appelé normalement, mais on implémente au cas où
+		if (view == this.view) {
+			this.view = null;
+		}
 	}
 
 }
@@ -106,14 +117,10 @@ class NetworkReceiverThread extends Thread {
 			this.stream = new ObjectInputStream(this.socket.getInputStream());
 			while (true) {
 				Object msg = this.stream.readObject();
-				if (msg instanceof CreateAvatar) {
-					CreateAvatar ca = (CreateAvatar) msg;
-					this.controller.view.createAvatar(ca.id, ca.position, ca.filename, ca.imageLen, ca.animationDelay);
-				} else if (msg instanceof UpdateAvatar) {
-					UpdateAvatar ua = (UpdateAvatar) msg;
-					this.controller.view.updateAvatar(ua.avatarId, ua.position);
-				}
+				this.handleMessage(msg);
 			}
+		} catch (StreamCorruptedException | UTFDataFormatException ex) {
+			System.out.println("[WARN] Corrupted stream");
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
@@ -121,6 +128,23 @@ class NetworkReceiverThread extends Thread {
 			} catch (IOException ioex) {
 				ioex.printStackTrace();
 			}
+		}
+	}
+
+	private void handleMessage(Object msg) {
+		if (msg instanceof CreateAvatar) {
+			CreateAvatar ca = (CreateAvatar) msg;
+			this.controller.view.createAvatar(ca.id, ca.position, ca.filename, ca.imageLen, ca.animationDelay);
+		} else if (msg instanceof UpdateAvatar) {
+			UpdateAvatar ua = (UpdateAvatar) msg;
+			this.controller.view.updateAvatar(ua.avatarId, ua.position);
+		} else if (msg instanceof MultiMessage) {
+			MultiMessage mm = (MultiMessage) msg;
+			for (NetworkMessage m : mm.messages) {
+				this.handleMessage(m);
+			}
+		} else {
+			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}
 	}
 }

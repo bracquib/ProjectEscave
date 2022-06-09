@@ -34,9 +34,9 @@ public class Server {
 }
 
 class TickerThread extends Thread {
-	Controller controller;
+	LocalController controller;
 
-	public TickerThread(Controller c) {
+	public TickerThread(LocalController c) {
 		this.controller = c;
 	}
 
@@ -45,7 +45,14 @@ class TickerThread extends Thread {
 		while (true) {
 			try {
 				long end = System.currentTimeMillis();
-				controller.tick(end - start);
+				this.controller.tick(end - start);
+				// Sync the clients
+				for (View view : this.controller.views) {
+					if (view instanceof RemoteView) {
+						RemoteView rv = (RemoteView) view;
+						rv.client.actualSend();
+					}
+				}
 				start = end;
 				Thread.sleep(30);
 			} catch (InterruptedException e) {
@@ -72,7 +79,7 @@ class ServerThread extends Thread {
 			try {
 				Socket client = this.sock.accept();
 				ClientThread thread = new ClientThread(client, this.controller);
-				thread.run();
+				thread.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

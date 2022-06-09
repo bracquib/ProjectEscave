@@ -18,7 +18,9 @@ public abstract class View {
 	public void updateAvatar(int id, Vec2 pos) {
 		Avatar a = this.avatars.get(id);
 		if (a != null) {
-			a.setPosition(pos);
+			synchronized (a) {
+				a.setPosition(pos);
+			}
 		}
 	}
 
