@@ -44,7 +44,7 @@ public class LocalView extends View {
 		this.frame.add(this.canvas, BorderLayout.CENTER);
 
 		this.text = new JLabel();
-		this.text.setText("Tick: 0ms FPS=0");
+		this.text.setText("Tick: 0ms FPS=0 AvatarsOnScreen=0");
 		this.frame.add(this.text, BorderLayout.NORTH);
 
 		// center the window on the screen
@@ -107,7 +107,8 @@ public class LocalView extends View {
 			String txt = "Tick=" + period + "ms";
 			while (txt.length() < 15)
 				txt += " ";
-			txt = txt + fps + " fps   ";
+			txt += fps + " fps   ";
+			txt += " AvatarsOnScreen=" + this.getVisibleAvatars().size();
 			this.text.setText(txt);
 		}
 	}
@@ -126,11 +127,9 @@ public class LocalView extends View {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, width, height);
 
-		synchronized (this.avatars) {
-			for (Avatar a : this.avatars.values()) {
-				if (a instanceof LocalAvatar) { // normalement c'est toujours le cas vu qu'on est côté client
-					((LocalAvatar) a).paint(g, Vec2.ZERO);
-				}
+		for (Avatar a : this.getVisibleAvatars()) {
+			if (a instanceof LocalAvatar) { // normalement c'est toujours le cas vu qu'on est côté client
+				((LocalAvatar) a).paint(g, this.camera.getPos());
 			}
 		}
 	}

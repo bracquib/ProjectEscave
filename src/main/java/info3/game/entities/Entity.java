@@ -33,6 +33,10 @@ public abstract class Entity {
 		return this.position;
 	}
 
+	public void setPosition(Vec2 pos) {
+		this.position = pos;
+	}
+
 	public Entity(Controller c) {
 		this.controller = c;
 	}

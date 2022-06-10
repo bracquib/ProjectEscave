@@ -77,6 +77,10 @@ public class Vec2 implements Serializable {
 		return new Vec2(this.x - other.x, this.y - other.y);
 	}
 
+	public Vec2 add(Vec2 other) {
+		return new Vec2(this.x + other.x, this.y - other.y);
+	}
+
 	/**
 	 * Calcule la distance entre deux vecteurs
 	 * 

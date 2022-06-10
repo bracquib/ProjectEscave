@@ -9,8 +9,11 @@ public abstract class View {
 
 	protected HashMap<Integer, Avatar> avatars;
 
+	protected Camera camera;
+
 	protected View() {
 		this.avatars = new HashMap<Integer, Avatar>();
+		this.camera = new Camera(Vec2.ZERO);
 	}
 
 	public abstract Avatar createAvatar(int id, Vec2 pos, String filename, int imageLen, int animationSpeed);
