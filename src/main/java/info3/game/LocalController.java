@@ -3,14 +3,12 @@ package info3.game;
 import java.util.ArrayList;
 
 import info3.game.entities.Cowboy;
-import info3.game.entities.Entity;
 import info3.game.network.KeyPress;
 import info3.game.network.MoveCamera;
 import info3.game.network.NetworkMessage;
 
 public class LocalController extends Controller {
 	ArrayList<View> views;
-	ArrayList<Entity> spawnQueue = new ArrayList<Entity>();
 
 	public LocalController() {
 		super();
@@ -35,7 +33,7 @@ public class LocalController extends Controller {
 		if (e.code == 32) {
 			Cowboy c = new Cowboy(this);
 			c.setPosition(new Vec2(100, 100));
-			this.spawn(c);
+			this.model.spawn(c);
 		}
 		// Mouvements de camera
 		if (e.code >= 37 && e.code <= 40) {
@@ -63,16 +61,7 @@ public class LocalController extends Controller {
 
 	@Override
 	public void tick(long elapsed) {
-		this.entities.addAll(this.spawnQueue);
-		this.spawnQueue.clear();
-		for (Entity e : this.entities) {
-			e.tick(elapsed);
-		}
-	}
-
-	@Override
-	public void spawn(Entity e) {
-		this.spawnQueue.add(e);
+		this.model.tick(elapsed);
 	}
 
 	@Override
