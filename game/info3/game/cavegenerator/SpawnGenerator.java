@@ -24,8 +24,11 @@ public class SpawnGenerator {
 
 	int width;
 	int height;
+	int limit;
+
 	List<Vec2> listSpawnPlayer = new ArrayList<Vec2>();
-	List<Vec2> listSpawnBlocsStatues = new ArrayList<Vec2>();
+	public List<Vec2> listSpawnBlocsStatues = new ArrayList<Vec2>();
+	List<Vec2> listSpawnStatues = new ArrayList<Vec2>();
 
 	Vec2 exit = new Vec2(0);
 
@@ -116,7 +119,6 @@ public class SpawnGenerator {
 	public int[][] spawnExit(int[][] values, int nbPlayers) {
 		boolean stop = false;
 		boolean find = true;
-		int limit = 0;
 		if (nbPlayers == 1 || nbPlayers == 2)
 			limit = 50;
 		if (nbPlayers == 3 || nbPlayers == 4)
@@ -278,27 +280,28 @@ public class SpawnGenerator {
 		return values;
 	}
 
-	public List<Vec2> spawnBlocsStatue(int nbPlayers) {
+	private List<Vec2> spawnBlocsStatue(int nbPlayers) {
 
 		int x = (int) exit.getX();
 		int y = (int) exit.getY();
+		System.out.println("Exit : " + x + " " + y);
 		switch (nbPlayers) {
 		case 8:
-			listSpawnBlocsStatues.add(new Vec2(x - 8, y - 1));
+			listSpawnBlocsStatues.add(new Vec2(x - 8, y + 1));
 		case 7:
-			listSpawnBlocsStatues.add(new Vec2(x + 8, y - 1));
+			listSpawnBlocsStatues.add(new Vec2(x + 8, y + 1));
 		case 6:
-			listSpawnBlocsStatues.add(new Vec2(x - 6, y - 1));
+			listSpawnBlocsStatues.add(new Vec2(x - 6, y + 1));
 		case 5:
-			listSpawnBlocsStatues.add(new Vec2(x + 6, y - 1));
+			listSpawnBlocsStatues.add(new Vec2(x + 6, y + 1));
 		case 4:
-			listSpawnBlocsStatues.add(new Vec2(x - 4, y - 1));
+			listSpawnBlocsStatues.add(new Vec2(x - 4, y + 1));
 		case 3:
-			listSpawnBlocsStatues.add(new Vec2(x + 4, y - 1));
+			listSpawnBlocsStatues.add(new Vec2(x + 4, y + 1));
 		case 2:
-			listSpawnBlocsStatues.add(new Vec2(x - 2, y - 1));
+			listSpawnBlocsStatues.add(new Vec2(x - 2, y + 1));
 		case 1:
-			listSpawnBlocsStatues.add(new Vec2(x + 2, y - 1));
+			listSpawnBlocsStatues.add(new Vec2(x + 2, y + 1));
 			break;
 		}
 		return listSpawnBlocsStatues;
@@ -308,24 +311,95 @@ public class SpawnGenerator {
 		int[][] values = spawnPlayerTotal(nbPlayers);
 		values = spawnExit(values, nbPlayers);
 		values = zoneExit(this.exit, values, nbPlayers);
+		spawnBlocsStatue(nbPlayers);
 		return values;
 	}
 
-	public int[][] spawnStatue(int nbPlayers) {
-
-		return null;
+	private List<Vec2> spawnStatue(int nbPlayers, int[][] values) {
+		int cpt = nbPlayers;
+		while (cpt != 0) {
+			int x = (int) (Math.random() * this.width);
+			int y = (int) (Math.random() * this.height);
+			Vec2 coords = new Vec2(x, y);
+			if (checkBorder(coords) && checkPlacementStatue(coords) && checkZoneStatue(coords, values)) {
+				cpt--;
+				listSpawnStatues.add(coords);
+			}
+		}
+		return listSpawnStatues;
 	}
 
-	public int[][] checkPlacementStatue(Vec2 coords) {
-		return null;
+	private boolean checkBorder(Vec2 coords) {
+		int x = (int) coords.getX();
+		int y = (int) coords.getY();
+		if (x < 15 || y > this.height - 15 || y < 15 || x > this.width - 15) {
+			return false;
+		}
+		return true;
 	}
 
-	public int[][] checkRandomStatue(Vec2 coords) {
-		return null;
+	public boolean checkPlacementStatue(Vec2 coords) {
+		int x = (int) coords.getX();
+		int y = (int) coords.getY();
+		for (Vec2 coordsPlayer : listSpawnPlayer) {
+			int xPlayer = (int) coordsPlayer.getX();
+			int yPlayer = (int) coordsPlayer.getY();
+			if (Math.abs(x - xPlayer) < limit && Math.abs(y - yPlayer) < limit) {
+				return false;
+			}
+		}
+		return true;
 	}
 
-	public int[][] destroyZoneStatue(int[][] values) {
-		return null;
+	public boolean checkZoneStatue(Vec2 coords, int[][] values) {
+		int x = (int) coords.getX();
+		int y = (int) coords.getY();
+		for (int i = x - 5; i < x + 6; i++) {
+			for (int j = y - 5; j < y + 6; j++) {
+				if (values[i][j] == 0) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public int[][] destroyZoneStatue(List<Vec2> coordsStatues, int[][] values) {
+		for (Vec2 coordsStatue : coordsStatues) {
+			int x = (int) coordsStatue.getX();
+			int y = (int) coordsStatue.getY();
+			for (int i = -2; i < 3; i++) {
+				for (int j = -2; j < 3; j++) {
+					values[x + i][y + j] = 7;
+				}
+			}
+			values[x - 4][y] = 7;
+			values[x - 3][y] = 7;
+			values[x + 4][y] = 7;
+			values[x + 3][y] = 7;
+			values[x][y - 4] = 7;
+			values[x][y - 3] = 7;
+			values[x][y + 4] = 7;
+			values[x][y + 3] = 7;
+			values[x - 3][y - 1] = 7;
+			values[x - 3][y + 1] = 7;
+			values[x + 3][y - 1] = 7;
+			values[x + 3][y + 1] = 7;
+			values[x - 1][y - 3] = 7;
+			values[x + 1][y - 3] = 7;
+			values[x - 1][y + 3] = 7;
+			values[x + 1][y + 3] = 7;
+			values[x][y + 1] = 1;
+		}
+
+		return values;
+	}
+
+	public int[][] spawnStatueTotal(int nbPlayers) {
+		int[][] values = spawnExitTotal(nbPlayers);
+		spawnStatue(nbPlayers, values);
+		values = destroyZoneStatue(listSpawnStatues, values);
+		return values;
 	}
 
 }
