@@ -100,7 +100,7 @@ public class SimplexNoise3D {
 		}
 	}
 
-	public int[][] generation(int seed, int psize, int pmask, double seuil, int width, int height, double featureSize,
+	public int[][] generation(int psize, int pmask, double seuil, int width, int height, double featureSize,
 			int radius) {
 
 		int[][] res = new int[width][height];
@@ -117,18 +117,17 @@ public class SimplexNoise3D {
 	}
 
 	public int[][] generation(int nbPlayers) {
-		int rand = (int) (Math.random() * System.currentTimeMillis());
 		if (nbPlayers == 1 || nbPlayers == 2) {
-			return this.generation(rand, 1000, 999, 0.12, 512, 128, 24, 50);
+			return this.generation(1000, 999, 0.12, 512, 128, 24, 50);
 		}
 		if (nbPlayers == 3 || nbPlayers == 4) {
-			return this.generation(rand, 2048, 2047, 0.12, 768, 192, 22, 128);
+			return this.generation(2048, 2047, 0.12, 768, 192, 22, 128);
 		}
 		if (nbPlayers == 5 || nbPlayers == 6) {
-			return this.generation(rand, 2048, 2047, 0.12, 1024, 256, 22, 128);
+			return this.generation(2048, 2047, 0.12, 1024, 256, 22, 128);
 		}
 		if (nbPlayers == 7 || nbPlayers == 8) {
-			return this.generation(rand, 1912, 1911, 0.12, 1536, 384, 15, 80);
+			return this.generation(1912, 1911, 0.12, 1536, 384, 15, 80);
 		}
 		return null;
 

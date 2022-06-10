@@ -28,7 +28,8 @@ public class SpawnGenerator {
 	Vec2 exit = new Vec2(0);
 
 	public int[][] classicGen(int nbPlayers) {
-		int rand = (int) (Math.random() * System.currentTimeMillis());
+		long rand = (long) (Math.random() * System.currentTimeMillis());
+		System.out.println(rand);
 		SimplexNoise3D noise = new SimplexNoise3D(rand, nbPlayers);
 		int[][] values = noise.generation(nbPlayers);
 		this.width = values.length;
@@ -56,7 +57,10 @@ public class SpawnGenerator {
 			while (stop) {
 				int x = (int) (Math.random() * zoneLen + depart);
 				int y = (int) (Math.random() * this.height);
-				if (x > 15 && y < this.height - 15 && y > 15 && x < this.width - 15 && values[x][y + 1] == 1) {
+
+				if (x > 15 && y < this.height - 15 && y > 15 && x < this.width - 15 && values[x][y + 1] == 1
+						&& values[x - 2][y + 1] == 1 && values[x - 1][y + 1] == 1 && values[x + 1][y + 1] == 1
+						&& values[x + 2][y + 1] == 1 && values[x + 3][y + 1] == 1 && values[x - 3][y + 1] == 1) {
 					stop = false;
 					depart += zoneLen;
 					values[x][y] = 2;
@@ -127,21 +131,21 @@ public class SpawnGenerator {
 			stop = true;
 			find = true;
 			boolean full = true;
-			int x = (int) (Math.random() * this.width);
-			int y = (int) (Math.random() * this.height);
+			int x = (int) (Math.random() * (this.width - 50) + 15);
+			int y = (int) (Math.random() * (this.height - 50) + 15);
 			for (int i = 0; i < len; i++) {
 				Vec2 coords = listSpawnPlayer.get(i);
 				System.out.println("Player " + i + ": " + coords.getX() + " " + coords.getY() + " distance: "
 						+ Math.abs(coords.getX() - x) + " " + Math.abs(coords.getY() - y));
-				if (Math.abs(coords.getX() - x) < limit || Math.abs(coords.getY() - y) < limit / 2 || x < 15
-						|| y > this.height - 15 || y < 15 || x > this.width - 15 || values[x][y + 1] != 1) {
-					for (int j = -nbPlayers - 2; j < nbPlayers + 2; j++) {
-						if (values[x + j][y + 1] == 0)
-							full = false;
-					}
-					if (full == false)
-						find = false;
+
+				for (int j = -nbPlayers - 2; j < nbPlayers + 2; j++) {
+					if (values[x + j][y + 1] == 0)
+						full = false;
 				}
+				if (full == false || Math.abs(coords.getX() - x) < limit || Math.abs(coords.getY() - y) < limit / 2
+						|| x < 15 || y > this.height - 15 || y < 15 || x > this.width - 15 || values[x][y + 1] != 1)
+					find = false;
+
 			}
 			if (find == false) {
 				stop = false;
