@@ -1,7 +1,5 @@
 package info3.game;
 
-import java.io.Serializable;
-
 /**
  * Un vecteur à deux éléments.
  * 
@@ -19,18 +17,7 @@ import java.io.Serializable;
  * Des fonctions sont fournies dans cette classe pour faire la conversion entre
  * les deux.
  */
-public class Vec2 implements Serializable {
-	private static final long serialVersionUID = 2656759476741857908L;
-
-	/**
-	 * Le vecteur nul
-	 */
-	public static final Vec2 ZERO = new Vec2(0.0f, 0.0f);
-
-	/**
-	 * Le vecteur qui ne contient que des 1
-	 */
-	public static final Vec2 ONE = new Vec2(1.0f, 1.0f);
+public class Vec2 extends Object {
 
 	float x;
 	float y;
@@ -40,13 +27,14 @@ public class Vec2 implements Serializable {
 		this.y = y;
 	}
 
-	public Vec2(Vec2 other) {
-		this.x = other.x;
-		this.y = other.y;
+	public Vec2(Vec2 copy) {
+		this.x = copy.x;
+		this.y = copy.y;
 	}
 
-	public Vec2(float val) {
-		this(val, val);
+	public Vec2(float a) {
+		this.x = a;
+		this.y = a;
 	}
 
 	public float getX() {
@@ -86,22 +74,6 @@ public class Vec2 implements Serializable {
 		return new Vec2(this.x - other.x, this.y - other.y);
 	}
 
-	public Vec2 add(Vec2 other) {
-		return new Vec2(this.x + other.x, this.y - other.y);
-	}
-
-	/**
-	 * Calcule la distance entre deux vecteurs
-	 * 
-	 * @param other Le second vecteur
-	 * @return La distance entre les deux
-	 */
-	public float distance(Vec2 other) {
-		double x = Math.pow(this.x - other.x, 2.0);
-		double y = Math.pow(this.y - other.y, 2.0);
-		return (float) Math.sqrt(x + y);
-	}
-
 	/**
 	 * Calcule le produit scalaire entre deux vecteurs
 	 * 
@@ -119,6 +91,15 @@ public class Vec2 implements Serializable {
 	 */
 	public Vec2 floor() {
 		return new Vec2((float) Math.floor(this.x), (float) Math.floor(this.y));
+	}
+
+	/**
+	 * Add 2 vectors
+	 * 
+	 * @return a new vector with sum of each vectors.
+	 */
+	public Vec2 add(Vec2 other) {
+		return new Vec2(other.x + this.x, other.y + this.y);
 	}
 
 	public Vec2 add(int a) {
@@ -151,5 +132,9 @@ public class Vec2 implements Serializable {
 
 	public Vec2 normalized() {
 		return new Vec2(this.x / this.length(), this.y / this.length());
+	}
+
+	public static Vec2 nullVector() {
+		return new Vec2(0.0f, 0.0f);
 	}
 }

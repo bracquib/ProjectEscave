@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import info3.game.Avatar;
 import info3.game.Controller;
 import info3.game.Vec2;
+import info3.game.physics.Collider;
 
 /**
  * Représente une entité du jeu.
@@ -26,7 +27,7 @@ public abstract class Entity {
 	 * L'avatar de l'entité
 	 */
 	Avatar avatar;
-
+	Collider collider;
 	Controller controller;
 
 	public Vec2 getPosition() {
