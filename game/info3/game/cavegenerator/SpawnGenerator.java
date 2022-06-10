@@ -25,6 +25,8 @@ public class SpawnGenerator {
 	int width;
 	int height;
 	List<Vec2> listSpawnPlayer = new ArrayList<Vec2>();
+	List<Vec2> listSpawnBlocsStatues = new ArrayList<Vec2>();
+
 	Vec2 exit = new Vec2(0);
 
 	public int[][] classicGen(int nbPlayers) {
@@ -276,10 +278,54 @@ public class SpawnGenerator {
 		return values;
 	}
 
+	public List<Vec2> spawnBlocsStatue(int nbPlayers) {
+
+		int x = (int) exit.getX();
+		int y = (int) exit.getY();
+		switch (nbPlayers) {
+		case 8:
+			listSpawnBlocsStatues.add(new Vec2(x - 8, y - 1));
+		case 7:
+			listSpawnBlocsStatues.add(new Vec2(x + 8, y - 1));
+		case 6:
+			listSpawnBlocsStatues.add(new Vec2(x - 6, y - 1));
+		case 5:
+			listSpawnBlocsStatues.add(new Vec2(x + 6, y - 1));
+		case 4:
+			listSpawnBlocsStatues.add(new Vec2(x - 4, y - 1));
+		case 3:
+			listSpawnBlocsStatues.add(new Vec2(x + 4, y - 1));
+		case 2:
+			listSpawnBlocsStatues.add(new Vec2(x - 2, y - 1));
+		case 1:
+			listSpawnBlocsStatues.add(new Vec2(x + 2, y - 1));
+			break;
+		}
+		return listSpawnBlocsStatues;
+	}
+
 	public int[][] spawnExitTotal(int nbPlayers) {
 		int[][] values = spawnPlayerTotal(nbPlayers);
 		values = spawnExit(values, nbPlayers);
 		values = zoneExit(this.exit, values, nbPlayers);
 		return values;
 	}
+
+	public int[][] spawnStatue(int nbPlayers) {
+
+		return null;
+	}
+
+	public int[][] checkPlacementStatue(Vec2 coords) {
+		return null;
+	}
+
+	public int[][] checkRandomStatue(Vec2 coords) {
+		return null;
+	}
+
+	public int[][] destroyZoneStatue(int[][] values) {
+		return null;
+	}
+
 }

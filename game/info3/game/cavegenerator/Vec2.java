@@ -134,11 +134,5 @@ public class Vec2 extends Object {
 		return new Vec2(this.x / this.length(), this.y / this.length());
 	}
 
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof Vec2)
-			if (this.x == ((Vec2) other).x && this.y == ((Vec2) other).y)
-				return true;
-		return false;
-	}
+	
 }

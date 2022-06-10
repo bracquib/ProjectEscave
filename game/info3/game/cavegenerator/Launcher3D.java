@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Launcher3D {
-	private static final int nbPlayers = 8;
+	private static final int nbPlayers = 3;
 	static int width;
 	static int height;
 
@@ -35,12 +35,11 @@ public class Launcher3D {
 				image.setRGB(x, y, ~(values[x][y] * 0xFFFFFF));
 			}
 		}
-
 		coloration(values, 3, 0xFF0000, image);
 		coloration(values, 4, 0x00FF00, image);
 		coloration(values, 5, 0x0000FF, image);
 		coloration(values, 6, 0x00FFFF, image);
 
-		ImageIO.write(image, "png", new File("8-playerbis.png"));
+		ImageIO.write(image, "png", new File("Amaury.png"));
 	}
 }
