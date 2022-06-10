@@ -21,14 +21,14 @@ public abstract class Entity {
 	/**
 	 * La position de l'entité en coordonnées globales
 	 */
-	Vec2 position;
+	protected Vec2 position;
 
 	/**
 	 * L'avatar de l'entité
 	 */
-	Avatar avatar;
+	protected Avatar avatar;
 	Collider collider;
-	Controller controller;
+	protected Controller controller;
 
 	public Vec2 getPosition() {
 		return this.position;
@@ -70,5 +70,13 @@ public abstract class Entity {
 
 	public Avatar getAvatar() {
 		return this.avatar;
+	}
+
+	public final Collider getCollider() {
+		return this.collider;
+	}
+
+	public Controller getController() {
+		return this.controller;
 	}
 }

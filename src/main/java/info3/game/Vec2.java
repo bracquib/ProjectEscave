@@ -53,6 +53,12 @@ public class Vec2 extends Object {
 		this.y = y;
 	}
 
+	public float distance(Vec2 other) {
+		double x = Math.pow(this.x - other.x, 2.0);
+		double y = Math.pow(this.y - other.y, 2.0);
+		return (float) Math.sqrt(x + y);
+	}
+
 	/**
 	 * Prend une position dans l'espace global et la renvoie dans l'espace de
 	 * l'écran
@@ -110,8 +116,16 @@ public class Vec2 extends Object {
 		return new Vec2(other.x - this.x, other.y - this.y);
 	}
 
+	public Vec2 multiply(float a) {
+		return new Vec2(this.x * a, this.y * a);
+	}
+
 	public Vec2 multiply(int a) {
 		return new Vec2(this.x * a, this.y * a);
+	}
+
+	public Vec2 divide(float a) {
+		return new Vec2(this.x / a, this.y / a);
 	}
 
 	public Vec2 pow(int a) {
@@ -136,5 +150,17 @@ public class Vec2 extends Object {
 
 	public static Vec2 nullVector() {
 		return new Vec2(0.0f, 0.0f);
+	}
+
+	public float Angle() {
+		return (float) Math.atan(y / x);
+	}
+
+	public void nullX() {
+		this.x = 0;
+	}
+
+	public void nullY() {
+		this.y = 0;
 	}
 }

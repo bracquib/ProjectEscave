@@ -9,6 +9,13 @@ public class RigidBody extends Entity {
 	private Vec2 speed;
 	private float mass;
 
+	public RigidBody(Entity e, float mass) {
+		super(e.getController());
+		force = Vec2.nullVector();
+		speed = Vec2.nullVector();
+		this.mass = mass;
+	}
+
 	public RigidBody(float mass, Controller c) {
 		super(c);
 		force = Vec2.nullVector();
@@ -20,8 +27,12 @@ public class RigidBody extends Entity {
 		this.speed.add(speed);
 	}
 
-	public Collision isColliding(Entity other) {
-		return this.collider.isColliding(this.getPosition(), other., force)
+	public void addForce(Vec2 force) {
+		this.force.add(force);
+	}
+
+	public CollisionType isColliding(Entity other) throws Exception {
+		return this.getCollider().isColliding(this.getPosition(), other.getCollider(), other.getPosition());
 	}
 
 	/*

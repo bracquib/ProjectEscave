@@ -2,12 +2,13 @@ package info3.game.entities;
 
 import info3.game.Controller;
 import info3.game.Vec2;
+import info3.game.physics.RigidBody;
 
-public class Player extends Entity {
+public class Player extends RigidBody {
 	PlayerColor color;
 
 	public Player(Controller c, PlayerColor color, Vec2 pos, boolean local) {
-		super(c);
+		super(10, c);
 		this.position = pos;
 		this.color = color;
 		if (local) {

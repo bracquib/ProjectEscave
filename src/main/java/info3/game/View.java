@@ -20,7 +20,7 @@ public abstract class View {
 
 	protected View() {
 		this.avatars = new HashMap<Integer, Avatar>();
-		this.camera = new Camera(Vec2.ZERO);
+		this.camera = new Camera(new Vec2(0));
 	}
 
 	public abstract Avatar createAvatar(int id, Vec2 pos, String filename, int imageLen, long animationSpeed);
