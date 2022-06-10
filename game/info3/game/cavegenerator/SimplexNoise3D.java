@@ -5,35 +5,91 @@ public class SimplexNoise3D {
 	private static final double STRETCH_CONSTANT_3D = -1.0 / 6; // (1/Math.sqrt(3+1)-1)/3;
 	private static final double SQUISH_CONSTANT_3D = 1.0 / 3; // (Math.sqrt(3+1)-1)/3;
 
-	private static final long DEFAULT_SEED = 15908475;
-
-	private static final int PSIZE = 2048;
-	private static final int PMASK = 2047;
 	double seuil = 0;
+	static int psizegrad = 0;
 
 	private short[] perm;
 	private Grad3[] permGrad3;
 
-	public SimplexNoise3D() {
-		this(DEFAULT_SEED);
+	public int selectPsize(int nbPlayers) {
+		if (nbPlayers == 1 || nbPlayers == 2)
+			psizegrad = 1024;
+		if (nbPlayers == 3 || nbPlayers == 4)
+			psizegrad = 2048;
+		if (nbPlayers == 5 || nbPlayers == 6)
+			psizegrad = 2048;
+		if (nbPlayers == 7 || nbPlayers == 8)
+			psizegrad = 2048;
+		return psizegrad;
 	}
 
-	public SimplexNoise3D(short[] perm) {
-		this.perm = perm;
-		permGrad3 = new Grad3[PSIZE];
+	public SimplexNoise3D(long seed, int nbPlayers) {
 
-		for (int i = 0; i < PSIZE; i++) {
-			permGrad3[i] = GRADIENTS_3D[perm[i]];
+		psizegrad = selectPsize(nbPlayers);
+		GRADIENTS_3D = new Grad3[psizegrad];
+		Grad3[] grad3 = { new Grad3(-1.4082482904633333, -1.4082482904633333, -2.6329931618533333),
+				new Grad3(-0.07491495712999985, -0.07491495712999985, -3.29965982852),
+				new Grad3(0.24732126143473554, -1.6667938651159684, -2.838945207362466),
+				new Grad3(-1.6667938651159684, 0.24732126143473554, -2.838945207362466),
+				new Grad3(-1.4082482904633333, -2.6329931618533333, -1.4082482904633333),
+				new Grad3(-0.07491495712999985, -3.29965982852, -0.07491495712999985),
+				new Grad3(-1.6667938651159684, -2.838945207362466, 0.24732126143473554),
+				new Grad3(0.24732126143473554, -2.838945207362466, -1.6667938651159684),
+				new Grad3(1.5580782047233335, 0.33333333333333337, -2.8914115380566665),
+				new Grad3(2.8914115380566665, -0.33333333333333337, -1.5580782047233335),
+				new Grad3(1.8101897177633992, -1.2760767510338025, -2.4482280932803),
+				new Grad3(2.4482280932803, 1.2760767510338025, -1.8101897177633992),
+				new Grad3(1.5580782047233335, -2.8914115380566665, 0.33333333333333337),
+				new Grad3(2.8914115380566665, -1.5580782047233335, -0.33333333333333337),
+				new Grad3(2.4482280932803, -1.8101897177633992, 1.2760767510338025),
+				new Grad3(1.8101897177633992, -2.4482280932803, -1.2760767510338025),
+				new Grad3(-2.6329931618533333, -1.4082482904633333, -1.4082482904633333),
+				new Grad3(-3.29965982852, -0.07491495712999985, -0.07491495712999985),
+				new Grad3(-2.838945207362466, 0.24732126143473554, -1.6667938651159684),
+				new Grad3(-2.838945207362466, -1.6667938651159684, 0.24732126143473554),
+				new Grad3(0.33333333333333337, 1.5580782047233335, -2.8914115380566665),
+				new Grad3(-0.33333333333333337, 2.8914115380566665, -1.5580782047233335),
+				new Grad3(1.2760767510338025, 2.4482280932803, -1.8101897177633992),
+				new Grad3(-1.2760767510338025, 1.8101897177633992, -2.4482280932803),
+				new Grad3(0.33333333333333337, -2.8914115380566665, 1.5580782047233335),
+				new Grad3(-0.33333333333333337, -1.5580782047233335, 2.8914115380566665),
+				new Grad3(-1.2760767510338025, -2.4482280932803, 1.8101897177633992),
+				new Grad3(1.2760767510338025, -1.8101897177633992, 2.4482280932803),
+				new Grad3(3.29965982852, 0.07491495712999985, 0.07491495712999985),
+				new Grad3(2.6329931618533333, 1.4082482904633333, 1.4082482904633333),
+				new Grad3(2.838945207362466, -0.24732126143473554, 1.6667938651159684),
+				new Grad3(2.838945207362466, 1.6667938651159684, -0.24732126143473554),
+				new Grad3(-2.8914115380566665, 1.5580782047233335, 0.33333333333333337),
+				new Grad3(-1.5580782047233335, 2.8914115380566665, -0.33333333333333337),
+				new Grad3(-2.4482280932803, 1.8101897177633992, -1.2760767510338025),
+				new Grad3(-1.8101897177633992, 2.4482280932803, 1.2760767510338025),
+				new Grad3(-2.8914115380566665, 0.33333333333333337, 1.5580782047233335),
+				new Grad3(-1.5580782047233335, -0.33333333333333337, 2.8914115380566665),
+				new Grad3(-1.8101897177633992, 1.2760767510338025, 2.4482280932803),
+				new Grad3(-2.4482280932803, -1.2760767510338025, 1.8101897177633992),
+				new Grad3(0.07491495712999985, 3.29965982852, 0.07491495712999985),
+				new Grad3(1.4082482904633333, 2.6329931618533333, 1.4082482904633333),
+				new Grad3(1.6667938651159684, 2.838945207362466, -0.24732126143473554),
+				new Grad3(-0.24732126143473554, 2.838945207362466, 1.6667938651159684),
+				new Grad3(0.07491495712999985, 0.07491495712999985, 3.29965982852),
+				new Grad3(1.4082482904633333, 1.4082482904633333, 2.6329931618533333),
+				new Grad3(-0.24732126143473554, 1.6667938651159684, 2.838945207362466),
+				new Grad3(1.6667938651159684, -0.24732126143473554, 2.838945207362466) };
+		for (int i = 0; i < grad3.length; i++) {
+			grad3[i].dx /= N3;
+			grad3[i].dy /= N3;
+			grad3[i].dz /= N3;
 		}
-	}
+		for (int i = 0; i < psizegrad; i++) {
+			GRADIENTS_3D[i] = grad3[i % grad3.length];
+		}
+		perm = new short[psizegrad];
 
-	public SimplexNoise3D(long seed) {
-		perm = new short[PSIZE];
-		permGrad3 = new Grad3[PSIZE];
-		short[] source = new short[PSIZE];
-		for (short i = 0; i < PSIZE; i++)
+		permGrad3 = new Grad3[psizegrad];
+		short[] source = new short[psizegrad];
+		for (short i = 0; i < psizegrad; i++)
 			source[i] = i;
-		for (int i = PSIZE - 1; i >= 0; i--) {
+		for (int i = psizegrad - 1; i >= 0; i--) {
 			seed = seed * 6364136223846793005L + 1442695040888963407L;
 			int r = (int) ((seed + 31) % (i + 1));
 			if (r < 0)
@@ -44,26 +100,42 @@ public class SimplexNoise3D {
 		}
 	}
 
-	public int[][] generation(int seed, int psize, int pmask, double seuil, int width, int height, double featureSize) {
+	public int[][] generation(int seed, int psize, int pmask, double seuil, int width, int height, double featureSize,
+			int radius) {
+
 		int[][] res = new int[width][height];
 		this.seuil = seuil;
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				double angle = (2 * Math.PI * x) / width;
-				double value = eval(256 * Math.cos(angle) / featureSize, y / featureSize,
-						256 * Math.sin(angle) / featureSize);
+				double value = eval(radius * Math.cos(angle) / featureSize, y / featureSize,
+						radius * Math.sin(angle) / featureSize, pmask, psize);
 				res[x][y] = (int) value;
 			}
 		}
 		return res;
 	}
 
-	public int[][] generation() {
-		return this.generation(15908475, 2048, 2047, 0.2, 1024, 256, 22);
+	public int[][] generation(int nbPlayers) {
+		int rand = (int) (Math.random() * System.currentTimeMillis());
+		if (nbPlayers == 1 || nbPlayers == 2) {
+			return this.generation(rand, 1000, 999, 0.12, 512, 128, 24, 50);
+		}
+		if (nbPlayers == 3 || nbPlayers == 4) {
+			return this.generation(rand, 2048, 2047, 0.12, 768, 192, 22, 128);
+		}
+		if (nbPlayers == 5 || nbPlayers == 6) {
+			return this.generation(rand, 2048, 2047, 0.12, 1024, 256, 22, 128);
+		}
+		if (nbPlayers == 7 || nbPlayers == 8) {
+			return this.generation(rand, 1912, 1911, 0.12, 1536, 384, 15, 80);
+		}
+		return null;
+
 	}
 
 	// 3D OpenSimplex Noise.
-	public double eval(double x, double y, double z) {
+	public double eval(double x, double y, double z, int pmask, int psize) {
 
 		// Place input coordinates on simplectic honeycomb.
 		double stretchOffset = (x + y + z) * STRETCH_CONSTANT_3D;
@@ -71,14 +143,14 @@ public class SimplexNoise3D {
 		double ys = y + stretchOffset;
 		double zs = z + stretchOffset;
 
-		return eval3_Base(xs, ys, zs);
+		return eval3_Base(xs, ys, zs, pmask, psize);
 	}
 
 	// Not as good as in SuperSimplex/OpenSimplex2S, since there are more visible
 	// differences between different slices.
 	// The Z coordinate should always be the "different" coordinate in your use
 	// case.
-	public double eval3_XYBeforeZ(double x, double y, double z) {
+	public double eval3_XYBeforeZ(double x, double y, double z, int pmask, int psize) {
 		// Combine rotation with skew transform.
 		double xy = x + y;
 		double s2 = xy * 0.211324865405187;
@@ -86,12 +158,12 @@ public class SimplexNoise3D {
 		double xs = s2 - x + zz, ys = s2 - y + zz;
 		double zs = xy * 0.577350269189626 + zz;
 
-		return eval3_Base(xs, ys, zs);
+		return eval3_Base(xs, ys, zs, pmask, psize);
 	}
 
 	// Similar to the above, except the Y coordinate should always be the
 	// "different" coordinate in your use case.
-	public double eval3_XZBeforeY(double x, double y, double z) {
+	public double eval3_XZBeforeY(double x, double y, double z, int pmask, int psize) {
 		// Combine rotation with skew transform.
 		double xz = x + z;
 		double s2 = xz * 0.211324865405187;
@@ -99,11 +171,11 @@ public class SimplexNoise3D {
 		double xs = s2 - x + yy, zs = s2 - z + yy;
 		double ys = xz * 0.577350269189626 + yy;
 
-		return eval3_Base(xs, ys, zs);
+		return eval3_Base(xs, ys, zs, pmask, psize);
 	}
 
 	// 3D OpenSimplex Noise (base which takes skewed coordinates directly).
-	private double eval3_Base(double xs, double ys, double zs) {
+	private double eval3_Base(double xs, double ys, double zs, int pmask, int psize) {
 
 		// Floor to get simplectic honeycomb coordinates of rhombohedron (stretched
 		// cube) super-cell origin.
@@ -229,7 +301,7 @@ public class SimplexNoise3D {
 			double attn0 = 2 - dx0 * dx0 - dy0 * dy0 - dz0 * dz0;
 			if (attn0 > 0) {
 				attn0 *= attn0;
-				value += attn0 * attn0 * extrapolate(xsb + 0, ysb + 0, zsb + 0, dx0, dy0, dz0);
+				value += attn0 * attn0 * extrapolate(xsb + 0, ysb + 0, zsb + 0, dx0, dy0, dz0, pmask);
 			}
 
 			// Contribution (1,0,0)
@@ -239,7 +311,7 @@ public class SimplexNoise3D {
 			double attn1 = 2 - dx1 * dx1 - dy1 * dy1 - dz1 * dz1;
 			if (attn1 > 0) {
 				attn1 *= attn1;
-				value += attn1 * attn1 * extrapolate(xsb + 1, ysb + 0, zsb + 0, dx1, dy1, dz1);
+				value += attn1 * attn1 * extrapolate(xsb + 1, ysb + 0, zsb + 0, dx1, dy1, dz1, pmask);
 			}
 
 			// Contribution (0,1,0)
@@ -249,7 +321,7 @@ public class SimplexNoise3D {
 			double attn2 = 2 - dx2 * dx2 - dy2 * dy2 - dz2 * dz2;
 			if (attn2 > 0) {
 				attn2 *= attn2;
-				value += attn2 * attn2 * extrapolate(xsb + 0, ysb + 1, zsb + 0, dx2, dy2, dz2);
+				value += attn2 * attn2 * extrapolate(xsb + 0, ysb + 1, zsb + 0, dx2, dy2, dz2, pmask);
 			}
 
 			// Contribution (0,0,1)
@@ -259,7 +331,7 @@ public class SimplexNoise3D {
 			double attn3 = 2 - dx3 * dx3 - dy3 * dy3 - dz3 * dz3;
 			if (attn3 > 0) {
 				attn3 *= attn3;
-				value += attn3 * attn3 * extrapolate(xsb + 0, ysb + 0, zsb + 1, dx3, dy3, dz3);
+				value += attn3 * attn3 * extrapolate(xsb + 0, ysb + 0, zsb + 1, dx3, dy3, dz3, pmask);
 			}
 		} else if (inSum >= 2) { // We're inside the tetrahedron (3-Simplex) at (1,1,1)
 
@@ -362,7 +434,7 @@ public class SimplexNoise3D {
 			double attn3 = 2 - dx3 * dx3 - dy3 * dy3 - dz3 * dz3;
 			if (attn3 > 0) {
 				attn3 *= attn3;
-				value += attn3 * attn3 * extrapolate(xsb + 1, ysb + 1, zsb + 0, dx3, dy3, dz3);
+				value += attn3 * attn3 * extrapolate(xsb + 1, ysb + 1, zsb + 0, dx3, dy3, dz3, pmask);
 			}
 
 			// Contribution (1,0,1)
@@ -372,7 +444,7 @@ public class SimplexNoise3D {
 			double attn2 = 2 - dx2 * dx2 - dy2 * dy2 - dz2 * dz2;
 			if (attn2 > 0) {
 				attn2 *= attn2;
-				value += attn2 * attn2 * extrapolate(xsb + 1, ysb + 0, zsb + 1, dx2, dy2, dz2);
+				value += attn2 * attn2 * extrapolate(xsb + 1, ysb + 0, zsb + 1, dx2, dy2, dz2, pmask);
 			}
 
 			// Contribution (0,1,1)
@@ -382,7 +454,7 @@ public class SimplexNoise3D {
 			double attn1 = 2 - dx1 * dx1 - dy1 * dy1 - dz1 * dz1;
 			if (attn1 > 0) {
 				attn1 *= attn1;
-				value += attn1 * attn1 * extrapolate(xsb + 0, ysb + 1, zsb + 1, dx1, dy1, dz1);
+				value += attn1 * attn1 * extrapolate(xsb + 0, ysb + 1, zsb + 1, dx1, dy1, dz1, pmask);
 			}
 
 			// Contribution (1,1,1)
@@ -392,7 +464,7 @@ public class SimplexNoise3D {
 			double attn0 = 2 - dx0 * dx0 - dy0 * dy0 - dz0 * dz0;
 			if (attn0 > 0) {
 				attn0 *= attn0;
-				value += attn0 * attn0 * extrapolate(xsb + 1, ysb + 1, zsb + 1, dx0, dy0, dz0);
+				value += attn0 * attn0 * extrapolate(xsb + 1, ysb + 1, zsb + 1, dx0, dy0, dz0, pmask);
 			}
 		} else { // We're inside the octahedron (Rectified 3-Simplex) in between.
 			double aScore;
@@ -585,7 +657,7 @@ public class SimplexNoise3D {
 			double attn1 = 2 - dx1 * dx1 - dy1 * dy1 - dz1 * dz1;
 			if (attn1 > 0) {
 				attn1 *= attn1;
-				value += attn1 * attn1 * extrapolate(xsb + 1, ysb + 0, zsb + 0, dx1, dy1, dz1);
+				value += attn1 * attn1 * extrapolate(xsb + 1, ysb + 0, zsb + 0, dx1, dy1, dz1, pmask);
 			}
 
 			// Contribution (0,1,0)
@@ -595,7 +667,7 @@ public class SimplexNoise3D {
 			double attn2 = 2 - dx2 * dx2 - dy2 * dy2 - dz2 * dz2;
 			if (attn2 > 0) {
 				attn2 *= attn2;
-				value += attn2 * attn2 * extrapolate(xsb + 0, ysb + 1, zsb + 0, dx2, dy2, dz2);
+				value += attn2 * attn2 * extrapolate(xsb + 0, ysb + 1, zsb + 0, dx2, dy2, dz2, pmask);
 			}
 
 			// Contribution (0,0,1)
@@ -605,7 +677,7 @@ public class SimplexNoise3D {
 			double attn3 = 2 - dx3 * dx3 - dy3 * dy3 - dz3 * dz3;
 			if (attn3 > 0) {
 				attn3 *= attn3;
-				value += attn3 * attn3 * extrapolate(xsb + 0, ysb + 0, zsb + 1, dx3, dy3, dz3);
+				value += attn3 * attn3 * extrapolate(xsb + 0, ysb + 0, zsb + 1, dx3, dy3, dz3, pmask);
 			}
 
 			// Contribution (1,1,0)
@@ -615,7 +687,7 @@ public class SimplexNoise3D {
 			double attn4 = 2 - dx4 * dx4 - dy4 * dy4 - dz4 * dz4;
 			if (attn4 > 0) {
 				attn4 *= attn4;
-				value += attn4 * attn4 * extrapolate(xsb + 1, ysb + 1, zsb + 0, dx4, dy4, dz4);
+				value += attn4 * attn4 * extrapolate(xsb + 1, ysb + 1, zsb + 0, dx4, dy4, dz4, pmask);
 			}
 
 			// Contribution (1,0,1)
@@ -625,7 +697,7 @@ public class SimplexNoise3D {
 			double attn5 = 2 - dx5 * dx5 - dy5 * dy5 - dz5 * dz5;
 			if (attn5 > 0) {
 				attn5 *= attn5;
-				value += attn5 * attn5 * extrapolate(xsb + 1, ysb + 0, zsb + 1, dx5, dy5, dz5);
+				value += attn5 * attn5 * extrapolate(xsb + 1, ysb + 0, zsb + 1, dx5, dy5, dz5, pmask);
 			}
 
 			// Contribution (0,1,1)
@@ -635,7 +707,7 @@ public class SimplexNoise3D {
 			double attn6 = 2 - dx6 * dx6 - dy6 * dy6 - dz6 * dz6;
 			if (attn6 > 0) {
 				attn6 *= attn6;
-				value += attn6 * attn6 * extrapolate(xsb + 0, ysb + 1, zsb + 1, dx6, dy6, dz6);
+				value += attn6 * attn6 * extrapolate(xsb + 0, ysb + 1, zsb + 1, dx6, dy6, dz6, pmask);
 			}
 		}
 
@@ -643,14 +715,16 @@ public class SimplexNoise3D {
 		double attn_ext0 = 2 - dx_ext0 * dx_ext0 - dy_ext0 * dy_ext0 - dz_ext0 * dz_ext0;
 		if (attn_ext0 > 0) {
 			attn_ext0 *= attn_ext0;
-			value += attn_ext0 * attn_ext0 * extrapolate(xsv_ext0, ysv_ext0, zsv_ext0, dx_ext0, dy_ext0, dz_ext0);
+			value += attn_ext0 * attn_ext0
+					* extrapolate(xsv_ext0, ysv_ext0, zsv_ext0, dx_ext0, dy_ext0, dz_ext0, pmask);
 		}
 
 		// Second extra vertex
 		double attn_ext1 = 2 - dx_ext1 * dx_ext1 - dy_ext1 * dy_ext1 - dz_ext1 * dz_ext1;
 		if (attn_ext1 > 0) {
 			attn_ext1 *= attn_ext1;
-			value += attn_ext1 * attn_ext1 * extrapolate(xsv_ext1, ysv_ext1, zsv_ext1, dx_ext1, dy_ext1, dz_ext1);
+			value += attn_ext1 * attn_ext1
+					* extrapolate(xsv_ext1, ysv_ext1, zsv_ext1, dx_ext1, dy_ext1, dz_ext1, pmask);
 		}
 		value = Math.abs(value);
 
@@ -663,8 +737,9 @@ public class SimplexNoise3D {
 		return value;
 	}
 
-	private double extrapolate(int xsb, int ysb, int zsb, double dx, double dy, double dz) {
-		Grad3 grad = permGrad3[perm[perm[xsb & PMASK] ^ (ysb & PMASK)] ^ (zsb & PMASK)];
+	private double extrapolate(int xsb, int ysb, int zsb, double dx, double dy, double dz, int pmask) {
+		// System.out.println(psizegrad);
+		Grad3 grad = permGrad3[perm[perm[xsb & pmask] ^ (ysb & pmask)] ^ (zsb & pmask)];
 		return grad.dx * dx + grad.dy * dy + grad.dz * dz;
 	}
 
@@ -685,66 +760,6 @@ public class SimplexNoise3D {
 
 	private static final double N3 = 26.92263139946168;
 
-	private static final Grad3[] GRADIENTS_3D = new Grad3[PSIZE];
-
-	static {
-		Grad3[] grad3 = { new Grad3(-1.4082482904633333, -1.4082482904633333, -2.6329931618533333),
-				new Grad3(-0.07491495712999985, -0.07491495712999985, -3.29965982852),
-				new Grad3(0.24732126143473554, -1.6667938651159684, -2.838945207362466),
-				new Grad3(-1.6667938651159684, 0.24732126143473554, -2.838945207362466),
-				new Grad3(-1.4082482904633333, -2.6329931618533333, -1.4082482904633333),
-				new Grad3(-0.07491495712999985, -3.29965982852, -0.07491495712999985),
-				new Grad3(-1.6667938651159684, -2.838945207362466, 0.24732126143473554),
-				new Grad3(0.24732126143473554, -2.838945207362466, -1.6667938651159684),
-				new Grad3(1.5580782047233335, 0.33333333333333337, -2.8914115380566665),
-				new Grad3(2.8914115380566665, -0.33333333333333337, -1.5580782047233335),
-				new Grad3(1.8101897177633992, -1.2760767510338025, -2.4482280932803),
-				new Grad3(2.4482280932803, 1.2760767510338025, -1.8101897177633992),
-				new Grad3(1.5580782047233335, -2.8914115380566665, 0.33333333333333337),
-				new Grad3(2.8914115380566665, -1.5580782047233335, -0.33333333333333337),
-				new Grad3(2.4482280932803, -1.8101897177633992, 1.2760767510338025),
-				new Grad3(1.8101897177633992, -2.4482280932803, -1.2760767510338025),
-				new Grad3(-2.6329931618533333, -1.4082482904633333, -1.4082482904633333),
-				new Grad3(-3.29965982852, -0.07491495712999985, -0.07491495712999985),
-				new Grad3(-2.838945207362466, 0.24732126143473554, -1.6667938651159684),
-				new Grad3(-2.838945207362466, -1.6667938651159684, 0.24732126143473554),
-				new Grad3(0.33333333333333337, 1.5580782047233335, -2.8914115380566665),
-				new Grad3(-0.33333333333333337, 2.8914115380566665, -1.5580782047233335),
-				new Grad3(1.2760767510338025, 2.4482280932803, -1.8101897177633992),
-				new Grad3(-1.2760767510338025, 1.8101897177633992, -2.4482280932803),
-				new Grad3(0.33333333333333337, -2.8914115380566665, 1.5580782047233335),
-				new Grad3(-0.33333333333333337, -1.5580782047233335, 2.8914115380566665),
-				new Grad3(-1.2760767510338025, -2.4482280932803, 1.8101897177633992),
-				new Grad3(1.2760767510338025, -1.8101897177633992, 2.4482280932803),
-				new Grad3(3.29965982852, 0.07491495712999985, 0.07491495712999985),
-				new Grad3(2.6329931618533333, 1.4082482904633333, 1.4082482904633333),
-				new Grad3(2.838945207362466, -0.24732126143473554, 1.6667938651159684),
-				new Grad3(2.838945207362466, 1.6667938651159684, -0.24732126143473554),
-				new Grad3(-2.8914115380566665, 1.5580782047233335, 0.33333333333333337),
-				new Grad3(-1.5580782047233335, 2.8914115380566665, -0.33333333333333337),
-				new Grad3(-2.4482280932803, 1.8101897177633992, -1.2760767510338025),
-				new Grad3(-1.8101897177633992, 2.4482280932803, 1.2760767510338025),
-				new Grad3(-2.8914115380566665, 0.33333333333333337, 1.5580782047233335),
-				new Grad3(-1.5580782047233335, -0.33333333333333337, 2.8914115380566665),
-				new Grad3(-1.8101897177633992, 1.2760767510338025, 2.4482280932803),
-				new Grad3(-2.4482280932803, -1.2760767510338025, 1.8101897177633992),
-				new Grad3(0.07491495712999985, 3.29965982852, 0.07491495712999985),
-				new Grad3(1.4082482904633333, 2.6329931618533333, 1.4082482904633333),
-				new Grad3(1.6667938651159684, 2.838945207362466, -0.24732126143473554),
-				new Grad3(-0.24732126143473554, 2.838945207362466, 1.6667938651159684),
-				new Grad3(0.07491495712999985, 0.07491495712999985, 3.29965982852),
-				new Grad3(1.4082482904633333, 1.4082482904633333, 2.6329931618533333),
-				new Grad3(-0.24732126143473554, 1.6667938651159684, 2.838945207362466),
-				new Grad3(1.6667938651159684, -0.24732126143473554, 2.838945207362466) };
-		for (int i = 0; i < grad3.length; i++) {
-			grad3[i].dx /= N3;
-			grad3[i].dy /= N3;
-			grad3[i].dz /= N3;
-		}
-		for (int i = 0; i < PSIZE; i++) {
-			GRADIENTS_3D[i] = grad3[i % grad3.length];
-		}
-
-	}
+	private final Grad3[] GRADIENTS_3D;
 
 }
