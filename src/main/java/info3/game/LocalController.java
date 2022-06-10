@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import info3.game.entities.Cowboy;
 import info3.game.entities.Entity;
 import info3.game.network.KeyPress;
+import info3.game.network.MoveCamera;
 import info3.game.network.NetworkMessage;
 
 public class LocalController extends Controller {
@@ -30,7 +31,34 @@ public class LocalController extends Controller {
 
 	@Override
 	public void keyPressed(KeyPress e) {
-		this.spawn(new Cowboy(this));
+		System.out.println("key press on the server : " + e.code);
+		if (e.code == 32) {
+			Cowboy c = new Cowboy(this);
+			c.setPosition(new Vec2(100, 100));
+			this.spawn(c);
+		}
+		// Mouvements de camera
+		if (e.code >= 37 && e.code <= 40) {
+			switch (e.code) {
+			case 37:
+				// Left
+				this.views.get(0).camera.translate(new Vec2(-5, 0));
+				break;
+			case 38:
+				// Up
+				this.views.get(0).camera.translate(new Vec2(0, 5));
+				break;
+			case 39:
+				// Right
+				this.views.get(0).camera.translate(new Vec2(5, 0));
+				break;
+			case 40:
+				// Down
+				this.views.get(0).camera.translate(new Vec2(0, -5));
+				break;
+			}
+			this.sendToClients(new MoveCamera(this.views.get(0).camera.getPos()));
+		}
 	}
 
 	@Override

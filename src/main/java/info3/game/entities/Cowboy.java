@@ -30,6 +30,7 @@ import info3.game.Vec2;
 public class Cowboy extends Entity {
 	int moveElapsed;
 	int maxX = 500;
+	int moveSpeed = 2;
 
 	public Cowboy(Controller controller) {
 		super(controller);
@@ -43,7 +44,7 @@ public class Cowboy extends Entity {
 		this.moveElapsed += elapsed;
 		if (this.moveElapsed > 24) {
 			this.moveElapsed = 0;
-			this.position.setX((this.position.getX() + 2) % maxX);
+			this.position.setX((this.position.getX() + this.moveSpeed) % maxX);
 			this.avatar.setPosition(this.position);
 		}
 	}

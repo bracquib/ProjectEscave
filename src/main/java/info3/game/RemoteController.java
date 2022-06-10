@@ -11,6 +11,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
+import info3.game.network.MoveCamera;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
 import info3.game.network.UpdateAvatar;
@@ -143,6 +144,9 @@ class NetworkReceiverThread extends Thread {
 			for (NetworkMessage m : mm.messages) {
 				this.handleMessage(m);
 			}
+		} else if (msg instanceof MoveCamera) {
+			MoveCamera mc = (MoveCamera) msg;
+			this.controller.view.camera.setPos(mc.position);
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}
