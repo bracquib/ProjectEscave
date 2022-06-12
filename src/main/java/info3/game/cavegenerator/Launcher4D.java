@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import info3.game.Vec2;
+
 public class Launcher4D {
 	private static final int nbPlayers = 8;
 	static int width;

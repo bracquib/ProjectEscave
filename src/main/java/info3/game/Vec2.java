@@ -45,6 +45,10 @@ public class Vec2 implements Serializable {
 		this.y = other.y;
 	}
 
+	public Vec2(float val) {
+		this(val, val);
+	}
+
 	public float getX() {
 		return x;
 	}
@@ -96,5 +100,56 @@ public class Vec2 implements Serializable {
 		double x = Math.pow(this.x - other.x, 2.0);
 		double y = Math.pow(this.y - other.y, 2.0);
 		return (float) Math.sqrt(x + y);
+	}
+
+	/**
+	 * Calcule le produit scalaire entre deux vecteurs
+	 * 
+	 * @param other autre vecteur
+	 * @return Le produit scalaire de ce vecteur et de l'autre
+	 */
+	public float dot(Vec2 other) {
+		return this.x * other.x + this.y * other.y;
+	}
+
+	/**
+	 * On fait le floor de deux vecteurs
+	 * 
+	 * @return a new vector with each element floor()ed.
+	 */
+	public Vec2 floor() {
+		return new Vec2((float) Math.floor(this.x), (float) Math.floor(this.y));
+	}
+
+	public Vec2 add(int a) {
+		return new Vec2(this.x + a, a + this.y);
+	}
+
+	public Vec2 sub(Vec2 other) {
+		return new Vec2(other.x - this.x, other.y - this.y);
+	}
+
+	public Vec2 multiply(int a) {
+		return new Vec2(this.x * a, this.y * a);
+	}
+
+	public Vec2 pow(int a) {
+		return new Vec2((float) Math.pow(this.x, a), (float) Math.pow(this.y, a));
+	}
+
+	public float product() {
+		return this.x * this.y;
+	}
+
+	public Vec2 abs() {
+		return new Vec2(Math.abs(this.x), Math.abs(this.y));
+	}
+
+	public float length() {
+		return (float) Math.sqrt(this.x * this.x + this.y * this.y);
+	}
+
+	public Vec2 normalized() {
+		return new Vec2(this.x / this.length(), this.y / this.length());
 	}
 }

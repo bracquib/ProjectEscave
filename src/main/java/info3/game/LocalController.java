@@ -56,19 +56,19 @@ public class LocalController extends Controller {
 			switch (e.code) {
 			case 37:
 				// Left
-				p.setPosition(p.getPosition().add(new Vec2(-5, 0)));
+				p.setPosition(p.getPosition().add(new Vec2(-32, 0)));
 				break;
 			case 38:
 				// Up
-				p.setPosition(p.getPosition().add(new Vec2(0, 5)));
+				p.setPosition(p.getPosition().add(new Vec2(0, 32)));
 				break;
 			case 39:
 				// Right
-				p.setPosition(p.getPosition().add(new Vec2(5, 0)));
+				p.setPosition(p.getPosition().add(new Vec2(32, 0)));
 				break;
 			case 40:
 				// Down
-				p.setPosition(p.getPosition().add(new Vec2(0, -5)));
+				p.setPosition(p.getPosition().add(new Vec2(0, -32)));
 				break;
 			}
 			view.camera.syncWith(p);

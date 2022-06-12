@@ -142,11 +142,10 @@ public class LocalView extends View {
 	public ArrayList<Avatar> getVisibleAvatars() {
 		int width = this.canvas.getWidth();
 		int height = this.canvas.getHeight();
-		int radius = Math.max(width, height);
-		// TODO: utiliser les vraies coordonnées de la caméra
+		int radius = Math.max(width, height) * 2;
 		ArrayList<Avatar> result = new ArrayList<>();
 		for (Avatar a : this.avatars.values()) {
-			if (a.position.distance(Vec2.ZERO) < radius) {
+			if (a.position.distance(this.camera.getPos()) < radius) {
 				result.add(a);
 			}
 		}
