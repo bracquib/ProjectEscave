@@ -1,7 +1,9 @@
 package info3.game.cavegenerator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /*Cette classe permet de générer entièrement la map
  * 
@@ -12,8 +14,6 @@ import java.util.List;
  * - Spawn Sortie
  * - Spawn statue
  * 
- * - Spawn salles
- * - Spawn mobs
  * 
  * - automate cellulaire
  * - Spawn murs
@@ -25,6 +25,8 @@ public class SpawnGenerator {
 	int width;
 	int height;
 	int limit;
+
+	int nombreGeneration = 4;
 
 	List<Vec2> listSpawnPlayer = new ArrayList<Vec2>();
 	public List<Vec2> listSpawnBlocsStatues = new ArrayList<Vec2>();
@@ -399,6 +401,90 @@ public class SpawnGenerator {
 		int[][] values = spawnExitTotal(nbPlayers);
 		spawnStatue(nbPlayers, values);
 		values = destroyZoneStatue(listSpawnStatues, values);
+		// values = bordure(values);
+		// values = lissage(values);
+		return values;
+	}
+
+	public int[][] bordure(int[][] values) {
+		for (int i = 0; i < this.width; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (values[i][j] == 0) {
+					values[i][j] = ThreadLocalRandom.current().nextInt(0, 1 + 1);
+				} else {
+					values[i][j] = 1;
+
+				}
+			}
+		}
+		for (int i = 0; i < this.width; i++) {
+			for (int j = this.height - 8; j < this.height; j++) {
+				values[i][j] = 1;
+			}
+		}
+		return values;
+	}
+
+	public int jeuDeVie(int[][] values, int x, int y) {
+
+		int cptVivant = 0;
+		int cptMort = 0;
+
+		if (values[x][y] == 1) {
+			for (int i = -1; i < 2; i++) {
+				for (int j = -1; j < 2; j++) {
+					if (values[i + x][j + y] == 1) {
+						cptVivant++;
+					}
+				}
+			}
+			cptVivant--;
+
+			// 4 ou plus vivant
+			if (cptVivant >= 3) {
+				return 1;
+			} else
+				return 0;
+		}
+		// 5 ou plus tu revis
+		if (values[x][y] == 0) {
+			for (int i = -1; i < 2; i++) {
+				for (int j = -1; j < 2; j++) {
+					if (values[i + x][j + y] == 0) {
+						cptMort++;
+					}
+				}
+			}
+			cptMort--;
+			if (cptMort >= 4) {
+				return 1;
+			} else
+				return 0;
+		}
+		return -1;
+
+	}
+
+	public int[][] lissage(int[][] values) {
+		while (nombreGeneration != 0) {
+			int[][] copy = new int[this.width][this.height];
+			for (int i = 0; i < this.width; i++) {
+				copy[i] = Arrays.copyOf(values[i], this.height);
+			}
+			for (int i = 1; i < this.width - 1; i++) {
+				for (int j = 1; j < 12; j++) {
+					copy[i][j] = jeuDeVie(values, i, j);
+				}
+			}
+			for (int i = 1; i < this.width - 1; i++) {
+				for (int j = this.height - 12; j < this.height - 1; j++) {
+					copy[i][j] = jeuDeVie(values, i, j);
+				}
+			}
+			values = copy;
+			nombreGeneration--;
+		}
+
 		return values;
 	}
 

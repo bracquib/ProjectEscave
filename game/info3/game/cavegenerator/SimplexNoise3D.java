@@ -102,14 +102,19 @@ public class SimplexNoise3D {
 
 	public int[][] generation(int psize, int pmask, double seuil, int width, int height, double featureSize,
 			int radius) {
-
+		int rDonut = radius / 2;
 		int[][] res = new int[width][height];
 		this.seuil = seuil;
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				double angle = (2 * Math.PI * x) / width;
-				double value = eval(radius * Math.cos(angle) / featureSize, y / featureSize,
-						radius * Math.sin(angle) / featureSize, pmask, psize);
+				// int rDonut = radius / ((x + 1) * (x + 1));
+				double angleTheta = (2 * Math.PI * x) / width;
+				double anglePhi = (2 * Math.PI * y) / height;
+				double coordX = (radius + rDonut * Math.cos(anglePhi)) * Math.cos(angleTheta);
+				double coordY = (radius + rDonut * Math.cos(anglePhi)) * Math.sin(angleTheta);
+				double coordZ = rDonut * Math.sin(anglePhi);
+
+				double value = eval(coordX / featureSize, coordY / featureSize, coordZ / featureSize, pmask, psize);
 				res[x][y] = (int) value;
 			}
 		}

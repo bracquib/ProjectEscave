@@ -62,6 +62,6 @@ public class Launcher3D {
 		coloration(values, 7, 0xE389B9, image);
 		colorationStatue(statues, image);
 
-		ImageIO.write(image, "png", new File("Amaury.png"));
+		ImageIO.write(image, "png", new File("Bordure.png"));
 	}
 }
