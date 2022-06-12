@@ -35,6 +35,9 @@ public abstract class Entity {
 
 	public void setPosition(Vec2 pos) {
 		this.position = pos;
+		if (this.avatar != null) {
+			this.avatar.setPosition(pos);
+		}
 	}
 
 	public Entity(Controller c) {

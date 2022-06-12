@@ -20,16 +20,16 @@ public class ClientThread extends Thread {
 
 	ClientThread(Socket client, Controller c) {
 		this.sock = client;
-		this.controller = c;
-		this.view = new RemoteView(this);
-		this.controller.addView(this.view);
-		this.messageQueue = new ArrayList<>();
 		try {
 			this.inputStream = new ObjectInputStream(this.sock.getInputStream());
 			this.outputStream = new ObjectOutputStream(this.sock.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.controller = c;
+		this.messageQueue = new ArrayList<NetworkMessage>();
+		this.view = new RemoteView(this);
+		this.controller.addView(this.view);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class ClientThread extends Thread {
 				msg = this.inputStream.readObject();
 				if (msg instanceof KeyPress) {
 					KeyPress k = (KeyPress) msg;
-					this.controller.keyPressed(k);
+					this.controller.keyPressed(this.view.player, k);
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				this.disconnect();
@@ -82,6 +82,6 @@ public class ClientThread extends Thread {
 	}
 
 	private String getPlayerName() {
-		return "_";
+		return this.view.player.name();
 	}
 }

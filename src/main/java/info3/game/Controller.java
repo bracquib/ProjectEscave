@@ -1,18 +1,16 @@
 package info3.game;
 
+import info3.game.entities.Player;
 import info3.game.network.KeyPress;
 
 public abstract class Controller {
 	static Controller controller;
 
-	public Model model;
-
 	protected Controller() {
 		Controller.controller = this;
-		this.model = new Model(this);
 	}
 
-	public abstract void keyPressed(KeyPress e);
+	public abstract void keyPressed(Player p, KeyPress e);
 
 	public abstract void tick(long elapsed);
 

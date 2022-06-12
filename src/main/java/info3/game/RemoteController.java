@@ -9,12 +9,14 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
 import info3.game.network.MoveCamera;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
 import info3.game.network.UpdateAvatar;
+import info3.game.network.Welcome;
 
 public class RemoteController extends Controller {
 	Socket sock;
@@ -32,8 +34,8 @@ public class RemoteController extends Controller {
 	}
 
 	@Override
-	public void keyPressed(KeyPress e) {
-		this.networkSender.send(e);
+	public void keyPressed(Player p, KeyPress e) {
+		this.networkSender.send(p, e);
 	}
 
 	@Override
@@ -75,12 +77,13 @@ class NetworkSenderThread extends Thread {
 		this.setName("Sender");
 	}
 
-	public void send(NetworkMessage msg) {
+	public void send(Player p, NetworkMessage msg) {
 		try {
+			msg.player = p.getColor();
 			this.queue.put(msg);
 		} catch (InterruptedException e) {
 			// TODO: do something with it?
-			System.out.println("NetworkThread.send: error");
+			System.out.println("[ERROR] NetworkThread.send");
 		}
 	}
 
@@ -147,6 +150,9 @@ class NetworkReceiverThread extends Thread {
 		} else if (msg instanceof MoveCamera) {
 			MoveCamera mc = (MoveCamera) msg;
 			this.controller.view.camera.setPos(mc.position);
+		} else if (msg instanceof Welcome) {
+			Welcome w = (Welcome) msg;
+			this.controller.view.player = new Player(this.controller, w.yourColor, false);
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}

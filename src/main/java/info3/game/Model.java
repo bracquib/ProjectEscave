@@ -3,6 +3,7 @@ package info3.game;
 import java.util.ArrayList;
 
 import info3.game.entities.Entity;
+import info3.game.entities.Player;
 
 /**
  * Représente l'ensemble des données du jeu.
@@ -38,6 +39,13 @@ public class Model {
 	 */
 	Entity[][] map;
 
+	private final int maxPlayers = 2;
+	private int playerCount = 0;
+
+	private boolean started() {
+		return this.playerCount == this.maxPlayers;
+	}
+
 	public Model(Controller controller) {
 		this.controller = controller;
 		this.entities = new ArrayList<Entity>();
@@ -53,7 +61,17 @@ public class Model {
 		this.spawnQueue.add(e);
 	}
 
+	public Player spawnPlayer() {
+		Player p = new Player(this.controller, Player.colorFromInt(this.playerCount), true);
+		this.playerCount++;
+		this.spawn(p);
+		return p;
+	}
+
 	public void tick(long elapsed) {
+		if (!this.started()) {
+			return;
+		}
 		this.entities.addAll(this.spawnQueue);
 		this.spawnQueue.clear();
 		for (Entity e : this.entities) {
@@ -73,6 +91,7 @@ public class Model {
 	 * @return Le bloc à cette position
 	 */
 	public Entity getBlock(int x, int y) {
+		// TODO : on est sur un tore
 		return this.map[x][y];
 	}
 

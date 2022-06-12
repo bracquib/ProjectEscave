@@ -2,8 +2,15 @@ package info3.game;
 
 import java.util.HashMap;
 
+import info3.game.entities.Player;
+
 public abstract class View {
 	static View view;
+
+	/**
+	 * Chaque vue affiche un joueur particulier.
+	 */
+	protected Player player;
 
 	protected Controller controller;
 

@@ -47,10 +47,12 @@ class TickerThread extends Thread {
 				long end = System.currentTimeMillis();
 				this.controller.tick(end - start);
 				// Sync the clients
-				for (View view : this.controller.views) {
-					if (view instanceof RemoteView) {
-						RemoteView rv = (RemoteView) view;
-						rv.client.actualSend();
+				synchronized (this.controller.views) {
+					for (View view : this.controller.views) {
+						if (view instanceof RemoteView) {
+							RemoteView rv = (RemoteView) view;
+							rv.client.actualSend();
+						}
 					}
 				}
 				start = end;

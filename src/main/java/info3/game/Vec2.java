@@ -40,6 +40,11 @@ public class Vec2 implements Serializable {
 		this.y = y;
 	}
 
+	public Vec2(Vec2 other) {
+		this.x = other.x;
+		this.y = other.y;
+	}
+
 	public float getX() {
 		return x;
 	}
