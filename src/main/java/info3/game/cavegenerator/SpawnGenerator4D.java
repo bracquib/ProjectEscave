@@ -3,6 +3,8 @@ package info3.game.cavegenerator;
 import java.util.ArrayList;
 import java.util.List;
 
+import info3.game.Vec2;
+
 public class SpawnGenerator4D {
 
 	/*
@@ -23,9 +25,9 @@ public class SpawnGenerator4D {
 
 	int nombreGeneration = 4;
 
-	List<Vec2> listSpawnPlayer = new ArrayList<Vec2>();
+	public ArrayList<Vec2> listSpawnPlayer = new ArrayList<Vec2>();
 	public List<Vec2> listSpawnBlocsStatues = new ArrayList<Vec2>();
-	List<Vec2> listSpawnStatues = new ArrayList<Vec2>();
+	public List<Vec2> listSpawnStatues = new ArrayList<Vec2>();
 
 	Vec2 exit = new Vec2(0);
 

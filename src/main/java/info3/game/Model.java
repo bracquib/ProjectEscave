@@ -1,7 +1,10 @@
 package info3.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import info3.game.cavegenerator.SpawnGenerator4D;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
 
@@ -39,6 +42,8 @@ public class Model {
 	 */
 	Entity[][] map;
 
+	ArrayList<Vec2> spawnPoints;
+
 	private final int maxPlayers = 2;
 	private int playerCount = 0;
 
@@ -49,7 +54,6 @@ public class Model {
 	public Model(Controller controller) {
 		this.controller = controller;
 		this.entities = new ArrayList<Entity>();
-		this.map = new Entity[0][0];
 	}
 
 	/**
@@ -62,10 +66,31 @@ public class Model {
 	}
 
 	public Player spawnPlayer() {
-		Player p = new Player(this.controller, Player.colorFromInt(this.playerCount), true);
+		this.generateMapIfNeeded();
+		Player p = new Player(this.controller, Player.colorFromInt(this.playerCount),
+				this.spawnPoints.get(this.playerCount).multiply(32), true);
 		this.playerCount++;
 		this.spawn(p);
 		return p;
+	}
+
+	private void generateMapIfNeeded() {
+		if (this.map == null) {
+			// génération de la map
+			SpawnGenerator4D generationMap = new SpawnGenerator4D();
+			int[][] blocks = generationMap.spawnStatueTotal(this.maxPlayers);
+			this.spawnPoints = generationMap.listSpawnPlayer;
+			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
+			List<Vec2> statues = generationMap.listSpawnStatues;
+			this.map = new Entity[blocks.length][blocks[0].length];
+			for (int i = 0; i < blocks.length; i++) {
+				for (int j = 0; j < blocks[i].length; j++) {
+					if (blocks[i][j] == 1) {
+						this.map[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32));
+					}
+				}
+			}
+		}
 	}
 
 	public void tick(long elapsed) {
@@ -127,10 +152,14 @@ public class Model {
 		synchronized (this.entities) {
 			all = new ArrayList<Entity>(this.entities);
 		}
-		synchronized (this.map) {
-			for (int i = 0; i < this.map.length; i++) {
-				for (int j = 0; i < this.map[i].length; j++) {
-					all.add(this.map[i][j]);
+		if (this.map != null) {
+			synchronized (this.map) {
+				for (int i = 0; i < this.map.length; i++) {
+					for (int j = 0; j < this.map[i].length; j++) {
+						if (this.map[i][j] != null) {
+							all.add(this.map[i][j]);
+						}
+					}
 				}
 			}
 		}

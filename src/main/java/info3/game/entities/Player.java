@@ -6,9 +6,9 @@ import info3.game.Vec2;
 public class Player extends Entity {
 	PlayerColor color;
 
-	public Player(Controller c, PlayerColor color, boolean local) {
+	public Player(Controller c, PlayerColor color, Vec2 pos, boolean local) {
 		super(c);
-		this.position = new Vec2((float) Math.random() * 200, 10);
+		this.position = pos;
 		this.color = color;
 		if (local) {
 			this.avatar = this.controller.createAvatar(new Vec2(this.position), this.avatarPath(), 1, 0);
