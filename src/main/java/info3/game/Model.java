@@ -121,4 +121,20 @@ public class Model {
 		}
 		return nearEntities;
 	}
+
+	public ArrayList<Entity> allEntities() {
+		ArrayList<Entity> all;
+		synchronized (this.entities) {
+			all = new ArrayList<Entity>(this.entities);
+		}
+		synchronized (this.map) {
+			for (int i = 0; i < this.map.length; i++) {
+				for (int j = 0; i < this.map[i].length; j++) {
+					all.add(this.map[i][j]);
+				}
+			}
+		}
+
+		return all;
+	}
 }

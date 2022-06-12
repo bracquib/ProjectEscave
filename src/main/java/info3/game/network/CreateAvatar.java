@@ -8,10 +8,10 @@ public class CreateAvatar extends NetworkMessage {
 	public int id;
 	public String filename;
 	public int imageLen;
-	public int animationDelay;
+	public long animationDelay;
 	public Vec2 position;
 
-	public CreateAvatar(int id, Vec2 position, String filename, int imageLen, int animationSpeed) {
+	public CreateAvatar(int id, Vec2 position, String filename, int imageLen, long animationSpeed) {
 		this.id = id;
 		this.filename = filename;
 		this.imageLen = imageLen;

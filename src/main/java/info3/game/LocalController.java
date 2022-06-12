@@ -3,7 +3,9 @@ package info3.game;
 import java.util.ArrayList;
 
 import info3.game.entities.Cowboy;
+import info3.game.entities.Entity;
 import info3.game.entities.Player;
+import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
 import info3.game.network.MoveCamera;
 import info3.game.network.NetworkMessage;
@@ -34,6 +36,10 @@ public class LocalController extends Controller {
 		}
 		v.player = this.model.spawnPlayer();
 		this.sendTo(v.player, new Welcome(v.player.getColor()));
+		for (Entity e : this.model.allEntities()) {
+			Avatar a = e.getAvatar();
+			this.sendTo(v.player, new CreateAvatar(a.id, a.getPosition(), a.fileName, a.imageCount, a.animationDelay));
+		}
 	}
 
 	@Override

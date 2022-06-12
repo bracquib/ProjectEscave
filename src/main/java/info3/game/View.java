@@ -23,7 +23,7 @@ public abstract class View {
 		this.camera = new Camera(Vec2.ZERO);
 	}
 
-	public abstract Avatar createAvatar(int id, Vec2 pos, String filename, int imageLen, int animationSpeed);
+	public abstract Avatar createAvatar(int id, Vec2 pos, String filename, int imageLen, long animationSpeed);
 
 	public void updateAvatar(int id, Vec2 pos) {
 		Avatar a = this.avatars.get(id);

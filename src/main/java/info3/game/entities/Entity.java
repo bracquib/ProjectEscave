@@ -66,4 +66,8 @@ public abstract class Entity {
 		Vec2 screenPos = this.position.globalToScreen(cameraPos);
 		this.avatar.paint(g, screenPos);
 	}
+
+	public Avatar getAvatar() {
+		return this.avatar;
+	}
 }
