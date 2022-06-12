@@ -6,9 +6,6 @@ import info3.game.network.CreateAvatar;
 import info3.game.network.UpdateAvatar;
 
 public class RemoteAvatar extends Avatar {
-	String filename;
-	int imageLen;
-	int animationSpeed;
 	LocalController controller;
 
 	@Override
@@ -17,11 +14,11 @@ public class RemoteAvatar extends Avatar {
 		this.controller.sendToClients(new UpdateAvatar(this.id, this.position));
 	}
 
-	public RemoteAvatar(int id, LocalController c, String filename, int imageLen, int animationSpeed) {
+	public RemoteAvatar(int id, LocalController c, String filename, int imageLen, long animationSpeed) {
 		super(id);
-		this.filename = filename;
-		this.imageLen = imageLen;
-		this.animationSpeed = animationSpeed;
+		this.fileName = filename;
+		this.imageCount = imageLen;
+		this.animationDelay = animationSpeed;
 		this.controller = c;
 		this.controller.sendToClients(new CreateAvatar(id, this.position, filename, imageLen, animationSpeed));
 	}

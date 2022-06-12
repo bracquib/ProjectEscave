@@ -33,14 +33,6 @@ public class LocalAvatar extends Avatar {
 	long imageElapsed = 0;
 
 	/**
-	 * Indique le temps après lequel on change d'image dans l'animation.
-	 * 
-	 * Si il vaut 0, on n'a pas d'animation, même si on a plusieurs images. Le
-	 * contrôle se fait alors avec la méthode `nextFrame`.
-	 */
-	long animationDelay;
-
-	/**
 	 * Crée un nouvel avatar statique.
 	 * 
 	 * @param file Le fichier dans lequel se trouve l'image à charger

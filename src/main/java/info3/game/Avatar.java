@@ -33,6 +33,16 @@ public abstract class Avatar {
 
 	Vec2 scale;
 
+	/**
+	 * Indique le temps après lequel on change d'image dans l'animation.
+	 * 
+	 * Si il vaut 0, on n'a pas d'animation, même si on a plusieurs images. Le
+	 * contrôle se fait alors avec la méthode `nextFrame`.
+	 */
+	public long animationDelay;
+	public int imageCount;
+	public String fileName;
+
 	protected Avatar(int id) {
 		this.id = id;
 		this.position = new Vec2(0.0f, 0.0f);
@@ -42,4 +52,5 @@ public abstract class Avatar {
 	public abstract void tick(long elapsed);
 
 	public abstract void paint(Graphics g, Vec2 cameraPos);
+
 }

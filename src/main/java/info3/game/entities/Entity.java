@@ -35,6 +35,9 @@ public abstract class Entity {
 
 	public void setPosition(Vec2 pos) {
 		this.position = pos;
+		if (this.avatar != null) {
+			this.avatar.setPosition(pos);
+		}
 	}
 
 	public Entity(Controller c) {
@@ -62,5 +65,9 @@ public abstract class Entity {
 	public void paint(Graphics g, Vec2 cameraPos) {
 		Vec2 screenPos = this.position.globalToScreen(cameraPos);
 		this.avatar.paint(g, screenPos);
+	}
+
+	public Avatar getAvatar() {
+		return this.avatar;
 	}
 }

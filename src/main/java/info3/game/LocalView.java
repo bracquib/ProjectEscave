@@ -154,7 +154,7 @@ public class LocalView extends View {
 	}
 
 	@Override
-	public LocalAvatar createAvatar(int id, Vec2 pos, String filename, int imageLen, int animationSpeed) {
+	public LocalAvatar createAvatar(int id, Vec2 pos, String filename, int imageLen, long animationSpeed) {
 		LocalAvatar av = new LocalAvatar(id, filename, imageLen, animationSpeed);
 		av.position = pos;
 		synchronized (this.avatars) {
