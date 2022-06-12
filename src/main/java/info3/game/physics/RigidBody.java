@@ -57,7 +57,7 @@ public class RigidBody extends Entity {
 		return this.speed;
 	}
 
-	// Force
+	// force
 	public void setForce(Vec2 force) {
 		this.force = force;
 	}

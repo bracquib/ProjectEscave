@@ -28,6 +28,7 @@ public abstract class Entity {
 	 */
 	protected Avatar avatar;
 	Collider collider;
+	float frictionFactor;
 	protected Controller controller;
 
 	public Vec2 getPosition() {
@@ -78,5 +79,9 @@ public abstract class Entity {
 
 	public Controller getController() {
 		return this.controller;
+	}
+
+	public float getFrictionFactor() {
+		return frictionFactor;
 	}
 }
