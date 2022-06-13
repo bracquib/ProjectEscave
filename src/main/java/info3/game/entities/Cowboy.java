@@ -22,20 +22,21 @@ package info3.game.entities;
 
 import info3.game.Controller;
 import info3.game.Vec2;
+import info3.game.physics.RigidBody;
 
 /**
  * A simple class that holds the images of a sprite for an animated cowbow.
  *
  */
-public class Cowboy extends Entity {
+public class Cowboy extends RigidBody {
 	int moveElapsed;
 	int maxX = 500;
 	int moveSpeed = 2;
 
 	public Cowboy(Controller controller) {
-		super(controller);
-		this.position = new Vec2(0.0f, 0.0f);
-		this.avatar = this.controller.createAvatar(this.position, "cowboy.png", 24, 200);
+		super(5, controller);
+		this.setPosition(new Vec2(0.0f, 0.0f));
+		this.avatar = this.controller.createAvatar(this.getPosition(), "cowboy.png", 24, 200);
 	}
 
 	@Override
@@ -44,8 +45,7 @@ public class Cowboy extends Entity {
 		this.moveElapsed += elapsed;
 		if (this.moveElapsed > 24) {
 			this.moveElapsed = 0;
-			this.position.setX((this.position.getX() + this.moveSpeed) % maxX);
-			this.avatar.setPosition(this.position);
+			this.setPosition(new Vec2((this.getPosition().getX() + this.moveSpeed) % maxX, this.getPosition().getY()));
 		}
 	}
 }

@@ -7,6 +7,8 @@ import info3.game.cavegenerator.SpawnGenerator4D;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
+import info3.game.physics.PhysicsWorld;
+import info3.game.physics.RigidBody;
 
 /**
  * Représente l'ensemble des données du jeu.
@@ -15,12 +17,12 @@ public class Model {
 	/**
 	 * Le controlleur associé à ce modèle.
 	 */
-	public Controller controller;
+	public LocalController controller;
 
 	/**
 	 * La liste de toutes les entités dynamiques dans le monde.
 	 */
-	ArrayList<Entity> entities;
+	ArrayList<RigidBody> entities;
 
 	/**
 	 * La liste des entités dynamiques à spawner au prochain tick
@@ -28,7 +30,7 @@ public class Model {
 	 * On ajoute pas directement dans entities pour éviter des accès concurrents par
 	 * plusieurs threads #réseau #parallélisme
 	 */
-	ArrayList<Entity> spawnQueue = new ArrayList<Entity>();
+	ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
 
 	/**
 	 * La liste des blocs de la carte.
@@ -40,20 +42,23 @@ public class Model {
 	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
 	 * précis avec la méthode getBlock(x, y) de cette classe.
 	 */
-	Entity[][] map;
+	Block[][] map;
 
 	ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 2;
+	private final int maxPlayers = 1;
 	private int playerCount = 0;
 
 	private boolean started() {
 		return this.playerCount == this.maxPlayers;
 	}
 
-	public Model(Controller controller) {
+	private PhysicsWorld physics;
+
+	public Model(LocalController controller) {
 		this.controller = controller;
-		this.entities = new ArrayList<Entity>();
+		this.entities = new ArrayList<RigidBody>();
+		this.physics = new PhysicsWorld(this);
 	}
 
 	/**
@@ -61,7 +66,7 @@ public class Model {
 	 * 
 	 * @param e L'entité à faire apparaître
 	 */
-	public void spawn(Entity e) {
+	public void spawn(RigidBody e) {
 		this.spawnQueue.add(e);
 	}
 
@@ -71,6 +76,7 @@ public class Model {
 				this.spawnPoints.get(this.playerCount).multiply(32), true);
 		this.playerCount++;
 		this.spawn(p);
+		this.controller.viewFor(null).camera.syncWith(p);
 		return p;
 	}
 
@@ -82,7 +88,7 @@ public class Model {
 			this.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			List<Vec2> statues = generationMap.listSpawnStatues;
-			this.map = new Entity[blocks.length][blocks[0].length];
+			this.map = new Block[blocks.length][blocks[0].length];
 			for (int i = 0; i < blocks.length; i++) {
 				for (int j = 0; j < blocks[i].length; j++) {
 					if (blocks[i][j] == 1) {
@@ -99,6 +105,7 @@ public class Model {
 		}
 		this.entities.addAll(this.spawnQueue);
 		this.spawnQueue.clear();
+		this.physics.tick(elapsed);
 		for (Entity e : this.entities) {
 			e.tick(elapsed);
 		}
@@ -165,5 +172,23 @@ public class Model {
 		}
 
 		return all;
+	}
+
+	public ArrayList<Entity> getNearBlocks(int x, int y, int width, int height) {
+		ArrayList<Entity> nearBlocks = new ArrayList<>();
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				nearBlocks.add(this.getBlock(x + i, y + j));
+			}
+		}
+		return nearBlocks;
+	}
+
+	public ArrayList<RigidBody> getEntities() {
+		return this.entities;
+	}
+
+	public Block[][] getMap() {
+		return this.map;
 	}
 }

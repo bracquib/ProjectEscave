@@ -23,6 +23,6 @@ public class Camera {
 
 	public void syncWith(Player p) {
 		// TODO: remove hardcoded offset
-		this.setPos(p.getPosition().add(new Vec2(-528, 200)));
+		this.setPos(p.getPosition().add(new Vec2(-528, -368)));
 	}
 }

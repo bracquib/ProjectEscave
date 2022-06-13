@@ -2,17 +2,24 @@ package info3.game.entities;
 
 import info3.game.Controller;
 import info3.game.Vec2;
+import info3.game.physics.RigidBody;
 
-public class Player extends Entity {
+public class Player extends RigidBody {
 	PlayerColor color;
 
 	public Player(Controller c, PlayerColor color, Vec2 pos, boolean local) {
-		super(c);
-		this.position = pos;
+		super(1, c);
+		this.setPosition(pos);
 		this.color = color;
 		if (local) {
-			this.avatar = this.controller.createAvatar(new Vec2(this.position), this.avatarPath(), 1, 0);
+			this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), this.avatarPath(), 1, 0);
 		}
+	}
+
+	@Override
+	public void tick(long el) {
+		super.tick(el);
+		System.out.println(String.format("Player pos %f %f", this.getPosition().getX(), this.getPosition().getY()));
 	}
 
 	private String avatarPath() {
