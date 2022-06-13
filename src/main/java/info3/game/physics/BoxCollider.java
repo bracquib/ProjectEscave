@@ -23,29 +23,37 @@ public class BoxCollider extends Collider {
 			return CollisionType.NONE;
 		else
 		// Collision
-		if (pos.getX() < otherPos.getX()) { // Collision LEFT
-			if (pos.getY() <= otherPos.getY()) { // Collision UP LEFT
-				// * Decide UP / LEFT
-				float diffX = pos.getX() + this.width - otherPos.getX();
-				float diffY = pos.getY() + this.height - otherPos.getY();
-				return diffX <= diffY ? CollisionType.LEFT : CollisionType.UP;
-			} else { // Collision DOWN LEFT
-				// * Decide DOWN / LEFT
-				float diffX = pos.getX() + this.width - otherPos.getX();
-				float diffY = otherPos.getY() + other.height - pos.getY();
-				return diffX <= diffY ? CollisionType.LEFT : CollisionType.DOWN;
-			}
-		} else { // Collision RIGHT
-			if (pos.getY() <= otherPos.getY()) { // Collision UP LEFT
-				// * Decide UP / RIGHT
-				float diffX = otherPos.getX() + other.width - pos.getX();
-				float diffY = pos.getY() + this.height - otherPos.getY();
-				return diffX <= diffY ? CollisionType.RIGHT : CollisionType.UP;
-			} else { // Collision DOWN RIGHT
+		if (pos.getX() < otherPos.getX()) { // Collision RIGHT
+			if (pos.getY() <= otherPos.getY()) { // Collision DOWN RIGHT
 				// * Decide DOWN / RIGHT
+				float diffX = pos.getX() + this.width - otherPos.getX();
+				float diffY = pos.getY() + this.height - otherPos.getY();
+				if (diffX == diffY)
+					return CollisionType.NONE;
+				return diffX < diffY ? CollisionType.RIGHT : CollisionType.DOWN;
+			} else { // Collision UP RIGHT
+				// * Decide UP / RIGHT
+				float diffX = pos.getX() + this.width - otherPos.getX();
+				float diffY = otherPos.getY() + other.height - pos.getY();
+				if (diffX == diffY)
+					return CollisionType.NONE;
+				return diffX < diffY ? CollisionType.RIGHT : CollisionType.UP;
+			}
+		} else { // Collision LEFT
+			if (pos.getY() <= otherPos.getY()) { // Collision DOWN LEFT
+				// * Decide DOWN / LEFT
+				float diffX = otherPos.getX() + other.width - pos.getX();
+				float diffY = pos.getY() + this.height - otherPos.getY();
+				if (diffX == diffY)
+					return CollisionType.NONE;
+				return diffX < diffY ? CollisionType.LEFT : CollisionType.DOWN;
+			} else { // Collision UP LEFT
+				// * Decide UP / LEFT
 				float diffX = otherPos.getX() + other.width - pos.getX();
 				float diffY = otherPos.getY() + other.height - pos.getY();
-				return diffX <= diffY ? CollisionType.RIGHT : CollisionType.DOWN;
+				if (diffX == diffY)
+					return CollisionType.NONE;
+				return diffX < diffY ? CollisionType.LEFT : CollisionType.UP;
 			}
 		}
 	}

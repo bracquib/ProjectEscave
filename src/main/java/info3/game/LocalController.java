@@ -56,19 +56,19 @@ public class LocalController extends Controller {
 			switch (e.code) {
 			case 37:
 				// Left
-				p.addSpeed(new Vec2(-0.01f, 0));
+				p.getSpeed().setX(-70);
 				break;
 			case 38:
 				// Up
-				p.addSpeed(new Vec2(0, -1));
+				p.getSpeed().setY(-120);
 				break;
 			case 39:
 				// Right
-				p.addSpeed(new Vec2(1, 0));
+				p.getSpeed().setX(70);
 				break;
 			case 40:
 				// Down
-				p.addSpeed(new Vec2(0, 1));
+				p.addSpeed(new Vec2(0, 0));
 				break;
 			}
 			view.camera.syncWith(p);
