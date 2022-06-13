@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import info3.game.Avatar;
 import info3.game.Controller;
 import info3.game.Vec2;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.Collider;
 
 /**
@@ -21,7 +22,7 @@ public abstract class Entity {
 	/**
 	 * La position de l'entité en coordonnées globales
 	 */
-	protected Vec2 position;
+	Vec2 position;
 
 	/**
 	 * L'avatar de l'entité
@@ -44,6 +45,11 @@ public abstract class Entity {
 
 	public Entity(Controller c) {
 		this.controller = c;
+		BoxCollider collider = new BoxCollider();
+		collider.height = 32;
+		collider.width = 32;
+		this.collider = collider;
+		this.frictionFactor = 0.9f;
 	}
 
 	/**

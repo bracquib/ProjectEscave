@@ -86,7 +86,7 @@ public class SimplexNoise4D {
 	public int[][] generation(int nbPlayers) {
 		int dim = nbPlayers * 100;
 		if (nbPlayers == 1 || nbPlayers == 2) {
-			return this.generation(1000, 999, 0.12, dim, dim, 24, 50);
+			return this.generation(1000, 999, 0.12, 200, 200, 24, 50);
 		}
 		if (nbPlayers == 3 || nbPlayers == 4) {
 			return this.generation(2048, 2047, 0.12, dim, dim, 22, 128);

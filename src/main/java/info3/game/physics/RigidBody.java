@@ -24,11 +24,11 @@ public class RigidBody extends Entity {
 	}
 
 	public void addSpeed(Vec2 speed) {
-		this.speed.add(speed);
+		this.speed = this.speed.add(speed);
 	}
 
 	public void addForce(Vec2 force) {
-		this.force.add(force);
+		this.force = this.force.add(force);
 	}
 
 	public CollisionType isColliding(Entity other) throws Exception {

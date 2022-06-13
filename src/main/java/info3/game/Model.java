@@ -7,6 +7,7 @@ import info3.game.cavegenerator.SpawnGenerator4D;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
+import info3.game.physics.PhysicsWorld;
 import info3.game.physics.RigidBody;
 
 /**
@@ -16,7 +17,7 @@ public class Model {
 	/**
 	 * Le controlleur associé à ce modèle.
 	 */
-	public Controller controller;
+	public LocalController controller;
 
 	/**
 	 * La liste de toutes les entités dynamiques dans le monde.
@@ -45,16 +46,19 @@ public class Model {
 
 	ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 2;
+	private final int maxPlayers = 1;
 	private int playerCount = 0;
 
 	private boolean started() {
 		return this.playerCount == this.maxPlayers;
 	}
 
-	public Model(Controller controller) {
+	private PhysicsWorld physics;
+
+	public Model(LocalController controller) {
 		this.controller = controller;
 		this.entities = new ArrayList<RigidBody>();
+		this.physics = new PhysicsWorld(this);
 	}
 
 	/**
@@ -72,6 +76,7 @@ public class Model {
 				this.spawnPoints.get(this.playerCount).multiply(32), true);
 		this.playerCount++;
 		this.spawn(p);
+		this.controller.viewFor(null).camera.syncWith(p);
 		return p;
 	}
 
@@ -100,6 +105,7 @@ public class Model {
 		}
 		this.entities.addAll(this.spawnQueue);
 		this.spawnQueue.clear();
+		this.physics.tick(elapsed);
 		for (Entity e : this.entities) {
 			e.tick(elapsed);
 		}

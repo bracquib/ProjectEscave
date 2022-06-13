@@ -35,8 +35,8 @@ public class Cowboy extends RigidBody {
 
 	public Cowboy(Controller controller) {
 		super(5, controller);
-		this.position = new Vec2(0.0f, 0.0f);
-		this.avatar = this.controller.createAvatar(this.position, "cowboy.png", 24, 200);
+		this.setPosition(new Vec2(0.0f, 0.0f));
+		this.avatar = this.controller.createAvatar(this.getPosition(), "cowboy.png", 24, 200);
 	}
 
 	@Override
@@ -45,8 +45,7 @@ public class Cowboy extends RigidBody {
 		this.moveElapsed += elapsed;
 		if (this.moveElapsed > 24) {
 			this.moveElapsed = 0;
-			this.position.setX((this.position.getX() + this.moveSpeed) % maxX);
-			this.avatar.setPosition(this.position);
+			this.setPosition(new Vec2((this.getPosition().getX() + this.moveSpeed) % maxX, this.getPosition().getY()));
 		}
 	}
 }

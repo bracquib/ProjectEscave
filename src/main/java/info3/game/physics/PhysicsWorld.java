@@ -1,9 +1,11 @@
 package info3.game.physics;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import info3.game.Model;
 import info3.game.Vec2;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 
 public class PhysicsWorld {
@@ -26,47 +28,51 @@ public class PhysicsWorld {
 	 */
 	public void tick(long elapsed) {
 		ArrayList<RigidBody> entities = this.model.getEntities();
-		Entity[][] map = this.model.getMap();
+		Block[][] map = this.model.getMap();
 
 		for (RigidBody rb : entities) {
+			HashSet<CollisionType> collisions = new HashSet<CollisionType>();
+			Block floor = null;
 			for (int i = 0; i < model.getMap().length; i++) {
-				for (int j = 0; i < model.getMap()[0].length; j++) {
-					CollisionType coll;
+				for (int j = 0; j < model.getMap()[0].length; j++) {
+					if (map[i][j] == null) {
+						continue;
+					}
 					try {
-						coll = rb.isColliding(map[i][j]);
+						CollisionType coll = rb.isColliding(map[i][j]);
+						if (collisions.add(coll) && coll == CollisionType.DOWN) {
+							floor = map[i][j];
+						}
 					} catch (Exception e) {
 						// Ne devrait jamais arriver
 						e.printStackTrace();
 						return;
 					}
-					switch (coll) {
-					case NONE:
-						computeGravity(rb, elapsed);
-					case DOWN:
-						computeFrictionX(rb, map[i][j]);
-						if (rb.getSpeed().getY() > 0)
-							rb.getSpeed().nullY();
-						break;
-					case UP:
-						computeGravity(rb, elapsed);
-						if (rb.getSpeed().getY() < 0)
-							rb.getSpeed().nullY();
-						break;
-					case LEFT:
-						computeGravity(rb, elapsed);
-						if (rb.getSpeed().getX() < 0)
-							rb.getSpeed().nullX();
-						break;
-					case RIGHT:
-						computeGravity(rb, elapsed);
-						if (rb.getSpeed().getX() > 0)
-							rb.getSpeed().nullX();
-						break;
-					}
-					step(rb, elapsed);
 
 				}
 			}
+			if (!collisions.contains(CollisionType.DOWN)) {
+				this.computeGravity(rb, elapsed);
+			} else {
+				this.computeFrictionX(rb, floor);
+			}
+			for (CollisionType coll : collisions) {
+				switch (coll) {
+				case UP:
+				case DOWN:
+					if (rb.getSpeed().getY() > 0)
+						rb.getSpeed().nullY();
+					break;
+				case LEFT:
+				case RIGHT:
+					if (rb.getSpeed().getX() < 0)
+						rb.getSpeed().nullX();
+					break;
+				default:
+					break;
+				}
+			}
+			step(rb, elapsed);
 		}
 	}
 

@@ -3,8 +3,8 @@ package info3.game.physics;
 import info3.game.Vec2;
 
 public class BoxCollider extends Collider {
-	float width;
-	float height;
+	public float width;
+	public float height;
 
 	@Override
 	public CollisionType isColliding(Vec2 pos, Collider other, Vec2 otherPos) throws Exception {
