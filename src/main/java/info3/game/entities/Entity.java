@@ -73,6 +73,8 @@ public abstract class Entity {
 	}
 
 	public void setBehaviour(Behaviour behaviour) {
+		// TODO Auto-generated method stub
+
 		this.behaviour = behaviour;
 	}
 
