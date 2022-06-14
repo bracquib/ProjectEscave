@@ -46,7 +46,7 @@ public class Model {
 
 	ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 1;
+	private final int maxPlayers = 2;
 	private int playerCount = 0;
 
 	private boolean started() {
@@ -102,11 +102,11 @@ public class Model {
 	}
 
 	public void tick(long elapsed) {
+		this.entities.addAll(this.spawnQueue);
+		this.spawnQueue.clear();
 		if (!this.started()) {
 			return;
 		}
-		this.entities.addAll(this.spawnQueue);
-		this.spawnQueue.clear();
 		this.physics.tick(elapsed);
 		for (Entity e : this.entities) {
 			e.tick(elapsed);

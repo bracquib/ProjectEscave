@@ -8,6 +8,7 @@ import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
 import info3.game.network.NetworkMessage;
+import info3.game.network.SyncCamera;
 import info3.game.network.Welcome;
 
 public class LocalController extends Controller {
@@ -35,6 +36,7 @@ public class LocalController extends Controller {
 		}
 		v.setPlayer(this.model.spawnPlayer());
 		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer().getColor()));
+		this.sendTo(v.getPlayer(), new SyncCamera(v.getPlayer().getAvatar()));
 		for (Entity e : this.model.allEntities()) {
 			Avatar a = e.getAvatar();
 			this.sendTo(v.getPlayer(),
@@ -92,8 +94,10 @@ public class LocalController extends Controller {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		Avatar a = null;
-		for (View v : this.views) {
-			a = v.createAvatar(id, pos, string, imageLen, animationDelay);
+		synchronized (this.views) {
+			for (View v : this.views) {
+				a = v.createAvatar(id, pos, string, imageLen, animationDelay);
+			}
 		}
 		return a;
 	}
@@ -113,11 +117,13 @@ public class LocalController extends Controller {
 	}
 
 	public void sendToClients(NetworkMessage msg) {
-		for (View v : views) {
-			if (v instanceof RemoteView) {
-				RemoteView rv = (RemoteView) v;
-				if (rv.client != null) {
-					rv.client.send(msg);
+		synchronized (this.views) {
+			for (View v : this.views) {
+				if (v instanceof RemoteView) {
+					RemoteView rv = (RemoteView) v;
+					if (rv.client != null) {
+						rv.client.send(msg);
+					}
 				}
 			}
 		}

@@ -36,7 +36,8 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		Vec2 p = this.view.camera.followedAvatar.getPosition();
+		System.out.println(String.format("%f %f", p.getX(), p.getY()));
 	}
 
 	@Override

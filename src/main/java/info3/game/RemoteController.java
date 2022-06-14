@@ -138,7 +138,6 @@ class NetworkReceiverThread extends Thread {
 	private void handleMessage(Object msg) {
 		if (msg instanceof CreateAvatar) {
 			CreateAvatar ca = (CreateAvatar) msg;
-			System.out.println("create avatar " + ca.filename);
 			this.controller.view.createAvatar(ca.id, ca.position, ca.filename, ca.imageLen, ca.animationDelay);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
