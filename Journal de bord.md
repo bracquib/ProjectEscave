@@ -160,3 +160,8 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ## Mardi 14 juin 2022
 
 - Ana : règle quelques bugs liés au réseau. Objectif à la fin de la journée : pouvoir se promener à deux (ou plus) sur la carte qu'on génère maintenant, en réseau
+
+### Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
+
+* Ajout des classes Automata, AutomataState et AutomataTransition permettant de représenter les automates dans le code
+* Ajout de la classe BotBuilder implémentant l'interface fournie IVisitor, cette classe permet de créer les automates à partir d'un AST.
