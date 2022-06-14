@@ -102,11 +102,11 @@ public class Model {
 	}
 
 	public void tick(long elapsed) {
+		this.entities.addAll(this.spawnQueue);
+		this.spawnQueue.clear();
 		if (!this.started()) {
 			return;
 		}
-		this.entities.addAll(this.spawnQueue);
-		this.spawnQueue.clear();
 		this.physics.tick(elapsed);
 		for (Entity e : this.entities) {
 			e.tick(elapsed);

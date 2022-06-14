@@ -8,6 +8,7 @@ import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
 import info3.game.network.NetworkMessage;
+import info3.game.network.SyncCamera;
 import info3.game.network.Welcome;
 
 public class LocalController extends Controller {
@@ -35,6 +36,7 @@ public class LocalController extends Controller {
 		}
 		v.setPlayer(this.model.spawnPlayer());
 		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer().getColor()));
+		this.sendTo(v.getPlayer(), new SyncCamera(v.getPlayer().getAvatar()));
 		for (Entity e : this.model.allEntities()) {
 			Avatar a = e.getAvatar();
 			this.sendTo(v.getPlayer(),
