@@ -17,8 +17,8 @@ public class Automata {
 		this.states = states;
 	}
 
-	void execute(Entity e, AutomataState s) {
-
+	void step(Entity e, AutomataState s) {
+		s.step(e);
 	}
 
 	public AutomataState getInitialState() {

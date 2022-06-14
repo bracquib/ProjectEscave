@@ -2,6 +2,8 @@ package info3.game.automata;
 
 import java.util.ArrayList;
 
+import info3.game.entities.Entity;
+
 public class AutomataState {
 	ArrayList<AutomataTransition> transitions;
 
@@ -19,5 +21,10 @@ public class AutomataState {
 
 	public ArrayList<AutomataTransition> getTransitions() {
 		return this.transitions;
+	}
+
+	public AutomataState step(Entity e) {
+		// TODO Vérifier si une transition est faisable et retourner le nouvel état
+		return null;
 	}
 }
