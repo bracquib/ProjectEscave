@@ -7,7 +7,6 @@ import info3.game.entities.Entity;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
-import info3.game.network.MoveCamera;
 import info3.game.network.NetworkMessage;
 import info3.game.network.Welcome;
 
@@ -34,11 +33,12 @@ public class LocalController extends Controller {
 		synchronized (this.views) {
 			this.views.add(v);
 		}
-		v.player = this.model.spawnPlayer();
-		this.sendTo(v.player, new Welcome(v.player.getColor()));
+		v.setPlayer(this.model.spawnPlayer());
+		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer().getColor()));
 		for (Entity e : this.model.allEntities()) {
 			Avatar a = e.getAvatar();
-			this.sendTo(v.player, new CreateAvatar(a.id, a.getPosition(), a.fileName, a.imageCount, a.animationDelay));
+			this.sendTo(v.getPlayer(),
+					new CreateAvatar(a.id, a.getPosition(), a.fileName, a.imageCount, a.animationDelay));
 		}
 	}
 
@@ -52,7 +52,6 @@ public class LocalController extends Controller {
 		}
 		// Mouvements de camera
 		if (e.code >= 37 && e.code <= 40) {
-			View view = viewFor(p);
 			switch (e.code) {
 			case 37:
 				// Left
@@ -71,17 +70,12 @@ public class LocalController extends Controller {
 				p.addSpeed(new Vec2(0, 0));
 				break;
 			}
-			view.camera.syncWith(p);
-			if (view instanceof RemoteView) {
-				RemoteView rv = (RemoteView) view;
-				rv.client.send(new MoveCamera(view.camera.getPos()));
-			}
 		}
 	}
 
 	public View viewFor(Player p) {
 		for (View v : this.views) {
-			if (v.player == p) {
+			if (v.getPlayer() == p) {
 				return v;
 			}
 		}
@@ -105,12 +99,14 @@ public class LocalController extends Controller {
 	}
 
 	public void sendTo(Player p, NetworkMessage msg) {
-		for (View v : views) {
-			if (v instanceof RemoteView) {
-				RemoteView rv = (RemoteView) v;
-				if (rv.client != null && rv.player == p) {
-					rv.client.send(msg);
-					return;
+		synchronized (this.views) {
+			for (View v : views) {
+				if (v instanceof RemoteView) {
+					RemoteView rv = (RemoteView) v;
+					if (rv.client != null && rv.getPlayer() == p) {
+						rv.client.send(msg);
+						return;
+					}
 				}
 			}
 		}
