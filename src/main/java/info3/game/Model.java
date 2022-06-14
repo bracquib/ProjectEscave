@@ -76,7 +76,9 @@ public class Model {
 				this.spawnPoints.get(this.playerCount).multiply(32), true);
 		this.playerCount++;
 		this.spawn(p);
-		this.controller.viewFor(null).camera.syncWith(p);
+		// Le joueur n'est pas encore enregistré donc on demande la vue
+		// associée au joueur "null"
+		View v = this.controller.viewFor(null);
 		return p;
 	}
 

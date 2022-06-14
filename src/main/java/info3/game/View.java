@@ -10,7 +10,7 @@ public abstract class View {
 	/**
 	 * Chaque vue affiche un joueur particulier.
 	 */
-	protected Player player;
+	private Player player;
 
 	protected Controller controller;
 
@@ -20,7 +20,7 @@ public abstract class View {
 
 	protected View() {
 		this.avatars = new HashMap<Integer, Avatar>();
-		this.camera = new Camera(new Vec2(0));
+		this.camera = new Camera(null);
 	}
 
 	public abstract Avatar createAvatar(int id, Vec2 pos, String filename, int imageLen, long animationSpeed);
@@ -35,4 +35,17 @@ public abstract class View {
 	}
 
 	public abstract void setController(Controller c);
+
+	protected Avatar getAvatar(int avatarId) {
+		return this.avatars.get(avatarId);
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+		this.camera.followedAvatar = player.getAvatar();
+	}
 }

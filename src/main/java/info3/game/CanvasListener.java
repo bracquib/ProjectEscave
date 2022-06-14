@@ -77,7 +77,7 @@ public class CanvasListener implements GameCanvasListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		KeyPress kp = new KeyPress(e.getKeyCode());
-		this.view.controller.keyPressed(this.view.player, kp);
+		this.view.controller.keyPressed(this.view.getPlayer(), kp);
 	}
 
 	@Override
