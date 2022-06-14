@@ -92,8 +92,10 @@ public class LocalController extends Controller {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		Avatar a = null;
-		for (View v : this.views) {
-			a = v.createAvatar(id, pos, string, imageLen, animationDelay);
+		synchronized (this.views) {
+			for (View v : this.views) {
+				a = v.createAvatar(id, pos, string, imageLen, animationDelay);
+			}
 		}
 		return a;
 	}
@@ -113,11 +115,13 @@ public class LocalController extends Controller {
 	}
 
 	public void sendToClients(NetworkMessage msg) {
-		for (View v : views) {
-			if (v instanceof RemoteView) {
-				RemoteView rv = (RemoteView) v;
-				if (rv.client != null) {
-					rv.client.send(msg);
+		synchronized (this.views) {
+			for (View v : this.views) {
+				if (v instanceof RemoteView) {
+					RemoteView rv = (RemoteView) v;
+					if (rv.client != null) {
+						rv.client.send(msg);
+					}
 				}
 			}
 		}
