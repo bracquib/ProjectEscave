@@ -123,4 +123,10 @@ public class PlayerBehaviour implements Behaviour {
 
 	}
 
+	@Override
+	public void protect(Entity e, Direction d) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
