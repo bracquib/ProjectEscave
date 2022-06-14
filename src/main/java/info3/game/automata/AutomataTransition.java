@@ -29,4 +29,13 @@ public class AutomataTransition {
 	public AutomataState getTargetState() {
 		return targetState;
 	}
+
+	public String toString() {
+		String out = this.getSourceState() + ": ";
+		out += this.getCondition().getClass().getSimpleName();
+		if (this.getAction() != null)
+			out += " ? " + this.getAction().getClass().getSimpleName();
+		out += " :" + this.getTargetState();
+		return out;
+	}
 }
