@@ -56,7 +56,7 @@ public class LocalController extends Controller {
 			switch (e.code) {
 			case 37:
 				// Left
-				p.getSpeed().setX(-70);
+				p.getSpeed().setX(-150);
 				break;
 			case 38:
 				// Up
@@ -64,7 +64,7 @@ public class LocalController extends Controller {
 				break;
 			case 39:
 				// Right
-				p.getSpeed().setX(70);
+				p.getSpeed().setX(150);
 				break;
 			case 40:
 				// Down
