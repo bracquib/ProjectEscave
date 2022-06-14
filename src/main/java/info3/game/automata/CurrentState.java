@@ -2,7 +2,7 @@ package info3.game.automata;
 
 public class CurrentState {
 	AutomataState state;
-	Boolean blocked;
+	boolean blocked;
 	int remaningTicks;
 
 	public CurrentState(AutomataState s) {
