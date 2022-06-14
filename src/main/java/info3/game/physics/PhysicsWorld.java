@@ -12,14 +12,15 @@ public class PhysicsWorld {
 
 	Model model;
 	public static final Vec2 GRAVITY = new Vec2(0.0f, 175f);
+	public static final Vec2 MAXSPEED = new Vec2(100f, 400f);
 
 	public PhysicsWorld(Model model) {
 		this.model = model;
 	}
 
 	/**
-	 * Calcul tous les changements de position dans le model dû aux forces du monde
-	 * et aux collisions
+	 * Calcule tous les changements de position dans le model dûs aux forces du
+	 * monde et aux collisions
 	 * 
 	 * @param elapsed Temps écoulé depuis le dernier tick
 	 * 
@@ -62,7 +63,7 @@ public class PhysicsWorld {
 			if (!collisions.contains(CollisionType.DOWN)) {
 				this.computeGravity(rb, elapsedSec);
 			} else {
-				this.computeFrictionX(rb, floor);
+				// this.computeFrictionX(rb, floor);
 			}
 			for (CollisionType coll : collisions) {
 				switch (coll) {
@@ -87,6 +88,7 @@ public class PhysicsWorld {
 
 				}
 			}
+
 			step(rb, elapsedSec);
 		}
 	}
@@ -120,10 +122,11 @@ public class PhysicsWorld {
 	 * @return void
 	 */
 	private void computeFrictionX(RigidBody rb, Entity e) {
-		if (rb.getFrictionFactor() == 0 || e.getFrictionFactor() == 0)
-			return;
+		// if (rb.getFrictionFactor() == 0 || e.getFrictionFactor() == 0)
+		// return;
 		// rb.getSpeed().setX(Math.round(rb.getSpeed().getX() / (rb.getFrictionFactor()
 		// * e.getFrictionFactor())));
+		rb.getSpeed().setX((rb.getFrictionFactor() + e.getFrictionFactor()) / 2 * rb.getSpeed().getX());
 	}
 
 	/**
@@ -162,5 +165,13 @@ public class PhysicsWorld {
 			break;
 
 		}
+	}
+
+	private void checkSpeed(RigidBody rb) {
+		if (rb.getSpeed().getX() > MAXSPEED.getX())
+			rb.getSpeed().setX(MAXSPEED.getX());
+		if (rb.getSpeed().getX() < -MAXSPEED.getX())
+			rb.getSpeed().setX(-MAXSPEED.getX());
+
 	}
 }
