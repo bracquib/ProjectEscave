@@ -144,7 +144,7 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ### Répartition des tâches
 
 * Ana : merge de trois branches
-* Lucas et Benjamin : rédaction du contrat
+* Lucas,Benjamin et Léa : rédaction du contrat
 * Lucas : rédaction du planning
 
 ### Ana : merge de trois branches
@@ -160,8 +160,14 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ## Mardi 14 juin 2022
 
 - Ana : règle quelques bugs liés au réseau. Objectif à la fin de la journée : pouvoir se promener à deux (ou plus) sur la carte qu'on génère maintenant, en réseau
+-Lucas:implémentation des classes pour les Automates + commencement de BotBuilder
+-Benjamin:implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
 
 ### Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 
 * Ajout des classes Automata, AutomataState et AutomataTransition permettant de représenter les automates dans le code
 * Ajout de la classe BotBuilder implémentant l'interface fournie IVisitor, cette classe permet de créer les automates à partir d'un AST.
+### Benjamin:implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
+
+* Ajout de la classe IConditions et de toutes les classes des divers conditions avec leurs fonctions eval.
+* Implémentation des fonctions True,Cell,GotPower,wizz(jump) et move de la classe playerBehaviour.
