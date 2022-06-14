@@ -5,7 +5,7 @@ import info3.game.entities.Entity;
 public class Wizz implements IAction {
 	
 	@Override
-	boolean apply(Entity e, Direction d) { //d parfois inutile
-		return e.behaviour.wizz(d);
+	public void apply(Entity e, Direction d) { //d parfois inutile
+		e.getBehaviour().wizz(e, d);
 	}
 }

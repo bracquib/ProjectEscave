@@ -5,8 +5,8 @@ import info3.game.entities.Entity;
 public class Pop implements IAction {
 
 	@Override
-	public boolean apply(Entity e, Direction d) { //d  inutile
-		return e.behaviour.pop());
+	public void apply(Entity e, Direction d) { //d  inutile
+		e.getBehaviour().pop(e, d); //dinutilisé
 	}
 
 }

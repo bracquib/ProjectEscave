@@ -5,8 +5,8 @@ import info3.game.entities.Entity;
 public class Move implements IAction {
 
 	@Override
-	public boolean apply(Entity e, Direction d) {
-		return e.behaviour.move(d);
+	public void apply(Entity e, Direction d) {
+		 e.getBehaviour().move(e, d);
 	}
 
 }

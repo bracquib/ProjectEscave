@@ -4,12 +4,6 @@ import info3.game.entities.Entity;
 
 public interface IAction {
 	
-	public boolean apply(Entity e, Direction d);
-	
+	public void apply(Entity e, Direction d); //boolean? return?
 	//wait
-	void drop(); //throw du parser
-	
-	void get();
-	
-	void protect(Direction d);
 }
