@@ -1,5 +1,7 @@
 package info3.game.automata;
 
-public interface ICondition {
+import info3.game.entities.Entity;
 
+public interface ICondition {
+	boolean eval(Entity e);
 }
