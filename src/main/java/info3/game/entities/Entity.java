@@ -5,6 +5,9 @@ import java.awt.Graphics;
 import info3.game.Avatar;
 import info3.game.Controller;
 import info3.game.Vec2;
+import info3.game.automata.Automata;
+import info3.game.automata.AutomataState;
+import info3.game.automata.CurrentState;
 import info3.game.physics.BoxCollider;
 import info3.game.physics.Collider;
 
@@ -31,6 +34,8 @@ public abstract class Entity {
 	Collider collider;
 	float frictionFactor;
 	protected Controller controller;
+	protected Automata automata;
+	protected CurrentState currentState;
 
 	public Vec2 getPosition() {
 		return this.position;
@@ -50,6 +55,18 @@ public abstract class Entity {
 		collider.width = 32;
 		this.collider = collider;
 		this.frictionFactor = 0.9f;
+		this.automata = null;
+		this.currentState = null;
+	}
+
+	public void setAutomata(Automata automata) {
+		this.automata = automata;
+		this.currentState = new CurrentState(this.automata.getInitialState());
+	}
+
+	public void setAutomata(Automata automata, AutomataState state) {
+		this.automata = automata;
+		this.currentState = new CurrentState(state);
 	}
 
 	/**
