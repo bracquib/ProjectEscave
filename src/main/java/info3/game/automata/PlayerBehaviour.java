@@ -132,7 +132,7 @@ public class PlayerBehaviour implements Behaviour {
 	@Override
 	public void power(Entity e) {
 		// TODO Auto-generated method stub
-		// pas besoin pour le player
+		// jamais utilisé
 
 	}
 
@@ -153,7 +153,13 @@ public class PlayerBehaviour implements Behaviour {
 	@Override
 	public void protect(Entity e, Direction d) {
 		// TODO Auto-generated method stub
-
+		/*
+		 * switch(armes_courantes) { case degats_pioche:m_points=m_points-degats_pioche
+		 * 
+		 * break; case degats_epee:
+		 * 
+		 * break; }
+		 */
 	}
 
 }
