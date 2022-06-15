@@ -1,5 +1,7 @@
 package info3.game;
 
+import info3.game.assets.AssetServer;
+
 public class Client {
 	/**
 	 * Paramètres de la ligne de commande :
@@ -9,6 +11,7 @@ public class Client {
 	 * 1906 - <ip> <port> : se connecte à un serveur sur le port donné
 	 */
 	public static void main(String args[]) throws Exception {
+		AssetServer.init(true);
 		try {
 			Controller backend;
 			if (args.length == 0) {

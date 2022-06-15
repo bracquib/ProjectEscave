@@ -5,8 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import info3.game.assets.AssetServer;
+
 public class Server {
 	public static void main(String[] args) {
+		AssetServer.init(false);
 		// TODO: parse parameters
 		ArrayList<View> clients = new ArrayList<View>();
 		LocalController controller = new LocalController(clients);
@@ -55,8 +58,10 @@ class TickerThread extends Thread {
 						}
 					}
 				}
+				long execTime = System.currentTimeMillis() - end;
 				start = end;
-				Thread.sleep(30);
+				System.out.println("exec time : " + execTime);
+				Thread.sleep(Math.max(0, 30 - execTime));
 			} catch (InterruptedException e) {
 				// TODO ?
 			}

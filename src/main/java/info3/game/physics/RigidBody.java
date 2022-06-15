@@ -1,6 +1,6 @@
 package info3.game.physics;
 
-import info3.game.Controller;
+import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.entities.Entity;
 
@@ -9,6 +9,7 @@ public class RigidBody extends Entity {
 	private Vec2 speed;
 	private float mass;
 
+	// WTF is this constructor used for???
 	public RigidBody(Entity e, float mass) {
 		super(e.getController());
 		force = Vec2.nullVector();
@@ -16,7 +17,7 @@ public class RigidBody extends Entity {
 		this.mass = mass;
 	}
 
-	public RigidBody(float mass, Controller c) {
+	public RigidBody(float mass, LocalController c) {
 		super(c);
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
