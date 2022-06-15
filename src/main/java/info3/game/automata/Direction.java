@@ -1,5 +1,5 @@
 package info3.game.automata;
 
-public class Direction {
-
+public enum Direction {
+	NORTH, SOUTH, EST, WEST
 }
