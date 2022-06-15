@@ -43,6 +43,7 @@ import info3.game.Vec2;
  * 20 : "volant_vertical_haut"
  * 21 : "volant_vertical_bas"
  * 22 : "coin_gauche_haut"
+ * 23 : "seul_gris_clair"
 
  * 
  *  *** Blocs spéciaux
@@ -143,7 +144,6 @@ public class BlockIDs {
 	static {
 		IDs.put(0, "vide");
 		IDs.put(1, "noir");
-		IDs.put(22, "coin_gauche_haut");
 		IDs.put(2, "sol");
 		IDs.put(3, "coin_droit_haut");
 		IDs.put(4, "mur_droit");
@@ -164,6 +164,8 @@ public class BlockIDs {
 		IDs.put(19, "volant_horizontal_droit");
 		IDs.put(20, "volant_vertical_haut");
 		IDs.put(21, "volant_vertical_bas");
+		IDs.put(22, "coin_gauche_haut");
+		IDs.put(23, "seul_gris_clair");
 		IDs.put(100, "noir_blanc");
 		IDs.put(101, "noir_noir");
 		IDs.put(102, "noir_bleu");
@@ -290,7 +292,7 @@ public class BlockIDs {
 		PatternCouche1ToIDs.put(patternCreatorCroix(0, 1, 0, 1), 3);
 		// mur droit
 		PatternCouche1ToIDs.put(patternCreatorCroix(1, 1, 0, 1), 4);
-		// coint bas droit
+		// coin bas droit
 		PatternCouche1ToIDs.put(patternCreatorCroix(1, 1, 0, 0), 5);
 		// plafond
 		PatternCouche1ToIDs.put(patternCreatorCroix(1, 1, 1, 0), 6);
@@ -315,7 +317,23 @@ public class BlockIDs {
 
 	static {
 		// Transition coin gauche haut
-
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 8, 1, 1), 9);
+		// Transition sol
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 1, 1), 10);
+		// Transition coin droit haut
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 4, 1), 11);
+		// Transition mur droit
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 4, 1), 12);
+		// Transition coin droit bas
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 4, 6), 13);
+		// Transition plafond
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 1, 6), 14);
+		// Transition coin gauche bas
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 1, 6), 15);
+		// Transition mur gauche
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 1, 1), 16);
+		// Transition seul gris clair
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 8, 4, 6), 23);
 	}
 
 	private static Integer[][] patternCreatorCroix(int a, int b, int c, int d) {
