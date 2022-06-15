@@ -12,9 +12,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
-import info3.game.network.MoveCamera;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
+import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 import info3.game.network.Welcome;
 
@@ -138,7 +138,6 @@ class NetworkReceiverThread extends Thread {
 	private void handleMessage(Object msg) {
 		if (msg instanceof CreateAvatar) {
 			CreateAvatar ca = (CreateAvatar) msg;
-			System.out.println("create avatar " + ca.filename);
 			this.controller.view.createAvatar(ca.id, ca.position, ca.filename, ca.imageLen, ca.animationDelay);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
@@ -148,12 +147,12 @@ class NetworkReceiverThread extends Thread {
 			for (NetworkMessage m : mm.messages) {
 				this.handleMessage(m);
 			}
-		} else if (msg instanceof MoveCamera) {
-			MoveCamera mc = (MoveCamera) msg;
-			this.controller.view.camera.setPos(mc.position);
+		} else if (msg instanceof SyncCamera) {
+			SyncCamera sc = (SyncCamera) msg;
+			this.controller.view.camera.setAvatar(this.controller.view.getAvatar(sc.avatarId));
 		} else if (msg instanceof Welcome) {
 			Welcome w = (Welcome) msg;
-			this.controller.view.player = new Player(this.controller, w.yourColor, new Vec2(0), false);
+			this.controller.view.setPlayer(new Player(this.controller, w.yourColor, new Vec2(0), false));
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}

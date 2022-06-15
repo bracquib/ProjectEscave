@@ -40,7 +40,7 @@ public class ClientThread extends Thread {
 				msg = this.inputStream.readObject();
 				if (msg instanceof KeyPress) {
 					KeyPress k = (KeyPress) msg;
-					this.controller.keyPressed(this.view.player, k);
+					this.controller.keyPressed(this.view.getPlayer(), k);
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				this.disconnect();
@@ -82,6 +82,9 @@ public class ClientThread extends Thread {
 	}
 
 	private String getPlayerName() {
-		return this.view.player.name();
+		if (this.view == null || this.view.getPlayer() == null) {
+			return "?";
+		}
+		return this.view.getPlayer().name();
 	}
 }
