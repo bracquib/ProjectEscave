@@ -5,7 +5,7 @@ import info3.game.entities.Entity;
 public class Throw implements IAction {
 
 	@Override
-	public void apply(Entity e, Direction d) {
+	public void apply(Entity e) {
 		e.getBehaviour().throw_(e); //d?
 	}
 

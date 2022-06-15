@@ -4,9 +4,15 @@ import info3.game.entities.Entity;
 
 public class Pop implements IAction {
 
+	Direction d;
+	
+	public Pop(Direction dir) {
+		this.d = dir;
+	}
+	
 	@Override
-	public void apply(Entity e, Direction d) { //d  inutile
-		e.getBehaviour().pop(e, d); //dinutilisé
+	public void apply(Entity e) { 
+		e.getBehaviour().pop(e, d); //d pas tjrs utilisé
 	}
 
 }
