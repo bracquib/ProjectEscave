@@ -105,6 +105,10 @@ public class Model {
 		if (!this.started()) {
 			return;
 		}
+		if (elapsed > 200) {
+			System.out.println("[WARN] Tick ignored in model");
+			return;
+		}
 		this.physics.tick(elapsed);
 		for (Entity e : this.entities) {
 			e.tick(elapsed);

@@ -20,8 +20,9 @@
  */
 package info3.game.entities;
 
-import info3.game.Controller;
+import info3.game.LocalController;
 import info3.game.Vec2;
+import info3.game.assets.AnimatedImage;
 import info3.game.physics.RigidBody;
 
 /**
@@ -33,10 +34,10 @@ public class Cowboy extends RigidBody {
 	int maxX = 500;
 	int moveSpeed = 2;
 
-	public Cowboy(Controller controller) {
+	public Cowboy(LocalController controller) {
 		super(5, controller);
 		this.setPosition(new Vec2(0.0f, 0.0f));
-		this.avatar = this.controller.createAvatar(this.getPosition(), "cowboy.png", 24, 200);
+		this.avatar = this.controller.createAvatar(this.getPosition(), new AnimatedImage("cowboy.png", 24, 200));
 	}
 
 	@Override

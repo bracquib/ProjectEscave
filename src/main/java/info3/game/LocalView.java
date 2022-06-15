@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import info3.game.assets.Paintable;
 import info3.game.graphics.GameCanvas;
 import info3.game.sound.RandomFileInputStream;
 
@@ -128,9 +129,7 @@ public class LocalView extends View {
 		g.fillRect(0, 0, width, height);
 
 		for (Avatar a : this.getVisibleAvatars()) {
-			if (a instanceof LocalAvatar) { // normalement c'est toujours le cas vu qu'on est côté client
-				((LocalAvatar) a).paint(g, this.camera.getPos());
-			}
+			a.paint(g, this.camera.getPos());
 		}
 	}
 
@@ -155,8 +154,8 @@ public class LocalView extends View {
 	}
 
 	@Override
-	public LocalAvatar createAvatar(int id, Vec2 pos, String filename, int imageLen, long animationSpeed) {
-		LocalAvatar av = new LocalAvatar(id, filename, imageLen, animationSpeed);
+	public Avatar createAvatar(int id, Vec2 pos, Paintable img) {
+		Avatar av = new Avatar(id, img);
 		av.position = pos;
 		synchronized (this.avatars) {
 			this.avatars.put(id, av);
