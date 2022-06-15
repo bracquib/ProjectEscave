@@ -9,6 +9,7 @@ public class Block extends Entity {
 	public Block(LocalController c, Vec2 position, int id) {
 		super(c);
 		this.position = position;
-		this.avatar = this.controller.createAvatar(this.position, new Image(BlockIDs.IDs.get(id) + ".png"));
+		this.avatar = this.controller.createAvatar(this.position,
+				new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
 	}
 }
