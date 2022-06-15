@@ -33,6 +33,8 @@ public class PhysicsWorld {
 
 		for (RigidBody rb : entities) {
 
+			step(rb, elapsedSec);
+
 			HashSet<CollisionType> collisions = new HashSet<CollisionType>();
 			Block floor = null;
 			for (int i = 0; i < model.getMap().length; i++) {
@@ -46,10 +48,10 @@ public class PhysicsWorld {
 						CollisionType coll = rb.isColliding(map[i][j]);
 						if (coll == CollisionType.NONE)
 							continue;
-						clearCoords(rb, map[i][j], coll);
 						if (collisions.add(coll) && coll == CollisionType.DOWN) {
 							floor = map[i][j];
 						}
+						clearCoords(rb, map[i][j], coll);
 					} catch (Exception e) {
 						// Ne devrait jamais arriver
 						e.printStackTrace();
@@ -87,7 +89,7 @@ public class PhysicsWorld {
 
 				}
 			}
-			step(rb, elapsedSec);
+			// clearCoords(rb, floor, CollisionType.DOWN);
 		}
 	}
 
@@ -157,10 +159,12 @@ public class PhysicsWorld {
 			rb.setPosition(rb.getPosition().add(new Vec2(diffLEFT, 0f)));
 			break;
 		case RIGHT:
+			float diffRIGHT = rb.getPosition().getX() + ((BoxCollider) rb.getCollider()).width
+					- bl.getPosition().getX();
+			rb.setPosition(rb.getPosition().add(new Vec2(-diffRIGHT, 0f)));
 			break;
 		default:
 			break;
-
 		}
 	}
 }

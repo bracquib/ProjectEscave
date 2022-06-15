@@ -28,6 +28,8 @@ public class BoxCollider extends Collider {
 				// * Decide DOWN / RIGHT
 				float diffX = pos.getX() + this.width - otherPos.getX();
 				float diffY = pos.getY() + this.height - otherPos.getY();
+				if (diffY == 0)
+					return CollisionType.DOWN;
 				if (diffX == diffY)
 					return CollisionType.NONE;
 				return diffX < diffY ? CollisionType.RIGHT : CollisionType.DOWN;
@@ -44,6 +46,8 @@ public class BoxCollider extends Collider {
 				// * Decide DOWN / LEFT
 				float diffX = otherPos.getX() + other.width - pos.getX();
 				float diffY = pos.getY() + this.height - otherPos.getY();
+				if (diffY == 0)
+					return CollisionType.DOWN;
 				if (diffX == diffY)
 					return CollisionType.NONE;
 				return diffX < diffY ? CollisionType.LEFT : CollisionType.DOWN;

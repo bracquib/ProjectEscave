@@ -46,7 +46,7 @@ public class Model {
 
 	ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 2;
+	private final int maxPlayers = 1;
 	private int playerCount = 0;
 
 	private boolean started() {
