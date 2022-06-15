@@ -138,8 +138,8 @@ import info3.game.Vec2;
  */
 
 public class BlockIDs {
-	static HashMap<Integer, String> IDs = new HashMap<Integer, String>();
-	static HashMap<Integer, Vec2> IDsToVec2 = new HashMap<Integer, Vec2>();
+	public static HashMap<Integer, String> IDs = new HashMap<Integer, String>();
+	public static HashMap<Integer, Vec2> IDsToVec2 = new HashMap<Integer, Vec2>();
 	static HashMap<Integer[][], Integer> PatternCouche1ToIDs = new HashMap<Integer[][], Integer>();
 	static HashMap<Integer[][], Integer> PatternCouche2ToIDs = new HashMap<Integer[][], Integer>();
 
