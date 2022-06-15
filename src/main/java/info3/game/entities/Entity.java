@@ -38,6 +38,7 @@ public abstract class Entity {
 	protected Automata automata;
 	protected CurrentState currentState;
 	protected Behaviour behaviour;
+	public Integer m_points;
 
 	public Vec2 getPosition() {
 		return this.position;
@@ -50,8 +51,9 @@ public abstract class Entity {
 		}
 	}
 
-	public Entity(Controller c) {
+	public Entity(Controller c, int points) {
 		this.controller = c;
+		m_points = points;
 		BoxCollider collider = new BoxCollider();
 		collider.height = 32;
 		collider.width = 32;

@@ -9,15 +9,15 @@ public class RigidBody extends Entity {
 	private Vec2 speed;
 	private float mass;
 
-	public RigidBody(Entity e, float mass) {
-		super(e.getController());
+	public RigidBody(Entity e, float mass, int points) {
+		super(e.getController(), points);
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;
 	}
 
-	public RigidBody(float mass, Controller c) {
-		super(c);
+	public RigidBody(float mass, Controller c, int points) {
+		super(c, points);
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;

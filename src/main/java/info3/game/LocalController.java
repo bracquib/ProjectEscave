@@ -48,7 +48,7 @@ public class LocalController extends Controller {
 	public void keyPressed(Player p, KeyPress e) {
 		System.out.println("[DEBUG] " + p.name() + " pressed " + e.code);
 		if (e.code == 32) {
-			Cowboy c = new Cowboy(this);
+			Cowboy c = new Cowboy(this, 1);
 			c.setPosition(new Vec2(100, 100));
 			this.model.spawn(c);
 		}

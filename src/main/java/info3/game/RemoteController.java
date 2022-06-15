@@ -152,7 +152,7 @@ class NetworkReceiverThread extends Thread {
 			this.controller.view.camera.setAvatar(this.controller.view.getAvatar(sc.avatarId));
 		} else if (msg instanceof Welcome) {
 			Welcome w = (Welcome) msg;
-			this.controller.view.setPlayer(new Player(this.controller, w.yourColor, new Vec2(0), false));
+			this.controller.view.setPlayer(new Player(this.controller, w.yourColor, new Vec2(0), false, 10));
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}
