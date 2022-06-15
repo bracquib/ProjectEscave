@@ -19,10 +19,9 @@ import info3.game.Vec2;
  * 
  * 
  * 
- * -1 : "vide"
+ * 0 : "vide"
  * 	*** Blocs normaux
- * 0 : "noir"
- * 1 : "coin_gauche_haut"
+ * 1 : "noir"
  * 2 : "sol"
  * 3 : "coin_droit_haut"
  * 4 : "mur_droit"
@@ -43,6 +42,8 @@ import info3.game.Vec2;
  * 19 : "volant_horizontal_droit"
  * 20 : "volant_vertical_haut"
  * 21 : "volant_vertical_bas"
+ * 22 : "coin_gauche_haut"
+
  * 
  *  *** Blocs spéciaux
  * 100 : "noir_blanc"
@@ -136,11 +137,13 @@ import info3.game.Vec2;
 public class BlockIDs {
 	static HashMap<Integer, String> IDs = new HashMap<Integer, String>();
 	static HashMap<Integer, Vec2> IDsToVec2 = new HashMap<Integer, Vec2>();
+	static HashMap<Integer[][], Integer> PatternCouche1ToIDs = new HashMap<Integer[][], Integer>();
+	static HashMap<Integer[][], Integer> PatternCouche2ToIDs = new HashMap<Integer[][], Integer>();
 
 	static {
-		IDs.put(-1, "vide");
-		IDs.put(0, "noir");
-		IDs.put(1, "coin_gauche_haut");
+		IDs.put(0, "vide");
+		IDs.put(1, "noir");
+		IDs.put(22, "coin_gauche_haut");
 		IDs.put(2, "sol");
 		IDs.put(3, "coin_droit_haut");
 		IDs.put(4, "mur_droit");
@@ -278,5 +281,49 @@ public class BlockIDs {
 		// Lanternes
 		IDsToVec2.put(351, new Vec2(0, 0));
 		IDsToVec2.put(352, new Vec2(0, 0));
+	}
+
+	static {
+		// Sol
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 1, 1, 1), 2);
+		// Coin haut droit
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 1, 0, 1), 3);
+		// mur droit
+		PatternCouche1ToIDs.put(patternCreatorCroix(1, 1, 0, 1), 4);
+		// coint bas droit
+		PatternCouche1ToIDs.put(patternCreatorCroix(1, 1, 0, 0), 5);
+		// plafond
+		PatternCouche1ToIDs.put(patternCreatorCroix(1, 1, 1, 0), 6);
+		// Coin gauche bas
+		PatternCouche1ToIDs.put(patternCreatorCroix(1, 0, 1, 0), 7);
+		// mur gauche
+		PatternCouche1ToIDs.put(patternCreatorCroix(1, 0, 1, 1), 8);
+		// volant seul
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 0, 0, 0), 17);
+		// volant horizontal gauche
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 0, 1, 0), 18);
+		// volant horizontal droit
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 1, 0, 0), 19);
+		// volant vertical haut
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 0, 0, 1), 20);
+		// volant vertical bas
+		PatternCouche1ToIDs.put(patternCreatorCroix(1, 0, 0, 0), 21);
+		// coin gauche haut
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 0, 1, 1), 22);
+
+	}
+
+	static {
+		// Transition coin gauche haut
+
+	}
+
+	private static Integer[][] patternCreatorCroix(int a, int b, int c, int d) {
+		return patternCreatorMatrice(-2, a, -2, b, -2, c, -2, d, -2);
+	}
+
+	private static Integer[][] patternCreatorMatrice(int a, int b, int c, int d, int e, int f, int g, int h, int i) {
+		Integer[][] pattern = { { a, b, c }, { d, e, f }, { g, h, i } };
+		return pattern;
 	}
 }
