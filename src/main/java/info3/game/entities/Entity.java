@@ -39,6 +39,9 @@ public abstract class Entity {
 	protected CurrentState currentState;
 	protected Behaviour behaviour;
 	public Integer m_points;
+	public Integer degat_mob;
+	public Integer degat_epee;
+	public Integer degat_pioche;
 
 	public Vec2 getPosition() {
 		return this.position;
@@ -62,6 +65,9 @@ public abstract class Entity {
 		this.automata = null;
 		this.currentState = null;
 		this.behaviour = null;
+		this.degat_mob = 0;
+		this.degat_epee = 0;
+		this.degat_pioche = 0;
 	}
 
 	public void setAutomata(Automata automata) {
