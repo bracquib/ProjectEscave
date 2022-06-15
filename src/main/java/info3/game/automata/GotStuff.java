@@ -9,28 +9,4 @@ public class GotStuff implements ICondition {
 		return e.getBehaviour().gotStuff(e);
 	}
 
-	@Override
-	public boolean eval(Entity e, Direction d) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean eval(Entity e, int touche) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean eval(Entity e, Direction d, Category c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean eval(Entity e, Category c, Direction d) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

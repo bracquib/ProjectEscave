@@ -50,7 +50,7 @@ public interface Behaviour {
 	void pop(Entity e, Direction d);
 
 	void move(Entity e, Direction d);
-	
+
 	void protect(Entity e, Direction d);
 
 	void move(Entity e);
@@ -59,17 +59,17 @@ public interface Behaviour {
 
 	void hit(Entity e);
 
-	void pick(Entity e); //pas encore utilisé
+	void pick(Entity e);
 
 	void throw_(Entity e);
 
-	void store(Entity e); //pas encore utilisé
+	void store(Entity e);
 
-	void get(Entity e); //pas encore utilisé
+	void get(Entity e);
 
-	void power(Entity e); //pas encore utilisé
+	void power(Entity e); // pas encore utilisé
 
-	void explode(Entity e); //pas encore utilisé
+	void explode(Entity e);
 
 	void egg(Entity e);
 }

@@ -144,9 +144,11 @@ public class LocalView extends View {
 		int height = this.canvas.getHeight();
 		int radius = Math.max(width, height) * 2;
 		ArrayList<Avatar> result = new ArrayList<>();
-		for (Avatar a : this.avatars.values()) {
-			if (a.position.distance(this.camera.getPos()) < radius) {
-				result.add(a);
+		synchronized (this.avatars) {
+			for (Avatar a : this.avatars.values()) {
+				if (a.position.distance(this.camera.getPos()) < radius) {
+					result.add(a);
+				}
 			}
 		}
 		return result;

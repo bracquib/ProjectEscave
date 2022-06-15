@@ -65,7 +65,6 @@ public class PhysicsWorld {
 				this.computeFrictionX(rb, floor);
 			}
 			for (CollisionType coll : collisions) {
-				System.out.println("collisions > " + coll.toString());
 				switch (coll) {
 				case UP:
 					if (rb.getSpeed().getY() < 0)
@@ -82,6 +81,8 @@ public class PhysicsWorld {
 				case RIGHT:
 					if (rb.getSpeed().getX() > 0)
 						rb.getSpeed().nullX();
+					break;
+				default:
 					break;
 
 				}
@@ -141,7 +142,6 @@ public class PhysicsWorld {
 	}
 
 	private void clearCoords(RigidBody rb, Block bl, CollisionType coll) {
-		System.out.println("collisions > " + coll.toString());
 		switch (coll) {
 		case UP:
 			float diffUP = bl.getPosition().getY() + ((BoxCollider) bl.getCollider()).height - rb.getPosition().getY();
@@ -157,6 +157,8 @@ public class PhysicsWorld {
 			rb.setPosition(rb.getPosition().add(new Vec2(diffLEFT, 0f)));
 			break;
 		case RIGHT:
+			break;
+		default:
 			break;
 
 		}

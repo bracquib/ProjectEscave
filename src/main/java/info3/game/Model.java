@@ -46,7 +46,7 @@ public class Model {
 
 	ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 1;
+	private final int maxPlayers = 2;
 	private int playerCount = 0;
 
 	private boolean started() {
@@ -71,12 +71,12 @@ public class Model {
 	}
 
 	public Player spawnPlayer() {
+		// TODO: throw exception if there are more players than expected
 		this.generateMapIfNeeded();
 		Player p = new Player(this.controller, Player.colorFromInt(this.playerCount),
 				this.spawnPoints.get(this.playerCount).multiply(32), true);
 		this.playerCount++;
 		this.spawn(p);
-		this.controller.viewFor(null).camera.syncWith(p);
 		return p;
 	}
 
@@ -100,11 +100,11 @@ public class Model {
 	}
 
 	public void tick(long elapsed) {
+		this.entities.addAll(this.spawnQueue);
+		this.spawnQueue.clear();
 		if (!this.started()) {
 			return;
 		}
-		this.entities.addAll(this.spawnQueue);
-		this.spawnQueue.clear();
 		this.physics.tick(elapsed);
 		for (Entity e : this.entities) {
 			e.tick(elapsed);
