@@ -279,5 +279,4 @@ public class BlockIDs {
 		IDsToVec2.put(351, new Vec2(0, 0));
 		IDsToVec2.put(352, new Vec2(0, 0));
 	}
-
 }
