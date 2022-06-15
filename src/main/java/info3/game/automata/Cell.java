@@ -6,7 +6,7 @@ public class Cell implements ICondition {
 	Direction d;
 	Category c;
 
-	public void cell(Direction d, Category c) {
+	public Cell(Direction d, Category c) {
 		this.d = d;
 		this.c = c;
 	}

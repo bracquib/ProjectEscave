@@ -6,7 +6,7 @@ public class Key implements ICondition {
 
 	Integer touche;
 
-	public void key(Integer touche) {
+	public Key(Integer touche) {
 		this.touche = touche;
 	}
 

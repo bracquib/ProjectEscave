@@ -6,7 +6,7 @@ public class Closest implements ICondition {
 	Direction d;
 	Category c;
 
-	public void closest(Category c, Direction d) {
+	public Closest(Category c, Direction d) {
 		this.d = d;
 		this.c = c;
 	}

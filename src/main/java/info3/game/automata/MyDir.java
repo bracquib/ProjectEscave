@@ -6,7 +6,7 @@ public class MyDir implements ICondition {
 
 	Direction d;
 
-	public void myDir(Direction d) {
+	public MyDir(Direction d) {
 		this.d = d;
 	}
 
