@@ -135,8 +135,9 @@ import info3.game.Vec2;
 
 public class BlockIDs {
 	static HashMap<Integer, String> IDs = new HashMap<Integer, String>();
+	static HashMap<Integer, Vec2> IDsToVec2 = new HashMap<Integer, Vec2>();
 
-	public BlockIDs() {
+	static {
 		IDs.put(-1, "vide");
 		IDs.put(0, "noir");
 		IDs.put(1, "coin_gauche_haut");
@@ -218,7 +219,7 @@ public class BlockIDs {
 		IDs.put(405, "cristal_mur_gauche_noir");
 		IDs.put(450, "arbre_montant_mur_gauche");
 		IDs.put(451, "arbre_tombant_mur_gauche");
-		IDs.put(400, "cristal_mur_droit_blanc");
+		IDs.put(500, "cristal_mur_droit_blanc");
 		IDs.put(501, "cristal_mur_droit_bleu");
 		IDs.put(502, "cristal_mur_droit_vert");
 		IDs.put(503, "cristal_mur_droit_violet");
@@ -228,9 +229,55 @@ public class BlockIDs {
 		IDs.put(551, "arbre_tombant_mur_droit");
 	}
 
-	public static Vec2 realBlock(int id) {
-		return null;
-
+	static {
+		// Champignons sols
+		IDsToVec2.put(250, new Vec2(0, 1));
+		IDsToVec2.put(251, new Vec2(0, 1));
+		IDsToVec2.put(252, new Vec2(0, 1));
+		IDsToVec2.put(253, new Vec2(0, 1));
+		IDsToVec2.put(254, new Vec2(0, 1));
+		IDsToVec2.put(255, new Vec2(0, 1));
+		IDsToVec2.put(256, new Vec2(0, 1));
+		IDsToVec2.put(257, new Vec2(0, 1));
+		// Cristaux sols
+		IDsToVec2.put(200, new Vec2(0, 1));
+		IDsToVec2.put(201, new Vec2(0, 1));
+		IDsToVec2.put(202, new Vec2(0, 1));
+		IDsToVec2.put(203, new Vec2(0, 1));
+		IDsToVec2.put(204, new Vec2(0, 1));
+		IDsToVec2.put(205, new Vec2(0, 1));
+		// Cristaux plafond
+		IDsToVec2.put(300, new Vec2(0, 0));
+		IDsToVec2.put(301, new Vec2(0, 0));
+		IDsToVec2.put(302, new Vec2(0, 0));
+		IDsToVec2.put(303, new Vec2(0, 0));
+		IDsToVec2.put(304, new Vec2(0, 0));
+		IDsToVec2.put(305, new Vec2(0, 0));
+		// Cristaux gauche
+		IDsToVec2.put(400, new Vec2(1, 0));
+		IDsToVec2.put(401, new Vec2(1, 0));
+		IDsToVec2.put(402, new Vec2(1, 0));
+		IDsToVec2.put(403, new Vec2(1, 0));
+		IDsToVec2.put(404, new Vec2(1, 0));
+		IDsToVec2.put(405, new Vec2(1, 0));
+		// Cristaux droite
+		IDsToVec2.put(500, new Vec2(0, 0));
+		IDsToVec2.put(501, new Vec2(0, 0));
+		IDsToVec2.put(502, new Vec2(0, 0));
+		IDsToVec2.put(503, new Vec2(0, 0));
+		IDsToVec2.put(504, new Vec2(0, 0));
+		IDsToVec2.put(505, new Vec2(0, 0));
+		// Arbres droite
+		IDsToVec2.put(550, new Vec2(0, 2));
+		IDsToVec2.put(551, new Vec2(0, 0));
+		// Arbre Gauche
+		IDsToVec2.put(450, new Vec2(4, 2));
+		IDsToVec2.put(451, new Vec2(3, 0));
+		// Liane
+		IDsToVec2.put(350, new Vec2(0, 0));
+		// Lanternes
+		IDsToVec2.put(351, new Vec2(0, 0));
+		IDsToVec2.put(352, new Vec2(0, 0));
 	}
 
 }
