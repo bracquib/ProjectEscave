@@ -73,7 +73,7 @@ public class PlayerBehaviour implements Behaviour {
 	@Override
 	public void move(Entity e, Direction d) {
 		/*
-		 * RigidBody p = new RigidBody(e, 1); switch (d) { case EAST:
+		 * RigidBody p = new RigidBody(e, 1,10); switch (d) { case EAST:
 		 * p.getSpeed().setX(70); break; case WEST: p.getSpeed().setX(-70); break; }
 		 */
 		return;

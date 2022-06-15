@@ -54,7 +54,9 @@ public class StalactiteBehaviour implements Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// wizz=tomber
-
+		/*
+		 * RigidBody p = new RigidBody(e, 1, 1); p.addSpeed(new Vec2(0, 0));
+		 */
 	}
 
 	@Override

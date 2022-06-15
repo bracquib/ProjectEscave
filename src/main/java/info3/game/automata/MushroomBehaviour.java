@@ -36,6 +36,11 @@ public class MushroomBehaviour implements Behaviour {
 	@Override
 	public boolean closest(Entity e, Category c, Direction d) {
 		// à faire
+		/*
+		 * if(e.getPosition.distance(c.getPosition)<rayon_de_vision) {
+		 * 
+		 * }
+		 */
 		return false;
 	}
 
@@ -59,9 +64,10 @@ public class MushroomBehaviour implements Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// wizz=jump
 		/*
-		 * switch (d) { case NE: RigidBody p = new RigidBody(e, 1);
+		 * switch (d) { case NE: RigidBody p = new RigidBody(e, 1,5);
 		 * p.getSpeed().setY(-120); p.getSpeed().setX(70); break; case NW: RigidBody p =
-		 * new RigidBody(e, 1); p.getSpeed().setY(-120); p.getSpeed().setX(70); break; }
+		 * new RigidBody(e, 1,5); p.getSpeed().setY(-120); p.getSpeed().setX(70); break;
+		 * }
 		 */
 		return;
 	}
@@ -74,7 +80,7 @@ public class MushroomBehaviour implements Behaviour {
 	@Override
 	public void move(Entity e, Direction d) {
 		/*
-		 * RigidBody p = new RigidBody(e, 1); switch (d) { case EAST:
+		 * RigidBody p = new RigidBody(e, 1,5); switch (d) { case EAST:
 		 * p.getSpeed().setX(70); break; case WEST: p.getSpeed().setX(-70); break; case
 		 * SOUTH: }
 		 */
