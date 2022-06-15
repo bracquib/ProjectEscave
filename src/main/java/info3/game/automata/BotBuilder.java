@@ -90,20 +90,24 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object exit(FunCall funcall, List<Object> parameters) {
+		info3.game.automata.Direction d;
+		info3.game.automata.Category c;
 		switch (funcall.name) {
 		case "True":
 			System.out.println("Created True condition");
 			return this.condition = new True();
 		case "Cell":
 			System.out.println("Created Cell condition");
-			return this.condition = new Cell();
+			d = new info3.game.automata.Direction();
+			c = new info3.game.automata.Category();
+			return this.condition = new Cell(d, c);
 		case "Explode":
 			System.out.println("Created Explode action");
 			return this.action = new Explode();
 		case "Move":
 			System.out.println("Created Move action");
 			// TODO Lire le paramètre une fois que Direction est fait
-			info3.game.automata.Direction d = new info3.game.automata.Direction(/* (Direction)parameters.get(0) */);
+			d = new info3.game.automata.Direction(/* (Direction)(parameters.get(0)). */);
 			return this.action = new Move(d);
 		case "Egg":
 			System.out.println("Created Egg action");
