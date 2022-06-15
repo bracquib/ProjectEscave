@@ -19,7 +19,6 @@ public class Player extends RigidBody {
 	@Override
 	public void tick(long el) {
 		super.tick(el);
-		System.out.println(String.format("Player pos %f %f", this.getPosition().getX(), this.getPosition().getY()));
 	}
 
 	private String avatarPath() {
@@ -39,7 +38,7 @@ public class Player extends RigidBody {
 		case ORANGE:
 			return "Orange";
 		case PURPLE:
-			return "Purple";
+			return "Violet";
 		case WHITE:
 			return "Blanc";
 		case BLACK:

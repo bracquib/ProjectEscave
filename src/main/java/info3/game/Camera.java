@@ -1,28 +1,22 @@
 package info3.game;
 
-import info3.game.entities.Player;
-
 public class Camera {
-	Vec2 pos;
+	Avatar followedAvatar;
 
-	public Camera(Vec2 pos) {
-		this.pos = pos;
-	}
-
-	public void setPos(Vec2 pos) {
-		this.pos = pos;
+	public Camera(Avatar a) {
+		this.followedAvatar = a;
 	}
 
 	public Vec2 getPos() {
-		return this.pos;
+		if (this.followedAvatar != null) {
+			// TODO: remove hardcoded offset
+			return this.followedAvatar.getPosition().add(new Vec2(-528, -368));
+		} else {
+			return new Vec2(0);
+		}
 	}
 
-	public void translate(Vec2 other) {
-		this.setPos(this.getPos().add(other));
-	}
-
-	public void syncWith(Player p) {
-		// TODO: remove hardcoded offset
-		this.setPos(p.getPosition().add(new Vec2(-528, -368)));
+	public void setAvatar(Avatar avatar) {
+		this.followedAvatar = avatar;
 	}
 }

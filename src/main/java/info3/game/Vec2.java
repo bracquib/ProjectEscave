@@ -1,5 +1,7 @@
 package info3.game;
 
+import java.io.Serializable;
+
 /**
  * Un vecteur à deux éléments.
  * 
@@ -10,15 +12,20 @@ package info3.game;
  * 
  * # Le double système de coordonnées
  * 
- * Pour les positions, on a un double système : - des coordonnées globales qui
- * indiquent où se trouve une entité dans l'ensemble du monde - des coordonnées
- * à l'écran qui indiquent où elle se trouve par rapport à la caméra
+ * Pour les positions, on a un double système :
+ * 
+ * - des coordonnées globales qui indiquent où se trouve une entité dans
+ * l'ensemble du monde
+ * 
+ * - des coordonnées à l'écran qui indiquent où elle se trouve par rapport à la
+ * caméra
  * 
  * Des fonctions sont fournies dans cette classe pour faire la conversion entre
  * les deux.
  */
-public class Vec2 extends Object {
+public class Vec2 extends Object implements Serializable {
 
+	private static final long serialVersionUID = -5705242718418470298L;
 	float x;
 	float y;
 

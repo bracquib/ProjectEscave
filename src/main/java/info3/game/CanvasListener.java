@@ -36,7 +36,8 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		Vec2 p = this.view.camera.followedAvatar.getPosition();
+		System.out.println(String.format("%f %f", p.getX(), p.getY()));
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class CanvasListener implements GameCanvasListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		KeyPress kp = new KeyPress(e.getKeyCode());
-		this.view.controller.keyPressed(this.view.player, kp);
+		this.view.controller.keyPressed(this.view.getPlayer(), kp);
 	}
 
 	@Override
