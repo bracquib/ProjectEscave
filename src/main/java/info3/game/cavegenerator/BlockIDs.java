@@ -44,6 +44,8 @@ import info3.game.Vec2;
  * 21 : "volant_vertical_bas"
  * 22 : "coin_gauche_haut"
  * 23 : "seul_gris_clair"
+ * 24 : "volant_horizontal_milieu"
+ * 25 : "volant_vertical_milieu"
 
  * 
  *  *** Blocs spéciaux
@@ -166,6 +168,8 @@ public class BlockIDs {
 		IDs.put(21, "volant_vertical_bas");
 		IDs.put(22, "coin_gauche_haut");
 		IDs.put(23, "seul_gris_clair");
+		IDs.put(24, "volant_horizontal_milieu");
+		IDs.put(25, "volant_vertical_milieu");
 		IDs.put(100, "noir_blanc");
 		IDs.put(101, "noir_noir");
 		IDs.put(102, "noir_bleu");
@@ -312,7 +316,10 @@ public class BlockIDs {
 		PatternCouche1ToIDs.put(patternCreatorCroix(1, 0, 0, 0), 21);
 		// coin gauche haut
 		PatternCouche1ToIDs.put(patternCreatorCroix(0, 0, 1, 1), 22);
-
+		// volant horizontal milieu
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 1, 1, 0), 23);
+		// volant vertical milieu
+		PatternCouche1ToIDs.put(patternCreatorCroix(1, 0, 0, 1), 24);
 	}
 
 	static {
@@ -337,7 +344,7 @@ public class BlockIDs {
 	}
 
 	private static Integer[][] patternCreatorCroix(int a, int b, int c, int d) {
-		return patternCreatorMatrice(-2, a, -2, b, -2, c, -2, d, -2);
+		return patternCreatorMatrice(-2, a, -2, b, 1, c, -2, d, -2);
 	}
 
 	private static Integer[][] patternCreatorMatrice(int a, int b, int c, int d, int e, int f, int g, int h, int i) {

@@ -27,9 +27,19 @@ public class Torus {
 		this.array = new int[this.width * this.height];
 		for (int y = 0; y < this.height; y++) {
 			for (int x = 0; x < this.width; x++) {
-				this.array[y * this.height + x] = array[y][x];
+				this.array[y * this.height + x] = array[x][y];
 			}
 		}
+	}
+
+	public int[][] toArray() {
+		int[][] arr = new int[this.width][this.height];
+		for (int y = 0; y < this.height; y++) {
+			for (int x = 0; x < this.width; x++) {
+				arr[x][y] = this.array[y * this.height + x];
+			}
+		}
+		return arr;
 	}
 
 	public int get(int x, int y) {
@@ -50,8 +60,8 @@ public class Torus {
 
 	private int wrap(int x, int max) {
 		x = x % max;
-		if (x < max) {
-			return max - x;
+		if (x < 0) {
+			return max + x;
 		} else {
 			return x;
 		}
