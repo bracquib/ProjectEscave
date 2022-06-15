@@ -102,7 +102,9 @@ public class BotBuilder implements IVisitor {
 			return this.action = new Explode();
 		case "Move":
 			System.out.println("Created Move action");
-			return this.action = new Move();
+			// TODO Lire le paramètre une fois que Direction est fait
+			info3.game.automata.Direction d = new info3.game.automata.Direction(/* (Direction)parameters.get(0) */);
+			return this.action = new Move(d);
 		case "Egg":
 			System.out.println("Created Egg action");
 			return this.action = new Egg();
