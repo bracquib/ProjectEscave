@@ -38,7 +38,7 @@ public class Player extends RigidBody {
 		case ORANGE:
 			return "Orange";
 		case PURPLE:
-			return "Purple";
+			return "Violet";
 		case WHITE:
 			return "Blanc";
 		case BLACK:

@@ -71,14 +71,12 @@ public class Model {
 	}
 
 	public Player spawnPlayer() {
+		// TODO: throw exception if there are more players than expected
 		this.generateMapIfNeeded();
 		Player p = new Player(this.controller, Player.colorFromInt(this.playerCount),
 				this.spawnPoints.get(this.playerCount).multiply(32), true);
 		this.playerCount++;
 		this.spawn(p);
-		// Le joueur n'est pas encore enregistré donc on demande la vue
-		// associée au joueur "null"
-		View v = this.controller.viewFor(null);
 		return p;
 	}
 
