@@ -7,8 +7,8 @@ import info3.game.physics.RigidBody;
 public class Player extends RigidBody {
 	PlayerColor color;
 
-	public Player(Controller c, PlayerColor color, Vec2 pos, boolean local) {
-		super(1, c);
+	public Player(Controller c, PlayerColor color, Vec2 pos, boolean local, int points) {
+		super(1, c, points);
 		this.setPosition(pos);
 		this.color = color;
 		if (local) {

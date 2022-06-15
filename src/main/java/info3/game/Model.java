@@ -74,7 +74,7 @@ public class Model {
 		// TODO: throw exception if there are more players than expected
 		this.generateMapIfNeeded();
 		Player p = new Player(this.controller, Player.colorFromInt(this.playerCount),
-				this.spawnPoints.get(this.playerCount).multiply(32), true);
+				this.spawnPoints.get(this.playerCount).multiply(32), true, 10);
 		this.playerCount++;
 		this.spawn(p);
 		return p;
@@ -92,7 +92,7 @@ public class Model {
 			for (int i = 0; i < blocks.length; i++) {
 				for (int j = 0; j < blocks[i].length; j++) {
 					if (blocks[i][j] == 1) {
-						this.map[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32));
+						this.map[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32), 1);
 					}
 				}
 			}

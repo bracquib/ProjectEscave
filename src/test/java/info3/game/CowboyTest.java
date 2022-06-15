@@ -14,7 +14,7 @@ public class CowboyTest {
 	public void testCowboy() {
 		ArrayList<View> views = new ArrayList<View>();
 		views.add(new RemoteView());
-		Cowboy c = new Cowboy(new LocalController(views));
+		Cowboy c = new Cowboy(new LocalController(views), 1);
 		assertEquals(0, c.getPosition().x);
 		c.tick(10);
 		assertEquals(0, c.getPosition().y);

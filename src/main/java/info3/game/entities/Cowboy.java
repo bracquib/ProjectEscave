@@ -33,8 +33,8 @@ public class Cowboy extends RigidBody {
 	int maxX = 500;
 	int moveSpeed = 2;
 
-	public Cowboy(Controller controller) {
-		super(5, controller);
+	public Cowboy(Controller controller, int points) {
+		super(5, controller, points);
 		this.setPosition(new Vec2(0.0f, 0.0f));
 		this.avatar = this.controller.createAvatar(this.getPosition(), "cowboy.png", 24, 200);
 	}
