@@ -1,5 +1,8 @@
 package info3.game;
 
+import info3.game.assets.Paintable;
+import info3.game.network.CreateAvatar;
+
 public class RemoteView extends View {
 	ClientThread client;
 
@@ -17,10 +20,11 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	public Avatar createAvatar(int id, Vec2 pos, String filename, int imageLen, long animationSpeed) {
-		RemoteAvatar av = new RemoteAvatar(id, (LocalController) this.controller, filename, imageLen, animationSpeed);
+	public Avatar createAvatar(int id, Vec2 pos, Paintable img) {
+		Avatar av = new Avatar(id, img);
 		av.setPosition(pos);
 		this.avatars.put(id, av);
+		((LocalController) this.controller).sendToClients(new CreateAvatar(id, pos, img));
 		return av;
 	}
 

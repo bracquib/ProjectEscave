@@ -1,5 +1,6 @@
 package info3.game;
 
+import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 import info3.game.network.KeyPress;
 
@@ -18,7 +19,7 @@ public abstract class Controller {
 
 	static int avatarID = 0;
 
-	public abstract Avatar createAvatar(Vec2 pos, String string, int imageLen, int animationDelay);
-
 	protected abstract void removeView(RemoteView view);
+
+	public abstract Avatar createAvatar(Vec2 pos, Paintable image);
 }
