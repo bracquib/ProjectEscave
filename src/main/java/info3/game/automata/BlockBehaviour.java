@@ -59,8 +59,8 @@ public class BlockBehaviour implements Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
 		/*
-		 * if(degat_epee==0
-		 * ||degat_pioche==1){m_points=m_points-degat_epee-degat_pioche;}return;
+		 * if(degat_epee!=0
+		 * ||degat_pioche!=0){m_points=m_points-degat_epee-degat_pioche;}return;
 		 */
 
 	}

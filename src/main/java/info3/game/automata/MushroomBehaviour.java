@@ -36,6 +36,12 @@ public class MushroomBehaviour implements Behaviour {
 	@Override
 	public boolean closest(Entity e, Category c, Direction d) {
 		// à faire
+
+		/*
+		 * if(e.getPosition.distance(c.getPosition)<rayon_de_vision) {
+		 *
+		 * }
+		 */
 		return false;
 	}
 
@@ -59,9 +65,10 @@ public class MushroomBehaviour implements Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// wizz=jump
 		/*
-		 * switch (d) { case NE: RigidBody p = new RigidBody(e, 1);
+		 * switch (d) { case NE: RigidBody p = new RigidBody(e, 1,5);
 		 * p.getSpeed().setY(-120); p.getSpeed().setX(70); break; case NW: RigidBody p =
-		 * new RigidBody(e, 1); p.getSpeed().setY(-120); p.getSpeed().setX(70); break; }
+		 * new RigidBody(e, 1,5); p.getSpeed().setY(-120); p.getSpeed().setX(70); break;
+		 * }
 		 */
 		return;
 	}
@@ -69,12 +76,15 @@ public class MushroomBehaviour implements Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=hit
+		// e.degat_mob = 1;
+		return;
+
 	}
 
 	@Override
 	public void move(Entity e, Direction d) {
 		/*
-		 * RigidBody p = new RigidBody(e, 1); switch (d) { case EAST:
+		 * RigidBody p = new RigidBody(e, 1,5); switch (d) { case EAST:
 		 * p.getSpeed().setX(70); break; case WEST: p.getSpeed().setX(-70); break; case
 		 * SOUTH: }
 		 */
@@ -84,8 +94,8 @@ public class MushroomBehaviour implements Behaviour {
 	@Override
 	public void protect(Entity e, Direction d) {
 		/*
-		 * if(degat_epee==1
-		 * ||degat_pioche==0){m_points=m_points-degat_epee-degat_pioche; switch(d){case
+		 * if(degat_epee!=0
+		 * ||degat_pioche!=0){m_points=m_points-degat_epee-degat_pioche; switch(d){case
 		 * SOUTH:p.getSpeed().setY(-120);case EAST:p.getSpeed().setX(70);case
 		 * WEST:p.getSpeed().setX(-70);}}return;
 		 * 
@@ -146,7 +156,8 @@ public class MushroomBehaviour implements Behaviour {
 
 	@Override
 	public void egg(Entity e) {
-		// TODO Auto-generated method stub
+		// RigidBody p = new RigidBody(e, 1,5);
+		// Model.spawn(p)=
 	}
 
 }

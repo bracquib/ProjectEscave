@@ -67,13 +67,13 @@ public class PlayerBehaviour implements Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=hit à faire
-
+		// e.degat_epee=1;voir comment décider si l'inventaire a une épée ou une pioche
 	}
 
 	@Override
 	public void move(Entity e, Direction d) {
 		/*
-		 * RigidBody p = new RigidBody(e, 1); switch (d) { case EAST:
+		 * RigidBody p = new RigidBody(e, 1,10); switch (d) { case EAST:
 		 * p.getSpeed().setX(70); break; case WEST: p.getSpeed().setX(-70); break; }
 		 */
 		return;
@@ -138,8 +138,9 @@ public class PlayerBehaviour implements Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d) {
+		// comment accéder à degat_mob alors que c pour une autre entité
 		/*
-		 * if(degat_mob==1){m_points--; switch(d){case
+		 * if(degat_mob!=0){m_points=m_points-degat_mob; switch(d){case
 		 * SOUTH:p.getSpeed().setY(-120);case EAST:p.getSpeed().setX(70);case
 		 * WEST:p.getSpeed().setX(-70);}}return;
 		 * 
