@@ -171,3 +171,11 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 
 * Ajout de la classe IConditions et de toutes les classes des divers conditions avec leurs fonctions eval.
 * Implémentation des fonctions True,Cell,GotPower,wizz(jump) et move de la classe playerBehaviour.
+
+##Mercredi 15 juin 2022
+-Benjamin:implémentation des points de vie,des divers dégats,des classes de toutes les entités necessaires ainsi que leurs behaviours
+
+###Benjamin:implémentation des points de vie,des divers dégats,des classes des entités et de leurs behaviours.
+* Ajout des classes Mushroom,Block,Statue,Socle et stalactite.
+* Ajout des classes Behaviours pour toutes les entités.
+*implémentation des fonctions  hit et coup_reçu.
