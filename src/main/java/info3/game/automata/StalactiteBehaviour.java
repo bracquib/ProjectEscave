@@ -24,11 +24,14 @@ public class StalactiteBehaviour implements Behaviour {
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
 		/*
-		 * switch (d) { case NORTH: if (e.getPosition().getY() + 32 == c) { return true;
-		 * } break; case SOUTH: if (e.getPosition().getY() - 32 == c) { return true; }
-		 * break; case EAST: if (e.getPosition().getX() + 32 == c) { return true; }
-		 * break; case WEST: if (e.getPosition().getX() - 32 == c) { return true; }
-		 * break; }
+		 * switch (d) { case NORTH: if (e.model.getNearEntities(e.getPosition().getX(),
+		 * e.getPosition().getY() + 32, 32, 32) == c) { return true; } break; case
+		 * SOUTH: if (e.model.getNearEntities(e.getPosition().getX(),
+		 * e.getPosition().getY() - 32, 32, 32) == c) { return true; } break; case EST:
+		 * if (e.model.getNearEntities(e.getPosition().getX()+32,
+		 * e.getPosition().getY(), 32, 32) == c) { return true; } break; case WEST: if
+		 * (e.model.getNearEntities(e.getPosition().getX()-32, e.getPosition().getY() +
+		 * 32, 32, 32) == c) { return true; } break; }
 		 */
 		return false;
 	}

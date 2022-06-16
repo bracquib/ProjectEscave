@@ -24,12 +24,16 @@ public class PlayerBehaviour implements Behaviour {
 
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
+		// 32 =une case
 		/*
-		 * switch (d) { case NORTH: if (e.getPosition().getY() + 32 == c) { return true;
-		 * } break; case SOUTH: if (e.getPosition().getY() - 32 == c) { return true; }
-		 * break; case EAST: if (e.getPosition().getX() + 32 == c) { return true; }
-		 * break; case WEST: if (e.getPosition().getX() - 32 == c) { return true; }
-		 * break; }
+		 * switch (d) { case NORTH: if (e.model.getNearEntities(e.getPosition().getX(),
+		 * e.getPosition().getY() + 32, 32, 32) == c) { return true; } break; case
+		 * SOUTH: if (e.model.getNearEntities(e.getPosition().getX(),
+		 * e.getPosition().getY() - 32, 32, 32) == c) { return true; } break; case EST:
+		 * if (e.model.getNearEntities(e.getPosition().getX()+32,
+		 * e.getPosition().getY(), 32, 32) == c) { return true; } break; case WEST: if
+		 * (e.model.getNearEntities(e.getPosition().getX()-32, e.getPosition().getY() +
+		 * 32, 32, 32) == c) { return true; } break; }
 		 */
 		return false;
 	}
@@ -138,11 +142,13 @@ public class PlayerBehaviour implements Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d) {
-		// comment accéder à degat_mob alors que c pour une autre entité
+		// comment accéder à degat_mob alors que c pour une autre entité voir avec les
+		// collisions peut-etre utiliser getnearEntities
+
 		/*
 		 * if(degat_mob!=0){m_points=m_points-degat_mob; switch(d){case
 		 * SOUTH:p.getSpeed().setY(-120);case EAST:p.getSpeed().setX(70);case
-		 * WEST:p.getSpeed().setX(-70);}}return;
+		 * WEST:p.getSpeed().setX(-70);}}degat_epee=0;degat_pioche=0;return;
 		 * 
 		 * 
 		 */

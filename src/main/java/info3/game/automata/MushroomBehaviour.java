@@ -24,11 +24,14 @@ public class MushroomBehaviour implements Behaviour {
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
 		/*
-		 * switch (d) { case NORTH: if (e.getPosition().getY() + 32 == c) { return true;
-		 * } break; case SOUTH: if (e.getPosition().getY() - 32 == c) { return true; }
-		 * break; case EAST: if (e.getPosition().getX() + 32 == c) { return true; }
-		 * break; case WEST: if (e.getPosition().getX() - 32 == c) { return true; }
-		 * break; }
+		 * switch (d) { case NORTH: if (e.model.getNearEntities(e.getPosition().getX(),
+		 * e.getPosition().getY() + 32, 32, 32) == c) { return true; } break; case
+		 * SOUTH: if (e.model.getNearEntities(e.getPosition().getX(),
+		 * e.getPosition().getY() - 32, 32, 32) == c) { return true; } break; case EST:
+		 * if (e.model.getNearEntities(e.getPosition().getX()+32,
+		 * e.getPosition().getY(), 32, 32) == c) { return true; } break; case WEST: if
+		 * (e.model.getNearEntities(e.getPosition().getX()-32, e.getPosition().getY() +
+		 * 32, 32, 32) == c) { return true; } break; }
 		 */
 		return false;
 	}
@@ -36,11 +39,24 @@ public class MushroomBehaviour implements Behaviour {
 	@Override
 	public boolean closest(Entity e, Category c, Direction d) {
 		// à faire
+		// on peut utiliser getNearEntities pour le rayon_de_vision de l'entité et cela
+		// détecte les entité présentes dedans mais faut voir pour les zones qu'on
+		// détecte
 
 		/*
-		 * if(e.getPosition.distance(c.getPosition)<rayon_de_vision) {
-		 *
-		 * }
+		 * switch (d) { case NORTH: if
+		 * (e.model.getNearEntities(e.getPosition().getX()-rayon_de_vision,
+		 * e.getPosition().getY() + rayon_de_vision, rayon_de_vision, rayon_de_vision)
+		 * == c) { return true; } break; case SOUTH: if
+		 * (e.Model.getNearEntities(e.getPosition().getX()-rayon_de_vision,
+		 * e.getPosition().getY() - rayon_de_vision, rayon_de_vision, rayon_de_vision)
+		 * == c) { return true; } break; case EST: if
+		 * ((e.model.getNearEntities(e.getPosition().getX()-rayon_de_vision,
+		 * e.getPosition().getY() + rayon_de_vision, rayon_de_vision, rayon_de_vision)
+		 * == c) { return true; } break; case WEST: if
+		 * ((e.model.getNearEntities(e.getPosition().getX()-rayon_de_vision,
+		 * e.getPosition().getY() + rayon_de_vision, rayon_de_vision, rayon_de_vision)
+		 * == c) { return true; } break; }
 		 */
 		return false;
 	}
@@ -97,7 +113,7 @@ public class MushroomBehaviour implements Behaviour {
 		 * if(degat_epee!=0
 		 * ||degat_pioche!=0){m_points=m_points-degat_epee-degat_pioche; switch(d){case
 		 * SOUTH:p.getSpeed().setY(-120);case EAST:p.getSpeed().setX(70);case
-		 * WEST:p.getSpeed().setX(-70);}}return;
+		 * WEST:p.getSpeed().setX(-70);}} degat_epee=0;degat_pioche=0;return;
 		 * 
 		 * 
 		 */
