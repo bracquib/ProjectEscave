@@ -88,6 +88,50 @@ public class BotBuilder implements IVisitor {
 	public void enter(FunCall funcall) {
 	}
 
+	public info3.game.automata.Direction astDirectionToinfo3Direction(Direction d) {
+		switch (d.terminal.content.charAt(0)) {
+		case 'N':
+			return info3.game.automata.Direction.NORTH;
+		case 'S':
+			return info3.game.automata.Direction.SOUTH;
+		case 'W':
+			return info3.game.automata.Direction.WEST;
+		case 'E':
+			return info3.game.automata.Direction.EST;
+		}
+		return null;
+	}
+
+	public info3.game.automata.Category astCategoryToinfo3Category(Category c) {
+		switch (c.terminal.content.charAt(0)) {
+		case 'A':
+			return info3.game.automata.Category.ADVERSAIRE;
+		case 'J':
+			return info3.game.automata.Category.JUMPABLE;
+		case 'O':
+			return info3.game.automata.Category.OBJECT;
+		case 'P':
+			return info3.game.automata.Category.PLAYER;
+		case 'T':
+			return info3.game.automata.Category.TEAM;
+		case '_':
+			return info3.game.automata.Category.SOMETHING;
+		case 'V':
+			return info3.game.automata.Category.VOID;
+		case 'C':
+			return info3.game.automata.Category.C;
+		case 'D':
+			return info3.game.automata.Category.D;
+		case 'G':
+			return info3.game.automata.Category.G;
+		case 'M':
+			return info3.game.automata.Category.M;
+		case 'X':
+			return info3.game.automata.Category.X;
+		}
+		return null;
+	}
+
 	@Override
 	public Object exit(FunCall funcall, List<Object> parameters) {
 		info3.game.automata.Direction d;
@@ -98,16 +142,15 @@ public class BotBuilder implements IVisitor {
 			return this.condition = new True();
 		case "Cell":
 			System.out.println("Created Cell condition");
-			d = new info3.game.automata.Direction();
-			c = new info3.game.automata.Category();
+			d = this.astDirectionToinfo3Direction((Direction) parameters.get(0));
+			c = this.astCategoryToinfo3Category((Category) parameters.get(1));
 			return this.condition = new Cell(d, c);
 		case "Explode":
 			System.out.println("Created Explode action");
 			return this.action = new Explode();
 		case "Move":
 			System.out.println("Created Move action");
-			// TODO Lire le paramètre une fois que Direction est fait
-			d = new info3.game.automata.Direction(/* (Direction)(parameters.get(0)). */);
+			d = this.astDirectionToinfo3Direction((Direction) parameters.get(0));
 			return this.action = new Move(d);
 		case "Egg":
 			System.out.println("Created Egg action");
