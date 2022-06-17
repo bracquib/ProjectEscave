@@ -8,4 +8,8 @@ public class Jump implements IAction {
 	public void apply(Entity e) {
 		e.getBehaviour().jump(e);
 	}
+
+	public String toString() {
+		return "Jump()";
+	}
 }

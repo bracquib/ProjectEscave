@@ -16,4 +16,8 @@ public class Closest implements ICondition {
 		return e.getBehaviour().closest(e, c, d);
 	}
 
+	public String toString() {
+		return "Closest(" + c.name() + ", " + d.name() + ")";
+	}
+
 }

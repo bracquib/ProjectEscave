@@ -16,4 +16,8 @@ public class Key implements ICondition {
 
 	}
 
+	public String toString() {
+		return "Key(" + touche + ")";
+	}
+
 }

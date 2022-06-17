@@ -9,4 +9,8 @@ public class Get implements IAction {
 		e.getBehaviour().get(e);
 	}
 
+	public String toString() {
+		return "Get()";
+	}
+
 }

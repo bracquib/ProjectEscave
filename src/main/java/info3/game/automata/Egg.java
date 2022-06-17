@@ -9,4 +9,8 @@ public class Egg implements IAction {
 		e.getBehaviour().egg(e);
 	}
 
+	public String toString() {
+		return "Egg()";
+	}
+
 }

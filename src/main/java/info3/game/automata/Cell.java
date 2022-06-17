@@ -16,4 +16,8 @@ public class Cell implements ICondition {
 		return e.getBehaviour().cell(e, d, c);
 
 	}
+
+	public String toString() {
+		return "Cell(" + d.name() + ", " + c.name() + ")";
+	}
 }

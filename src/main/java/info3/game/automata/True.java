@@ -9,4 +9,8 @@ public class True implements ICondition {
 		return e.getBehaviour().true_(e);
 	}
 
+	public String toString() {
+		return "True()";
+	}
+
 }

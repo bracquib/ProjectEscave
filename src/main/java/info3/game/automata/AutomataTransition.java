@@ -1,16 +1,18 @@
 package info3.game.automata;
 
+import java.util.ArrayList;
+
 public class AutomataTransition {
 	AutomataState sourceState;
-	ICondition condition;
-	IAction action;
+	ArrayList<ICondition> conditions;
+	ArrayList<IAction> actions;
 	AutomataState targetState;
 
-	public AutomataTransition(AutomataState sourceState, ICondition condition, IAction action,
+	public AutomataTransition(AutomataState sourceState, ArrayList<ICondition> conditions, ArrayList<IAction> actions,
 			AutomataState targetState) {
 		this.sourceState = sourceState;
-		this.condition = condition;
-		this.action = action;
+		this.conditions = (ArrayList<ICondition>) conditions.clone();
+		this.actions = (ArrayList<IAction>) actions.clone();
 		this.targetState = targetState;
 	}
 
@@ -18,12 +20,12 @@ public class AutomataTransition {
 		return sourceState;
 	}
 
-	public ICondition getCondition() {
-		return condition;
+	public ArrayList<ICondition> getConditions() {
+		return conditions;
 	}
 
-	public IAction getAction() {
-		return action;
+	public ArrayList<IAction> getActions() {
+		return actions;
 	}
 
 	public AutomataState getTargetState() {
@@ -32,9 +34,16 @@ public class AutomataTransition {
 
 	public String toString() {
 		String out = this.getSourceState() + ": ";
-		out += this.getCondition().getClass().getSimpleName();
-		if (this.getAction() != null)
-			out += " ? " + this.getAction().getClass().getSimpleName();
+		out += this.getConditions().get(0);
+		for (int i = 1; i < this.getConditions().size(); i++) {
+			out += " & " + this.getConditions().get(i);// .getClass().getSimpleName();
+		}
+		if (this.getActions().size() != 0) {
+			out += " ? " + this.getActions().get(0).getClass().getSimpleName();
+			for (int i = 1; i < this.getActions().size(); i++) {
+				out += " & " + this.getActions().get(i).getClass().getSimpleName();
+			}
+		}
 		out += " :" + this.getTargetState();
 		return out;
 	}
