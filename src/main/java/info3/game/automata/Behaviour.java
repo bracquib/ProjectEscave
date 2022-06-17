@@ -24,7 +24,7 @@ public interface Behaviour {
 	 * @param d la Direction
 	 * @param c la Category de l'Entité
 	 * @return true si la cellule dans la Direction d contient une Entité de
-	 *         Category c
+	 *         Category c, et la met éventuellement dans Entity r
 	 */
 	boolean cell(Entity e, Direction d, Category c);
 
@@ -51,7 +51,7 @@ public interface Behaviour {
 
 	void move(Entity e, Direction d);
 
-	void protect(Entity e, Direction d);
+	void protect(Entity e, Direction d, Integer dmg);
 
 	void move(Entity e);
 

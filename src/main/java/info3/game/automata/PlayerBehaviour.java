@@ -8,6 +8,7 @@ import info3.game.physics.RigidBody;
 
 public class PlayerBehaviour implements Behaviour {
 
+	Entity ret; 
 	@Override
 	public boolean true_(Entity e) {
 		return true;
@@ -35,6 +36,7 @@ public class PlayerBehaviour implements Behaviour {
 					(int) (e.getPosition().getY()) + 32, 32, 32);
 			for (Entity e1 : nearEntities) {
 				if (e1.getCategory() == c) {
+					ret = e1;
 					return true;
 				}
 			}
@@ -44,6 +46,7 @@ public class PlayerBehaviour implements Behaviour {
 					(int) (e.getPosition().getY()) - 32, 32, 32);
 			for (Entity e1 : nearEntities2) {
 				if (e1.getCategory() == c) {
+					ret = e1;
 					return true;
 				}
 			}
@@ -53,6 +56,7 @@ public class PlayerBehaviour implements Behaviour {
 					(int) (e.getPosition().getY()), 32, 32);
 			for (Entity e1 : nearEntities3) {
 				if (e1.getCategory() == c) {
+					ret = e1;
 					return true;
 				}
 			}
@@ -62,6 +66,7 @@ public class PlayerBehaviour implements Behaviour {
 					(int) (e.getPosition().getY()) + 32, 32, 32);
 			for (Entity e1 : nearEntities4) {
 				if (e1.getCategory() == c) {
+					ret = e1;
 					return true;
 				}
 			}
@@ -100,21 +105,30 @@ public class PlayerBehaviour implements Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// wizz=jump
+		/*
 		RigidBody p = new RigidBody(e, 1, 10);
-		p.getSpeed().setY(-120);
+		p.getSpeed().setY(-120);*/
+		((RigidBody)e).getSpeed().setY(-120);
 		return;
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=hit à faire
+		if (cell(e, d, Category.ADVERSAIRE)) {
+			ret.getBehaviour().protect(ret, d, e.degat_epee);
+		} else if (cell(e, d, Category.JUMPABLE)) {
+			ret.getBehaviour().wizz(ret, d); //peut etre à ajuster
+		}
+		return;
 		// e.degat_epee=1;voir comment décider si l'inventaire a une épée ou une pioche
 	}
 
 	@Override
 	public void move(Entity e, Direction d) {
 
-		RigidBody p = new RigidBody(e, 1, 10);
+		RigidBody p = (RigidBody) e;
+		// new RigidBody(e, 1, 10);
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(70);
@@ -194,17 +208,26 @@ public class PlayerBehaviour implements Behaviour {
 	}
 
 	@Override
-	public void protect(Entity e, Direction d) {
-		// comment accéder à degat_mob alors que c pour une autre entité voir avec les
-		// collisions peut-etre utiliser getnearEntities
-
-		/*
-		 * if(degat_mob!=0){m_points=m_points-degat_mob; switch(d){case
-		 * SOUTH:p.getSpeed().setY(-120);case EAST:p.getSpeed().setX(70);case
-		 * WEST:p.getSpeed().setX(-70);}}degat_epee=0;degat_pioche=0;return;
-		 * 
-		 * 
-		 */
+	public void protect(Entity e, Direction d, Integer dmg) {
+		e.m_points -= dmg;
+		RigidBody p = (RigidBody) e;
+		switch(d){
+		case SOUTH :
+			p.getSpeed().setY(-120);
+			break;
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case NORTH:
+			p.getSpeed().setY(120);
+			break;
+		default:
+			break;
+		}
+		return;
 	}
 
 }

@@ -1,6 +1,7 @@
 package info3.game.automata;
 
 import info3.game.entities.Entity;
+import info3.game.physics.RigidBody;
 
 public class BlockBehaviour implements Behaviour {
 
@@ -61,11 +62,25 @@ public class BlockBehaviour implements Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
-		/*
-		 * if(degat_epee!=0
-		 * ||degat_pioche!=0){m_points=m_points-degat_epee-degat_pioche;}degat_epee=0;
-		 * degat_pioche=0;return;
-		 */
+		e.m_points -= 1; //à ajuster (dmg)
+		RigidBody p = (RigidBody) e;
+		switch(d){
+		case SOUTH :
+			p.getSpeed().setY(-120);
+			break;
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case NORTH:
+			p.getSpeed().setY(120);
+			break;
+		default:
+			break;
+		}
+		return;
 
 	}
 
@@ -82,7 +97,7 @@ public class BlockBehaviour implements Behaviour {
 	}
 
 	@Override
-	public void protect(Entity e, Direction d) {
+	public void protect(Entity e, Direction d, Integer dmg) {
 		// pas besoin
 
 	}

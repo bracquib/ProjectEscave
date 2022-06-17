@@ -11,7 +11,7 @@ public class Protect implements IAction {
 
 	@Override
 	public void apply(Entity e) {
-		e.getBehaviour().protect(e, d);
+		e.getBehaviour().protect(e, d , 0);
 	}
 
 }

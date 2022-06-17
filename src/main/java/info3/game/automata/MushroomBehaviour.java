@@ -8,6 +8,8 @@ import info3.game.physics.RigidBody;
 
 public class MushroomBehaviour implements Behaviour {
 
+	Entity ret; //attribut de retour pour savoir a qui mettre les degats 
+	
 	@Override
 	public boolean true_(Entity e) {
 		return true;
@@ -33,6 +35,7 @@ public class MushroomBehaviour implements Behaviour {
 					(int) (e.getPosition().getY()) + 32, 32, 32);
 			for (Entity e1 : nearEntities) {
 				if (e1.getCategory() == c) {
+					ret = e1;
 					return true;
 				}
 			}
@@ -42,6 +45,7 @@ public class MushroomBehaviour implements Behaviour {
 					(int) (e.getPosition().getY()) - 32, 32, 32);
 			for (Entity e1 : nearEntities2) {
 				if (e1.getCategory() == c) {
+					ret = e1;
 					return true;
 				}
 			}
@@ -51,6 +55,7 @@ public class MushroomBehaviour implements Behaviour {
 					(int) (e.getPosition().getY()), 32, 32);
 			for (Entity e1 : nearEntities3) {
 				if (e1.getCategory() == c) {
+					ret = e1;
 					return true;
 				}
 			}
@@ -60,6 +65,7 @@ public class MushroomBehaviour implements Behaviour {
 					(int) (e.getPosition().getY()) + 32, 32, 32);
 			for (Entity e1 : nearEntities4) {
 				if (e1.getCategory() == c) {
+					ret = e1;
 					return true;
 				}
 			}
@@ -156,12 +162,14 @@ public class MushroomBehaviour implements Behaviour {
 			break;
 
 		case NORTHEST:
-			RigidBody p = new RigidBody(e, 1, 5);
+			RigidBody p = (RigidBody) e;
+			//new RigidBody(e, 1, 5);
 			p.getSpeed().setY(-120);
 			p.getSpeed().setX(70);
 			break;
 		case NORTHWEST:
-			RigidBody p1 = new RigidBody(e, 1, 5);
+			RigidBody p1 = (RigidBody) e;
+			//new RigidBody(e, 1, 5);
 			p1.getSpeed().setY(-120);
 			p1.getSpeed().setX(70);
 			break;
@@ -172,8 +180,10 @@ public class MushroomBehaviour implements Behaviour {
 
 	@Override
 	public void pop(Entity e, Direction d) {
-		// pop=hit
-		// e.degat_mob = 1;
+		//pop = hit
+		if (cell(e, d, Category.PLAYER)) {
+			ret.getBehaviour().protect(ret, d, e.degat_mob);
+		}
 		return;
 
 	}
@@ -181,7 +191,8 @@ public class MushroomBehaviour implements Behaviour {
 	@Override
 	public void move(Entity e, Direction d) {
 
-		RigidBody p = new RigidBody(e, 1, 5);
+		RigidBody p = (RigidBody) e;
+		//new RigidBody(e, 1, 5);
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(70);
@@ -203,15 +214,26 @@ public class MushroomBehaviour implements Behaviour {
 	}
 
 	@Override
-	public void protect(Entity e, Direction d) {
-		/*
-		 * if(degat_epee!=0
-		 * ||degat_pioche!=0){m_points=m_points-degat_epee-degat_pioche; switch(d){case
-		 * SOUTH:p.getSpeed().setY(-120);case EAST:p.getSpeed().setX(70);case
-		 * WEST:p.getSpeed().setX(-70);}} degat_epee=0;degat_pioche=0;return;
-		 * 
-		 * 
-		 */
+	public void protect(Entity e, Direction d, Integer dmg) {
+		e.m_points -= dmg;
+		RigidBody p = (RigidBody) e;
+		switch(d){
+		case SOUTH :
+			p.getSpeed().setY(-120);
+			break;
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case NORTH:
+			p.getSpeed().setY(120);
+			break;
+		default:
+			break;
+		}
+		return;
 	}
 
 	@Override

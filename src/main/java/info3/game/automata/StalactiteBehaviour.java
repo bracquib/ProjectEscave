@@ -111,7 +111,7 @@ public class StalactiteBehaviour implements Behaviour {
 	}
 
 	@Override
-	public void protect(Entity e, Direction d) {
+	public void protect(Entity e, Direction d, Integer dmg) {
 		// pas besoin
 
 	}
