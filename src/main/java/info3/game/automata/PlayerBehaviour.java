@@ -1,5 +1,8 @@
 package info3.game.automata;
 
+import java.util.ArrayList;
+
+import info3.game.Model;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
@@ -25,16 +28,50 @@ public class PlayerBehaviour implements Behaviour {
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
 		// 32 =une case
-		/*
-		 * switch (d) { case NORTH: if (e.model.getNearEntities(e.getPosition().getX(),
-		 * e.getPosition().getY() + 32, 32, 32) == c) { return true; } break; case
-		 * SOUTH: if (e.model.getNearEntities(e.getPosition().getX(),
-		 * e.getPosition().getY() - 32, 32, 32) == c) { return true; } break; case EST:
-		 * if (e.model.getNearEntities(e.getPosition().getX()+32,
-		 * e.getPosition().getY(), 32, 32) == c) { return true; } break; case WEST: if
-		 * (e.model.getNearEntities(e.getPosition().getX()-32, e.getPosition().getY() +
-		 * 32, 32, 32) == c) { return true; } break; }
-		 */
+
+		switch (d) {
+		case NORTH:
+			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()),
+					(int) (e.getPosition().getY()) + 32, 32, 32);
+			for (Entity e1 : nearEntities) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		case SOUTH:
+			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
+					(int) (e.getPosition().getY()) - 32, 32, 32);
+			for (Entity e1 : nearEntities2) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		case EST:
+			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
+					(int) (e.getPosition().getY()), 32, 32);
+			for (Entity e1 : nearEntities3) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		case WEST:
+			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - 32,
+					(int) (e.getPosition().getY()) + 32, 32, 32);
+			for (Entity e1 : nearEntities4) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		case NORTHWEST:
+			break;
+		case NORTHEST:
+			break;
+		}
+
 		return false;
 	}
 
@@ -76,10 +113,26 @@ public class PlayerBehaviour implements Behaviour {
 
 	@Override
 	public void move(Entity e, Direction d) {
-		/*
-		 * RigidBody p = new RigidBody(e, 1,10); switch (d) { case EAST:
-		 * p.getSpeed().setX(70); break; case WEST: p.getSpeed().setX(-70); break; }
-		 */
+
+		RigidBody p = new RigidBody(e, 1, 10);
+		switch (d) {
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case SOUTH:
+			break;
+		case NORTH:
+			break;
+		case NORTHWEST:
+			break;
+		case NORTHEST:
+			break;
+
+		}
+
 		return;
 	}
 
