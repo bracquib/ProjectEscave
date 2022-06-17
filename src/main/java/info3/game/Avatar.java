@@ -24,7 +24,9 @@ public class Avatar {
 	}
 
 	public void setPosition(Vec2 position) {
-		this.position = position;
+		synchronized (this.position) {
+			this.position = position;
+		}
 	}
 
 	public Vec2 getScale() {
