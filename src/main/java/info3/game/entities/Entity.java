@@ -3,8 +3,9 @@ package info3.game.entities;
 import java.awt.Graphics;
 
 import info3.game.Avatar;
-import info3.game.Controller;
+import info3.game.LocalController;
 import info3.game.Vec2;
+import info3.game.network.UpdateAvatar;
 import info3.game.physics.BoxCollider;
 import info3.game.physics.Collider;
 
@@ -30,7 +31,7 @@ public abstract class Entity {
 	protected Avatar avatar;
 	protected Collider collider;
 	float frictionFactor;
-	protected Controller controller;
+	protected LocalController controller;
 
 	public Vec2 getPosition() {
 		return this.position;
@@ -40,10 +41,11 @@ public abstract class Entity {
 		this.position = pos;
 		if (this.avatar != null) {
 			this.avatar.setPosition(pos);
+			this.controller.sendToClients(new UpdateAvatar(this.avatar.getId(), this.avatar.getPosition()));
 		}
 	}
 
-	public Entity(Controller c) {
+	public Entity(LocalController c) {
 		this.controller = c;
 		this.collider = new BoxCollider(32, 32, 0, 0);
 		this.frictionFactor = 0.6f;
@@ -80,7 +82,7 @@ public abstract class Entity {
 		return this.collider;
 	}
 
-	public Controller getController() {
+	public LocalController getController() {
 		return this.controller;
 	}
 

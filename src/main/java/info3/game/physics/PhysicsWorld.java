@@ -34,6 +34,8 @@ public class PhysicsWorld {
 		for (RigidBody rb : entities) {
 			step(rb, elapsedSec);
 
+			step(rb, elapsedSec);
+
 			HashSet<CollisionType> collisions = new HashSet<CollisionType>();
 			Block floor = null;
 			for (int i = 0; i < model.getMap().length; i++) {

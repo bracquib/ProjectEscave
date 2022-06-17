@@ -1,7 +1,10 @@
 package info3.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import info3.game.assets.Paintable;
 import info3.game.entities.Cowboy;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
@@ -12,12 +15,12 @@ import info3.game.network.SyncCamera;
 import info3.game.network.Welcome;
 
 public class LocalController extends Controller {
-	ArrayList<View> views;
+	List<View> views;
 	public Model model;
 
 	public LocalController() {
 		super();
-		this.views = new ArrayList<View>();
+		this.views = Collections.synchronizedList(new ArrayList<View>());
 		this.model = new Model(this);
 	}
 
@@ -39,8 +42,7 @@ public class LocalController extends Controller {
 		this.sendTo(v.getPlayer(), new SyncCamera(v.getPlayer().getAvatar()));
 		for (Entity e : this.model.allEntities()) {
 			Avatar a = e.getAvatar();
-			this.sendTo(v.getPlayer(),
-					new CreateAvatar(a.id, a.getPosition(), a.fileName, a.imageCount, a.animationDelay));
+			this.sendTo(v.getPlayer(), new CreateAvatar(a.id, a.getPosition(), a.image));
 		}
 	}
 
@@ -90,13 +92,13 @@ public class LocalController extends Controller {
 	}
 
 	@Override
-	public Avatar createAvatar(Vec2 pos, String string, int imageLen, int animationDelay) {
+	public Avatar createAvatar(Vec2 pos, Paintable image) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		Avatar a = null;
 		synchronized (this.views) {
 			for (View v : this.views) {
-				a = v.createAvatar(id, pos, string, imageLen, animationDelay);
+				a = v.createAvatar(id, pos, image);
 			}
 		}
 		return a;

@@ -2,6 +2,7 @@ package info3.game;
 
 import java.util.HashMap;
 
+import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 
 public abstract class View {
@@ -23,7 +24,7 @@ public abstract class View {
 		this.camera = new Camera(null);
 	}
 
-	public abstract Avatar createAvatar(int id, Vec2 pos, String filename, int imageLen, long animationSpeed);
+	public abstract Avatar createAvatar(int id, Vec2 pos, Paintable image);
 
 	public void updateAvatar(int id, Vec2 pos) {
 		Avatar a = this.avatars.get(id);

@@ -1,8 +1,12 @@
 package info3.game;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
-public abstract class Avatar {
+import info3.game.assets.AssetServer;
+import info3.game.assets.Paintable;
+
+public class Avatar {
 	int id;
 
 	public int getId() {
@@ -20,7 +24,9 @@ public abstract class Avatar {
 	}
 
 	public void setPosition(Vec2 position) {
-		this.position = position;
+		synchronized (this.position) {
+			this.position = position;
+		}
 	}
 
 	public Vec2 getScale() {
@@ -33,24 +39,44 @@ public abstract class Avatar {
 
 	Vec2 scale;
 
-	/**
-	 * Indique le temps après lequel on change d'image dans l'animation.
-	 * 
-	 * Si il vaut 0, on n'a pas d'animation, même si on a plusieurs images. Le
-	 * contrôle se fait alors avec la méthode `nextFrame`.
-	 */
-	public long animationDelay;
-	public int imageCount;
-	public String fileName;
+	Paintable image;
 
-	protected Avatar(int id) {
+	/**
+	 * Crée un nouvel avatar.
+	 * 
+	 * @param img L'asset pour cet avatar
+	 */
+	public Avatar(int id, Paintable img) {
 		this.id = id;
 		this.position = new Vec2(0.0f, 0.0f);
 		this.scale = new Vec2(1.0f, 1.0f);
+		this.image = AssetServer.load(img);
 	}
 
-	public abstract void tick(long elapsed);
+	/**
+	 * Mets à jour le temps écoulé pour savoir si on doit passer à l'image suivante
+	 * de l'animation ou non.
+	 * 
+	 * @param elapsed Le nombre de millisecondes qui se sont écoulées depuis le
+	 *                dernier tick.
+	 */
+	public void tick(long elapsed) {
+		this.image.tick(elapsed);
+	}
 
-	public abstract void paint(Graphics g, Vec2 cameraPos);
+	/**
+	 * Dessine l'image sur l'écran.
+	 * 
+	 * @param g         La toile sur laquelle on dessine
+	 * @param cameraPos La position de la caméra dans le monde
+	 */
+	public void paint(Graphics g, Vec2 cameraPos) {
+		Vec2 screenCoords = this.position.globalToScreen(cameraPos);
+		BufferedImage img = this.image.imageToPaint();
+		if (img != null) {
+			g.drawImage(img, (int) screenCoords.getX(), (int) screenCoords.getY(),
+					((int) scale.getX()) * img.getWidth(), ((int) scale.getY()) * img.getHeight(), null);
+		}
+	}
 
 }
