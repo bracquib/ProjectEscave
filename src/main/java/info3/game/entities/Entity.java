@@ -8,6 +8,7 @@ import info3.game.Vec2;
 import info3.game.automata.Automata;
 import info3.game.automata.AutomataState;
 import info3.game.automata.Behaviour;
+import info3.game.automata.Category;
 import info3.game.automata.CurrentState;
 import info3.game.physics.BoxCollider;
 import info3.game.physics.Collider;
@@ -39,6 +40,10 @@ public abstract class Entity {
 	protected CurrentState currentState;
 	protected Behaviour behaviour;
 	public Integer m_points;
+	public Integer degat_mob;
+	public Integer degat_epee;
+	public Integer degat_pioche;
+	protected Category category;
 
 	public Vec2 getPosition() {
 		return this.position;
@@ -49,6 +54,14 @@ public abstract class Entity {
 		if (this.avatar != null) {
 			this.avatar.setPosition(pos);
 		}
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Category getCategory() {
+		return this.category;
 	}
 
 	public Entity(Controller c, int points) {
@@ -62,6 +75,9 @@ public abstract class Entity {
 		this.automata = null;
 		this.currentState = null;
 		this.behaviour = null;
+		this.degat_mob = 0;
+		this.degat_epee = 0;
+		this.degat_pioche = 0;
 	}
 
 	public void setAutomata(Automata automata) {

@@ -1,5 +1,8 @@
 package info3.game.automata;
 
+import java.util.ArrayList;
+
+import info3.game.Model;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
@@ -24,13 +27,51 @@ public class PlayerBehaviour implements Behaviour {
 
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
-		/*
-		 * switch (d) { case NORTH: if (e.getPosition().getY() + 32 == c) { return true;
-		 * } break; case SOUTH: if (e.getPosition().getY() - 32 == c) { return true; }
-		 * break; case EAST: if (e.getPosition().getX() + 32 == c) { return true; }
-		 * break; case WEST: if (e.getPosition().getX() - 32 == c) { return true; }
-		 * break; }
-		 */
+		// 32 =une case
+
+		switch (d) {
+		case NORTH:
+			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()),
+					(int) (e.getPosition().getY()) + 32, 32, 32);
+			for (Entity e1 : nearEntities) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		case SOUTH:
+			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
+					(int) (e.getPosition().getY()) - 32, 32, 32);
+			for (Entity e1 : nearEntities2) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		case EST:
+			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
+					(int) (e.getPosition().getY()), 32, 32);
+			for (Entity e1 : nearEntities3) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		case WEST:
+			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - 32,
+					(int) (e.getPosition().getY()) + 32, 32, 32);
+			for (Entity e1 : nearEntities4) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		case NORTHWEST:
+			break;
+		case NORTHEST:
+			break;
+		}
+
 		return false;
 	}
 
@@ -67,15 +108,31 @@ public class PlayerBehaviour implements Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=hit à faire
-
+		// e.degat_epee=1;voir comment décider si l'inventaire a une épée ou une pioche
 	}
 
 	@Override
 	public void move(Entity e, Direction d) {
-		/*
-		 * RigidBody p = new RigidBody(e, 1); switch (d) { case EAST:
-		 * p.getSpeed().setX(70); break; case WEST: p.getSpeed().setX(-70); break; }
-		 */
+
+		RigidBody p = new RigidBody(e, 1, 10);
+		switch (d) {
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case SOUTH:
+			break;
+		case NORTH:
+			break;
+		case NORTHWEST:
+			break;
+		case NORTHEST:
+			break;
+
+		}
+
 		return;
 	}
 
@@ -138,10 +195,13 @@ public class PlayerBehaviour implements Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d) {
+		// comment accéder à degat_mob alors que c pour une autre entité voir avec les
+		// collisions peut-etre utiliser getnearEntities
+
 		/*
-		 * if(degat_mob==1){m_points--; switch(d){case
+		 * if(degat_mob!=0){m_points=m_points-degat_mob; switch(d){case
 		 * SOUTH:p.getSpeed().setY(-120);case EAST:p.getSpeed().setX(70);case
-		 * WEST:p.getSpeed().setX(-70);}}return;
+		 * WEST:p.getSpeed().setX(-70);}}degat_epee=0;degat_pioche=0;return;
 		 * 
 		 * 
 		 */

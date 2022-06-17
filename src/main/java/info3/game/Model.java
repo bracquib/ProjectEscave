@@ -23,6 +23,7 @@ public class Model {
 	 * La liste de toutes les entités dynamiques dans le monde.
 	 */
 	ArrayList<RigidBody> entities;
+	static ArrayList<RigidBody> entities2;
 
 	/**
 	 * La liste des entités dynamiques à spawner au prochain tick
@@ -43,6 +44,7 @@ public class Model {
 	 * précis avec la méthode getBlock(x, y) de cette classe.
 	 */
 	Block[][] map;
+	static Block[][] map2;
 
 	ArrayList<Vec2> spawnPoints;
 
@@ -154,6 +156,29 @@ public class Model {
 		return nearEntities;
 	}
 
+	public static ArrayList<Entity> getNearEntities2(int x, int y, int width, int height) {
+		ArrayList<Entity> nearEntities = new ArrayList<>();
+		// On parcours d'abord la map pour avoir les blocs
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				nearEntities.add(getBlock2(x, y));
+			}
+		}
+		// Puis on parcours les entités "dynamiques"
+		for (Entity e : entities2) {
+			Vec2 pos = e.getPosition();
+			if (pos.getX() > x && pos.getX() < x + width && pos.getY() > y && pos.getY() < y + height) {
+				nearEntities.add(e);
+			}
+		}
+		return nearEntities;
+	}
+
+	public static Entity getBlock2(int x, int y) {
+		// TODO : on est sur un tore
+		return map2[x][y];
+	}
+
 	public ArrayList<Entity> allEntities() {
 		ArrayList<Entity> all;
 		synchronized (this.entities) {
@@ -191,4 +216,5 @@ public class Model {
 	public Block[][] getMap() {
 		return this.map;
 	}
+
 }
