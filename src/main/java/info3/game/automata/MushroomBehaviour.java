@@ -85,6 +85,7 @@ public class MushroomBehaviour implements Behaviour {
 		// on peut utiliser getNearEntities pour le rayon_de_vision de l'entité et cela
 		// détecte les entité présentes dedans mais faut voir pour les zones qu'on
 		// détecte
+		int rayon_de_vision = 320;
 		switch (d) {
 		case NORTH:
 			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()) - rayon_de_vision,
@@ -214,7 +215,7 @@ public class MushroomBehaviour implements Behaviour {
 	}
 
 	@Override
-	public void protect(Entity e, Direction d, Integer dmg) {
+	public void protect(Entity e, Direction d, int dmg) {
 		e.m_points -= dmg;
 		RigidBody p = (RigidBody) e;
 		switch(d){

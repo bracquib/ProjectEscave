@@ -97,7 +97,7 @@ public class BlockBehaviour implements Behaviour {
 	}
 
 	@Override
-	public void protect(Entity e, Direction d, Integer dmg) {
+	public void protect(Entity e, Direction d, int dmg) {
 		// pas besoin
 
 	}

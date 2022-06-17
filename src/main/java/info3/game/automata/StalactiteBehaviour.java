@@ -3,10 +3,13 @@ package info3.game.automata;
 import java.util.ArrayList;
 
 import info3.game.Model;
+import info3.game.Vec2;
 import info3.game.entities.Entity;
+import info3.game.physics.RigidBody;
 
 public class StalactiteBehaviour implements Behaviour {
 
+	Entity ret;
 	@Override
 	public boolean true_(Entity e) {
 		return true;
@@ -93,15 +96,19 @@ public class StalactiteBehaviour implements Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// wizz=tomber
-		/*
-		 * RigidBody p = new RigidBody(e, 1, 1); p.addSpeed(new Vec2(0, 0));
-		 */
+		RigidBody p = (RigidBody) e;
+		p.addSpeed(new Vec2(0, 0));
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=exploser
-
+		if (cell(e, d, Category.PLAYER)) {
+			ret.getBehaviour().protect(ret, d, (int) ((RigidBody)e).getSpeed().getY()/2 );
+		} else if (cell(e, d, Category.JUMPABLE)) {
+			ret.getBehaviour().wizz(ret, d);
+		}
+		return;
 	}
 
 	@Override
@@ -111,7 +118,7 @@ public class StalactiteBehaviour implements Behaviour {
 	}
 
 	@Override
-	public void protect(Entity e, Direction d, Integer dmg) {
+	public void protect(Entity e, Direction d, int dmg) {
 		// pas besoin
 
 	}

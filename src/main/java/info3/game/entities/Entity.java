@@ -39,10 +39,10 @@ public abstract class Entity {
 	protected Automata automata;
 	protected CurrentState currentState;
 	protected Behaviour behaviour;
-	public Integer m_points;
-	public Integer degat_mob;
-	public Integer degat_epee;
-	public Integer degat_pioche;
+	public int m_points;
+	public int degat_mob;
+	public int degat_epee;
+	public int degat_pioche;
 	protected Category category;
 
 	public Vec2 getPosition() {

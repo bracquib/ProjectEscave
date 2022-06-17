@@ -51,7 +51,7 @@ public interface Behaviour {
 
 	void move(Entity e, Direction d);
 
-	void protect(Entity e, Direction d, Integer dmg);
+	void protect(Entity e, Direction d, int dmg);
 
 	void move(Entity e);
 

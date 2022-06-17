@@ -208,7 +208,7 @@ public class PlayerBehaviour implements Behaviour {
 	}
 
 	@Override
-	public void protect(Entity e, Direction d, Integer dmg) {
+	public void protect(Entity e, Direction d, int dmg) {
 		e.m_points -= dmg;
 		RigidBody p = (RigidBody) e;
 		switch(d){
