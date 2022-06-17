@@ -4,9 +4,9 @@ import info3.game.entities.Entity;
 
 public class Key implements ICondition {
 
-	Integer touche;
+	int touche;
 
-	public Key(Integer touche) {
+	public Key(int touche) {
 		this.touche = touche;
 	}
 

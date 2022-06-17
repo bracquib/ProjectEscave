@@ -16,6 +16,8 @@ public class Pop implements IAction {
 	}
 
 	public String toString() {
+		if (d == null)
+			return "Pop()";
 		return "Pop(" + d.name() + ")";
 	}
 

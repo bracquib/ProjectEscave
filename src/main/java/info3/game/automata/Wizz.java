@@ -16,6 +16,8 @@ public class Wizz implements IAction {
 	}
 
 	public String toString() {
-		return "Wizz()";
+		if (d == null)
+			return "Wizz()";
+		return "Wizz(" + d.name() + ")";
 	}
 }
