@@ -9,4 +9,8 @@ public class GotStuff implements ICondition {
 		return e.getBehaviour().gotStuff(e);
 	}
 
+	public String toString() {
+		return "GotStuff()";
+	}
+
 }

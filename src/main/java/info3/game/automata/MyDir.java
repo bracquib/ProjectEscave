@@ -16,4 +16,8 @@ public class MyDir implements ICondition {
 
 	}
 
+	public String toString() {
+		return "MyDir(" + d.name() + ")";
+	}
+
 }

@@ -4,9 +4,9 @@ import info3.game.entities.Entity;
 
 public class Key implements ICondition {
 
-	Integer touche;
+	int touche;
 
-	public Key(Integer touche) {
+	public Key(int touche) {
 		this.touche = touche;
 	}
 
@@ -14,6 +14,10 @@ public class Key implements ICondition {
 	public boolean eval(Entity e) {
 		return e.getBehaviour().key(e, touche);
 
+	}
+
+	public String toString() {
+		return "Key(" + touche + ")";
 	}
 
 }

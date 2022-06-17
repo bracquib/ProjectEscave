@@ -9,4 +9,8 @@ public class Explode implements IAction {
 		e.getBehaviour().explode(e);
 	}
 
+	public String toString() {
+		return "Explode()";
+	}
+
 }

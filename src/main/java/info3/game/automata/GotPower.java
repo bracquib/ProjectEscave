@@ -9,4 +9,8 @@ public class GotPower implements ICondition {
 		return e.getBehaviour().gotPower(e);
 	}
 
+	public String toString() {
+		return "GotPower()";
+	}
+
 }

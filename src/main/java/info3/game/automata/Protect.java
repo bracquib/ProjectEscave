@@ -3,15 +3,20 @@ package info3.game.automata;
 import info3.game.entities.Entity;
 
 public class Protect implements IAction {
-	
-	Direction d; 
+
+	Direction d;
+
 	public Protect(Direction dir) {
-		this.d = dir; 
+		this.d = dir;
 	}
 
 	@Override
 	public void apply(Entity e) {
 		e.getBehaviour().protect(e, d , 0);
+	}
+
+	public String toString() {
+		return "Protect(" + d.name() + ")";
 	}
 
 }
