@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,9 +21,12 @@ public class LocalView extends View {
 	GameCanvas canvas;
 	CanvasListener listener;
 	Sound music;
+	Semaphore isPainting;
 
 	public LocalView(Controller controller) {
 		super();
+		this.isPainting = new Semaphore(1);
+
 		this.controller = controller;
 		this.controller.addView(this);
 
@@ -119,7 +123,6 @@ public class LocalView extends View {
 	 * called from the GameCanvasListener, called from the GameCanvas.
 	 */
 	void paint(Graphics g) {
-
 		// get the size of the canvas
 		int width = this.canvas.getWidth();
 		int height = this.canvas.getHeight();
@@ -128,8 +131,17 @@ public class LocalView extends View {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, width, height);
 
-		for (Avatar a : this.getVisibleAvatars()) {
-			a.paint(g, this.camera.getPos());
+		Vec2 cameraPos = this.camera.getPos();
+		try {
+			this.isPainting.acquire();
+			for (Avatar a : this.getVisibleAvatars()) {
+				synchronized (a) {
+					a.paint(g, cameraPos);
+				}
+			}
+			this.isPainting.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -143,9 +155,10 @@ public class LocalView extends View {
 		int height = this.canvas.getHeight();
 		int radius = Math.max(width, height) * 2;
 		ArrayList<Avatar> result = new ArrayList<>();
+		Vec2 cameraPos = this.camera.getPos();
 		synchronized (this.avatars) {
 			for (Avatar a : this.avatars.values()) {
-				if (a.position.distance(this.camera.getPos()) < radius) {
+				if (a.position.distance(cameraPos) < radius) {
 					result.add(a);
 				}
 			}
