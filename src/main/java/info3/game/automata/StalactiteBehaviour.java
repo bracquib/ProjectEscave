@@ -10,6 +10,7 @@ import info3.game.physics.RigidBody;
 public class StalactiteBehaviour implements Behaviour {
 
 	Entity ret;
+
 	@Override
 	public boolean true_(Entity e) {
 		return true;
@@ -77,8 +78,24 @@ public class StalactiteBehaviour implements Behaviour {
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d) {
-		// à faire
+		int rayon_de_vision = 320;
+		switch (d) {
+		case SOUTH:
+			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
+					(int) (e.getPosition().getY()) - rayon_de_vision, 32, rayon_de_vision);
+			for (Entity e1 : nearEntities2) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		default:
+			break;
+
+		}
+
 		return false;
+
 	}
 
 	@Override
@@ -104,7 +121,7 @@ public class StalactiteBehaviour implements Behaviour {
 	public void pop(Entity e, Direction d) {
 		// pop=exploser
 		if (cell(e, d, Category.PLAYER)) {
-			ret.getBehaviour().protect(ret, d, (int) ((RigidBody)e).getSpeed().getY()/2 );
+			ret.getBehaviour().protect(ret, d, (int) ((RigidBody) e).getSpeed().getY() / 2);
 		} else if (cell(e, d, Category.JUMPABLE)) {
 			ret.getBehaviour().wizz(ret, d);
 		}

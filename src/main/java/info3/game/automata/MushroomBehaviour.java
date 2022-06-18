@@ -8,8 +8,8 @@ import info3.game.physics.RigidBody;
 
 public class MushroomBehaviour implements Behaviour {
 
-	Entity ret; //attribut de retour pour savoir a qui mettre les degats 
-	
+	Entity ret; // attribut de retour pour savoir a qui mettre les degats
+
 	@Override
 	public boolean true_(Entity e) {
 		return true;
@@ -89,7 +89,7 @@ public class MushroomBehaviour implements Behaviour {
 		switch (d) {
 		case NORTH:
 			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()) - rayon_de_vision,
-					(int) (e.getPosition().getY()) + rayon_de_vision, rayon_de_vision, rayon_de_vision);
+					(int) (e.getPosition().getY()) - rayon_de_vision, rayon_de_vision, rayon_de_vision);
 			for (Entity e1 : nearEntities) {
 				if (e1.getCategory() == c) {
 					return true;
@@ -98,7 +98,7 @@ public class MushroomBehaviour implements Behaviour {
 			break;
 		case SOUTH:
 			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()) - rayon_de_vision,
-					(int) (e.getPosition().getY()) - rayon_de_vision, rayon_de_vision, rayon_de_vision);
+					(int) (e.getPosition().getY()), rayon_de_vision, rayon_de_vision);
 			for (Entity e1 : nearEntities2) {
 				if (e1.getCategory() == c) {
 					return true;
@@ -107,7 +107,7 @@ public class MushroomBehaviour implements Behaviour {
 			break;
 		case EST:
 			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) - rayon_de_vision,
-					(int) (e.getPosition().getY()) + rayon_de_vision, rayon_de_vision, rayon_de_vision);
+					(int) (e.getPosition().getY()) - rayon_de_vision, rayon_de_vision / 2, rayon_de_vision * 2);
 			for (Entity e1 : nearEntities3) {
 				if (e1.getCategory() == c) {
 					return true;
@@ -115,8 +115,8 @@ public class MushroomBehaviour implements Behaviour {
 			}
 			break;
 		case WEST:
-			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - rayon_de_vision,
-					(int) (e.getPosition().getY()) + rayon_de_vision, rayon_de_vision, rayon_de_vision);
+			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()),
+					(int) (e.getPosition().getY()) - rayon_de_vision, rayon_de_vision / 2, rayon_de_vision * 2);
 			for (Entity e1 : nearEntities4) {
 				if (e1.getCategory() == c) {
 					return true;
@@ -164,13 +164,13 @@ public class MushroomBehaviour implements Behaviour {
 
 		case NORTHEST:
 			RigidBody p = (RigidBody) e;
-			//new RigidBody(e, 1, 5);
+			// new RigidBody(e, 1, 5);
 			p.getSpeed().setY(-120);
 			p.getSpeed().setX(70);
 			break;
 		case NORTHWEST:
 			RigidBody p1 = (RigidBody) e;
-			//new RigidBody(e, 1, 5);
+			// new RigidBody(e, 1, 5);
 			p1.getSpeed().setY(-120);
 			p1.getSpeed().setX(70);
 			break;
@@ -181,7 +181,7 @@ public class MushroomBehaviour implements Behaviour {
 
 	@Override
 	public void pop(Entity e, Direction d) {
-		//pop = hit
+		// pop = hit
 		if (cell(e, d, Category.PLAYER)) {
 			ret.getBehaviour().protect(ret, d, e.degat_mob);
 		}
@@ -193,7 +193,7 @@ public class MushroomBehaviour implements Behaviour {
 	public void move(Entity e, Direction d) {
 
 		RigidBody p = (RigidBody) e;
-		//new RigidBody(e, 1, 5);
+		// new RigidBody(e, 1, 5);
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(70);
@@ -218,8 +218,8 @@ public class MushroomBehaviour implements Behaviour {
 	public void protect(Entity e, Direction d, int dmg) {
 		e.m_points -= dmg;
 		RigidBody p = (RigidBody) e;
-		switch(d){
-		case SOUTH :
+		switch (d) {
+		case SOUTH:
 			p.getSpeed().setY(-120);
 			break;
 		case EST:
@@ -290,8 +290,8 @@ public class MushroomBehaviour implements Behaviour {
 
 	@Override
 	public void egg(Entity e) {
-		// RigidBody p = new RigidBody(e, 1,5);
-		// Model.spawn(p)=
+		RigidBody p = (RigidBody) e;
+		// Model.spawn(p);
 	}
 
 }
