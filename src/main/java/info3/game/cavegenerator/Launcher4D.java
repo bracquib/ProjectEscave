@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import info3.game.Vec2;
 
 public class Launcher4D {
-	private static final int nbPlayers = 8;
+	private static final int nbPlayers = 2;
 	static int width;
 	static int height;
 
@@ -48,18 +48,21 @@ public class Launcher4D {
 		List<Vec2> statues = generationMap.listSpawnStatues;
 
 		Torus torus = DecorationGenerator.decorate(values1);
-		int[][] values = torus.toArray();
+		// int[][] values = torus.toArray();
 
+		/* Test des fillons */
+		Fillon fillonMap = new Fillon();
+		int[][] values = fillonMap.noiseFillonGen(nbPlayers);
+		int[] mineraux = { 100, 101, 102, 103, 104, 105 };
 		width = values.length;
 		height = values[0].length;
 
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				image.setRGB(x, y, ~(values[x][y] * 0xFFFFFF));
-			}
-		}
+		/*
+		 * for (int x = 0; x < width; x++) { for (int y = 0; y < height; y++) {
+		 * image.setRGB(x, y, ~(values[x][y] * 0xFFFFFF)); } }
+		 */
 
 		coloration(values, -3, 0xFF0000, image);
 		coloration(values, -4, 0x00FF00, image);
@@ -92,8 +95,20 @@ public class Launcher4D {
 		coloration(values, 20, 0xEDA376, image);
 		coloration(values, 21, 0xE2806A, image);
 		coloration(values, 23, 0x99d4a0, image);
+		coloration(values, 26, 0xd4d399, image);
+		coloration(values, 27, 0x71d499, image);
+		coloration(values, 28, 0x715d99, image);
+		coloration(values, 29, 0x3e5771, image);
+		coloration(values, 100, 0xf7e4aa, image);
+		coloration(values, 101, 0x174f00, image);
+		coloration(values, 102, 0x3e414f, image);
+		coloration(values, 103, 0xee00f7, image);
+		coloration(values, 104, 0x7410ff, image);
+		coloration(values, 105, 0x3e5771, image);
+		coloration(values, 0, 0x000000, image);
+		coloration(values, 1, 0xffffff, image);
 
-		ImageIO.write(image, "png", new File("couleurs_svp.png"));
+		ImageIO.write(image, "png", new File("youhou.png"));
 	}
 
 }

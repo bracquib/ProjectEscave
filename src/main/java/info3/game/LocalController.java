@@ -63,7 +63,7 @@ public class LocalController extends Controller {
 				break;
 			case 38:
 				// Up
-				p.getSpeed().setY(-120);
+				p.getSpeed().setY(-250);
 				break;
 			case 39:
 				// Right

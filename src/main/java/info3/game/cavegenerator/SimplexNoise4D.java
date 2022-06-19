@@ -81,19 +81,34 @@ public class SimplexNoise4D {
 		return res;
 	}
 
-	public int[][] generation(int nbPlayers) {
+	public int[][] generation(int nbPlayers, double seuil) {
 		int dim = nbPlayers * 100;
-		if (nbPlayers == 1 || nbPlayers == 2) {
-			return this.generation(1000, 999, 0.12, 200, 200, 24, 50);
-		}
-		if (nbPlayers == 3 || nbPlayers == 4) {
-			return this.generation(2048, 2047, 0.12, dim, dim, 22, 128);
-		}
-		if (nbPlayers == 5 || nbPlayers == 6) {
-			return this.generation(2048, 2047, 0.12, dim, dim, 22, 128);
-		}
-		if (nbPlayers == 7 || nbPlayers == 8) {
-			return this.generation(1912, 1911, 0.12, dim, dim, 15, 80);
+		if (seuil < 0.12) {
+			if (nbPlayers == 1 || nbPlayers == 2) {
+				return this.generation(2048, 1000, seuil, 200, 200, 100, 100);
+			}
+			if (nbPlayers == 3 || nbPlayers == 4) {
+				return this.generation(2048, 200, seuil, dim, dim, 22, 128);
+			}
+			if (nbPlayers == 5 || nbPlayers == 6) {
+				return this.generation(2048, 200, seuil, dim, dim, 22, 128);
+			}
+			if (nbPlayers == 7 || nbPlayers == 8) {
+				return this.generation(2048, 200, seuil, dim, dim, 22, 128);
+			}
+		} else {
+			if (nbPlayers == 1 || nbPlayers == 2) {
+				return this.generation(1000, 999, seuil, 200, 200, 24, 50);
+			}
+			if (nbPlayers == 3 || nbPlayers == 4) {
+				return this.generation(2048, 2047, seuil, dim, dim, 22, 128);
+			}
+			if (nbPlayers == 5 || nbPlayers == 6) {
+				return this.generation(2048, 2047, seuil, dim, dim, 22, 128);
+			}
+			if (nbPlayers == 7 || nbPlayers == 8) {
+				return this.generation(1912, 1911, seuil, dim, dim, 15, 80);
+			}
 		}
 		return null;
 

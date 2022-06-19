@@ -11,7 +11,7 @@ import info3.game.entities.Entity;
 public class PhysicsWorld {
 
 	Model model;
-	public static final Vec2 GRAVITY = new Vec2(0.0f, 175f);
+	public static final Vec2 GRAVITY = new Vec2(0.0f, 700f);
 	public static final Vec2 MAXSPEED = new Vec2(100f, 400f);
 
 	public PhysicsWorld(Model model) {

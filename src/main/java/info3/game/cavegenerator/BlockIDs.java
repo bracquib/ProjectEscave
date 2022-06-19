@@ -46,6 +46,14 @@ import info3.game.Vec2;
  * 23 : "seul_gris_clair"
  * 24 : "volant_horizontal_milieu"
  * 25 : "volant_vertical_milieu"
+ * 26 : "trans_herbe_coin_haut_gauche"
+ * 27 : "trans_herbe_coin_haut_droit"
+ * 28 : "trans_herbe_coin_bas_gauche"
+ * 29 : "trans_herbe_coin_bas_droit"
+ * 30 : "trans_3_haut_gauche"
+ * 31 : "trans_3_haut_droit"
+ * 32 : "trans_3_bas_gauche"
+ * 33 : "trans_3_bas_droit"
 
  * 
  *  *** Blocs spéciaux
@@ -142,6 +150,7 @@ public class BlockIDs {
 	public static HashMap<Integer, Vec2> IDsToVec2 = new HashMap<Integer, Vec2>();
 	static HashMap<Integer[][], Integer> PatternCouche1ToIDs = new HashMap<Integer[][], Integer>();
 	static HashMap<Integer[][], Integer> PatternCouche2ToIDs = new HashMap<Integer[][], Integer>();
+	static HashMap<Integer[][], Integer> PatternCouche3ToIDs = new HashMap<Integer[][], Integer>();
 
 	static {
 		IDs.put(0, "vide");
@@ -170,6 +179,14 @@ public class BlockIDs {
 		IDs.put(23, "seul_gris_clair");
 		IDs.put(24, "volant_horizontal_milieu");
 		IDs.put(25, "volant_vertical_milieu");
+		IDs.put(26, "trans_herbe_coin_haut_gauche");
+		IDs.put(27, "trans_herbe_coin_haut_droit");
+		IDs.put(28, "trans_herbe_coin_bas_gauche");
+		IDs.put(29, "trans_herbe_coin_bas_droit");
+		IDs.put(30, "trans_3_haut_gauche");
+		IDs.put(31, "trans_3_haut_droit");
+		IDs.put(32, "trans_3_bas_gauche");
+		IDs.put(33, "trans_3_bas_droit");
 		IDs.put(100, "noir_blanc");
 		IDs.put(101, "noir_noir");
 		IDs.put(102, "noir_bleu");
@@ -317,9 +334,9 @@ public class BlockIDs {
 		// coin gauche haut
 		PatternCouche1ToIDs.put(patternCreatorCroix(0, 0, 1, 1), 22);
 		// volant horizontal milieu
-		PatternCouche1ToIDs.put(patternCreatorCroix(0, 1, 1, 0), 23);
+		PatternCouche1ToIDs.put(patternCreatorCroix(0, 1, 1, 0), 24);
 		// volant vertical milieu
-		PatternCouche1ToIDs.put(patternCreatorCroix(1, 0, 0, 1), 24);
+		PatternCouche1ToIDs.put(patternCreatorCroix(1, 0, 0, 1), 25);
 	}
 
 	static {
@@ -341,6 +358,56 @@ public class BlockIDs {
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 1, 1), 16);
 		// Transition seul gris clair
 		PatternCouche2ToIDs.put(patternCreatorCroix(2, 8, 4, 6), 23);
+		// Transition herbe coin haut gauche
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 2, 1, 1), 26);
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 22, 1, 1), 26);
+		PatternCouche2ToIDs.put(patternCreatorCroix(8, 22, 1, 1), 26);
+		PatternCouche2ToIDs.put(patternCreatorCroix(8, 2, 1, 1), 26);
+
+		// Transition herbe coin haut droit
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 1, 3, 1), 27);
+		PatternCouche2ToIDs.put(patternCreatorCroix(4, 1, 3, 1), 27);
+		PatternCouche2ToIDs.put(patternCreatorCroix(4, 1, 2, 1), 27);
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 1, 2, 1), 27);
+		// Transition herbe coin bas gauche
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 7, 1, 7), 28);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 7, 1, 8), 28);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 6, 1, 8), 28);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 6, 1, 7), 28);
+		// Transition herbe coin bas droit
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 5, 5), 29);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 5, 4), 29);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 6, 5), 29);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 5, 6), 29);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 6, 4), 29);
+
+	}
+
+	static {
+		// Transition 3 coin haut gauche
+		PatternCouche3ToIDs.put(patternCreatorCroix(26, 10, 1, 1), 30);
+		PatternCouche3ToIDs.put(patternCreatorCroix(26, 26, 1, 1), 30);
+		PatternCouche3ToIDs.put(patternCreatorCroix(9, 26, 1, 1), 30);
+		PatternCouche3ToIDs.put(patternCreatorCroix(26, 9, 1, 1), 30);
+		PatternCouche3ToIDs.put(patternCreatorCroix(16, 26, 1, 1), 30);
+		PatternCouche3ToIDs.put(patternCreatorCroix(16, 26, 1, 10), 30);
+		PatternCouche3ToIDs.put(patternCreatorCroix(26, 9, 1, 1), 30);
+
+		// Transition 3 coin haut droit
+		PatternCouche3ToIDs.put(patternCreatorCroix(12, 1, 27, 1), 31);
+		PatternCouche3ToIDs.put(patternCreatorCroix(27, 1, 27, 1), 31);
+		PatternCouche3ToIDs.put(patternCreatorCroix(27, 1, 10, 1), 31);
+		PatternCouche3ToIDs.put(patternCreatorCroix(27, 1, 11, 1), 31);
+
+		// Transition 3 coin bas gauche
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 28, 1, 16), 32);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 28, 1, 28), 32);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 14, 1, 28), 32);
+		// Transition 3 coin bas droit
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 1, 29, 29), 33);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 1, 29, 12), 33);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 1, 14, 29), 33);
+
 	}
 
 	private static Integer[][] patternCreatorCroix(int a, int b, int c, int d) {

@@ -3,10 +3,15 @@ package info3.game.cavegenerator;
 import java.util.HashMap;
 
 public class DecorationGenerator {
+	static int[] mineraux = { 100, 101, 102, 103, 104, 105 };
 
 	public static Torus decorate(int[][] map) {
 		Torus step1 = decorateMap(map, BlockIDs.PatternCouche1ToIDs);
-		return decorateMap(step1.toArray(), BlockIDs.PatternCouche2ToIDs);
+		Torus step2 = decorateMap(step1.toArray(), BlockIDs.PatternCouche2ToIDs);
+		Torus step3 = decorateMap(step2.toArray(), BlockIDs.PatternCouche3ToIDs);
+		Torus minerauxDeco = extensionDecoration(step3.toArray(), 1, mineraux, 2);
+		return minerauxDeco;
+
 	}
 
 	private static Torus decorateMap(int[][] map, HashMap<Integer[][], Integer> hm) {
@@ -28,6 +33,21 @@ public class DecorationGenerator {
 		int[] ligne3 = { tore.get(x - 1, y + 1), tore.get(x, y + 1), tore.get(x + 1, y + 1) };
 		int[][] res = { ligne1, ligne2, ligne3 };
 		return res;
+	}
 
+	private static Torus extensionDecoration(int[][] map, int idtoChange, int[] id, int purcent) {
+		Torus newmap = new Torus(map);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (map[i][j] == idtoChange) {
+					int rand = (int) Math.floor(Math.random() * 100);
+					if (rand <= purcent) {
+						int randID = (int) Math.floor(Math.random() * id.length);
+						newmap.set(i, j, id[randID]);
+					}
+				}
+			}
+		}
+		return newmap;
 	}
 }
