@@ -36,4 +36,15 @@ public class Image extends Paintable {
 			}
 		}
 	}
+
+	@Override
+	public Paintable duplicateFromPath(String path) {
+		Image img = new Image(path);
+		img.fixed = this.fixed;
+		img.layer = this.layer;
+		if (this.loaded) {
+			img.load();
+		}
+		return img;
+	}
 }

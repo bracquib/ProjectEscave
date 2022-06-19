@@ -18,6 +18,7 @@ import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 import info3.game.network.Welcome;
+import info3.game.network.WheelScroll;
 
 public class RemoteController extends Controller {
 	Socket sock;
@@ -61,6 +62,11 @@ public class RemoteController extends Controller {
 	@Override
 	protected void removeView(RemoteView view) {
 		// Ne doit jamais être appelé normalement
+	}
+
+	@Override
+	protected void mouseScroll(Player p, WheelScroll wheelScroll) {
+		this.networkSender.send(p, wheelScroll);
 	}
 }
 

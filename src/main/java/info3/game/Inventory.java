@@ -24,9 +24,9 @@ public class Inventory {
 		this.owner = owner;
 		this.cells = new Avatar[INVENTORY_SIZE];
 
-		int totalWidth = 42 * INVENTORY_SIZE - 10;
+		int totalWidth = 74 * INVENTORY_SIZE - 10;
 		int startX = (this.controller.viewFor(null).getWidth() - totalWidth) / 2;
-		int startY = this.controller.viewFor(null).getHeight() - 100;
+		int startY = this.controller.viewFor(null).getHeight() - 130;
 		Image selectedCell = new Image("inventory-cell-selected.png");
 		selectedCell.layer = 1;
 		selectedCell.fixed = true;
@@ -35,7 +35,7 @@ public class Inventory {
 			Image cell = new Image("inventory-cell.png");
 			cell.layer = 1;
 			cell.fixed = true;
-			this.cells[i] = this.controller.createAvatar(new Vec2(startX + 42 * i, startY), cell);
+			this.cells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), cell);
 		}
 	}
 
@@ -46,23 +46,27 @@ public class Inventory {
 	// plusieurs façons de se déplacer dans l'inventaire
 
 	public void selectCurrentTool(int i) {
+		this.cells[this.currentToolIndex].setPaintablePath("inventory-cell.png");
 		this.controller.sendTo(this.owner,
 				new UpdateAvatar(this.cells[this.currentToolIndex].getId(), "inventory-cell.png"));
-		this.currentToolIndex = (currentToolIndex + i) % this.size;
+		this.currentToolIndex = i % INVENTORY_SIZE;
 		this.controller.sendTo(this.owner,
 				new UpdateAvatar(this.cells[this.currentToolIndex].getId(), "inventory-cell-selected.png"));
+		this.cells[this.currentToolIndex].setPaintablePath("inventory-cell-selected.png");
 	}
 
 	// décale la selection d'un cran vers la droite
 	public void moveRCurrentTool() {
-		this.selectCurrentTool((currentToolIndex + 1) % this.size);
+		this.selectCurrentTool((this.currentToolIndex + 1) % INVENTORY_SIZE);
 	}
 
 	// décale la selection d'un cran vers la gauche
 	public void moveLCurrentTool() {
-		if (currentToolIndex - 1 < 0)
-			this.selectCurrentTool(this.currentToolIndex + this.size);
-		this.selectCurrentTool((currentToolIndex - 1) % this.size);
+		if (currentToolIndex == 0) {
+			this.selectCurrentTool(INVENTORY_SIZE - 1);
+		} else {
+			this.selectCurrentTool(this.currentToolIndex - 1);
+		}
 	}
 
 	// verifie la validité de l'indice de l'objet en main

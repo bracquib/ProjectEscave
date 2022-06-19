@@ -96,6 +96,7 @@ public class GameCanvas extends Canvas {
 		addKeyListener(l);
 		addMouseListener(l);
 		addMouseMotionListener(l);
+		addMouseWheelListener(l);
 		setFocusable(true);
 		requestFocusInWindow();
 

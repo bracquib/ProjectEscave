@@ -85,7 +85,7 @@ public class Avatar {
 	}
 
 	public void setPaintablePath(String path) {
-		this.image.setPath(path);
+		this.image = this.image.duplicateFromPath(path);
 	}
 
 	@Override

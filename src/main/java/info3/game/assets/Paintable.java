@@ -14,10 +14,5 @@ public abstract class Paintable extends Asset {
 
 	public abstract BufferedImage imageToPaint();
 
-	public void setPath(String path) {
-		this.path = path;
-		if (this.loaded) {
-			this.load();
-		}
-	}
+	public abstract Paintable duplicateFromPath(String path);
 }

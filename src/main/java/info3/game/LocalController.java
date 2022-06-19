@@ -13,6 +13,7 @@ import info3.game.network.KeyPress;
 import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
 import info3.game.network.Welcome;
+import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
@@ -135,6 +136,17 @@ public class LocalController extends Controller {
 	protected void removeView(RemoteView view) {
 		synchronized (this.views) {
 			this.views.remove(view);
+		}
+	}
+
+	@Override
+	protected void mouseScroll(Player p, WheelScroll wheelScroll) {
+		System.out.println("ça scrolle " + wheelScroll.up);
+		Inventory inv = p.getInventory();
+		if (wheelScroll.up) {
+			inv.moveLCurrentTool();
+		} else {
+			inv.moveRCurrentTool();
 		}
 	}
 }

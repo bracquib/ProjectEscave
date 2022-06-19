@@ -27,7 +27,7 @@ public class AnimatedImage extends Paintable {
 	 */
 	public long animationDelay;
 
-	public AnimatedImage(String path, int fc, int delay) {
+	public AnimatedImage(String path, int fc, long delay) {
 		super(path);
 		this.frameCount = fc;
 		this.animationDelay = delay;
@@ -72,5 +72,16 @@ public class AnimatedImage extends Paintable {
 		if (this.frames != null) {
 			this.imageIndex = (this.imageIndex + 1) % this.frames.length;
 		}
+	}
+
+	@Override
+	public Paintable duplicateFromPath(String path) {
+		AnimatedImage img = new AnimatedImage(path, this.frameCount, this.animationDelay);
+		img.fixed = this.fixed;
+		img.layer = this.layer;
+		if (this.loaded) {
+			img.load();
+		}
+		return img;
 	}
 }
