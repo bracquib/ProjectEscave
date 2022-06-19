@@ -1,7 +1,8 @@
 package info3.game.entities;
 
-import info3.game.Controller;
+import info3.game.LocalController;
 import info3.game.Vec2;
+import info3.game.assets.Image;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -11,12 +12,12 @@ public class Player extends RigidBody {
 	private float thirstPoints;
 	private float maxThirst = 100;
 
-	public Player(Controller c, PlayerColor color, Vec2 pos, boolean local) {
+	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local) {
 		super(1, c);
 		this.setPosition(pos);
 		this.color = color;
 		if (local) {
-			this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), this.avatarPath(), 1, 0);
+			this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
 		}
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
@@ -25,7 +26,6 @@ public class Player extends RigidBody {
 	@Override
 	public void tick(long el) {
 		super.tick(el);
-		System.out.println(String.format("Player pos %f %f", this.getPosition().getX(), this.getPosition().getY()));
 	}
 
 	private String avatarPath() {
@@ -45,7 +45,7 @@ public class Player extends RigidBody {
 		case ORANGE:
 			return "Orange";
 		case PURPLE:
-			return "Purple";
+			return "Violet";
 		case WHITE:
 			return "Blanc";
 		case BLACK:
