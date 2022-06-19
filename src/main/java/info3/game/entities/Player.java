@@ -4,6 +4,7 @@ import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.assets.Image;
 import info3.game.automata.Category;
+import info3.game.automata.PlayerBehaviour;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -14,6 +15,8 @@ public class Player extends RigidBody {
 		this.setPosition(pos);
 		this.color = color;
 		this.setCategory(Category.PLAYER);
+		this.setAutomata(c.model.getAutomata("Player"));
+		this.setBehaviour(new PlayerBehaviour());
 		if (local) {
 			this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
 		}

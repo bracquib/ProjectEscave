@@ -28,6 +28,19 @@ public class AutomataState {
 
 	public AutomataState step(Entity e) {
 		// TODO Vérifier si une transition est faisable et retourner le nouvel état
+		for (AutomataTransition transition : this.getTransitions()) {
+			boolean valid = true;
+			for (ICondition condition : transition.getConditions()) {
+				if (!condition.eval(e))
+					valid = false;
+			}
+			if (valid) {
+				for (IAction action : transition.getActions()) {
+					action.apply(e);
+				}
+				return transition.getTargetState();
+			}
+		}
 		return null;
 	}
 

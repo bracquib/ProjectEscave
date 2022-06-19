@@ -68,7 +68,9 @@ public abstract class Entity {
 
 	public void setAutomata(Automata automata) {
 		this.automata = automata;
-		this.currentState = new CurrentState(this.automata.getInitialState());
+		if (this.automata != null) {
+			this.currentState = new CurrentState(this.automata.getInitialState());
+		}
 	}
 
 	public void setAutomata(Automata automata, AutomataState state) {
@@ -77,8 +79,6 @@ public abstract class Entity {
 	}
 
 	public void setBehaviour(Behaviour behaviour) {
-		// TODO Auto-generated method stub
-
 		this.behaviour = behaviour;
 	}
 
@@ -109,6 +109,9 @@ public abstract class Entity {
 		if (this.avatar != null) {
 			this.avatar.tick(elapsed);
 		}
+		if (this.automata != null && this.currentState != null) {
+			this.automata.step(this, this.currentState.getState());
+		}
 	}
 
 	/**
@@ -136,5 +139,9 @@ public abstract class Entity {
 
 	public float getFrictionFactor() {
 		return frictionFactor;
+	}
+
+	public void setCurrentState(CurrentState s) {
+		this.currentState = s;
 	}
 }

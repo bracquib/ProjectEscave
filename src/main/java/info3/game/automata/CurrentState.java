@@ -24,4 +24,8 @@ public class CurrentState {
 	public void setState(AutomataState state) {
 		this.state = state;
 	}
+
+	public AutomataState getState() {
+		return this.state;
+	}
 }

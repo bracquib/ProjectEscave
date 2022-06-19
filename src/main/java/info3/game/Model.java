@@ -121,7 +121,7 @@ public class Model {
 			return;
 		}
 		this.physics.tick(elapsed);
-		for (Entity e : this.entities) {
+		for (Entity e : this.allEntities()) {
 			e.tick(elapsed);
 		}
 	}
@@ -241,6 +241,15 @@ public class Model {
 		ast.accept(botBuilder);
 		this.automatas = botBuilder.getAutomatas();
 		System.out.println("[DEBUG] Loaded " + this.automatas.size() + " automatas");
+	}
+
+	public Automata getAutomata(String name) {
+		for (Automata automata : this.automatas) {
+			if (automata.getName().equals(name))
+				return automata;
+		}
+		System.out.println("[WARNING] Automata " + name + " not found");
+		return null;
 	}
 
 }

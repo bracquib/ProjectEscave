@@ -19,8 +19,10 @@ public class Automata {
 		this.states = states;
 	}
 
-	void step(Entity e, AutomataState s) {
-		s.step(e);
+	public void step(Entity e, AutomataState s) {
+		AutomataState newState = s.step(e);
+		if (newState != null)
+			e.setCurrentState(new CurrentState(s));
 	}
 
 	public void setInitialState(AutomataState state) {

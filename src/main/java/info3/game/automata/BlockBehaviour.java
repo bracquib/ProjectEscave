@@ -62,10 +62,10 @@ public class BlockBehaviour implements Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
-		e.m_points -= 1; //à ajuster (dmg)
+		e.m_points -= 1; // à ajuster (dmg)
 		RigidBody p = (RigidBody) e;
-		switch(d){
-		case SOUTH :
+		switch (d) {
+		case SOUTH:
 			p.getSpeed().setY(-120);
 			break;
 		case EST:

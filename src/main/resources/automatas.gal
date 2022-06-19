@@ -16,7 +16,7 @@ Block_special(Init){
     |Cell(N,@)?Wizz:(Activer)
     |True?    :(Init)
     
-   *(Activer)
+	*(Activer)
     |True?    :(Activer)
 }
 
@@ -47,3 +47,7 @@ Inventaire(Init){
 	|True?		:(Plein)
 }
 
+Player(Init){
+	*(Init)
+	|True? Move(E): (Init)
+}
