@@ -58,7 +58,7 @@ public abstract class Entity {
 
 	public void setPosition(Vec2 pos) {
 		Block[][] map = Model.getMap();
-		Vec2 mapSize = new Vec2(map[0].length * 32, map.length * 32);
+		Vec2 mapSize = new Vec2(map[0].length * Block.SIZE, map.length * Block.SIZE);
 
 		// dépassement du haut
 		if (pos.getX() >= 0 && pos.getX() <= mapSize.getX() && pos.getY() < 0) {
@@ -122,7 +122,7 @@ public abstract class Entity {
 
 	public Entity(LocalController c, int points) {
 		this.controller = c;
-		this.collider = new BoxCollider(32, 32, 0, 0);
+		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
 		this.frictionFactor = 0.6f;
 		this.pointsDeVie = points;
 		this.automata = null;

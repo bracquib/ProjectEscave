@@ -17,7 +17,7 @@ public class RayCasting {
 
 		Ray ray = new Ray(playerPos, playerPos.sub(mousePos).normalized());
 
-		Vec2 coord = playerPos.divide(32).round();
+		Vec2 coord = playerPos.divide(Block.SIZE).round();
 		Block[][] mapZone = Model.getMapZone((int) coord.getX() - range, (int) coord.getY() - range, range * 2,
 				range * 2);
 		for (int i = 1; i < range * 2 - 1; i++) {
@@ -30,13 +30,15 @@ public class RayCasting {
 
 				ArrayList<Line> lines = new ArrayList<Line>();
 				if (mapZone[i - 1][j] == null)
-					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX(), blPos.getY() + 32));
+					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX(), blPos.getY() + Block.SIZE));
 				if (mapZone[i][j - 1] == null)
-					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX() + 32, blPos.getY()));
+					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX() + Block.SIZE, blPos.getY()));
 				if (mapZone[i][j + 1] == null)
-					lines.add(new Line(blPos.getX(), blPos.getY() + 32, blPos.getX() + 32, blPos.getY() + 32));
+					lines.add(new Line(blPos.getX(), blPos.getY() + Block.SIZE, blPos.getX() + Block.SIZE,
+							blPos.getY() + Block.SIZE));
 				if (mapZone[i + 1][j] == null)
-					lines.add(new Line(blPos.getX() + 32, blPos.getY(), blPos.getX() + 32, blPos.getY() + 32));
+					lines.add(new Line(blPos.getX() + Block.SIZE, blPos.getY(), blPos.getX() + Block.SIZE,
+							blPos.getY() + Block.SIZE));
 
 				for (Line line : lines) {
 					Vec2 intersec = ray.intersect(line);

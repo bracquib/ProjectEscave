@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import info3.game.Model;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 
 public abstract class Behaviour {
@@ -34,39 +35,38 @@ public abstract class Behaviour {
 	 *         Category c, et la met éventuellement dans Entity r
 	 */
 	public boolean cell(Entity e, Direction d, Category c) {
-		// 32 =une case
 		// donner les coord en haut a gacuhe de la zone de vision
 		int decX, decY;
-		int width = 32;
-		int height = 32;
+		int width = Block.SIZE;
+		int height = Block.SIZE;
 		switch (d) {
 		case NORTH:
 			decX = 0;
-			decY = -32;
+			decY = -Block.SIZE;
 			break;
 		case SOUTH:
 			decX = 0;
-			decY = 32;
+			decY = Block.SIZE;
 			break;
 		case EST:
-			decX = 32;
+			decX = Block.SIZE;
 			decY = 0;
 			break;
 		case WEST:
-			decX = -32;
+			decX = -Block.SIZE;
 			decY = 0;
 			break;
 		case NORTHWEST:
-			decX = -32;
-			decY = -32;
+			decX = -Block.SIZE;
+			decY = -Block.SIZE;
 			break;
 		case NORTHEST:
-			decX = 32;
-			decY = -32;
+			decX = Block.SIZE;
+			decY = -Block.SIZE;
 			break;
 		default: // notamment HERE
-			decX = decY = -32;
-			width = height = 64;
+			decX = decY = -Block.SIZE;
+			width = height = Block.SIZE * 2;
 			break;
 		}
 		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) + decX,
@@ -90,21 +90,21 @@ public abstract class Behaviour {
 		switch (d) {
 		case NORTH:
 			decX = -diamVision / 2;
-			decY = -diamVision - 32;
+			decY = -diamVision - Block.SIZE;
 			break;
 
 		case SOUTH:
 			decX = -diamVision / 2;
-			decY = 32;
+			decY = Block.SIZE;
 			break;
 
 		case EST:
-			decX = 32;
+			decX = Block.SIZE;
 			decY = -diamVision / 2;
 			break;
 
 		case WEST:
-			decX = -diamVision - 32;
+			decX = -diamVision - Block.SIZE;
 			decY = -diamVision / 2;
 			break;
 

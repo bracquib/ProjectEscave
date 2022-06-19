@@ -49,7 +49,7 @@ public class Avatar {
 	public Avatar(int id, Paintable img) {
 		this.id = id;
 		this.position = new Vec2(0.0f, 0.0f);
-		this.scale = new Vec2(1.0f, 1.0f);
+		this.scale = new Vec2(2.0f, 2.0f);
 		this.image = AssetServer.load(img);
 	}
 

@@ -9,11 +9,9 @@ import info3.game.automata.Direction;
 import info3.game.automata.behaviors.BlockBehaviour;
 import info3.game.cavegenerator.BlockIDs;
 
-//public class Block extends Consumable {
-//	public Block(LocalController c, Vec2 position, int id) {
-//		super(c, position, null);
-
 public class Block extends Consumable {
+	public static final int SIZE = 64;
+
 	public Block(LocalController c, Vec2 position, int id, int points) {
 		super(c, null);
 		this.pointsDeVie = points;
@@ -22,7 +20,7 @@ public class Block extends Consumable {
 		this.setAutomata(Model.getAutomata("Block"));
 		this.setBehaviour(new BlockBehaviour());
 
-		Vec2 offset = BlockIDs.IDsToVec2.getOrDefault(id, new Vec2(0, 0)).multiply(-32);
+		Vec2 offset = BlockIDs.IDsToVec2.getOrDefault(id, new Vec2(0, 0)).multiply(-Block.SIZE);
 		this.avatar = this.controller.createAvatar(this.position.add(offset),
 				new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
 		this.setName("Block");
@@ -37,18 +35,16 @@ public class Block extends Consumable {
 
 	@Override
 	public boolean useTool(Direction d) {
-		// Behaviour behav = owner.getBehaviour();
-
 		Vec2 mousePos = owner.mousePos;
-		int xBP = (int) (owner.getPosition().getX() / 32); // coord en block du joueur
-		int yBP = (int) (owner.getPosition().getY() / 32);
+		int xBP = (int) (owner.getPosition().getX() / Block.SIZE); // coord en block du joueur
+		int yBP = (int) (owner.getPosition().getY() / Block.SIZE);
 		if (mousePos != null) {
-			int i = ((int) mousePos.getX() / 32);
-			int j = ((int) mousePos.getY() / 32);
+			int i = ((int) mousePos.getX() / Block.SIZE);
+			int j = ((int) mousePos.getY() / Block.SIZE);
 			Block place = Model.getBlock(i, j);
 			if (!(i == xBP & j == yBP) & i >= xBP - 2 & i <= xBP + 2 & j >= yBP - 2 & j <= yBP + 2) {
 				if (place == null) {
-					Model.getMap()[i][j] = new Block(Model.controller, new Vec2(i * 32, j * 32), 1, 1);
+					Model.getMap()[i][j] = new Block(Model.controller, new Vec2(i * Block.SIZE, j * Block.SIZE), 1, 1);
 					return true;
 				}
 			}
@@ -78,11 +74,11 @@ public class Block extends Consumable {
 			}
 			Vec2 pos = owner.getPosition(); // pas owner car celui du bloc est null,
 			// mais bien celui en paramètre, player possédant l'inventaire
-			int i = ((int) pos.getX() / 32) + decX;
-			int j = ((int) pos.getY() / 32) + decY;
+			int i = ((int) pos.getX() / Block.SIZE) + decX;
+			int j = ((int) pos.getY() / Block.SIZE) + decY;
 			Block place = Model.getBlock(i, j);
 			if (place == null) {
-				Model.getMap()[i][j] = new Block(Model.controller, new Vec2(i * 32, j * 32), 1, 1);
+				Model.getMap()[i][j] = new Block(Model.controller, new Vec2(i * Block.SIZE, j * Block.SIZE), 1, 1);
 				return true;
 			}
 			return false;

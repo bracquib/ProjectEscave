@@ -6,6 +6,7 @@ import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
@@ -32,7 +33,7 @@ public class StalactiteBehaviour extends Behaviour {
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		int diam = 480; // en pixel
+		int diam = Block.SIZE * 15; // en pixel
 		return super.closest(e, c, d, diam);
 
 	}
@@ -60,8 +61,8 @@ public class StalactiteBehaviour extends Behaviour {
 	public void pop(Entity e, Direction d) {
 		// pop=exploser
 
-		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - 32,
-				(int) (e.getPosition().getY()) - 32, 96, 96);
+		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - Block.SIZE,
+				(int) (e.getPosition().getY()) - Block.SIZE, Block.SIZE * 3, Block.SIZE * 3);
 		for (Entity e1 : nearEntities) {
 			Category cat = e1.getCategory();
 			if (cat == Category.PLAYER || cat == Category.ADVERSAIRE) {
