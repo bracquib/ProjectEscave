@@ -30,10 +30,10 @@ public class Image extends Paintable {
 		if (imageFile.exists()) {
 			try {
 				this.image = ImageIO.read(imageFile);
+				this.loaded = true;
 			} catch (IOException e) {
 				return;
 			}
 		}
 	}
-
 }

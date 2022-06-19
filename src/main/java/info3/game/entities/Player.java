@@ -23,7 +23,7 @@ public class Player extends RigidBody {
 		}
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
-		this.inventory = new Inventory(c);
+		this.inventory = new Inventory(c, this);
 	}
 
 	@Override

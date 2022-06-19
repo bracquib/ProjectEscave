@@ -35,6 +35,15 @@ public abstract class View {
 		}
 	}
 
+	public void updateAvatar(int id, String path) {
+		Avatar a = this.avatars.get(id);
+		if (a != null) {
+			synchronized (a) {
+				a.setPaintablePath(path);
+			}
+		}
+	}
+
 	public abstract void setController(Controller c);
 
 	protected Avatar getAvatar(int avatarId) {
@@ -49,4 +58,8 @@ public abstract class View {
 		this.player = player;
 		this.camera.followedAvatar = player.getAvatar();
 	}
+
+	protected abstract int getWidth();
+
+	protected abstract int getHeight();
 }

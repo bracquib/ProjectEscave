@@ -45,6 +45,7 @@ public class AnimatedImage extends Paintable {
 			int x = i * width;
 			this.frames[i] = image.getSubimage(x, 0, width, height);
 		}
+		this.loaded = true;
 	}
 
 	@Override
@@ -72,5 +73,4 @@ public class AnimatedImage extends Paintable {
 			this.imageIndex = (this.imageIndex + 1) % this.frames.length;
 		}
 	}
-
 }
