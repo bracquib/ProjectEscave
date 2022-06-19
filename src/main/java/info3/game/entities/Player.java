@@ -20,10 +20,10 @@ public class Player extends RigidBody {
 		this.color = color;
 		if (local) {
 			this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
+			this.inventory = new Inventory(c, this);
 		}
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
-		this.inventory = new Inventory(c, this);
 	}
 
 	@Override

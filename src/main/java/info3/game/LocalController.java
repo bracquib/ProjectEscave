@@ -141,7 +141,6 @@ public class LocalController extends Controller {
 
 	@Override
 	protected void mouseScroll(Player p, WheelScroll wheelScroll) {
-		System.out.println("ça scrolle " + wheelScroll.up);
 		Inventory inv = p.getInventory();
 		if (wheelScroll.up) {
 			inv.moveLCurrentTool();
