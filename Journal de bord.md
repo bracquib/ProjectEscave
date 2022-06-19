@@ -160,43 +160,60 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ## Mardi 14 juin 2022
 
 - Ana : règle quelques bugs liés au réseau. Objectif à la fin de la journée : pouvoir se promener à deux (ou plus) sur la carte qu'on génère maintenant, en réseau
--Lucas:implémentation des classes pour les Automates + commencement de BotBuilder
--Benjamin:implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
+- Lucas:implémentation des classes pour les Automates + commencement de BotBuilder
+- Benjamin:implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
 
 ### Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 
 * Ajout des classes Automata, AutomataState et AutomataTransition permettant de représenter les automates dans le code
 * Ajout de la classe BotBuilder implémentant l'interface fournie IVisitor, cette classe permet de créer les automates à partir d'un AST.
+
 ### Benjamin:implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
 
 * Ajout de la classe IConditions et de toutes les classes des divers conditions avec leurs fonctions eval.
 * Implémentation des fonctions True,Cell,GotPower,wizz(jump) et move de la classe playerBehaviour.
 
-##Mercredi 15 juin 2022
--Benjamin:implémentation des points de vie,des divers dégats,des classes de toutes les entités necessaires ainsi que leurs behaviours
+## Mercredi 15 juin 2022
 
-###Benjamin:implémentation des points de vie,des divers dégats,des classes des entités et de leurs behaviours.
+* Benjamin:implémentation des points de vie,des divers dégats,des classes de toutes les entités necessaires ainsi que leurs behaviours
+
+### Benjamin:implémentation des points de vie,des divers dégats,des classes des entités et de leurs behaviours.
+
 * Ajout des classes Mushroom,Block,Statue,Socle et stalactite.
 * Ajout des classes Behaviours pour toutes les entités.
 * implémentation des fonctions  hit et coup_reçu.
 
-##Jeudi 16 juin 2022
--Benjamin,Amory:implémentation des fonctions des Behaviours de chaque entité.
+## Jeudi 16 juin 2022
 
-###Benjamin et Amory:implémentation des fonctions des Behaviours de chaque entitié.
+* Benjamin,Amory:implémentation des fonctions des Behaviours de chaque entité.
+
+### Benjamin et Amory:implémentation des fonctions des Behaviours de chaque entitié.
+
 * implémentation des fonctions de déplacements(Move,Jump...)
 
-##Vendredi 17 juin 2022
--Benjamin,Amory:implémentation des fonctions des Behaviours de chaque entité.
+## Vendredi 17 juin 2022
 
-###Benjamin et Amory:implémentation des fonctions des Behaviours de chaque entitié.
+* Benjamin,Amory:implémentation des fonctions des Behaviours de chaque entité.
+* Lucas: BotBuilder terminé
+
+### Benjamin et Amory:implémentation des fonctions des Behaviours de chaque entitié.
+
 * implémentation des fonctions de coup et coup_reçu.
 * implémentation des fonctions de cell et closest.
 
-##Dimanche 19 juin 2022
--Benjamin,Amory:tests des fonctions faites et des automates.
+## Dimanche 19 juin 2022
 
-###Benjamin et Amory:tests des fonctions faites et des automates
+* Lucas: Execution des automates dans le code
+* Benjamin,Amory:tests des fonctions faites et des automates.
+
+### Lucas: Execution des automates dans le code
+
+* Ajout des automates enregistrés par le BotBuilder au model
+* Automates liés aux entités
+* Automates exécutés dans les ticks 
+
+### Benjamin et Amory:tests des fonctions faites et des automates
+
 * tests des fonctions cell,closest et des déplacements
 * modification des focntions cell et closest.
 
