@@ -35,7 +35,7 @@ public class SpawnGenerator4D {
 		long rand = (long) (Math.random() * System.currentTimeMillis());
 		System.out.println(rand);
 		SimplexNoise4D noise = new SimplexNoise4D();
-		int[][] values = noise.generation(nbPlayers);
+		int[][] values = noise.generation(nbPlayers, 0.12);
 		this.width = values.length;
 		this.height = values[0].length;
 		return values;
@@ -67,7 +67,7 @@ public class SpawnGenerator4D {
 						&& values[x + 2][y + 1] == 1 && values[x + 3][y + 1] == 1 && values[x - 3][y + 1] == 1) {
 					stop = false;
 					depart += zoneLen;
-					values[x][y] = 2;
+					values[x][y] = 0;
 					listSpawnPlayer.add(new Vec2(x, y));
 				}
 			}
@@ -89,23 +89,23 @@ public class SpawnGenerator4D {
 		int y = (int) coords.getY();
 		// on creuse à droite et à gauche
 		for (int i = -5; i < 6; i++) {
-			values[x + i][y] = 4;
+			values[x + i][y] = 0;
 		}
 		// ligne au dessus
 		for (int i = -4; i < 6; i++) {
-			values[x + i][y - 1] = 4;
+			values[x + i][y - 1] = 0;
 		}
 		// 2 lignes au dessus
 		for (int i = -3; i < 5; i++) {
-			values[x + i][y - 2] = 4;
+			values[x + i][y - 2] = 0;
 		}
 		// 3 lignes au dessus
 		for (int i = -2; i < 4; i++) {
-			values[x + i][y - 3] = 4;
+			values[x + i][y - 3] = 0;
 		}
 		// 4 lignes au dessus
-		values[x][y - 4] = 4;
-		values[x][y] = 3;
+		values[x][y - 4] = 0;
+		values[x][y] = 0;
 		return values;
 	}
 
@@ -153,7 +153,7 @@ public class SpawnGenerator4D {
 			if (find == false) {
 				stop = false;
 			} else {
-				values[x][y] = 5;
+				values[x][y] = 0;
 				exit.setX(x);
 				exit.setY(y);
 				System.out.println(exit.getX());
@@ -186,96 +186,96 @@ public class SpawnGenerator4D {
 
 	public int[][] zoneDestructionExit12(int[][] values, int x, int y) {
 		for (int i = -7; i < 9; i++) {
-			values[x + i][y] = 6;
+			values[x + i][y] = 0;
 		}
 		for (int i = -7; i < 9; i++) {
-			values[x + i][y - 1] = 6;
+			values[x + i][y - 1] = 0;
 		}
 		for (int i = -6; i < 7; i++) {
-			values[x + i][y - 2] = 6;
+			values[x + i][y - 2] = 0;
 		}
 		for (int i = -4; i < 5; i++) {
-			values[x + i][y - 3] = 6;
+			values[x + i][y - 3] = 0;
 		}
 		for (int i = -1; i < 3; i++) {
-			values[x + i][y - 4] = 6;
+			values[x + i][y - 4] = 0;
 		}
-		values[x][y] = 5;
+		values[x][y] = 0;
 		return values;
 	}
 
 	public int[][] zoneDestructionExit34(int[][] values, int x, int y) {
 		for (int i = -6; i < 8; i++) {
-			values[x + i][y] = 6;
+			values[x + i][y] = 0;
 		}
 		for (int i = -6; i < 7; i++) {
-			values[x + i][y - 1] = 6;
+			values[x + i][y - 1] = 0;
 		}
 		for (int i = -5; i < 7; i++) {
-			values[x + i][y - 2] = 6;
+			values[x + i][y - 2] = 0;
 		}
 		for (int i = -3; i < 4; i++) {
-			values[x + i][y - 3] = 6;
+			values[x + i][y - 3] = 0;
 		}
 		for (int i = -3; i < 4; i++) {
-			values[x + i][y - 4] = 6;
+			values[x + i][y - 4] = 0;
 		}
 		for (int i = 0; i < 3; i++) {
-			values[x + i][y - 5] = 6;
+			values[x + i][y - 5] = 0;
 		}
-		values[x][y] = 5;
+		values[x][y] = 0;
 		return values;
 	}
 
 	public int[][] zoneDestructionExit56(int[][] values, int x, int y) {
 		for (int i = -8; i < 9; i++) {
-			values[x + i][y] = 6;
+			values[x + i][y] = 0;
 		}
 		for (int i = -8; i < 9; i++) {
-			values[x + i][y - 1] = 6;
+			values[x + i][y - 1] = 0;
 		}
 		for (int i = -7; i < 6; i++) {
-			values[x + i][y - 2] = 6;
+			values[x + i][y - 2] = 0;
 		}
 		for (int i = -6; i < 6; i++) {
-			values[x + i][y - 3] = 6;
+			values[x + i][y - 3] = 0;
 		}
 		for (int i = -5; i < 6; i++) {
-			values[x + i][y - 4] = 6;
+			values[x + i][y - 4] = 0;
 		}
 		for (int i = -3; i < 4; i++) {
-			values[x + i][y - 5] = 6;
+			values[x + i][y - 5] = 0;
 		}
 		for (int i = -2; i < 1; i++) {
-			values[x + i][y - 6] = 6;
+			values[x + i][y - 6] = 0;
 		}
-		values[x][y] = 5;
+		values[x][y] = 0;
 		return values;
 	}
 
 	public int[][] zoneDestructionExit78(int[][] values, int x, int y) {
 		for (int i = -10; i < 11; i++) {
-			values[x + i][y] = 6;
+			values[x + i][y] = 0;
 		}
 		for (int i = -10; i < 11; i++) {
-			values[x + i][y - 1] = 6;
+			values[x + i][y - 1] = 0;
 		}
 		for (int i = -9; i < 10; i++) {
-			values[x + i][y - 2] = 6;
+			values[x + i][y - 2] = 0;
 		}
 		for (int i = -9; i < 10; i++) {
-			values[x + i][y - 3] = 6;
+			values[x + i][y - 3] = 0;
 		}
 		for (int i = -7; i < 8; i++) {
-			values[x + i][y - 4] = 6;
+			values[x + i][y - 4] = 0;
 		}
 		for (int i = -4; i < 4; i++) {
-			values[x + i][y - 5] = 6;
+			values[x + i][y - 5] = 0;
 		}
 		for (int i = -2; i < 2; i++) {
-			values[x + i][y - 6] = 6;
+			values[x + i][y - 6] = 0;
 		}
-		values[x][y] = 5;
+		values[x][y] = 0;
 		return values;
 	}
 
@@ -322,6 +322,7 @@ public class SpawnGenerator4D {
 			Vec2 coords = new Vec2(x, y);
 			if (checkBorder(coords) && checkPlacementStatue(coords) && checkZoneStatue(coords, values)) {
 				cpt--;
+				System.out.println("Statue : " + x + " " + y);
 				listSpawnStatues.add(coords);
 			}
 		}
@@ -369,25 +370,25 @@ public class SpawnGenerator4D {
 			int y = (int) coordsStatue.getY();
 			for (int i = -2; i < 3; i++) {
 				for (int j = -2; j < 3; j++) {
-					values[x + i][y + j] = 7;
+					values[x + i][y + j] = 0;
 				}
 			}
-			values[x - 4][y] = 7;
-			values[x - 3][y] = 7;
-			values[x + 4][y] = 7;
-			values[x + 3][y] = 7;
-			values[x][y - 4] = 7;
-			values[x][y - 3] = 7;
-			values[x][y + 4] = 7;
-			values[x][y + 3] = 7;
-			values[x - 3][y - 1] = 7;
-			values[x - 3][y + 1] = 7;
-			values[x + 3][y - 1] = 7;
-			values[x + 3][y + 1] = 7;
-			values[x - 1][y - 3] = 7;
-			values[x + 1][y - 3] = 7;
-			values[x - 1][y + 3] = 7;
-			values[x + 1][y + 3] = 7;
+			values[x - 4][y] = 0;
+			values[x - 3][y] = 0;
+			values[x + 4][y] = 0;
+			values[x + 3][y] = 0;
+			values[x][y - 4] = 0;
+			values[x][y - 3] = 0;
+			values[x][y + 4] = 0;
+			values[x][y + 3] = 0;
+			values[x - 3][y - 1] = 0;
+			values[x - 3][y + 1] = 0;
+			values[x + 3][y - 1] = 0;
+			values[x + 3][y + 1] = 0;
+			values[x - 1][y - 3] = 0;
+			values[x + 1][y - 3] = 0;
+			values[x - 1][y + 3] = 0;
+			values[x + 1][y + 3] = 0;
 			values[x][y + 1] = 1;
 		}
 

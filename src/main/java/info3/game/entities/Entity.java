@@ -29,6 +29,8 @@ public abstract class Entity {
 	 * L'avatar de l'entité
 	 */
 	protected Avatar avatar;
+	protected Vec2 avatarOffset;
+
 	protected Collider collider;
 	float frictionFactor;
 	protected LocalController controller;
@@ -40,7 +42,11 @@ public abstract class Entity {
 	public void setPosition(Vec2 pos) {
 		this.position = pos;
 		if (this.avatar != null) {
-			this.avatar.setPosition(pos);
+			if (this.avatarOffset != null) {
+				this.avatar.setPosition(pos.add(this.avatarOffset));
+			} else {
+				this.avatar.setPosition(pos);
+			}
 			this.controller.sendToClients(new UpdateAvatar(this.avatar.getId(), this.avatar.getPosition()));
 		}
 	}
