@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import info3.game.cavegenerator.BlockIDs;
 import info3.game.cavegenerator.DecorationGenerator;
 import info3.game.cavegenerator.Torus;
 
@@ -11,14 +12,14 @@ public class GenerationTest {
 	@Test
 	public void testBlocSeul() {
 		int[][] map = makeMap9(0, 0, 0, 0, 1, 0, 0, 0, 0);
-		Torus res = DecorationGenerator.decorate(map);
+		Torus res = genMap(map);
 		assertEquals(res.get(1, 1), 17);
 	}
 
 	@Test
 	public void testComplexe() {
 		int[][] map = makeMap25(0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0);
-		Torus res = DecorationGenerator.decorate(map);
+		Torus res = genMap(map);
 		assertEquals(res.get(1, 1), 22);
 		assertEquals(res.get(2, 1), 2);
 		assertEquals(res.get(3, 1), 3);
@@ -27,7 +28,7 @@ public class GenerationTest {
 		assertEquals(res.get(2, 3), 6);
 		assertEquals(res.get(1, 3), 7);
 		assertEquals(res.get(1, 2), 8);
-		assertEquals(res.get(2, 2), 1);
+		assertEquals(res.get(2, 2), 23);
 
 		int[][] map2 = makeMap25(0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0);
 		Torus res2 = DecorationGenerator.decorate(map2);
@@ -36,6 +37,13 @@ public class GenerationTest {
 		assertEquals(res2.get(3, 2), 21);
 		assertEquals(res2.get(1, 3), 18);
 		assertEquals(res2.get(2, 3), 19);
+	}
+
+	private Torus genMap(int[][] map) {
+		Torus step1 = DecorationGenerator.decorateMap(map, BlockIDs.PatternCouche1ToIDs);
+		Torus step2 = DecorationGenerator.decorateMap(step1.toArray(), BlockIDs.PatternCouche2ToIDs);
+		Torus step3 = DecorationGenerator.decorateMap(step2.toArray(), BlockIDs.PatternCouche3ToIDs);
+		return step3;
 	}
 
 	private int[][] makeMap9(int i, int j, int k, int l, int m, int n, int o, int p, int q) {

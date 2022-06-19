@@ -43,7 +43,7 @@ public class DecorationGenerator {
 		return extendDeco;
 	}
 
-	private static Torus decorateMap(int[][] map, HashMap<Integer[][], Integer> hm) {
+	public static Torus decorateMap(int[][] map, HashMap<Integer[][], Integer> hm) {
 		Torus newmap = new Torus(map);
 		Torus map2 = new Torus(map);
 		for (int i = 0; i < map.length; i++) {
