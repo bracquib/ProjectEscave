@@ -3,6 +3,7 @@ package info3.game;
 import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 import info3.game.network.KeyPress;
+import info3.game.network.WheelScroll;
 
 public abstract class Controller {
 	static Controller controller;
@@ -22,4 +23,6 @@ public abstract class Controller {
 	protected abstract void removeView(RemoteView view);
 
 	public abstract Avatar createAvatar(Vec2 pos, Paintable image);
+
+	protected abstract void mouseScroll(Player p, WheelScroll wheelScroll);
 }

@@ -30,10 +30,21 @@ public class Image extends Paintable {
 		if (imageFile.exists()) {
 			try {
 				this.image = ImageIO.read(imageFile);
+				this.loaded = true;
 			} catch (IOException e) {
 				return;
 			}
 		}
 	}
 
+	@Override
+	public Paintable duplicateFromPath(String path) {
+		Image img = new Image(path);
+		img.fixed = this.fixed;
+		img.layer = this.layer;
+		if (this.loaded) {
+			img.load();
+		}
+		return img;
+	}
 }

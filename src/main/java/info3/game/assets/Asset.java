@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public abstract class Asset implements Serializable {
 	String path;
+	boolean loaded;
 
 	public Asset(String path) {
 		this.path = path;

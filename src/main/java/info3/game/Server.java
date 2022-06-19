@@ -60,7 +60,6 @@ class TickerThread extends Thread {
 				}
 				long execTime = System.currentTimeMillis() - end;
 				start = end;
-				System.out.println("exec time : " + execTime);
 				Thread.sleep(Math.max(0, 30 - execTime));
 			} catch (InterruptedException e) {
 				// TODO ?

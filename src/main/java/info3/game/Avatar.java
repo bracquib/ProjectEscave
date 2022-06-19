@@ -71,12 +71,26 @@ public class Avatar {
 	 * @param cameraPos La position de la caméra dans le monde
 	 */
 	public void paint(Graphics g, Vec2 cameraPos) {
-		Vec2 screenCoords = this.position.globalToScreen(cameraPos);
+		Vec2 screenCoords;
+		if (!this.image.fixed) {
+			screenCoords = this.position.globalToScreen(cameraPos);
+		} else {
+			screenCoords = this.position;
+		}
 		BufferedImage img = this.image.imageToPaint();
 		if (img != null) {
 			g.drawImage(img, (int) screenCoords.getX(), (int) screenCoords.getY(),
 					((int) scale.getX()) * img.getWidth(), ((int) scale.getY()) * img.getHeight(), null);
 		}
+	}
+
+	public void setPaintablePath(String path) {
+		this.image = this.image.duplicateFromPath(path);
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof Avatar && this.id == ((Avatar) other).id;
 	}
 
 }

@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JFrame;
@@ -22,9 +24,18 @@ public class LocalView extends View {
 	CanvasListener listener;
 	Sound music;
 	Semaphore isPainting;
+	protected SortedSet<Avatar> sortedAvatars;
 
 	public LocalView(Controller controller) {
 		super();
+		this.sortedAvatars = new TreeSet<Avatar>((x, y) -> {
+			int cmp = x.image.layer - y.image.layer;
+			if (cmp == 0) {
+				return y.id - x.id;
+			} else {
+				return cmp;
+			}
+		});
 		this.isPainting = new Semaphore(1);
 
 		this.controller = controller;
@@ -156,9 +167,9 @@ public class LocalView extends View {
 		int radius = Math.max(width, height) * 2;
 		ArrayList<Avatar> result = new ArrayList<>();
 		Vec2 cameraPos = this.camera.getPos();
-		synchronized (this.avatars) {
-			for (Avatar a : this.avatars.values()) {
-				if (a.position.distance(cameraPos) < radius) {
+		synchronized (this.sortedAvatars) {
+			for (Avatar a : this.sortedAvatars) {
+				if (a.image.fixed || a.position.distance(cameraPos) < radius) {
 					result.add(a);
 				}
 			}
@@ -173,11 +184,24 @@ public class LocalView extends View {
 		synchronized (this.avatars) {
 			this.avatars.put(id, av);
 		}
+		synchronized (this.sortedAvatars) {
+			this.sortedAvatars.add(av);
+		}
 		return av;
 	}
 
 	@Override
 	public void setController(Controller c) {
 		this.controller = c;
+	}
+
+	@Override
+	protected int getWidth() {
+		return this.frame == null ? 1024 : this.frame.getWidth();
+	}
+
+	@Override
+	protected int getHeight() {
+		return this.frame == null ? 768 : this.frame.getHeight();
 	}
 }

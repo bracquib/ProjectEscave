@@ -23,9 +23,11 @@ package info3.game;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 import info3.game.graphics.GameCanvasListener;
 import info3.game.network.KeyPress;
+import info3.game.network.WheelScroll;
 
 public class CanvasListener implements GameCanvasListener {
 	LocalView view;
@@ -114,5 +116,11 @@ public class CanvasListener implements GameCanvasListener {
 	@Override
 	public void expired() {
 
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		WheelScroll ws = new WheelScroll(e.getWheelRotation() > 0);
+		this.view.controller.mouseScroll(this.view.getPlayer(), ws);
 	}
 }

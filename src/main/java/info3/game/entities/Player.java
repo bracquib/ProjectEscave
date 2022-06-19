@@ -1,5 +1,6 @@
 package info3.game.entities;
 
+import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
@@ -7,6 +8,11 @@ import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
 	PlayerColor color;
+	private float hungerPoints;
+	private float maxHunger = 100;
+	private float thirstPoints;
+	private float maxThirst = 100;
+	private Inventory inventory;
 
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local) {
 		super(1, c);
@@ -14,9 +20,13 @@ public class Player extends RigidBody {
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -10);
 		if (local) {
-			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset),
-					new AnimatedImage(this.avatarPath(), 9, 100));
+			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 9, 100);
+			sprite.layer = 1;
+			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
+			this.inventory = new Inventory(c, this);
 		}
+		this.hungerPoints = maxHunger;
+		this.thirstPoints = maxThirst;
 	}
 
 	@Override
@@ -74,4 +84,37 @@ public class Player extends RigidBody {
 			return PlayerColor.BLACK;
 		}
 	}
+
+	public float getHungerPoints() {
+		return this.hungerPoints;
+	}
+
+	public void setHungerPoints(float hungerPoints) {
+		this.hungerPoints = hungerPoints;
+	}
+
+	public void feed(float feedPoints) {
+		this.hungerPoints += feedPoints;
+		if (this.hungerPoints > maxHunger)
+			this.hungerPoints = maxHunger;
+	}
+
+	public float getThirstPoints() {
+		return this.thirstPoints;
+	}
+
+	public void setThirstPoints(float thirstPoints) {
+		this.thirstPoints = thirstPoints;
+	}
+
+	public void water(float waterPoints) {
+		this.thirstPoints += waterPoints;
+		if (this.thirstPoints > maxThirst)
+			this.thirstPoints = maxThirst;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
 }

@@ -32,4 +32,14 @@ public class RemoteView extends View {
 	public void setController(Controller c) {
 		this.controller = c;
 	}
+
+	@Override
+	protected int getWidth() {
+		return 1024; // TODO: add a network packet to sync view size
+	}
+
+	@Override
+	protected int getHeight() {
+		return 768;
+	}
 }
