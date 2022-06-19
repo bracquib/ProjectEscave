@@ -23,7 +23,7 @@ public class RemoteController extends Controller {
 	Socket sock;
 	NetworkSenderThread networkSender;
 	NetworkReceiverThread networkReceiver;
-	protected View view;
+	protected LocalView view;
 
 	public RemoteController(String ip, int port) throws IOException {
 		super();
@@ -46,7 +46,9 @@ public class RemoteController extends Controller {
 
 	@Override
 	public void addView(View v) {
-		this.view = v;
+		if (v instanceof LocalView) {
+			this.view = (LocalView) v;
+		}
 	}
 
 	@Override
@@ -58,10 +60,7 @@ public class RemoteController extends Controller {
 
 	@Override
 	protected void removeView(RemoteView view) {
-		// Ne doit jamais être appelé normalement, mais on implémente au cas où
-		if (view == this.view) {
-			this.view = null;
-		}
+		// Ne doit jamais être appelé normalement
 	}
 }
 
@@ -141,7 +140,13 @@ class NetworkReceiverThread extends Thread {
 			this.controller.view.createAvatar(ca.id, ca.position, ca.image);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
-			this.controller.view.updateAvatar(ua.avatarId, ua.position);
+			try {
+				this.controller.view.isPainting.acquire();
+				this.controller.view.updateAvatar(ua.avatarId, ua.position);
+				this.controller.view.isPainting.release();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		} else if (msg instanceof MultiMessage) {
 			MultiMessage mm = (MultiMessage) msg;
 			for (NetworkMessage m : mm.messages) {
