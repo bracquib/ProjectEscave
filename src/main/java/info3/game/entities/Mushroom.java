@@ -8,13 +8,14 @@ import info3.game.physics.RigidBody;
 
 public class Mushroom extends RigidBody {
 
-	public Mushroom(LocalController c, Vec2 pos, boolean local, int points) {
+	public int childRemain;
+
+	public Mushroom(LocalController c, Vec2 pos, int points, int remain) {
 		super(1, c, points);
+		childRemain = remain;
 		this.setPosition(pos);
 		this.setCategory(Category.ADVERSAIRE);
-		if (local) {
-			this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
-		}
+		this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
 	}
 
 	@Override

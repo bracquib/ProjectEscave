@@ -141,7 +141,7 @@ public class BotBuilder implements IVisitor {
 		case "True":
 			return new True();
 		case "Egg":
-			return new Egg();
+			return new Egg((info3.game.automata.Direction) parameters.get(0));
 		case "Explode":
 			return new Explode();
 		case "Get":

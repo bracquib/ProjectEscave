@@ -157,7 +157,7 @@ public class BlockBehaviour extends Behaviour {
 	}
 
 	@Override
-	public void egg(Entity e) {
+	public void egg(Entity e, Direction d) {
 		// pas besoin
 
 	}

@@ -1,14 +1,12 @@
 package info3.game.automata;
 
-import java.util.ArrayList;
-
-import info3.game.Model;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
 public class PlayerBehaviour extends Behaviour {
 
-	Entity ret; 
+	Entity ret;
+
 	@Override
 	public boolean true_(Entity e) {
 		return true;
@@ -27,65 +25,32 @@ public class PlayerBehaviour extends Behaviour {
 	}
 
 	/*
-	@Override
-	public boolean cell(Entity e, Direction d, Category c) {
-		// 32 =une case
-
-		switch (d) {
-		case NORTH:
-			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX())+16,
-					(int) (e.getPosition().getY()) - 16, 32, 32);
-			for (Entity e1 : nearEntities) {
-				if (e1.getCategory() == c) {
-					ret = e1;
-					return true;
-				}
-			}
-			break;
-		case SOUTH:
-			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()) + 16,
-					(int) (e.getPosition().getY()) + 48, 32, 32);
-			for (Entity e1 : nearEntities2) {
-				if (e1.getCategory() == c) {
-					ret = e1;
-					return true;
-				}
-			}
-			break;
-		case EST:
-			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 48,
-					(int) (e.getPosition().getY())+16, 32, 32);
-			for (Entity e1 : nearEntities3) {
-				if (e1.getCategory() == c) {
-					ret = e1;
-					return true;
-				}
-			}
-			break;
-		case WEST:
-			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - 16,
-					(int) (e.getPosition().getY()) + 16, 32, 32);
-			for (Entity e1 : nearEntities4) {
-				if (e1.getCategory() == c) {
-					ret = e1;
-					return true;
-				}
-			}
-			break;
-		case NORTHWEST:
-			break;
-		case NORTHEST:
-			break;
-		}
-
-		return false;
-	}
-	*/
+	 * @Override public boolean cell(Entity e, Direction d, Category c) { // 32 =une
+	 * case
+	 * 
+	 * switch (d) { case NORTH: ArrayList<Entity> nearEntities =
+	 * Model.getNearEntities2((int) (e.getPosition().getX())+16, (int)
+	 * (e.getPosition().getY()) - 16, 32, 32); for (Entity e1 : nearEntities) { if
+	 * (e1.getCategory() == c) { ret = e1; return true; } } break; case SOUTH:
+	 * ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int)
+	 * (e.getPosition().getX()) + 16, (int) (e.getPosition().getY()) + 48, 32, 32);
+	 * for (Entity e1 : nearEntities2) { if (e1.getCategory() == c) { ret = e1;
+	 * return true; } } break; case EST: ArrayList<Entity> nearEntities3 =
+	 * Model.getNearEntities2((int) (e.getPosition().getX()) + 48, (int)
+	 * (e.getPosition().getY())+16, 32, 32); for (Entity e1 : nearEntities3) { if
+	 * (e1.getCategory() == c) { ret = e1; return true; } } break; case WEST:
+	 * ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int)
+	 * (e.getPosition().getX()) - 16, (int) (e.getPosition().getY()) + 16, 32, 32);
+	 * for (Entity e1 : nearEntities4) { if (e1.getCategory() == c) { ret = e1;
+	 * return true; } } break; case NORTHWEST: break; case NORTHEST: break; }
+	 * 
+	 * return false; }
+	 */
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
 		int diam = 320; // en pixel
-		return super.closest(e,  c,  d,  diam);
+		return super.closest(e, c, d, diam);
 	}
 
 	@Override
@@ -108,9 +73,9 @@ public class PlayerBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// wizz=jump
 		/*
-		RigidBody p = new RigidBody(e, 1, 10);
-		p.getSpeed().setY(-120);*/
-		((RigidBody)e).getSpeed().setY(-250);
+		 * RigidBody p = new RigidBody(e, 1, 10); p.getSpeed().setY(-120);
+		 */
+		((RigidBody) e).getSpeed().setY(-250);
 		return;
 	}
 
@@ -120,7 +85,7 @@ public class PlayerBehaviour extends Behaviour {
 		if (cell(e, d, Category.ADVERSAIRE)) {
 			ret.getBehaviour().protect(ret, d, e.degat_epee);
 		} else if (cell(e, d, Category.JUMPABLE)) {
-			ret.getBehaviour().wizz(ret, d); //peut etre à ajuster
+			ret.getBehaviour().wizz(ret, d); // peut etre à ajuster
 		}
 		return;
 		// e.degat_epee=1;voir comment décider si l'inventaire a une épée ou une pioche
@@ -204,7 +169,7 @@ public class PlayerBehaviour extends Behaviour {
 	}
 
 	@Override
-	public void egg(Entity e) {
+	public void egg(Entity e, Direction d) {
 		// pas besoin pour le player
 
 	}
@@ -213,8 +178,8 @@ public class PlayerBehaviour extends Behaviour {
 	public void protect(Entity e, Direction d, int dmg) {
 		e.m_points -= dmg;
 		RigidBody p = (RigidBody) e;
-		switch(d){
-		case SOUTH :
+		switch (d) {
+		case SOUTH:
 			p.getSpeed().setY(-120);
 			break;
 		case EST:

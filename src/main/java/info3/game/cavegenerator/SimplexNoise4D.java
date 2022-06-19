@@ -23,7 +23,6 @@ public class SimplexNoise4D {
 
 	private static final double SQUISH_CONSTANT_4D = 0.309016994374947; // (Math.sqrt(4+1)-1)/4;
 
-	private static final long DEFAULT_SEED = 0;
 
 	private static final int PSIZE = 2048;
 	private static final int PMASK = 2047;
@@ -33,7 +32,7 @@ public class SimplexNoise4D {
 	private Grad4[] permGrad4;
 
 	public SimplexNoise4D() {
-		this(DEFAULT_SEED);
+		this((int)Math.random()*System.currentTimeMillis());
 	}
 
 	public SimplexNoise4D(short[] perm) {

@@ -37,7 +37,7 @@ public class Model {
 	 * On ajoute pas directement dans entities pour éviter des accès concurrents par
 	 * plusieurs threads #réseau #parallélisme
 	 */
-	ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
+	static ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
 
 	/**
 	 * La liste des blocs de la carte.
@@ -77,8 +77,8 @@ public class Model {
 	 * 
 	 * @param e L'entité à faire apparaître
 	 */
-	public void spawn(RigidBody e) {
-		this.spawnQueue.add(e);
+	public static void spawn(RigidBody e) {
+		Model.spawnQueue.add(e);
 	}
 
 	public Player spawnPlayer() {

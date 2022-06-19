@@ -169,5 +169,5 @@ public abstract class Behaviour {
 
 	abstract void explode(Entity e);
 
-	abstract void egg(Entity e);
+	abstract void egg(Entity e, Direction d);
 }

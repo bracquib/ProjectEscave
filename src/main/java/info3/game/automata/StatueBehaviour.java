@@ -1,8 +1,5 @@
 package info3.game.automata;
 
-import java.util.ArrayList;
-
-import info3.game.Model;
 import info3.game.entities.Entity;
 
 public class StatueBehaviour extends Behaviour {
@@ -25,54 +22,24 @@ public class StatueBehaviour extends Behaviour {
 	}
 
 	/*
-	@Override
-	public boolean cell(Entity e, Direction d, Category c) {
-		switch (d) {
-		case NORTH:
-			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()),
-					(int) (e.getPosition().getY()) + 32, 32, 32);
-			for (Entity e1 : nearEntities) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		case SOUTH:
-			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
-					(int) (e.getPosition().getY()) - 32, 32, 32);
-			for (Entity e1 : nearEntities2) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		case EST:
-			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
-					(int) (e.getPosition().getY()), 32, 32);
-			for (Entity e1 : nearEntities3) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		case WEST:
-			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - 32,
-					(int) (e.getPosition().getY()) + 32, 32, 32);
-			for (Entity e1 : nearEntities4) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		case NORTHWEST:
-			break;
-		case NORTHEST:
-			break;
-		}
-
-		return false;
-	}
-	*/
+	 * @Override public boolean cell(Entity e, Direction d, Category c) { switch (d)
+	 * { case NORTH: ArrayList<Entity> nearEntities = Model.getNearEntities2((int)
+	 * (e.getPosition().getX()), (int) (e.getPosition().getY()) + 32, 32, 32); for
+	 * (Entity e1 : nearEntities) { if (e1.getCategory() == c) { return true; } }
+	 * break; case SOUTH: ArrayList<Entity> nearEntities2 =
+	 * Model.getNearEntities2((int) (e.getPosition().getX()), (int)
+	 * (e.getPosition().getY()) - 32, 32, 32); for (Entity e1 : nearEntities2) { if
+	 * (e1.getCategory() == c) { return true; } } break; case EST: ArrayList<Entity>
+	 * nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
+	 * (int) (e.getPosition().getY()), 32, 32); for (Entity e1 : nearEntities3) { if
+	 * (e1.getCategory() == c) { return true; } } break; case WEST:
+	 * ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int)
+	 * (e.getPosition().getX()) - 32, (int) (e.getPosition().getY()) + 32, 32, 32);
+	 * for (Entity e1 : nearEntities4) { if (e1.getCategory() == c) { return true; }
+	 * } break; case NORTHWEST: break; case NORTHEST: break; }
+	 * 
+	 * return false; }
+	 */
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
@@ -171,7 +138,7 @@ public class StatueBehaviour extends Behaviour {
 	}
 
 	@Override
-	public void egg(Entity e) {
+	public void egg(Entity e, Direction d) {
 		// TODO Auto-generated method stub
 
 	}
