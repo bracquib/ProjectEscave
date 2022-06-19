@@ -3,13 +3,14 @@ package info3.game.entities;
 import java.awt.Graphics;
 
 import info3.game.Avatar;
-import info3.game.Controller;
+import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.automata.Automata;
 import info3.game.automata.AutomataState;
 import info3.game.automata.Behaviour;
 import info3.game.automata.Category;
 import info3.game.automata.CurrentState;
+import info3.game.network.UpdateAvatar;
 import info3.game.physics.BoxCollider;
 import info3.game.physics.Collider;
 
@@ -33,9 +34,8 @@ public abstract class Entity {
 	 * L'avatar de l'entité
 	 */
 	protected Avatar avatar;
-	Collider collider;
+	protected Collider collider;
 	float frictionFactor;
-	protected Controller controller;
 	protected Automata automata;
 	protected CurrentState currentState;
 	protected Behaviour behaviour;
@@ -44,6 +44,7 @@ public abstract class Entity {
 	public int degat_epee;
 	public int degat_pioche;
 	protected Category category;
+	protected LocalController controller;
 
 	public Vec2 getPosition() {
 		return this.position;
@@ -53,6 +54,7 @@ public abstract class Entity {
 		this.position = pos;
 		if (this.avatar != null) {
 			this.avatar.setPosition(pos);
+			this.controller.sendToClients(new UpdateAvatar(this.avatar.getId(), this.avatar.getPosition()));
 		}
 	}
 
@@ -62,22 +64,6 @@ public abstract class Entity {
 
 	public Category getCategory() {
 		return this.category;
-	}
-
-	public Entity(Controller c, int points) {
-		this.controller = c;
-		m_points = points;
-		BoxCollider collider = new BoxCollider();
-		collider.height = 32;
-		collider.width = 32;
-		this.collider = collider;
-		this.frictionFactor = 0.9f;
-		this.automata = null;
-		this.currentState = null;
-		this.behaviour = null;
-		this.degat_mob = 0;
-		this.degat_epee = 0;
-		this.degat_pioche = 0;
 	}
 
 	public void setAutomata(Automata automata) {
@@ -98,6 +84,19 @@ public abstract class Entity {
 
 	public Behaviour getBehaviour() {
 		return this.behaviour;
+	}
+
+	public Entity(LocalController c, int points) {
+		this.controller = c;
+		this.collider = new BoxCollider(32, 32, 0, 0);
+		this.frictionFactor = 0.6f;
+		this.m_points = points;
+		this.automata = null;
+		this.currentState = null;
+		this.behaviour = null;
+		this.degat_mob = 0;
+		this.degat_epee = 0;
+		this.degat_pioche = 0;
 	}
 
 	/**
@@ -131,7 +130,7 @@ public abstract class Entity {
 		return this.collider;
 	}
 
-	public Controller getController() {
+	public LocalController getController() {
 		return this.controller;
 	}
 

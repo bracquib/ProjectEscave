@@ -54,7 +54,7 @@ public class Model {
 
 	ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 2;
+	private final int maxPlayers = 1;
 	private int playerCount = 0;
 
 	ArrayList<Automata> automatas;
@@ -114,6 +114,10 @@ public class Model {
 		this.entities.addAll(this.spawnQueue);
 		this.spawnQueue.clear();
 		if (!this.started()) {
+			return;
+		}
+		if (elapsed > 200) {
+			System.out.println("[WARN] Tick ignored in model");
 			return;
 		}
 		this.physics.tick(elapsed);

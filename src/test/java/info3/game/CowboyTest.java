@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import info3.game.assets.AssetServer;
 import info3.game.entities.Cowboy;
 
 public class CowboyTest {
 
 	@Test
 	public void testCowboy() {
+		AssetServer.init(false);
 		ArrayList<View> views = new ArrayList<View>();
 		views.add(new RemoteView());
 		Cowboy c = new Cowboy(new LocalController(views), 1);

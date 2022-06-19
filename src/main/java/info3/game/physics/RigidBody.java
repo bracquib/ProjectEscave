@@ -1,6 +1,6 @@
 package info3.game.physics;
 
-import info3.game.Controller;
+import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.entities.Entity;
 
@@ -16,7 +16,7 @@ public class RigidBody extends Entity {
 		this.mass = mass;
 	}
 
-	public RigidBody(float mass, Controller c, int points) {
+	public RigidBody(float mass, LocalController c, int points) {
 		super(c, points);
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();

@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
@@ -22,7 +23,7 @@ public class RemoteController extends Controller {
 	Socket sock;
 	NetworkSenderThread networkSender;
 	NetworkReceiverThread networkReceiver;
-	protected View view;
+	protected LocalView view;
 
 	public RemoteController(String ip, int port) throws IOException {
 		super();
@@ -45,24 +46,22 @@ public class RemoteController extends Controller {
 
 	@Override
 	public void addView(View v) {
-		this.view = v;
+		if (v instanceof LocalView) {
+			this.view = (LocalView) v;
+		}
 	}
 
 	@Override
-	public Avatar createAvatar(Vec2 pos, String string, int imageLen, int animationDelay) {
+	public Avatar createAvatar(Vec2 pos, Paintable image) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
-		return this.view.createAvatar(id, pos, string, imageLen, animationDelay);
+		return this.view.createAvatar(id, pos, image);
 	}
 
 	@Override
 	protected void removeView(RemoteView view) {
-		// Ne doit jamais être appelé normalement, mais on implémente au cas où
-		if (view == this.view) {
-			this.view = null;
-		}
+		// Ne doit jamais être appelé normalement
 	}
-
 }
 
 class NetworkSenderThread extends Thread {
@@ -138,10 +137,16 @@ class NetworkReceiverThread extends Thread {
 	private void handleMessage(Object msg) {
 		if (msg instanceof CreateAvatar) {
 			CreateAvatar ca = (CreateAvatar) msg;
-			this.controller.view.createAvatar(ca.id, ca.position, ca.filename, ca.imageLen, ca.animationDelay);
+			this.controller.view.createAvatar(ca.id, ca.position, ca.image);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
-			this.controller.view.updateAvatar(ua.avatarId, ua.position);
+			try {
+				this.controller.view.isPainting.acquire();
+				this.controller.view.updateAvatar(ua.avatarId, ua.position);
+				this.controller.view.isPainting.release();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		} else if (msg instanceof MultiMessage) {
 			MultiMessage mm = (MultiMessage) msg;
 			for (NetworkMessage m : mm.messages) {
@@ -152,7 +157,7 @@ class NetworkReceiverThread extends Thread {
 			this.controller.view.camera.setAvatar(this.controller.view.getAvatar(sc.avatarId));
 		} else if (msg instanceof Welcome) {
 			Welcome w = (Welcome) msg;
-			this.controller.view.setPlayer(new Player(this.controller, w.yourColor, new Vec2(0), false, 10));
+			this.controller.view.setPlayer(new Player(new LocalController(), w.yourColor, new Vec2(0), false, 3));
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}

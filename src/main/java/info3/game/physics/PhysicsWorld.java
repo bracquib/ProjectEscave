@@ -6,12 +6,12 @@ import java.util.HashSet;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.entities.Block;
-import info3.game.entities.Entity;
 
 public class PhysicsWorld {
 
 	Model model;
-	public static final Vec2 GRAVITY = new Vec2(0.0f, 175f);
+	public static final Vec2 GRAVITY = new Vec2(0.0f, 800f);
+	public static final Vec2 MAXSPEED = new Vec2(200f, 5000f);
 
 	public PhysicsWorld(Model model) {
 		this.model = model;
@@ -32,6 +32,9 @@ public class PhysicsWorld {
 		Block[][] map = this.model.getMap();
 
 		for (RigidBody rb : entities) {
+			step(rb, elapsedSec);
+
+			step(rb, elapsedSec);
 
 			HashSet<CollisionType> collisions = new HashSet<CollisionType>();
 			Block floor = null;
@@ -46,10 +49,10 @@ public class PhysicsWorld {
 						CollisionType coll = rb.isColliding(map[i][j]);
 						if (coll == CollisionType.NONE)
 							continue;
-						clearCoords(rb, map[i][j], coll);
 						if (collisions.add(coll) && coll == CollisionType.DOWN) {
 							floor = map[i][j];
 						}
+						clearCoords(rb, map[i][j], coll);
 					} catch (Exception e) {
 						// Ne devrait jamais arriver
 						e.printStackTrace();
@@ -58,11 +61,10 @@ public class PhysicsWorld {
 
 				}
 			}
-
 			if (!collisions.contains(CollisionType.DOWN)) {
 				this.computeGravity(rb, elapsedSec);
 			} else {
-				this.computeFrictionX(rb, floor);
+				// this.computeFrictionX(rb, floor);
 			}
 			for (CollisionType coll : collisions) {
 				switch (coll) {
@@ -87,7 +89,7 @@ public class PhysicsWorld {
 
 				}
 			}
-			step(rb, elapsedSec);
+			checkSpeed(rb);
 		}
 	}
 
@@ -119,11 +121,10 @@ public class PhysicsWorld {
 	 *
 	 * @return void
 	 */
-	private void computeFrictionX(RigidBody rb, Entity e) {
+	private void computeFrictionX(RigidBody rb, Block e) {
 		if (rb.getFrictionFactor() == 0 || e.getFrictionFactor() == 0)
 			return;
-		// rb.getSpeed().setX(Math.round(rb.getSpeed().getX() / (rb.getFrictionFactor()
-		// * e.getFrictionFactor())));
+		rb.getSpeed().setX(Math.round(rb.getSpeed().getX() * (rb.getFrictionFactor() + e.getFrictionFactor() / 2)));
 	}
 
 	/**
@@ -157,10 +158,19 @@ public class PhysicsWorld {
 			rb.setPosition(rb.getPosition().add(new Vec2(diffLEFT, 0f)));
 			break;
 		case RIGHT:
+			float diffRIGHT = rb.getPosition().getX() + ((BoxCollider) rb.getCollider()).width
+					- bl.getPosition().getX();
+			rb.setPosition(rb.getPosition().add(new Vec2(-diffRIGHT, 0f)));
 			break;
 		default:
 			break;
-
 		}
+	}
+
+	private void checkSpeed(RigidBody rb) {
+		if (Math.abs(rb.getSpeed().getX()) > MAXSPEED.getX())
+			rb.setSpeed(new Vec2(rb.getSpeed().getX() / Math.abs(rb.getSpeed().getX()) * MAXSPEED.getX(),
+					rb.getSpeed().getY()));
+
 	}
 }
