@@ -17,15 +17,20 @@ public class DecorationGenerator {
 		Torus step2 = decorateMap(step1.toArray(), BlockIDs.PatternCouche2ToIDs);
 		Torus step3 = decorateMap(step2.toArray(), BlockIDs.PatternCouche3ToIDs);
 
-		Torus extendDeco = extensionDecoration(step3.toArray(), 2, champignons, 15);
+		Torus extendDeco = extensionDecoration(step3.toArray(), 2, champignons, 40);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 1, mineraux, 0.5);
 		Fillon.generateFilons(extendDeco, 1, mineraux);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 4, cristaux_droit, 5);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 8, cristaux_gauche, 5);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 2, cristaux_sol, 2);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 6, cristaux_plafond, 5);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 4, arbres_droit, 2);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 8, arbres_gauche, 2);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 4, cristaux_droit, 15);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 8, cristaux_gauche, 15);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 2, cristaux_sol, 20);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 22, cristaux_sol, 20);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 3, cristaux_sol, 20);
+
+		extendDeco = extensionDecoration(extendDeco.toArray(), 6, cristaux_plafond, 50);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 7, cristaux_plafond, 50);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 5, cristaux_plafond, 50);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 4, arbres_droit, 20);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 8, arbres_gauche, 20);
 		extendDeco = extensionStegDeco(extendDeco.toArray(), 0.01);
 		extendDeco = extensionTRexDeco(extendDeco.toArray(), 0.01);
 		extendDeco = extensionTricDeco(extendDeco.toArray(), 0.01);
