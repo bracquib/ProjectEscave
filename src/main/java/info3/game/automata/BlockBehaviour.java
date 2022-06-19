@@ -3,7 +3,7 @@ package info3.game.automata;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
-public class BlockBehaviour implements Behaviour {
+public class BlockBehaviour extends Behaviour {
 
 	@Override
 	public boolean true_(Entity e) {

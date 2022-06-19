@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import info3.game.Model;
 import info3.game.entities.Entity;
 
-public class StatueBehaviour implements Behaviour {
+public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public boolean true_(Entity e) {
@@ -24,6 +24,7 @@ public class StatueBehaviour implements Behaviour {
 		return false;
 	}
 
+	/*
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
 		switch (d) {
@@ -71,6 +72,7 @@ public class StatueBehaviour implements Behaviour {
 
 		return false;
 	}
+	*/
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d) {

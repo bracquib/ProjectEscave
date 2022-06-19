@@ -6,7 +6,7 @@ import info3.game.Model;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
-public class PlayerBehaviour implements Behaviour {
+public class PlayerBehaviour extends Behaviour {
 
 	Entity ret; 
 	@Override
@@ -26,14 +26,15 @@ public class PlayerBehaviour implements Behaviour {
 		return false;
 	}
 
+	/*
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
 		// 32 =une case
 
 		switch (d) {
 		case NORTH:
-			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()),
-					(int) (e.getPosition().getY()) + 32, 32, 32);
+			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX())+16,
+					(int) (e.getPosition().getY()) - 16, 32, 32);
 			for (Entity e1 : nearEntities) {
 				if (e1.getCategory() == c) {
 					ret = e1;
@@ -42,8 +43,8 @@ public class PlayerBehaviour implements Behaviour {
 			}
 			break;
 		case SOUTH:
-			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
-					(int) (e.getPosition().getY()) - 32, 32, 32);
+			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()) + 16,
+					(int) (e.getPosition().getY()) + 48, 32, 32);
 			for (Entity e1 : nearEntities2) {
 				if (e1.getCategory() == c) {
 					ret = e1;
@@ -52,8 +53,8 @@ public class PlayerBehaviour implements Behaviour {
 			}
 			break;
 		case EST:
-			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
-					(int) (e.getPosition().getY()), 32, 32);
+			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 48,
+					(int) (e.getPosition().getY())+16, 32, 32);
 			for (Entity e1 : nearEntities3) {
 				if (e1.getCategory() == c) {
 					ret = e1;
@@ -62,8 +63,8 @@ public class PlayerBehaviour implements Behaviour {
 			}
 			break;
 		case WEST:
-			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - 32,
-					(int) (e.getPosition().getY()) + 32, 32, 32);
+			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - 16,
+					(int) (e.getPosition().getY()) + 16, 32, 32);
 			for (Entity e1 : nearEntities4) {
 				if (e1.getCategory() == c) {
 					ret = e1;
@@ -79,6 +80,7 @@ public class PlayerBehaviour implements Behaviour {
 
 		return false;
 	}
+	*/
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d) {
@@ -108,7 +110,7 @@ public class PlayerBehaviour implements Behaviour {
 		/*
 		RigidBody p = new RigidBody(e, 1, 10);
 		p.getSpeed().setY(-120);*/
-		((RigidBody)e).getSpeed().setY(-120);
+		((RigidBody)e).getSpeed().setY(-250);
 		return;
 	}
 

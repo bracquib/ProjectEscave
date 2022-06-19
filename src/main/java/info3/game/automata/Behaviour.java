@@ -1,24 +1,28 @@
 package info3.game.automata;
 
+import java.util.ArrayList;
+
+import info3.game.Model;
 import info3.game.entities.Entity;
 
-public interface Behaviour {
+public abstract class Behaviour {
+	Entity ret;
 	/**
 	 * @return toujours true
 	 */
-	boolean true_(Entity e);
+	abstract boolean true_(Entity e);
 
 	/**
 	 * @param keyCode la touche enfoncée
 	 * @return true si la touche keyCode est enfoncée
 	 */
-	boolean key(Entity e, int keyCode);
+	abstract boolean key(Entity e, int keyCode);
 
 	/**
 	 * @param d la Direction
 	 * @return true si l'entité est orientée dans la Direction d
 	 */
-	boolean myDir(Entity e, Direction d);
+	abstract boolean myDir(Entity e, Direction d);
 
 	/**
 	 * @param d la Direction
@@ -26,50 +30,101 @@ public interface Behaviour {
 	 * @return true si la cellule dans la Direction d contient une Entité de
 	 *         Category c, et la met éventuellement dans Entity r
 	 */
-	boolean cell(Entity e, Direction d, Category c);
+	boolean cell(Entity e, Direction d, Category c) {
+		// 32 =une case
+
+		switch (d) {
+		case NORTH:
+			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX())+16,
+					(int) (e.getPosition().getY()) - 16, 32, 32);
+			for (Entity e1 : nearEntities) {
+				if (e1.getCategory() == c) {
+					ret = e1;
+					return true;
+				}
+			}
+			break;
+		case SOUTH:
+			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()) + 16,
+					(int) (e.getPosition().getY()) + 48, 32, 32);
+			for (Entity e1 : nearEntities2) {
+				if (e1.getCategory() == c) {
+					ret = e1;
+					return true;
+				}
+			}
+			break;
+		case EST:
+			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 48,
+					(int) (e.getPosition().getY())+16, 32, 32);
+			for (Entity e1 : nearEntities3) {
+				if (e1.getCategory() == c) {
+					ret = e1;
+					return true;
+				}
+			}
+			break;
+		case WEST:
+			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - 16,
+					(int) (e.getPosition().getY()) + 16, 32, 32);
+			for (Entity e1 : nearEntities4) {
+				if (e1.getCategory() == c) {
+					ret = e1;
+					return true;
+				}
+			}
+			break;
+		case NORTHWEST:
+			break;
+		case NORTHEST:
+			break;
+		}
+
+		return false;
+	}
 
 	/**
 	 * @param c la Category de l'Entité
 	 * @param d la Direction
 	 * @return true si la plus proche Entité de Category c est dans la Direction d
 	 */
-	boolean closest(Entity e, Category c, Direction d);
+	abstract boolean closest(Entity e, Category c, Direction d);
 
 	/**
 	 * @return true s'il reste de l'énergie à l'entité
 	 */
-	boolean gotPower(Entity e);
+	abstract boolean gotPower(Entity e);
 
 	/**
 	 * @return true s'il reste des choses dans le store
 	 */
-	boolean gotStuff(Entity e);
+	abstract boolean gotStuff(Entity e);
 
-	void wizz(Entity e, Direction d);
+	abstract void wizz(Entity e, Direction d);
 
-	void pop(Entity e, Direction d);
+	abstract void pop(Entity e, Direction d);
 
-	void move(Entity e, Direction d);
+	abstract void move(Entity e, Direction d);
 
-	void protect(Entity e, Direction d, int dmg);
+	abstract void protect(Entity e, Direction d, int dmg);
 
-	void move(Entity e);
+	abstract void move(Entity e);
 
-	void jump(Entity e);
+	abstract void jump(Entity e);
 
-	void hit(Entity e);
+	abstract void hit(Entity e);
 
-	void pick(Entity e);
+	abstract void pick(Entity e);
 
-	void throw_(Entity e);
+	abstract void throw_(Entity e);
 
-	void store(Entity e);
+	abstract void store(Entity e);
 
-	void get(Entity e);
+	abstract void get(Entity e);
 
-	void power(Entity e); // pas encore utilisé
+	abstract void power(Entity e); // pas encore utilisé
 
-	void explode(Entity e);
+	abstract void explode(Entity e);
 
-	void egg(Entity e);
+	abstract void egg(Entity e);
 }

@@ -6,7 +6,7 @@ import info3.game.Model;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
-public class MushroomBehaviour implements Behaviour {
+public class MushroomBehaviour extends Behaviour {
 
 	Entity ret; // attribut de retour pour savoir a qui mettre les degats
 
@@ -27,6 +27,7 @@ public class MushroomBehaviour implements Behaviour {
 		return false;
 	}
 
+	/*
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
 		switch (d) {
@@ -78,6 +79,7 @@ public class MushroomBehaviour implements Behaviour {
 
 		return false;
 	}
+	*/
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d) {

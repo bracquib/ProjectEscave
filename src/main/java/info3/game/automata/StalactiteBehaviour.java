@@ -7,7 +7,7 @@ import info3.game.Vec2;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
-public class StalactiteBehaviour implements Behaviour {
+public class StalactiteBehaviour extends Behaviour {
 
 	Entity ret;
 
@@ -28,6 +28,7 @@ public class StalactiteBehaviour implements Behaviour {
 		return false;
 	}
 
+	/*
 	@Override
 	public boolean cell(Entity e, Direction d, Category c) {
 		switch (d) {
@@ -75,6 +76,7 @@ public class StalactiteBehaviour implements Behaviour {
 
 		return false;
 	}
+	*/
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d) {

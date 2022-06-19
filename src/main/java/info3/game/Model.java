@@ -67,7 +67,7 @@ public class Model {
 
 	public Model(LocalController controller) {
 		this.controller = controller;
-		this.entities = new ArrayList<RigidBody>();
+		Model.entities2 = new ArrayList<RigidBody>();
 		this.physics = new PhysicsWorld(this);
 		this.loadAutomatas();
 	}
@@ -92,18 +92,18 @@ public class Model {
 	}
 
 	private void generateMapIfNeeded() {
-		if (this.map == null) {
+		if (Model.map2 == null) {
 			// génération de la map
 			SpawnGenerator4D generationMap = new SpawnGenerator4D();
 			int[][] blocks = generationMap.spawnStatueTotal(this.maxPlayers);
 			this.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			List<Vec2> statues = generationMap.listSpawnStatues;
-			this.map = new Block[blocks.length][blocks[0].length];
+			Model.map2 = new Block[blocks.length][blocks[0].length]; //this.map
 			for (int i = 0; i < blocks.length; i++) {
 				for (int j = 0; j < blocks[i].length; j++) {
 					if (blocks[i][j] == 1) {
-						this.map[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32), 1);
+						Model.map2[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32), 1); //this.map
 					}
 				}
 			}
@@ -111,7 +111,7 @@ public class Model {
 	}
 
 	public void tick(long elapsed) {
-		this.entities.addAll(this.spawnQueue);
+		Model.entities2.addAll(this.spawnQueue);
 		this.spawnQueue.clear();
 		if (!this.started()) {
 			return;
@@ -151,7 +151,8 @@ public class Model {
 	 * @param height La hauteur du rectangle
 	 * @return Une liste de toutes les entités dans ce rectangle
 	 */
-	public ArrayList<Entity> getNearEntities(int x, int y, int width, int height) {
+	
+	/*public ArrayList<Entity> getNearEntities(int x, int y, int width, int height) {
 		ArrayList<Entity> nearEntities = new ArrayList<>();
 		// On parcours d'abord la map pour avoir les blocs
 		for (int i = 0; i < width; i++) {
@@ -167,42 +168,47 @@ public class Model {
 			}
 		}
 		return nearEntities;
-	}
+	}*/
 
 	public static ArrayList<Entity> getNearEntities2(int x, int y, int width, int height) {
 		ArrayList<Entity> nearEntities = new ArrayList<>();
 		// On parcours d'abord la map pour avoir les blocs
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				nearEntities.add(getBlock2(x, y));
+		int baseX = (x - width / 2) / 32; //(x - width / 2) / 32
+		int baseY = (y - height / 2) / 32;
+		for (int i = 0; i < width / 32; i++) {
+			for (int j = 0; j < height / 32; j++) {
+				Block block = getBlock2(baseX + i, baseY + j);
+				if (block != null) {
+					nearEntities.add(block);
+				}
 			}
 		}
 		// Puis on parcours les entités "dynamiques"
-		for (Entity e : entities2) {
+		for (Entity e : Model.entities2) {
 			Vec2 pos = e.getPosition();
-			if (pos.getX() > x && pos.getX() < x + width && pos.getY() > y && pos.getY() < y + height) {
+			if (pos.getX() > x && pos.getX() < x + (width * 32) && pos.getY() > y && pos.getY() < y + (height * 32)) {
 				nearEntities.add(e);
 			}
 		}
 		return nearEntities;
 	}
 
-	public static Entity getBlock2(int x, int y) {
+	public static Block getBlock2(int x, int y) {
 		// TODO : on est sur un tore
-		return map2[x][y];
+		return Model.map2[x][y];
 	}
 
 	public ArrayList<Entity> allEntities() {
 		ArrayList<Entity> all;
-		synchronized (this.entities) {
-			all = new ArrayList<Entity>(this.entities);
+		synchronized (Model.entities2) {
+			all = new ArrayList<Entity>(Model.entities2);
 		}
-		if (this.map != null) {
-			synchronized (this.map) {
-				for (int i = 0; i < this.map.length; i++) {
-					for (int j = 0; j < this.map[i].length; j++) {
-						if (this.map[i][j] != null) {
-							all.add(this.map[i][j]);
+		if (Model.map2 != null) {
+			synchronized (Model.map2) {
+				for (int i = 0; i < Model.map2.length; i++) {
+					for (int j = 0; j < Model.map2[i].length; j++) {
+						if (Model.map2[i][j] != null) {
+							all.add(Model.map2[i][j]);
 						}
 					}
 				}
@@ -216,18 +222,18 @@ public class Model {
 		ArrayList<Entity> nearBlocks = new ArrayList<>();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				nearBlocks.add(this.getBlock(x + i, y + j));
+				nearBlocks.add(Model.getBlock2(x + i, y + j));
 			}
 		}
 		return nearBlocks;
 	}
 
 	public ArrayList<RigidBody> getEntities() {
-		return this.entities;
+		return Model.entities2;
 	}
 
 	public Block[][] getMap() {
-		return this.map;
+		return Model.map2;
 	}
 
 	private void loadAutomatas() {
