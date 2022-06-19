@@ -6,10 +6,17 @@ public class BoxCollider extends Collider {
 	public float width;
 	public float height;
 
+	public BoxCollider(float width, float height, float offX, float offY) {
+		super(offX, offY);
+		this.width = width;
+		this.height = height;
+	}
+
 	@Override
 	public CollisionType isColliding(Vec2 pos, Collider other, Vec2 otherPos) throws Exception {
+		Vec2 colliderPos = pos.add(new Vec2(this.offsetX, this.offsetY));
 		if (other instanceof BoxCollider)
-			return testCollision(pos, (BoxCollider) other, otherPos);
+			return testCollision(colliderPos, (BoxCollider) other, otherPos);
 
 		throw new Exception("Collision not implemented");
 	}
@@ -60,5 +67,9 @@ public class BoxCollider extends Collider {
 				return diffX < diffY ? CollisionType.LEFT : CollisionType.UP;
 			}
 		}
+	}
+
+	public CollisionType testCollision(Vec2 pos, CircleCollider other, Vec2 otherPos) {
+		return null;
 	}
 }

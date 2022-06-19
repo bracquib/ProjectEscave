@@ -6,13 +6,13 @@ import java.util.HashSet;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.entities.Block;
-import info3.game.entities.Entity;
 
 public class PhysicsWorld {
 
 	Model model;
-	public static final Vec2 GRAVITY = new Vec2(0.0f, 700f);
-	public static final Vec2 MAXSPEED = new Vec2(100f, 400f);
+
+	public static final Vec2 GRAVITY = new Vec2(0.0f, 800f);
+	public static final Vec2 MAXSPEED = new Vec2(200f, 5000f);
 
 	public PhysicsWorld(Model model) {
 		this.model = model;
@@ -33,6 +33,7 @@ public class PhysicsWorld {
 		Block[][] map = this.model.getMap();
 
 		for (RigidBody rb : entities) {
+			step(rb, elapsedSec);
 
 			step(rb, elapsedSec);
 
@@ -61,7 +62,6 @@ public class PhysicsWorld {
 
 				}
 			}
-
 			if (!collisions.contains(CollisionType.DOWN)) {
 				this.computeGravity(rb, elapsedSec);
 			} else {
@@ -90,6 +90,7 @@ public class PhysicsWorld {
 
 				}
 			}
+			checkSpeed(rb);
 		}
 	}
 
@@ -121,12 +122,11 @@ public class PhysicsWorld {
 	 *
 	 * @return void
 	 */
-	private void computeFrictionX(RigidBody rb, Entity e) {
-		// if (rb.getFrictionFactor() == 0 || e.getFrictionFactor() == 0)
-		// return;
-		// rb.getSpeed().setX(Math.round(rb.getSpeed().getX() / (rb.getFrictionFactor()
-		// * e.getFrictionFactor())));
-		rb.getSpeed().setX((rb.getFrictionFactor() + e.getFrictionFactor()) / 2 * rb.getSpeed().getX());
+
+	private void computeFrictionX(RigidBody rb, Block e) {
+		if (rb.getFrictionFactor() == 0 || e.getFrictionFactor() == 0)
+			return;
+		rb.getSpeed().setX(Math.round(rb.getSpeed().getX() * (rb.getFrictionFactor() + e.getFrictionFactor() / 2)));
 	}
 
 	/**
@@ -170,10 +170,8 @@ public class PhysicsWorld {
 	}
 
 	private void checkSpeed(RigidBody rb) {
-		if (rb.getSpeed().getX() > MAXSPEED.getX())
-			rb.getSpeed().setX(MAXSPEED.getX());
-		if (rb.getSpeed().getX() < -MAXSPEED.getX())
-			rb.getSpeed().setX(-MAXSPEED.getX());
-
+		if (Math.abs(rb.getSpeed().getX()) > MAXSPEED.getX())
+			rb.setSpeed(new Vec2(rb.getSpeed().getX() / Math.abs(rb.getSpeed().getX()) * MAXSPEED.getX(),
+					rb.getSpeed().getY()));
 	}
 }

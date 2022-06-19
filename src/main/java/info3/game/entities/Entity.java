@@ -31,7 +31,7 @@ public abstract class Entity {
 	protected Avatar avatar;
 	protected Vec2 avatarOffset;
 
-	Collider collider;
+	protected Collider collider;
 	float frictionFactor;
 	protected LocalController controller;
 
@@ -49,11 +49,8 @@ public abstract class Entity {
 
 	public Entity(LocalController c) {
 		this.controller = c;
-		BoxCollider collider = new BoxCollider();
-		collider.height = 32;
-		collider.width = 32;
-		this.collider = collider;
-		this.frictionFactor = 0.9f;
+		this.collider = new BoxCollider(32, 32, 0, 0);
+		this.frictionFactor = 0.6f;
 	}
 
 	/**
