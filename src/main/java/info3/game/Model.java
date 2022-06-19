@@ -1,8 +1,14 @@
 package info3.game;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import info3.game.automata.Automata;
+import info3.game.automata.BotBuilder;
+import info3.game.automata.ast.AST;
+import info3.game.automata.parser.AutomataParser;
 import info3.game.cavegenerator.SpawnGenerator4D;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
@@ -51,6 +57,8 @@ public class Model {
 	private final int maxPlayers = 2;
 	private int playerCount = 0;
 
+	ArrayList<Automata> automatas;
+
 	private boolean started() {
 		return this.playerCount == this.maxPlayers;
 	}
@@ -61,6 +69,7 @@ public class Model {
 		this.controller = controller;
 		this.entities = new ArrayList<RigidBody>();
 		this.physics = new PhysicsWorld(this);
+		this.loadAutomatas();
 	}
 
 	/**
@@ -215,6 +224,19 @@ public class Model {
 
 	public Block[][] getMap() {
 		return this.map;
+	}
+
+	private void loadAutomatas() {
+		AST ast = null;
+		try {
+			ast = new AutomataParser(new BufferedReader(new FileReader("src/main/resources/automatas.gal"))).Run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		BotBuilder botBuilder = new BotBuilder();
+		ast.accept(botBuilder);
+		this.automatas = botBuilder.getAutomatas();
+		System.out.println("[DEBUG] Loaded " + this.automatas.size() + " automatas");
 	}
 
 }
