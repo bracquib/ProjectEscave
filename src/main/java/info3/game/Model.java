@@ -87,7 +87,8 @@ public class Model {
 		Player p = new Player(this.controller, Player.colorFromInt(this.playerCount),
 				this.spawnPoints.get(this.playerCount).multiply(32), true, 10);
 		this.playerCount++;
-		this.spawn(p);
+		Model.spawn(p);
+
 		return p;
 	}
 
@@ -99,11 +100,11 @@ public class Model {
 			this.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			List<Vec2> statues = generationMap.listSpawnStatues;
-			Model.map2 = new Block[blocks.length][blocks[0].length]; //this.map
+			Model.map2 = new Block[blocks.length][blocks[0].length]; // this.map
 			for (int i = 0; i < blocks.length; i++) {
 				for (int j = 0; j < blocks[i].length; j++) {
 					if (blocks[i][j] == 1) {
-						Model.map2[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32), 1); //this.map
+						Model.map2[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32), 1); // this.map
 					}
 				}
 			}
@@ -151,41 +152,36 @@ public class Model {
 	 * @param height La hauteur du rectangle
 	 * @return Une liste de toutes les entités dans ce rectangle
 	 */
-	
-	/*public ArrayList<Entity> getNearEntities(int x, int y, int width, int height) {
-		ArrayList<Entity> nearEntities = new ArrayList<>();
-		// On parcours d'abord la map pour avoir les blocs
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				nearEntities.add(this.getBlock(x, y));
-			}
-		}
-		// Puis on parcours les entités "dynamiques"
-		for (Entity e : this.entities) {
-			Vec2 pos = e.getPosition();
-			if (pos.getX() > x && pos.getX() < x + width && pos.getY() > y && pos.getY() < y + height) {
-				nearEntities.add(e);
-			}
-		}
-		return nearEntities;
-	}*/
+
+	/*
+	 * public ArrayList<Entity> getNearEntities(int x, int y, int width, int height)
+	 * { ArrayList<Entity> nearEntities = new ArrayList<>(); // On parcours d'abord
+	 * la map pour avoir les blocs for (int i = 0; i < width; i++) { for (int j = 0;
+	 * j < height; j++) { nearEntities.add(this.getBlock(x, y)); } } // Puis on
+	 * parcours les entités "dynamiques" for (Entity e : this.entities) { Vec2 pos =
+	 * e.getPosition(); if (pos.getX() > x && pos.getX() < x + width && pos.getY() >
+	 * y && pos.getY() < y + height) { nearEntities.add(e); } } return nearEntities;
+	 * }
+	 */
 
 	/**
 	 * 
-	 * @param baseX abscisse du coin hg de la zone de vision
-	 * @param baseY ordonnée (croissant vers le bas) du coin hg de la zone de vision
-	 * @param width en px
+	 * @param baseX  abscisse du coin hg de la zone de vision
+	 * @param baseY  ordonnée (croissant vers le bas) du coin hg de la zone de
+	 *               vision
+	 * @param width  en px
 	 * @param height en px
 	 * @return
 	 */
 	public static ArrayList<Entity> getNearEntities2(int baseX, int baseY, int width, int height) {
 		ArrayList<Entity> nearEntities = new ArrayList<>();
 		// On parcours d'abord la map pour avoir les blocs
-		/*int baseX = (x - width / 2) / 32; 
-		int baseY = (y - height / 2) / 32;*/
+		/*
+		 * int baseX = (x - width / 2) / 32; int baseY = (y - height / 2) / 32;
+		 */
 		for (int i = 0; i < width / 32; i++) {
 			for (int j = 0; j < height / 32; j++) {
-				Block block = getBlock2(baseX/32 + i, baseY/32 + j);
+				Block block = getBlock2(baseX / 32 + i, baseY / 32 + j);
 				if (block != null) {
 					nearEntities.add(block);
 				}
