@@ -6,7 +6,7 @@ public class Sword extends Weapon {
 
 	public Sword(Controller c) {
 		super(c);
-		this.setName("Weapon");
+		this.setName("Sword");
 	}
 
 }

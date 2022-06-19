@@ -12,38 +12,66 @@ public class Inventory {
 
 	public final int INVENTORY_SIZE = 10;
 	private Tool tools[];
-	private Tool currentTool;
+	private int currentToolIndex;
 	private int size;
 
 	public Inventory(Controller c) {
-		this.currentTool = new Pickaxe(c);
+		this.currentToolIndex = 0;
 		this.tools = new Tool[INVENTORY_SIZE];
 	}
 
 	public Tool getCurrentTool() {
-		return this.currentTool;
+		return findTool(currentToolIndex);
 	}
 
-	public void setCurrentTool(Tool t) {
-		this.currentTool = t;
+	// _______________________________________________
+	// plusieurs façons de se déplacer dans l'inventaire
+
+	public void selectCurrentTool(int i) {
+		this.currentToolIndex = (currentToolIndex + i) % this.size;
 	}
+
+	// décale la selection d'un cran vers la droite
+	public void moveRCurrentTool() {
+		this.currentToolIndex = (currentToolIndex + 1) % this.size;
+	}
+
+	// décale la selection d'un cran vers la gauche
+	public void moveLCurrentTool() {
+		if (currentToolIndex - 1 < 0)
+			this.currentToolIndex += this.size;
+		this.currentToolIndex = (currentToolIndex - 1) % this.size;
+	}
+
+	public void checkCurrentTool() {
+		if (currentToolIndex >= size) {
+			currentToolIndex--;
+		}
+	}
+
+	// _______________________________________________
 
 	public Tool[] getTools() {
 		return this.tools;
 	}
 
-	public void pick(Tool t) {
+	public boolean pick(Tool t) {
 		// ramasser un objet
 		if (!this.isFull()) {
-			tools[size] = t;
-			size++;
+			Tool tmp = this.findTool(t);
+			if (tmp == null || !tmp.isSpecial()) {
+				tools[size] = t;
+				size++;
+				return true;
+			}
 		}
+		return false;
 	}
 
-	public void throW(Tool t) {
+	public boolean throW() {
 		// se débarasser d'un objet
 		if (!this.isEmpty()) {
-			Tool toThrow = this.findTool(t);
+			Tool toThrow = this.findTool(currentToolIndex);
 			// test si toThrow a ete trouvé ?
 
 			if (!toThrow.isSpecial()) {
@@ -57,9 +85,12 @@ public class Inventory {
 				}
 				this.tools = tools_copy;
 				this.size = tools_copy.length;
+				this.checkCurrentTool();
+				return true;
 			}
 			// }
 		}
+		return false;
 	}
 
 	public void use(Tool t) {
@@ -105,10 +136,16 @@ public class Inventory {
 
 	public void printInventory() {
 		System.out.print("[ Inventory : ");
-		for (int i = 0; i < this.size; i++) {
-			System.out.print(findTool(i).getName() + " ");
+		for (int i = 0; i < 20; i++) {
+			if (findTool(i) != null)
+				System.out.print(findTool(i).getName() + " ");
 		}
+		if (this.getCurrentTool() != null)
+			System.out.print("CURRENT = " + this.getCurrentTool().getName());
 		System.out.println("]");
+		// pour les test
+		System.out.println("empty ? " + this.isEmpty());
+		System.out.println("full ?" + this.isFull());
 	}
 
 	public static void main(String args[]) throws Exception {
@@ -118,18 +155,61 @@ public class Inventory {
 		Pickaxe pi = new Pickaxe(c);
 		Sword sw = new Sword(c);
 		Food fo = new Food(c, new Vec2(0, 0));
+		Food foo = new Food(c, new Vec2(0, 0));
+		Food food = new Food(c, new Vec2(0, 0));
+		Food foods = new Food(c, new Vec2(0, 0));
 		Water wa = new Water(c, new Vec2(0, 0));
+		Water wat = new Water(c, new Vec2(0, 0));
+		Water wate = new Water(c, new Vec2(0, 0));
+		Water water = new Water(c, new Vec2(0, 0));
+		Water waters = new Water(c, new Vec2(0, 0));
+
+		inv.printInventory();
+
+		inv.throW();
+
 		inv.pick(pi);
 		inv.pick(wa);
 		inv.pick(fo);
-		inv.pick(sw);
-		inv.throW(pi);
-		inv.throW(sw);
-		inv.throW(fo);
-		inv.throW(wa);
-		// System.out.println((inv.findTool(0).getClass()));
-		// System.out.println((inv.findTool(new Pickaxe(c)).getClass()));
+//		inv.pick(sw);
+
 		inv.printInventory();
+
+//		inv.moveRCurrentTool();
+//		inv.printInventory();
+//
+//		inv.moveLCurrentTool();
+//		inv.printInventory();
+//
+//		inv.moveLCurrentTool();
+//		inv.printInventory();
+//
+//		inv.moveLCurrentTool();
+//		inv.printInventory();
+//
+		inv.pick(pi);
+		inv.pick(wat);
+		inv.pick(foo);
+		inv.pick(sw);
+		inv.printInventory();
+//
+		inv.pick(wate);
+		inv.pick(food);
+		inv.pick(water);
+		inv.pick(foods);
+//		inv.printInventory();
+//
+//		inv.throW();
+//		inv.printInventory();
+
+		inv.moveRCurrentTool();
+		inv.moveRCurrentTool();
+		inv.printInventory();
+
+		inv.printInventory();
+
+		inv.pick(waters);
+
 	}
 
 }
