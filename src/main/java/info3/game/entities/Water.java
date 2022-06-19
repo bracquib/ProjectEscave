@@ -5,14 +5,23 @@ import info3.game.Vec2;
 
 public class Water extends Consumable {
 
-	public Water(Controller c, Vec2 pos) {
-		super(c, pos);
+	private float waterValue;
+
+	public Water(Controller c, Vec2 pos, Player owner) {
+		super(c, pos, owner);
 		this.setName("Water");
+		this.waterValue = 10;
+	}
+
+	public Water(Controller c, Vec2 pos, Player owner, float waterVal) {
+		super(c, pos, owner);
+		this.setName("Water");
+		this.waterValue = waterVal;
 	}
 
 	@Override
 	public void useTool() {
-		// TODO Auto-generated method stub
+		owner.water(waterValue);
 
 	}
 

@@ -5,15 +5,23 @@ import info3.game.Vec2;
 
 public class Food extends Consumable {
 
-	public Food(Controller c, Vec2 pos) {
-		super(c, pos);
+	private float feedValue;
+
+	public Food(Controller c, Vec2 pos, Player owner) {
+		super(c, pos, owner);
 		this.setName("Food");
+		this.feedValue = 10;
+	}
+
+	public Food(Controller c, Vec2 pos, Player owner, int feedVal) {
+		super(c, pos, owner);
+		this.setName("Food");
+		this.feedValue = feedVal;
 	}
 
 	@Override
 	public void useTool() {
-		// TODO Auto-generated method stub
-
+		owner.feed(feedValue);
 	}
 
 }

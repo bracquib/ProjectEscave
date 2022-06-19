@@ -5,6 +5,7 @@ import info3.game.Controller;
 public abstract class Tool extends Entity {
 
 	private String name;
+	protected Player owner;
 	// les objets spéciaux sont ceux qui ne peuvent pas quitter l'inventaire
 	protected boolean special;
 

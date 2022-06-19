@@ -6,6 +6,10 @@ import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
 	PlayerColor color;
+	private float hungerPoints;
+	private float maxHunger = 100;
+	private float thirstPoints;
+	private float maxThirst = 100;
 
 	public Player(Controller c, PlayerColor color, Vec2 pos, boolean local) {
 		super(1, c);
@@ -14,6 +18,8 @@ public class Player extends RigidBody {
 		if (local) {
 			this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), this.avatarPath(), 1, 0);
 		}
+		this.hungerPoints = maxHunger;
+		this.thirstPoints = maxThirst;
 	}
 
 	@Override
@@ -72,4 +78,33 @@ public class Player extends RigidBody {
 			return PlayerColor.BLACK;
 		}
 	}
+
+	public float getHungerPoints() {
+		return this.hungerPoints;
+	}
+
+	public void setHungerPoints(float hungerPoints) {
+		this.hungerPoints = hungerPoints;
+	}
+
+	public void feed(float feedPoints) {
+		this.hungerPoints += feedPoints;
+		if (this.hungerPoints > maxHunger)
+			this.hungerPoints = maxHunger;
+	}
+
+	public float getThirstPoints() {
+		return this.thirstPoints;
+	}
+
+	public void setThirstPoints(float thirstPoints) {
+		this.thirstPoints = thirstPoints;
+	}
+
+	public void water(float waterPoints) {
+		this.thirstPoints += waterPoints;
+		if (this.thirstPoints > maxThirst)
+			this.thirstPoints = maxThirst;
+	}
+
 }
