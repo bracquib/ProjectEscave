@@ -54,7 +54,7 @@ public class Model {
 
 	ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 1;
+	private final int maxPlayers = 3;
 	private int playerCount = 0;
 
 	ArrayList<Automata> automatas;
@@ -170,14 +170,22 @@ public class Model {
 		return nearEntities;
 	}*/
 
-	public static ArrayList<Entity> getNearEntities2(int x, int y, int width, int height) {
+	/**
+	 * 
+	 * @param baseX abscisse du coin hg de la zone de vision
+	 * @param baseY ordonnée (croissant vers le bas) du coin hg de la zone de vision
+	 * @param width en px
+	 * @param height en px
+	 * @return
+	 */
+	public static ArrayList<Entity> getNearEntities2(int baseX, int baseY, int width, int height) {
 		ArrayList<Entity> nearEntities = new ArrayList<>();
 		// On parcours d'abord la map pour avoir les blocs
-		int baseX = (x - width / 2) / 32; //(x - width / 2) / 32
-		int baseY = (y - height / 2) / 32;
+		/*int baseX = (x - width / 2) / 32; 
+		int baseY = (y - height / 2) / 32;*/
 		for (int i = 0; i < width / 32; i++) {
 			for (int j = 0; j < height / 32; j++) {
-				Block block = getBlock2(baseX + i, baseY + j);
+				Block block = getBlock2(baseX/32 + i, baseY/32 + j);
 				if (block != null) {
 					nearEntities.add(block);
 				}
@@ -186,7 +194,7 @@ public class Model {
 		// Puis on parcours les entités "dynamiques"
 		for (Entity e : Model.entities2) {
 			Vec2 pos = e.getPosition();
-			if (pos.getX() > x && pos.getX() < x + (width * 32) && pos.getY() > y && pos.getY() < y + (height * 32)) {
+			if (pos.getX() > baseX && pos.getX() < baseX + width && pos.getY() > baseY && pos.getY() < baseY + height) {
 				nearEntities.add(e);
 			}
 		}
