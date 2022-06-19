@@ -1,5 +1,6 @@
 package info3.game.entities;
 
+import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.assets.Image;
@@ -11,6 +12,7 @@ public class Player extends RigidBody {
 	private float maxHunger = 100;
 	private float thirstPoints;
 	private float maxThirst = 100;
+	private Inventory inventory;
 
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local) {
 		super(1, c);
@@ -21,6 +23,7 @@ public class Player extends RigidBody {
 		}
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
+		this.inventory = new Inventory(c);
 	}
 
 	@Override
@@ -105,6 +108,10 @@ public class Player extends RigidBody {
 		this.thirstPoints += waterPoints;
 		if (this.thirstPoints > maxThirst)
 			this.thirstPoints = maxThirst;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
 	}
 
 }
