@@ -10,7 +10,7 @@ import info3.game.entities.Water;
 
 public class Inventory {
 
-	public final int INVENTORY_SIZE = 10;
+	public final short INVENTORY_SIZE = 10;
 	private Tool tools[];
 	private int currentToolIndex;
 	private int size;
@@ -21,7 +21,7 @@ public class Inventory {
 	}
 
 	public Tool getCurrentTool() {
-		return findTool(currentToolIndex);
+		return toolAt(currentToolIndex);
 	}
 
 	// _______________________________________________
@@ -58,7 +58,7 @@ public class Inventory {
 	public boolean pick(Tool t) {
 		// ramasser un objet
 		if (!this.isFull()) {
-			Tool tmp = this.findTool(t);
+			Tool tmp = this.get(t);
 			if (tmp == null || !tmp.isSpecial()) {
 				tools[size] = t;
 				size++;
@@ -68,29 +68,29 @@ public class Inventory {
 		return false;
 	}
 
-	public boolean throW() {
+	public boolean drop() {
 		// se débarasser d'un objet
-		if (!this.isEmpty()) {
-			Tool toThrow = this.findTool(currentToolIndex);
-			// test si toThrow a ete trouvé ?
+		if (this.isEmpty())
+			return false;
 
-			if (!toThrow.isSpecial()) {
-				Tool tools_copy[] = new Tool[this.size - 1];
-				int j = 0;
-				for (int i = 0; i < this.size; i++) {
-					if (tools[i] != toThrow) {
-						tools_copy[j] = tools[i];
-						j++;
-					}
-				}
-				this.tools = tools_copy;
-				this.size = tools_copy.length;
-				this.checkCurrentTool();
-				return true;
+		Tool toDrop = this.toolAt(currentToolIndex);
+		// test si todrop a ete trouvé ?
+
+		if (toDrop.isSpecial())
+			return false;
+
+		Tool newTools[] = new Tool[this.size - 1];
+		int j = 0;
+		for (int i = 0; i < this.size; i++) {
+			if (tools[i] != toDrop) {
+				newTools[j] = tools[i];
+				j++;
 			}
-			// }
 		}
-		return false;
+		this.tools = newTools;
+		this.size = newTools.length;
+		this.checkCurrentTool();
+		return true;
 	}
 
 	public void use(Tool t) {
@@ -100,45 +100,45 @@ public class Inventory {
 	}
 
 	public boolean isFull() {
-		return size >= INVENTORY_SIZE;
+		return this.size >= INVENTORY_SIZE;
 	}
 
 	public boolean isEmpty() {
-		return size <= 0;
+		return this.size <= 0;
 	}
 
-	public Tool findTool(int i) {
+	public Tool toolAt(int i) {
 		if (i >= 0 && i < this.size)
 			return tools[i];
-		// throw new ObjectNotFoundException();
+		// drop new ObjectNotFoundException();
 		return null;
 	}
 
-	public Tool findTool(Tool t) {
+	public Tool get(Tool t) {
 		for (int i = 0; i < this.size; i++) {
 			if (tools[i].getClass() == t.getClass())
 				return tools[i];
 			// comparer directement les objets ?
 		}
-		// throw new ObjectNotFoundException();
+		// drop new ObjectNotFoundException();
 		return null;
 	}
 
-	public int findIndex(Tool t) {
+	public int indexOf(Tool t) {
 		for (int i = 0; i < this.size; i++) {
 			if (tools[i].getClass() == t.getClass())
 				return i;
 			// comparer directement les objets ?
 		}
-		// throw new ObjectNotFoundException();
+		// drop new ObjectNotFoundException();
 		return -1;
 	}
 
 	public void printInventory() {
 		System.out.print("[ Inventory : ");
 		for (int i = 0; i < 20; i++) {
-			if (findTool(i) != null)
-				System.out.print(findTool(i).getName() + " ");
+			if (toolAt(i) != null)
+				System.out.print(toolAt(i).getName() + " ");
 		}
 		if (this.getCurrentTool() != null)
 			System.out.print("CURRENT = " + this.getCurrentTool().getName());
@@ -148,7 +148,7 @@ public class Inventory {
 		System.out.println("full ?" + this.isFull());
 	}
 
-	public static void main(String args[]) throws Exception {
+	public static void main(String args[]) drops Exception {
 		LocalController c = new LocalController();
 		Inventory inv = new Inventory(c);
 		// System.out.println(inv.getClass());
@@ -166,7 +166,7 @@ public class Inventory {
 
 		inv.printInventory();
 
-		inv.throW();
+		inv.drop();
 
 		inv.pick(pi);
 		inv.pick(wa);
@@ -199,7 +199,7 @@ public class Inventory {
 		inv.pick(foods);
 //		inv.printInventory();
 //
-//		inv.throW();
+//		inv.drop();
 //		inv.printInventory();
 
 		inv.moveRCurrentTool();
