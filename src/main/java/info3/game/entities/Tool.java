@@ -1,6 +1,6 @@
 package info3.game.entities;
 
-import info3.game.Controller;
+import info3.game.LocalController;
 
 public abstract class Tool extends Entity {
 
@@ -9,7 +9,7 @@ public abstract class Tool extends Entity {
 	// les objets spéciaux sont ceux qui ne peuvent pas quitter l'inventaire
 	protected boolean special;
 
-	public Tool(Controller c) {
+	public Tool(LocalController c) {
 		super(c);
 	}
 

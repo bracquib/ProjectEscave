@@ -1,10 +1,10 @@
 package info3.game.entities;
 
-import info3.game.Controller;
+import info3.game.LocalController;
 
 public class Pickaxe extends Weapon {
 
-	public Pickaxe(Controller c) {
+	public Pickaxe(LocalController c) {
 		super(c);
 		this.setName("Pickaxe");
 	}
