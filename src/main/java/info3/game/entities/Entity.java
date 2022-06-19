@@ -42,7 +42,11 @@ public abstract class Entity {
 	public void setPosition(Vec2 pos) {
 		this.position = pos;
 		if (this.avatar != null) {
-			this.avatar.setPosition(pos.add(this.avatarOffset));
+			if (this.avatarOffset != null) {
+				this.avatar.setPosition(pos.add(this.avatarOffset));
+			} else {
+				this.avatar.setPosition(pos);
+			}
 			this.controller.sendToClients(new UpdateAvatar(this.avatar.getId(), this.avatar.getPosition()));
 		}
 	}
