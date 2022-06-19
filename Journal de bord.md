@@ -178,4 +178,25 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ###Benjamin:implémentation des points de vie,des divers dégats,des classes des entités et de leurs behaviours.
 * Ajout des classes Mushroom,Block,Statue,Socle et stalactite.
 * Ajout des classes Behaviours pour toutes les entités.
-*implémentation des fonctions  hit et coup_reçu.
+* implémentation des fonctions  hit et coup_reçu.
+
+##Jeudi 16 juin 2022
+-Benjamin,Amory:implémentation des fonctions des Behaviours de chaque entité.
+
+###Benjamin et Amory:implémentation des fonctions des Behaviours de chaque entitié.
+* implémentation des fonctions de déplacements(Move,Jump...)
+
+##Vendredi 17 juin 2022
+-Benjamin,Amory:implémentation des fonctions des Behaviours de chaque entité.
+
+###Benjamin et Amory:implémentation des fonctions des Behaviours de chaque entitié.
+* implémentation des fonctions de coup et coup_reçu.
+* implémentation des fonctions de cell et closest.
+
+##Dimanche 19 juin 2022
+-Benjamin,Amory:tests des fonctions faites et des automates.
+
+###Benjamin et Amory:tests des fonctions faites et des automates
+* tests des fonctions cell,closest et des déplacements
+* modification des focntions cell et closest.
+
