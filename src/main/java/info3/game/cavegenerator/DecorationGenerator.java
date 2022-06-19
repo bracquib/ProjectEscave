@@ -29,14 +29,14 @@ public class DecorationGenerator {
 		extendDeco = extensionDecoration(extendDeco.toArray(), 6, cristaux_plafond, 20);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 7, cristaux_plafond, 20);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 5, cristaux_plafond, 20);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 4, arbres_droit, 20);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 8, arbres_gauche, 20);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 6, lanterne_courte, 5);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 4, arbres_droit, 5);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 8, arbres_gauche, 5);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 6, lanterne_courte, 1);
 		extendDeco = extensionStegDeco(extendDeco.toArray(), 0.01);
 		extendDeco = extensionTRexDeco(extendDeco.toArray(), 0.01);
 		extendDeco = extensionTricDeco(extendDeco.toArray(), 0.01);
-		extendDeco = extensionLanterneLongueDeco(extendDeco.toArray(), 5);
-		extendDeco = extensionLianesDeco(extendDeco.toArray(), 20);
+		extendDeco = extensionLanterneLongueDeco(extendDeco.toArray(), 1);
+		extendDeco = extensionLianesDeco(extendDeco.toArray(), 10);
 
 		Fillon.generateFilons(extendDeco, 1, mineraux);
 

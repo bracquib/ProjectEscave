@@ -2,7 +2,7 @@ package info3.game.entities;
 
 import info3.game.LocalController;
 import info3.game.Vec2;
-import info3.game.assets.Image;
+import info3.game.assets.AnimatedImage;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -12,8 +12,10 @@ public class Player extends RigidBody {
 		super(1, c);
 		this.setPosition(pos);
 		this.color = color;
+		this.avatarOffset = new Vec2(0, -10);
 		if (local) {
-			this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
+			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset),
+					new AnimatedImage(this.avatarPath(), 9, 100));
 		}
 	}
 
@@ -55,13 +57,13 @@ public class Player extends RigidBody {
 	public static PlayerColor colorFromInt(int player) {
 		switch (player) {
 		case 0:
-			return PlayerColor.BLUE;
+			return PlayerColor.YELLOW;
 		case 1:
 			return PlayerColor.RED;
 		case 2:
 			return PlayerColor.GREEN;
 		case 3:
-			return PlayerColor.YELLOW;
+			return PlayerColor.BLUE;
 		case 4:
 			return PlayerColor.ORANGE;
 		case 5:
