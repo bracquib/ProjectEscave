@@ -11,6 +11,7 @@ public class DecorationGenerator {
 	static int[] cristaux_plafond = { 300, 301, 302, 303, 304, 305 };
 	static int[] arbres_droit = { 550, 551 };
 	static int[] arbres_gauche = { 450, 451 };
+	static int[] lanterne_courte = { 351 };
 
 	public static Torus decorate(int[][] map) {
 		Torus step1 = decorateMap(map, BlockIDs.PatternCouche1ToIDs);
@@ -25,15 +26,18 @@ public class DecorationGenerator {
 		extendDeco = extensionDecoration(extendDeco.toArray(), 2, cristaux_sol, 20);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 22, cristaux_sol, 20);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 3, cristaux_sol, 20);
-
-		extendDeco = extensionDecoration(extendDeco.toArray(), 6, cristaux_plafond, 50);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 7, cristaux_plafond, 50);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 5, cristaux_plafond, 50);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 6, cristaux_plafond, 20);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 7, cristaux_plafond, 20);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 5, cristaux_plafond, 20);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 4, arbres_droit, 20);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 8, arbres_gauche, 20);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 6, lanterne_courte, 5);
 		extendDeco = extensionStegDeco(extendDeco.toArray(), 0.01);
 		extendDeco = extensionTRexDeco(extendDeco.toArray(), 0.01);
 		extendDeco = extensionTricDeco(extendDeco.toArray(), 0.01);
+		extendDeco = extensionLanterneLongueDeco(extendDeco.toArray(), 5);
+		extendDeco = extensionLianesDeco(extendDeco.toArray(), 20);
+
 		Fillon.generateFilons(extendDeco, 1, mineraux);
 
 		return extendDeco;
@@ -171,15 +175,54 @@ public class DecorationGenerator {
 		return true;
 	}
 
-	private static boolean checkZoneTRex(Torus tore, int x, int y) {
-		int[][] res = getPattern(x, y, tore);
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				if (res[i][j] != 1)
-					return false;
-			}
+	private static boolean checkZoneLanterneLongue(Torus tore, int x, int y) {
+		for (int i = 1; i < 3; i++) {
+			if (tore.get(x, y + i) != 0)
+				return false;
 		}
 		return true;
+	}
+
+	private static boolean checkZoneLianes(Torus tore, int x, int y) {
+		for (int i = 1; i < 4; i++) {
+			if (tore.get(x, y + i) != 0)
+				return false;
+		}
+		return true;
+	}
+
+	private static Torus extensionLanterneLongueDeco(int[][] map, double percent) {
+		Torus newmap = new Torus(map);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (map[i][j] == 5 || map[i][j] == 6 || map[i][j] == 7) {
+					int rand = (int) Math.floor(Math.random() * 100);
+					if (rand <= percent) {
+						if (checkZoneLanterneLongue(newmap, i, j)) {
+							newmap.set(i, j, 352);
+						}
+					}
+				}
+			}
+		}
+		return newmap;
+	}
+
+	private static Torus extensionLianesDeco(int[][] map, double percent) {
+		Torus newmap = new Torus(map);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (map[i][j] == 5 || map[i][j] == 6 || map[i][j] == 7) {
+					int rand = (int) Math.floor(Math.random() * 100);
+					if (rand <= percent) {
+						if (checkZoneLianes(newmap, i, j)) {
+							newmap.set(i, j, 350);
+						}
+					}
+				}
+			}
+		}
+		return newmap;
 	}
 
 }
