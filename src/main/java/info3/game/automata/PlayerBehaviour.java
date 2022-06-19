@@ -83,9 +83,9 @@ public class PlayerBehaviour extends Behaviour {
 	*/
 
 	@Override
-	public boolean closest(Entity e, Category c, Direction d) {
-		// pas besoin pour player
-		return false;
+	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
+		int diam = 320; // en pixel
+		return super.closest(e,  c,  d,  diam);
 	}
 
 	@Override

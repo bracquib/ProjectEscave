@@ -75,7 +75,7 @@ public class StatueBehaviour extends Behaviour {
 	*/
 
 	@Override
-	public boolean closest(Entity e, Category c, Direction d) {
+	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
 		// pas besoin
 		return false;
 	}

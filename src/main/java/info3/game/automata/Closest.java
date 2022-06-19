@@ -13,7 +13,7 @@ public class Closest implements ICondition {
 
 	@Override
 	public boolean eval(Entity e) {
-		return e.getBehaviour().closest(e, c, d);
+		return e.getBehaviour().closest(e, c, d, 0); //0arbitraire
 	}
 
 	public String toString() {

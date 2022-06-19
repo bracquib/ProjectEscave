@@ -82,56 +82,10 @@ public class MushroomBehaviour extends Behaviour {
 	*/
 
 	@Override
-	public boolean closest(Entity e, Category c, Direction d) {
-		// à faire
-		// on peut utiliser getNearEntities pour le rayon_de_vision de l'entité et cela
-		// détecte les entité présentes dedans mais faut voir pour les zones qu'on
-		// détecte
-		int rayon_de_vision = 320;
-		switch (d) {
-		case NORTH:
-			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()) - rayon_de_vision,
-					(int) (e.getPosition().getY()) - rayon_de_vision, rayon_de_vision, rayon_de_vision);
-			for (Entity e1 : nearEntities) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		case SOUTH:
-			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()) - rayon_de_vision,
-					(int) (e.getPosition().getY()), rayon_de_vision, rayon_de_vision);
-			for (Entity e1 : nearEntities2) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		case EST:
-			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) - rayon_de_vision,
-					(int) (e.getPosition().getY()) - rayon_de_vision, rayon_de_vision / 2, rayon_de_vision * 2);
-			for (Entity e1 : nearEntities3) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		case WEST:
-			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()),
-					(int) (e.getPosition().getY()) - rayon_de_vision, rayon_de_vision / 2, rayon_de_vision * 2);
-			for (Entity e1 : nearEntities4) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		case NORTHWEST:
-			break;
-		case NORTHEST:
-			break;
-		}
-
-		return false;
+	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
+		
+		int diam = 320; // en pixel
+		return super.closest(e,  c,  d,  diam);
 	}
 
 	@Override

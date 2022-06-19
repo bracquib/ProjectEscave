@@ -79,7 +79,7 @@ public class StalactiteBehaviour extends Behaviour {
 	*/
 
 	@Override
-	public boolean closest(Entity e, Category c, Direction d) {
+	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
 		int rayon_de_vision = 320;
 		switch (d) {
 		case SOUTH:

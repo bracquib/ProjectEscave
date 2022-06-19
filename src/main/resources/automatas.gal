@@ -49,5 +49,6 @@ Inventaire(Init){
 
 Player(Init){
 	*(Init)
-	|Cell(S, J)? Wizz(): (Init)
+	| Closest(P,W) ? Wizz() :(Init)
+	| Closest(P,E) ? Wizz() :(Init)
 }
