@@ -77,7 +77,7 @@ import info3.game.Vec2;
  * 164 : "steg_5"
  * 165 : "steg_6"
  * 166 : "steg_7"
- * 167 : "steg_7"
+ * 167 : "steg_8"
  * 170 : "tric_1"
  * 171 : "tric_2"
  * 172 : "tric_3"
@@ -207,7 +207,7 @@ public class BlockIDs {
 		IDs.put(164, "steg_5");
 		IDs.put(165, "steg_6");
 		IDs.put(166, "steg_7");
-		IDs.put(167, "steg_7");
+		IDs.put(167, "steg_8");
 		IDs.put(170, "tric_1");
 		IDs.put(171, "tric_2");
 		IDs.put(172, "tric_3");
