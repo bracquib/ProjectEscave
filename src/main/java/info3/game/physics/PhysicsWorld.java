@@ -10,6 +10,7 @@ import info3.game.entities.Block;
 public class PhysicsWorld {
 
 	Model model;
+
 	public static final Vec2 GRAVITY = new Vec2(0.0f, 800f);
 	public static final Vec2 MAXSPEED = new Vec2(200f, 5000f);
 
@@ -18,8 +19,8 @@ public class PhysicsWorld {
 	}
 
 	/**
-	 * Calcul tous les changements de position dans le model dû aux forces du monde
-	 * et aux collisions
+	 * Calcule tous les changements de position dans le model dûs aux forces du
+	 * monde et aux collisions
 	 * 
 	 * @param elapsed Temps écoulé depuis le dernier tick
 	 * 
@@ -121,6 +122,7 @@ public class PhysicsWorld {
 	 *
 	 * @return void
 	 */
+
 	private void computeFrictionX(RigidBody rb, Block e) {
 		if (rb.getFrictionFactor() == 0 || e.getFrictionFactor() == 0)
 			return;
@@ -171,6 +173,5 @@ public class PhysicsWorld {
 		if (Math.abs(rb.getSpeed().getX()) > MAXSPEED.getX())
 			rb.setSpeed(new Vec2(rb.getSpeed().getX() / Math.abs(rb.getSpeed().getX()) * MAXSPEED.getX(),
 					rb.getSpeed().getY()));
-
 	}
 }
