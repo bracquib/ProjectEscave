@@ -10,8 +10,8 @@ public class DecorationGenerator {
 		Torus step2 = decorateMap(step1.toArray(), BlockIDs.PatternCouche2ToIDs);
 		Torus step3 = decorateMap(step2.toArray(), BlockIDs.PatternCouche3ToIDs);
 		Torus minerauxDeco = extensionDecoration(step3.toArray(), 1, mineraux, 2);
+		Fillon.generateFilons(minerauxDeco, 1, mineraux);
 		return minerauxDeco;
-
 	}
 
 	private static Torus decorateMap(int[][] map, HashMap<Integer[][], Integer> hm) {

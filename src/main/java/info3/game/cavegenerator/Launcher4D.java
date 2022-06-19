@@ -48,12 +48,12 @@ public class Launcher4D {
 		List<Vec2> statues = generationMap.listSpawnStatues;
 
 		Torus torus = DecorationGenerator.decorate(values1);
-		// int[][] values = torus.toArray();
+		int[][] values = torus.toArray();
 
 		/* Test des fillons */
-		Fillon fillonMap = new Fillon();
-		int[][] values = fillonMap.noiseFillonGen(nbPlayers);
-		int[] mineraux = { 100, 101, 102, 103, 104, 105 };
+		// Fillon fillonMap = new Fillon();
+		// int[][] values = fillonMap.noiseFillonGen(nbPlayers);
+		// int[] mineraux = { 100, 101, 102, 103, 104, 105 };
 		width = values.length;
 		height = values[0].length;
 
@@ -108,7 +108,7 @@ public class Launcher4D {
 		coloration(values, 0, 0x000000, image);
 		coloration(values, 1, 0xffffff, image);
 
-		ImageIO.write(image, "png", new File("youhou.png"));
+		ImageIO.write(image, "png", new File("yaha.png"));
 	}
 
 }
