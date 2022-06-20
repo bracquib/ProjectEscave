@@ -3,7 +3,6 @@ package info3.game.automata.behaviors;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
-import info3.game.physics.RigidBody;
 
 public class BlockBehaviour extends Behaviour {
 
@@ -46,28 +45,16 @@ public class BlockBehaviour extends Behaviour {
 		return false;
 	}
 
-	@Override
+	@Override // pas normal les speed
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
 		e.pointsDeVie -= 1; // à ajuster (dmg)
-		RigidBody p = (RigidBody) e;
-		switch (d) {
-		case SOUTH:
-			p.getSpeed().setY(-120);
-			break;
-		case EST:
-			p.getSpeed().setX(70);
-			break;
-		case WEST:
-			p.getSpeed().setX(-70);
-			break;
-		case NORTH:
-			p.getSpeed().setY(120);
-			break;
-		default:
-			break;
-		}
-		return;
+		/*
+		 * RigidBody p = (RigidBody) e; switch (d) { case SOUTH:
+		 * p.getSpeed().setY(-240); break; case EST: p.getSpeed().setX(140); break; case
+		 * WEST: p.getSpeed().setX(-140); break; case NORTH: p.getSpeed().setY(240);
+		 * break; default: break; } return;
+		 */
 
 	}
 

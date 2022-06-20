@@ -42,7 +42,7 @@ Inventaire(Init){
 
 Player(Init){
 	*(Init)
-	| Key(FU)&Cell(S,J) ? Wizz() :(Init)
+	| Key(FU) ? Wizz() :(Init)
 	| Key(FL) ? Move(W) :(Init)
 	| Key(FR) ? Move(E) :(Init)
 }
