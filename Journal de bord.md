@@ -162,6 +162,7 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 - Ana : règle quelques bugs liés au réseau. Objectif à la fin de la journée : pouvoir se promener à deux (ou plus) sur la carte qu'on génère maintenant, en réseau
 - Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 - Benjamin et Amaury : implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
+- Léa : review des automates et mise au propre du fichier GAL, remodification de l'automate de l'inventaire.
 
 ### Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 
@@ -196,6 +197,7 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 
 * Benjamin, Amaury : implémentation des fonctions des Behaviours de chaque entité.
 * Lucas: BotBuilder terminé
+* William et Léa : Conception et début d'implémentation de la classe inventaire
 
 ### Benjamin et Amaury : implémentation des fonctions des Behaviours de chaque entitié.
 
@@ -206,6 +208,8 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 
 * Lucas: Exécution des automates dans le code
 * Benjamin, Amaury : tests des fonctions faites et des automates.
+* Léa : implémentation de la classe inventaire et des autres classes nécéssaires
+* William : aide et revoit le code de Léa, travaille sur le RayCasting
 
 ### Lucas: Execution des automates dans le code
 
@@ -221,3 +225,15 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * ajustement dans la hiérarchie des behaviours
 
 ### Jérémy, Ana, Amaury : génération des filons
+
+### Léa, William : implémentation de la classe inventaire et des autres classes nécéssaires
+
+* ajout de plusieurs champs dans la classe player (jauge de satiété et de soif)
+* création d'une classe Tool : les objet de l'inventaire héritent de cette classe. On a des armes et des consommables.
+* les armes sont fixes dans l'inventaire alors que les consomables disparaissent une fois utilisés.
+
+### William : aide et revoit le code de Léa, travaille sur le RayCasting
+
+* Définir nos besoins pour implémenter les Ray Casting
+* Créations des classes et de leurs structures de base
+* Implémentation de l'algorithme de Ray Casting
