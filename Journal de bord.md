@@ -233,9 +233,9 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 
 ### Léa, William : implémentation de la classe inventaire et des autres classes nécéssaires
 
-* ajout de plusieurs champs dans la classe player (jauge de satiété et de soif)
-* création d'une classe Tool : les objet de l'inventaire héritent de cette classe. On a des armes et des consommables.
-* les armes sont fixes dans l'inventaire alors que les consomables disparaissent une fois utilisés.
+* Ajout de plusieurs champs dans la classe player (jauge de satiété et de soif)
+* Création d'une classe Tool : les objets de l'inventaire héritent de cette classe. On a des armes et des consommables.
+* Les armes sont fixes dans l'inventaire alors que les consommables disparaissent une fois utilisés.
 
 ### William : aide et revoit le code de Léa, travaille sur le RayCasting
 
@@ -245,9 +245,16 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 
 ## Lundi 20 juin 2022
 
-* Lucas: Implementation des conditions key dans les automates
+* Lucas : Implementation des conditions key dans les automates
+* Amaury et Benjamin : implémentation des behaviours
 
 ### Lucas: Implementation des conditions key dans les automates
 
 * Enregistrement des touches appuyées dans une liste dans le controlleur local
 * Lecture de cette liste par les conditions Key pour savoir si la touche est appuyée ou non
+
+### Amaury et Benjamin
+
+* Implémentation des actions des statues, socles et stalactites
+* Factorisation et nettoyage de certaines méthodes
+* Ajout des frottements pour le player
