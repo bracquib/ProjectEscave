@@ -1,6 +1,8 @@
 package info3.game;
 
 import info3.game.assets.Image;
+import info3.game.automata.Category;
+import info3.game.automata.behaviors.InventaireBehaviour;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Food;
@@ -22,6 +24,9 @@ public class Inventory extends Entity {
 
 	public Inventory(LocalController c, Player owner) {
 		super(c, 1);
+		this.setCategory(Category.TEAM);
+		this.setAutomata(Model.getAutomata("Inventaire"));
+		this.setBehaviour(new InventaireBehaviour());
 		this.currentToolIndex = 0;
 		this.tools = new InventoryCouple[INVENTORY_SIZE];
 		this.controller = c;
@@ -142,6 +147,19 @@ public class Inventory extends Entity {
 				return false;
 		}
 		return true;
+	}
+
+	public boolean rest1place() {
+		int compteur = 0;
+		for (int i = 0; i < this.size; i++) {
+			InventoryCouple tmp = tools[i];
+			if (!tmp.getTool().isSpecial() && tmp.getNumber() > 0)
+				compteur++;
+		}
+		if (compteur == INVENTORY_SIZE - 1) {
+			return true;
+		}
+		return false;
 	}
 
 	public InventoryCouple coupleAt(int i) {
