@@ -25,14 +25,9 @@ public class Fillon {
 
 		map.set(i, j, newBlock);
 		double newProba = proba / 9;
-		System.out.println(newProba);
-		// filonRec(map, i - 1, j - 1, oldBlock, newBlock, newProba);
 		filonRec(map, i - 1, j, oldBlock, newBlock, newProba);
-		// filonRec(map, i - 1, j + 1, oldBlock, newBlock, newProba);
 		filonRec(map, i, j - 1, oldBlock, newBlock, newProba);
 		filonRec(map, i, j + 1, oldBlock, newBlock, newProba);
-		// filonRec(map, i + 1, j - 1, oldBlock, newBlock, newProba);
 		filonRec(map, i + 1, j, oldBlock, newBlock, newProba);
-		// filonRec(map, i + 1, j + 1, oldBlock, newBlock, newProba);
 	}
 }

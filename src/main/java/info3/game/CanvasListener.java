@@ -28,6 +28,7 @@ import java.awt.event.MouseWheelEvent;
 import info3.game.graphics.GameCanvasListener;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
+import info3.game.network.MouseClick;
 import info3.game.network.WheelScroll;
 
 public class CanvasListener implements GameCanvasListener {
@@ -45,7 +46,7 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		this.view.controller.mouseClick(this.view.getPlayer(), new MouseClick(e.getPoint().x, e.getPoint().y));
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class PhysicsWorld {
 
 		for (RigidBody rb : entities) {
 			step(rb, elapsedSec);
+
 			HashSet<CollisionType> collisions = new HashSet<CollisionType>();
 			for (int i = 0; i < map.length; i++) {
 				for (int j = 0; j < map[0].length; j++) {

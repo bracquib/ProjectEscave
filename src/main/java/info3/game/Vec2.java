@@ -174,4 +174,8 @@ public class Vec2 extends Object implements Serializable {
 	public void nullY() {
 		this.y = 0;
 	}
+
+	public Vec2 screenToGlobal(Vec2 pos) {
+		return pos.add(this);
+	}
 }

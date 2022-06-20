@@ -14,6 +14,7 @@ import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
+import info3.game.network.MouseClick;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
@@ -73,6 +74,11 @@ public class RemoteController extends Controller {
 	@Override
 	protected void mouseScroll(Player p, WheelScroll wheelScroll) {
 		this.networkSender.send(p, wheelScroll);
+	}
+
+	@Override
+	protected void mouseClick(Player player, MouseClick mouseClick) {
+		this.networkSender.send(player, mouseClick);
 	}
 }
 

@@ -7,35 +7,36 @@ import info3.game.Vec2;
 import info3.game.entities.Block;
 
 public class RayCasting {
-	// 432101234 + 2 pour le ray tracing
-	// *****P***** -> nécessite une range de 11
-	public final int MAXRANGE = 13;
 
 	/*
 	 * Retourne 1er block touché par le RayCasting
 	 */
-	public Block singleCast(Vec2 mousePos, Vec2 playerPos, int range) {
+	public static Block singleCast(Vec2 mousePos, Vec2 playerPos, int range) {
 		Block closest = null;
 		float minLength = Float.POSITIVE_INFINITY;
 
-		Ray ray = new Ray(playerPos, mousePos.sub(playerPos).normalized());
+		Ray ray = new Ray(playerPos, playerPos.sub(mousePos).normalized());
 
-		Vec2 coord = playerPos.multiply(64).round();
-		Block[][] mapZone = Model.getMapZone((int) coord.getX(), (int) coord.getY(), range, range);
-		for (int i = 1; i < MAXRANGE - 1; i++) {
-			for (int j = 1; j < MAXRANGE - 1; j++) {
+		Vec2 coord = playerPos.divide(32).round();
+		Block[][] mapZone = Model.getMapZone((int) coord.getX() - range, (int) coord.getY() - range, range * 2,
+				range * 2);
+		for (int i = 1; i < range * 2 - 1; i++) {
+			for (int j = 1; j < range * 2 - 1; j++) {
 				Block bl = mapZone[i][j];
+				if (bl == null) {
+					continue;
+				}
 				Vec2 blPos = bl.getPosition();
 
 				ArrayList<Line> lines = new ArrayList<Line>();
 				if (mapZone[i - 1][j] == null)
-					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX(), blPos.getY() + 64));
+					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX(), blPos.getY() + 32));
 				if (mapZone[i][j - 1] == null)
-					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX() + 64, blPos.getY()));
+					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX() + 32, blPos.getY()));
 				if (mapZone[i][j + 1] == null)
-					lines.add(new Line(blPos.getX(), blPos.getY() + 64, blPos.getX() + 64, blPos.getY() + 64));
+					lines.add(new Line(blPos.getX(), blPos.getY() + 32, blPos.getX() + 32, blPos.getY() + 32));
 				if (mapZone[i + 1][j] == null)
-					lines.add(new Line(blPos.getX() + 64, blPos.getY(), blPos.getX() + 64, blPos.getY() + 64));
+					lines.add(new Line(blPos.getX() + 32, blPos.getY(), blPos.getX() + 32, blPos.getY() + 32));
 
 				for (Line line : lines) {
 					Vec2 intersec = ray.intersect(line);
