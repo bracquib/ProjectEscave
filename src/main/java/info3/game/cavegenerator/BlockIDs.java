@@ -392,6 +392,7 @@ public class BlockIDs {
 		PatternCouche3ToIDs.put(patternCreatorCroix(16, 26, 1, 1), 30);
 		PatternCouche3ToIDs.put(patternCreatorCroix(16, 26, 1, 10), 30);
 		PatternCouche3ToIDs.put(patternCreatorCroix(26, 9, 1, 1), 30);
+		PatternCouche3ToIDs.put(patternCreatorCroix(26, 9, 12, 1), 30);
 
 		// Transition 3 coin haut droit
 		PatternCouche3ToIDs.put(patternCreatorCroix(12, 1, 27, 1), 31);
