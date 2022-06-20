@@ -12,6 +12,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
+import info3.game.network.DeleteAvatar;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
@@ -79,6 +80,11 @@ public class RemoteController extends Controller {
 	@Override
 	protected void mouseClick(Player player, MouseClick mouseClick) {
 		this.networkSender.send(player, mouseClick);
+	}
+
+	@Override
+	public void deleteAvatar(int avatarId) {
+		this.view.deleteAvatar(avatarId);
 	}
 }
 
@@ -181,6 +187,9 @@ class NetworkReceiverThread extends Thread {
 		} else if (msg instanceof Welcome) {
 			Welcome w = (Welcome) msg;
 			this.controller.view.setPlayer(new Player(new LocalController(), w.yourColor, new Vec2(0), false, 3));
+		} else if (msg instanceof DeleteAvatar) {
+			DeleteAvatar da = (DeleteAvatar) msg;
+			this.controller.view.deleteAvatar(da.id);
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}

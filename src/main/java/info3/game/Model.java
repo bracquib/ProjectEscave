@@ -92,6 +92,15 @@ public class Model {
 		return p;
 	}
 
+	public static void deleteBlock(int x, int y) {
+		if (Model.map[x][y] == null) {
+			return;
+		}
+		int avatarId = Model.map[x][y].getAvatar().getId();
+		Model.map[x][y] = null;
+		Model.controller.deleteAvatar(avatarId);
+	}
+
 	private static void generateMapIfNeeded() {
 		if (Model.map == null) {
 			// génération de la map

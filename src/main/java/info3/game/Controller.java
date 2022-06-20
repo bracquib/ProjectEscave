@@ -31,4 +31,6 @@ public abstract class Controller {
 	protected abstract void mouseScroll(Player p, WheelScroll wheelScroll);
 
 	protected abstract void mouseClick(Player player, MouseClick mouseClick);
+
+	public abstract void deleteAvatar(int avatarId);
 }

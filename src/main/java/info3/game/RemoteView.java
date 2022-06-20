@@ -2,6 +2,7 @@ package info3.game;
 
 import info3.game.assets.Paintable;
 import info3.game.network.CreateAvatar;
+import info3.game.network.DeleteAvatar;
 
 public class RemoteView extends View {
 	ClientThread client;
@@ -26,6 +27,12 @@ public class RemoteView extends View {
 		this.avatars.put(id, av);
 		((LocalController) this.controller).sendToClients(new CreateAvatar(id, pos, img));
 		return av;
+	}
+
+	@Override
+	public void deleteAvatar(int id) {
+		super.deleteAvatar(id);
+		((LocalController) this.controller).sendToClients(new DeleteAvatar(id));
 	}
 
 	@Override
