@@ -8,15 +8,8 @@ import info3.game.Vec2;
 import info3.game.entities.Block;
 
 public class PhysicsWorld {
-
-	Model model;
-
 	public static final Vec2 GRAVITY = new Vec2(0.0f, 800f);
 	public static final Vec2 MAXSPEED = new Vec2(200f, 5000f);
-
-	public PhysicsWorld(Model model) {
-		this.model = model;
-	}
 
 	/**
 	 * Calcule tous les changements de position dans le model dûs aux forces du
@@ -29,8 +22,8 @@ public class PhysicsWorld {
 	 */
 	public void tick(long elapsed) {
 		float elapsedSec = elapsed / 1000.0f;
-		ArrayList<RigidBody> entities = this.model.getEntities();
-		Block[][] map = this.model.getMap();
+		ArrayList<RigidBody> entities = Model.getEntities();
+		Block[][] map = Model.getMap();
 
 		for (RigidBody rb : entities) {
 			step(rb, elapsedSec);
@@ -38,10 +31,8 @@ public class PhysicsWorld {
 			step(rb, elapsedSec);
 
 			HashSet<CollisionType> collisions = new HashSet<CollisionType>();
-			Block floor = null;
-			for (int i = 0; i < model.getMap().length; i++) {
-				for (int j = 0; j < model.getMap()[0].length; j++) {
-
+			for (int i = 0; i < map.length; i++) {
+				for (int j = 0; j < map[0].length; j++) {
 					if (map[i][j] == null) {
 						continue;
 					}
@@ -50,9 +41,7 @@ public class PhysicsWorld {
 						CollisionType coll = rb.isColliding(map[i][j]);
 						if (coll == CollisionType.NONE)
 							continue;
-						if (collisions.add(coll) && coll == CollisionType.DOWN) {
-							floor = map[i][j];
-						}
+						collisions.add(coll);
 						clearCoords(rb, map[i][j], coll);
 					} catch (Exception e) {
 						// Ne devrait jamais arriver
@@ -122,7 +111,6 @@ public class PhysicsWorld {
 	 *
 	 * @return void
 	 */
-
 	private void computeFrictionX(RigidBody rb, Block e) {
 		if (rb.getFrictionFactor() == 0 || e.getFrictionFactor() == 0)
 			return;

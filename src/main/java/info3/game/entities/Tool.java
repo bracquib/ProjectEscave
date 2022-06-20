@@ -10,7 +10,7 @@ public abstract class Tool extends Entity {
 	protected boolean special;
 
 	public Tool(LocalController c) {
-		super(c);
+		super(c, 0);
 	}
 
 	public abstract void useTool();

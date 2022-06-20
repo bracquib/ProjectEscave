@@ -5,6 +5,11 @@ import java.awt.Graphics;
 import info3.game.Avatar;
 import info3.game.LocalController;
 import info3.game.Vec2;
+import info3.game.automata.Automata;
+import info3.game.automata.AutomataState;
+import info3.game.automata.Category;
+import info3.game.automata.CurrentState;
+import info3.game.automata.behaviors.Behaviour;
 import info3.game.network.UpdateAvatar;
 import info3.game.physics.BoxCollider;
 import info3.game.physics.Collider;
@@ -29,10 +34,18 @@ public abstract class Entity {
 	 * L'avatar de l'entité
 	 */
 	protected Avatar avatar;
-	protected Vec2 avatarOffset;
-
 	protected Collider collider;
 	float frictionFactor;
+	protected Automata automata;
+	protected CurrentState currentState;
+	protected Behaviour behaviour;
+	public int pointsDeVie;
+	public int degatMob;
+	public int degatEpee;
+	public int degatPioche;
+	protected Category category;
+	protected Vec2 avatarOffset;
+
 	protected LocalController controller;
 
 	public Vec2 getPosition() {
@@ -51,10 +64,45 @@ public abstract class Entity {
 		}
 	}
 
-	public Entity(LocalController c) {
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Category getCategory() {
+		return this.category;
+	}
+
+	public void setAutomata(Automata automata) {
+		this.automata = automata;
+		if (this.automata != null) {
+			this.currentState = new CurrentState(this.automata.getInitialState());
+		}
+	}
+
+	public void setAutomata(Automata automata, AutomataState state) {
+		this.automata = automata;
+		this.currentState = new CurrentState(state);
+	}
+
+	public void setBehaviour(Behaviour behaviour) {
+		this.behaviour = behaviour;
+	}
+
+	public Behaviour getBehaviour() {
+		return this.behaviour;
+	}
+
+	public Entity(LocalController c, int points) {
 		this.controller = c;
 		this.collider = new BoxCollider(32, 32, 0, 0);
 		this.frictionFactor = 0.6f;
+		this.pointsDeVie = points;
+		this.automata = null;
+		this.currentState = null;
+		this.behaviour = null;
+		this.degatMob = 0;
+		this.degatEpee = 0;
+		this.degatPioche = 0;
 	}
 
 	/**
@@ -66,6 +114,9 @@ public abstract class Entity {
 	public void tick(long elapsed) {
 		if (this.avatar != null) {
 			this.avatar.tick(elapsed);
+		}
+		if (this.automata != null && this.currentState != null) {
+			this.automata.step(this, this.currentState.getState());
 		}
 	}
 
@@ -94,5 +145,9 @@ public abstract class Entity {
 
 	public float getFrictionFactor() {
 		return frictionFactor;
+	}
+
+	public void setCurrentState(CurrentState s) {
+		this.currentState = s;
 	}
 }

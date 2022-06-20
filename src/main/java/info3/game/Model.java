@@ -1,8 +1,14 @@
 package info3.game;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import info3.game.automata.Automata;
+import info3.game.automata.BotBuilder;
+import info3.game.automata.ast.AST;
+import info3.game.automata.parser.AutomataParser;
 import info3.game.cavegenerator.DecorationGenerator;
 import info3.game.cavegenerator.SpawnGenerator4D;
 import info3.game.cavegenerator.Torus;
@@ -19,12 +25,12 @@ public class Model {
 	/**
 	 * Le controlleur associé à ce modèle.
 	 */
-	public LocalController controller;
+	public static LocalController controller;
 
 	/**
 	 * La liste de toutes les entités dynamiques dans le monde.
 	 */
-	ArrayList<RigidBody> entities;
+	static ArrayList<RigidBody> entities;
 
 	/**
 	 * La liste des entités dynamiques à spawner au prochain tick
@@ -32,7 +38,7 @@ public class Model {
 	 * On ajoute pas directement dans entities pour éviter des accès concurrents par
 	 * plusieurs threads #réseau #parallélisme
 	 */
-	ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
+	static ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
 
 	/**
 	 * La liste des blocs de la carte.
@@ -44,23 +50,26 @@ public class Model {
 	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
 	 * précis avec la méthode getBlock(x, y) de cette classe.
 	 */
-	Block[][] map;
+	static Block[][] map;
 
-	ArrayList<Vec2> spawnPoints;
+	static ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 1;
-	private int playerCount = 0;
+	private static final int maxPlayers = 1;
+	private static int playerCount = 0;
 
-	private boolean started() {
-		return this.playerCount == this.maxPlayers;
+	static ArrayList<Automata> automatas;
+
+	private static boolean started() {
+		return Model.playerCount == Model.maxPlayers;
 	}
 
-	private PhysicsWorld physics;
+	private static PhysicsWorld physics;
 
-	public Model(LocalController controller) {
-		this.controller = controller;
-		this.entities = new ArrayList<RigidBody>();
-		this.physics = new PhysicsWorld(this);
+	public static void init(LocalController controller) {
+		Model.controller = controller;
+		Model.entities = new ArrayList<RigidBody>();
+		Model.physics = new PhysicsWorld();
+		Model.loadAutomatas();
 	}
 
 	/**
@@ -68,55 +77,56 @@ public class Model {
 	 * 
 	 * @param e L'entité à faire apparaître
 	 */
-	public void spawn(RigidBody e) {
-		this.spawnQueue.add(e);
+	public static void spawn(RigidBody e) {
+		Model.spawnQueue.add(e);
 	}
 
-	public Player spawnPlayer() {
+	public static Player spawnPlayer() {
 		// TODO: throw exception if there are more players than expected
-		this.generateMapIfNeeded();
-		Player p = new Player(this.controller, Player.colorFromInt(this.playerCount),
-				this.spawnPoints.get(this.playerCount).multiply(32), true);
-		this.playerCount++;
-		this.spawn(p);
+		Model.generateMapIfNeeded();
+		Player p = new Player(Model.controller, Player.colorFromInt(Model.playerCount),
+				Model.spawnPoints.get(Model.playerCount).multiply(32), true, 10);
+		Model.playerCount++;
+		Model.spawn(p);
+
 		return p;
 	}
 
-	private void generateMapIfNeeded() {
-		if (this.map == null) {
+	private static void generateMapIfNeeded() {
+		if (Model.map == null) {
 			// génération de la map
 			SpawnGenerator4D generationMap = new SpawnGenerator4D();
-			int[][] values = generationMap.spawnStatueTotal(this.maxPlayers);
-			this.spawnPoints = generationMap.listSpawnPlayer;
+			int[][] values = generationMap.spawnStatueTotal(Model.maxPlayers);
+			Model.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			List<Vec2> statues = generationMap.listSpawnStatues;
 
 			Torus torus = DecorationGenerator.decorate(values);
 			int[][] blocks = torus.toArray();
 
-			this.map = new Block[blocks.length][blocks[0].length];
+			Model.map = new Block[blocks.length][blocks[0].length]; // this.map
 			for (int i = 0; i < blocks.length; i++) {
 				for (int j = 0; j < blocks[i].length; j++) {
 					if (blocks[i][j] != 0) {
-						this.map[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32), blocks[i][j]);
+						Model.map[i][j] = new Block(Model.controller, new Vec2(i * 32, j * 32), blocks[i][j], 1); // this.map
 					}
 				}
 			}
 		}
 	}
 
-	public void tick(long elapsed) {
-		this.entities.addAll(this.spawnQueue);
-		this.spawnQueue.clear();
-		if (!this.started()) {
+	public static void tick(long elapsed) {
+		Model.entities.addAll(Model.spawnQueue);
+		Model.spawnQueue.clear();
+		if (!Model.started()) {
 			return;
 		}
 		if (elapsed > 200) {
 			System.out.println("[WARN] Tick ignored in model");
 			return;
 		}
-		this.physics.tick(elapsed);
-		for (Entity e : this.entities) {
+		Model.physics.tick(elapsed);
+		for (Entity e : Model.allEntities()) {
 			e.tick(elapsed);
 		}
 	}
@@ -132,49 +142,52 @@ public class Model {
 	 * @param y Coordonée y
 	 * @return Le bloc à cette position
 	 */
-	public Entity getBlock(int x, int y) {
+	public static Block getBlock(int x, int y) {
 		// TODO : on est sur un tore
-		return this.map[x][y];
+		return Model.map[x][y];
 	}
 
 	/**
-	 * Renvoie toutes les entités dans un rectangle donné
 	 * 
-	 * @param x      Abcisse du coin en haut à gauche du rectangle
-	 * @param y      Ordonnée du coin en haut à gauche du rectangle
-	 * @param width  La largeur du rectangle
-	 * @param height La hauteur du rectangle
-	 * @return Une liste de toutes les entités dans ce rectangle
+	 * @param baseX  abscisse du coin hg de la zone de vision
+	 * @param baseY  ordonnée (croissant vers le bas) du coin hg de la zone de
+	 *               vision
+	 * @param width  en px
+	 * @param height en px
+	 * @return
 	 */
-	public ArrayList<Entity> getNearEntities(int x, int y, int width, int height) {
+	public static ArrayList<Entity> getNearEntities(int baseX, int baseY, int width, int height) {
 		ArrayList<Entity> nearEntities = new ArrayList<>();
 		// On parcours d'abord la map pour avoir les blocs
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				nearEntities.add(this.getBlock(x, y));
+		for (int i = 0; i < width / 32; i++) {
+			for (int j = 0; j < height / 32; j++) {
+				Block block = Model.getBlock(baseX / 32 + i, baseY / 32 + j);
+				if (block != null) {
+					nearEntities.add(block);
+				}
 			}
 		}
 		// Puis on parcours les entités "dynamiques"
-		for (Entity e : this.entities) {
+		for (Entity e : Model.entities) {
 			Vec2 pos = e.getPosition();
-			if (pos.getX() > x && pos.getX() < x + width && pos.getY() > y && pos.getY() < y + height) {
+			if (pos.getX() > baseX && pos.getX() < baseX + width && pos.getY() > baseY && pos.getY() < baseY + height) {
 				nearEntities.add(e);
 			}
 		}
 		return nearEntities;
 	}
 
-	public ArrayList<Entity> allEntities() {
+	public static ArrayList<Entity> allEntities() {
 		ArrayList<Entity> all;
-		synchronized (this.entities) {
-			all = new ArrayList<Entity>(this.entities);
+		synchronized (Model.entities) {
+			all = new ArrayList<Entity>(Model.entities);
 		}
-		if (this.map != null) {
-			synchronized (this.map) {
-				for (int i = 0; i < this.map.length; i++) {
-					for (int j = 0; j < this.map[i].length; j++) {
-						if (this.map[i][j] != null) {
-							all.add(this.map[i][j]);
+		if (Model.map != null) {
+			synchronized (Model.map) {
+				for (int i = 0; i < Model.map.length; i++) {
+					for (int j = 0; j < Model.map[i].length; j++) {
+						if (Model.map[i][j] != null) {
+							all.add(Model.map[i][j]);
 						}
 					}
 				}
@@ -184,21 +197,44 @@ public class Model {
 		return all;
 	}
 
-	public ArrayList<Entity> getNearBlocks(int x, int y, int width, int height) {
+	public static ArrayList<Entity> getNearBlocks(int x, int y, int width, int height) {
 		ArrayList<Entity> nearBlocks = new ArrayList<>();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				nearBlocks.add(this.getBlock(x + i, y + j));
+				nearBlocks.add(Model.getBlock(x + i, y + j));
 			}
 		}
 		return nearBlocks;
 	}
 
-	public ArrayList<RigidBody> getEntities() {
-		return this.entities;
+	public static ArrayList<RigidBody> getEntities() {
+		return Model.entities;
 	}
 
-	public Block[][] getMap() {
-		return this.map;
+	public static Block[][] getMap() {
+		return Model.map;
 	}
+
+	private static void loadAutomatas() {
+		AST ast = null;
+		try {
+			ast = new AutomataParser(new BufferedReader(new FileReader("src/main/resources/automatas.gal"))).Run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		BotBuilder botBuilder = new BotBuilder();
+		ast.accept(botBuilder);
+		Model.automatas = botBuilder.getAutomatas();
+		System.out.println("[DEBUG] Loaded " + Model.automatas.size() + " automatas");
+	}
+
+	public static Automata getAutomata(String name) {
+		for (Automata automata : Model.automatas) {
+			if (automata.getName().equals(name))
+				return automata;
+		}
+		System.out.println("[WARNING] Automata " + name + " not found");
+		return null;
+	}
+
 }

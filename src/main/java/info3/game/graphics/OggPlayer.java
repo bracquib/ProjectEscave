@@ -68,65 +68,65 @@ import info3.game.sound.AudioPlayerListener;
 
 public class OggPlayer extends AudioPlayer implements Runnable {
 
-	private String m_name;
-	private float m_volume;
-	private Thread m_worker;
+	private String name;
+	private float volume;
+	private Thread worker;
 
 	// If you wish to debug this source, please set the variable below to true.
-	private final boolean m_debugMode = false;
+	private final boolean debugMode = false;
 	private final static boolean PLAY_VERBOSE = false;
 	private final static boolean VOLUME_VERBOSE = false;
 
 	/*
 	 * audio stream, ogg-vorbis format.
 	 */
-	private InputStream m_inputStream;
+	private InputStream inputStream;
 
 	/*
 	 * We need a buffer, it's size, a count to know how many bytes we have read and
 	 * an index to keep track of where we are. This is standard networking stuff
 	 * used with read().
 	 */
-	byte[] m_buffer;
-	int m_bufferSize;
-	int m_count;
-	int m_length;
-	int m_index;
+	byte[] buffer;
+	int bufferSize;
+	int count;
+	int length;
+	int index;
 
 	/*
 	 * JOgg and JOrbis require fields for the converted buffer. This is a buffer
 	 * that is modified in regards to the number of audio channels. Naturally, it
 	 * will also need a size.
 	 */
-	byte[] m_convertedBuffer;
-	int m_convertedBufferSize;
+	byte[] convertedBuffer;
+	int convertedBufferSize;
 
 	// The source data line onto which data can be written.
-	private SourceDataLine m_outputLine;
+	private SourceDataLine outputLine;
 
 	// A three-dimensional an array with PCM information.
-	private float[][][] m_pcmInfo;
+	private float[][][] pcmInfo;
 
 	// The index for the PCM information.
-	private int[] m_pcmIndex;
+	private int[] pcmIndex;
 
 	// Here are the four required JOgg objects...
-	private Packet m_joggPacket;
-	private Page m_joggPage;
-	private StreamState m_joggStreamState;
-	private SyncState m_joggSyncState;
+	private Packet joggPacket;
+	private Page joggPage;
+	private StreamState joggStreamState;
+	private SyncState joggSyncState;
 
 	// ... followed by the four required JOrbis objects.
-	private DspState m_jorbisDspState;
+	private DspState jorbisDspState;
 	private Block jorbisBlock;
-	private Comment m_jorbisComment;
-	private Info m_jorbisInfo;
+	private Comment jorbisComment;
+	private Info jorbisInfo;
 
-	private volatile boolean m_stop;
-	private long m_duration;
-	private long m_startOfPlay = -1L;
-	private long m_endOfPlay = -1L;
-	private boolean m_loop;
+	private volatile boolean stop;
+	private long duration;
+	private long startOfPlay = -1L;
+	private long endOfPlay = -1L;
+	private boolean loop;
 
 	OggPlayer(GameCanvas canvas) {
 		super(canvas);
@@ -134,88 +134,73 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 
 	@Override
 	public String getName() {
-		return m_name;
+		return name;
 	}
 
 	@Override
 	public void stop() {
-		m_stop = true;
-		m_worker.interrupt();
+		stop = true;
+		worker.interrupt();
 	}
 
 	@Override
 	public void playMusic(String name, InputStream is, long duration, float volume) {
-		m_name = name;
-		m_volume = volume;
-		m_inputStream = is;
-		m_duration = duration;
-		m_loop = true;
+		this.name = name;
+		this.volume = volume;
+		inputStream = is;
+		this.duration = duration;
+		loop = true;
 		is.mark(Integer.MAX_VALUE);
-		if (m_worker != null) {
-			m_stop = true;
-			m_worker.interrupt();
+		if (worker != null) {
+			stop = true;
+			worker.interrupt();
 		} else {
-			m_worker = new Thread(this, "AudioPlayer:" + name);
-			m_worker.start();
+			worker = new Thread(this, "AudioPlayer:" + name);
+			worker.start();
 		}
 		// _play(name, is, duration, volume);
 	}
 
 	@Override
 	public void playSound(String name, InputStream is, long duration, float volume, AudioPlayerListener l) {
-		m_name = name;
-		m_volume = volume;
-		m_inputStream = is;
-		m_duration = duration;
-		m_listener = l;
-		if (m_worker != null) {
-			m_stop = true;
-			m_worker.interrupt();
+		this.name = name;
+		this.volume = volume;
+		inputStream = is;
+		this.duration = duration;
+		listener = l;
+		if (worker != null) {
+			stop = true;
+			worker.interrupt();
 		} else {
-			m_worker = new Thread(this, "AudioPlayer:" + name);
-			m_worker.start();
+			worker = new Thread(this, "AudioPlayer:" + name);
+			worker.start();
 		}
-		// _play(name, is, duration, volume);
 	}
-
-//  private void _play(String name, InputStream is, long duration, float volume) {
-//    m_name = name;
-//    m_volume = volume;
-//    m_inputStream = is;
-//    m_duration = duration;
-//    m_worker = new Thread(this, "AudioPlayer:" + name);
-//    try {
-//      // m_worker.setDaemon(true);
-//      // m_worker.setPriority(Thread.MAX_PRIORITY);
-//    } catch (Exception e) {
-//    }
-//    m_worker.start();
-//  }
 
 	@Override
 	public void run() {
 		try {
 			while (true) {
 				if (PLAY_VERBOSE)
-					System.out.println("\nPlaying: " + m_name);
-				m_inputStream.reset();
-				m_startOfPlay = System.currentTimeMillis();
-				if (m_duration > 0)
-					m_endOfPlay = m_startOfPlay + m_duration;
+					System.out.println("\nPlaying: " + name);
+				inputStream.reset();
+				startOfPlay = System.currentTimeMillis();
+				if (duration > 0)
+					endOfPlay = startOfPlay + duration;
 				initializeJOrbis();
 				if (readHeader()) {
 					if (initializeSound()) {
-						debugOutput("Reading the body. length=" + m_length);
+						debugOutput("Reading the body. length=" + length);
 						readBody();
-						debugOutput("Done reading the body. length=" + m_length);
+						debugOutput("Done reading the body. length=" + length);
 					} else
 						System.out.println("Failed initializing sound");
 				} else
 					System.out.println("Failed reading header");
-				if (!m_loop || m_stop)
+				if (!loop || stop)
 					break;
 				cleanUp();
-				m_inputStream.reset();
+				inputStream.reset();
 			}
 		} catch (IOException ex) {
 			debugOutput("Got exception=" + ex);
@@ -224,22 +209,22 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 		}
 		try {
 			if (PLAY_VERBOSE) {
-				long end = m_endOfPlay;
+				long end = endOfPlay;
 				if (end < 0)
 					end = System.currentTimeMillis();
-				System.out.println("Done[" + m_name + "]: elapsed=" + (end - m_startOfPlay) + " length=" + m_length);
+				System.out.println("Done[" + name + "]: elapsed=" + (end - startOfPlay) + " length=" + length);
 			}
-			if (m_listener != null)
-				m_listener.endOfPlay(this, m_name);
+			if (listener != null)
+				listener.endOfPlay(this, name);
 		} catch (Throwable th) {
 		}
 		// Closes the stream.
 		try {
-			if (m_inputStream != null)
-				m_inputStream.close();
+			if (inputStream != null)
+				inputStream.close();
 		} catch (Exception e) {
 		}
-		m_canvas.stopped(this);
+		canvas.stopped(this);
 	}
 
 	/**
@@ -252,30 +237,30 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 	private void initializeJOrbis() {
 		debugOutput("Initializing JOrbis.");
 		synchronized (lock) {
-			m_joggPacket = new Packet();
-			m_joggPage = new Page();
-			m_joggStreamState = new StreamState();
-			m_joggSyncState = new SyncState();
+			joggPacket = new Packet();
+			joggPage = new Page();
+			joggStreamState = new StreamState();
+			joggSyncState = new SyncState();
 
 			// ... followed by the four required JOrbis objects.
-			m_jorbisDspState = new DspState();
-			jorbisBlock = new Block(m_jorbisDspState);
-			m_jorbisComment = new Comment();
-			m_jorbisInfo = new Info();
+			jorbisDspState = new DspState();
+			jorbisBlock = new Block(jorbisDspState);
+			jorbisComment = new Comment();
+			jorbisInfo = new Info();
 
 			// Initialize SyncState
-			m_joggSyncState.init();
+			joggSyncState.init();
 
 			// Prepare the to SyncState internal buffer
-			m_index = 0;
-			m_bufferSize = 2048;
-			m_joggSyncState.buffer(m_bufferSize);
+			index = 0;
+			bufferSize = 2048;
+			joggSyncState.buffer(bufferSize);
 
 			/*
 			 * Fill the buffer with the data from SyncState's internal buffer. Note how the
 			 * size of this new buffer is different from bufferSize.
 			 */
-			m_buffer = m_joggSyncState.data;
+			buffer = joggSyncState.data;
 		}
 		debugOutput("Done initializing JOrbis.");
 	}
@@ -307,20 +292,20 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 		 * statement which does what it's supposed to do in regards to the current
 		 * packet.
 		 */
-		m_index = 0;
-		m_bufferSize = 2048;
+		index = 0;
+		bufferSize = 2048;
 
 		while (needMoreData) {
 			// Read from the InputStream.
-			m_count = m_inputStream.read(m_buffer, m_index, m_bufferSize);
-			if (m_count == -1) {
+			count = inputStream.read(buffer, index, bufferSize);
+			if (count == -1) {
 				debugOutput(" end of stream");
 				return false;
 			}
-			m_length += m_count;
-			debugOutput(" read " + m_count + " bytes, index=" + m_index);
+			length += count;
+			debugOutput(" read " + count + " bytes, index=" + index);
 			// We let SyncState know how many bytes we read.
-			if (m_joggSyncState.wrote(m_count) < 0) {
+			if (joggSyncState.wrote(count) < 0) {
 				debugError("SyncState wrote error", null);
 				return false;
 			}
@@ -334,7 +319,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 			// The first packet.
 			case 1: {
 				// We take out a page.
-				switch (m_joggSyncState.pageout(m_joggPage)) {
+				switch (joggSyncState.pageout(joggPage)) {
 				// If there is a hole in the data, we must exit.
 				case -1: {
 					debugOutput("There is a hole in the first " + "packet data.");
@@ -354,15 +339,15 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 				 */
 				case 1: {
 					// Initializes and resets StreamState.
-					m_joggStreamState.init(m_joggPage.serialno());
-					m_joggStreamState.reset();
+					joggStreamState.init(joggPage.serialno());
+					joggStreamState.reset();
 
 					// Initializes the Info and Comment objects.
-					m_jorbisInfo.init();
-					m_jorbisComment.init();
+					jorbisInfo.init();
+					jorbisComment.init();
 
 					// Check the page (serial number and stuff).
-					if (m_joggStreamState.pagein(m_joggPage) == -1) {
+					if (joggStreamState.pagein(joggPage) == -1) {
 						debugError("We got an error while " + "reading the first header page.", null);
 						return false;
 					}
@@ -371,7 +356,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 					 * Try to extract a packet. All other return values than "1" indicates there's
 					 * something wrong.
 					 */
-					if (m_joggStreamState.packetout(m_joggPacket) != 1) {
+					if (joggStreamState.packetout(joggPacket) != 1) {
 						debugError("We got an error while " + "reading the first header packet.", null);
 						return false;
 					}
@@ -381,7 +366,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 					 * Comment-related information, among other things. If this fails, it's not
 					 * Vorbis data.
 					 */
-					if (m_jorbisInfo.synthesis_headerin(m_jorbisComment, m_joggPacket) < 0) {
+					if (jorbisInfo.synthesis_headerin(jorbisComment, joggPacket) < 0) {
 						debugError("We got an error while " + "interpreting the first packet. "
 								+ "Apparantly, it's not Vorbis data.", null);
 						return false;
@@ -405,7 +390,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 			case 2:
 			case 3: {
 				// Try to get a new page again.
-				switch (m_joggSyncState.pageout(m_joggPage)) {
+				switch (joggSyncState.pageout(joggPage)) {
 				// If there is a hole in the data, we must exit.
 				case -1: {
 					debugError("There is a hole in the second " + "or third packet data.", null);
@@ -423,12 +408,12 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 				 */
 				case 1: {
 					// Share the page with the StreamState object.
-					m_joggStreamState.pagein(m_joggPage);
+					joggStreamState.pagein(joggPage);
 
 					/*
 					 * Just like the switch(...packetout...) lines above.
 					 */
-					switch (m_joggStreamState.packetout(m_joggPacket)) {
+					switch (joggStreamState.packetout(joggPacket)) {
 					// If there is a hole in the data, we must exit.
 					case -1: {
 						debugError("There is a hole in the first" + "packet data.", null);
@@ -445,7 +430,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 						/*
 						 * Like above, we give the packet to the Info and Comment objects.
 						 */
-						m_jorbisInfo.synthesis_headerin(m_jorbisComment, m_joggPacket);
+						jorbisInfo.synthesis_headerin(jorbisComment, joggPacket);
 
 						// Increment packet.
 						packet++;
@@ -470,20 +455,20 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 			}
 
 			// We get the new index and an updated buffer.
-			m_index = m_joggSyncState.buffer(m_bufferSize);
-			m_buffer = m_joggSyncState.data;
+			index = joggSyncState.buffer(bufferSize);
+			buffer = joggSyncState.data;
 
 			/*
 			 * If we need more data but can't get it, the stream doesn't contain enough
 			 * information.
 			 */
-			if (m_count == 0 && needMoreData) {
+			if (count == 0 && needMoreData) {
 				debugOutput("Not enough header data was supplied.");
 				return false;
 			}
 		}
 
-		debugOutput("Finished reading the header. index=" + m_index);
+		debugOutput("Finished reading the header. index=" + index);
 
 		return true;
 	}
@@ -500,18 +485,18 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 		synchronized (lock) {
 
 			// This buffer is used by the decoding method.
-			m_convertedBufferSize = m_bufferSize * 2;
-			m_convertedBuffer = new byte[m_convertedBufferSize];
+			convertedBufferSize = bufferSize * 2;
+			convertedBuffer = new byte[convertedBufferSize];
 
 			// Initializes the DSP synthesis.
-			m_jorbisDspState.synthesis_init(m_jorbisInfo);
+			jorbisDspState.synthesis_init(jorbisInfo);
 
 			// Make the Block object aware of the DSP.
-			jorbisBlock.init(m_jorbisDspState);
+			jorbisBlock.init(jorbisDspState);
 
 			// Wee need to know the channels and rate.
-			int channels = m_jorbisInfo.channels;
-			int rate = m_jorbisInfo.rate;
+			int channels = jorbisInfo.channels;
+			int rate = jorbisInfo.rate;
 
 			// Creates an AudioFormat object and a DataLine.Info object.
 			AudioFormat audioFormat = new AudioFormat((float) rate, 16, channels, true, false);
@@ -529,15 +514,14 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 			 * format and start the source data line.
 			 */
 			try {
-				m_outputLine = (SourceDataLine) AudioSystem.getLine(datalineInfo);
-				// System.out.println(" line[" + m_name + "]=" + m_outputLine);
-				m_outputLine.open(audioFormat);
+				outputLine = (SourceDataLine) AudioSystem.getLine(datalineInfo);
+				outputLine.open(audioFormat);
 
-				FloatControl volumeControl = (FloatControl) m_outputLine.getControl(FloatControl.Type.MASTER_GAIN);
+				FloatControl volumeControl = (FloatControl) outputLine.getControl(FloatControl.Type.MASTER_GAIN);
 				float vol = volumeControl.getValue();
 				float min = volumeControl.getMinimum();
 				float max = volumeControl.getMaximum();
-				vol = min + m_volume * (max - min);
+				vol = min + volume * (max - min);
 				if (VOLUME_VERBOSE) {
 					System.out.println("  volume min=" + min + " max=" + max);
 					System.out.println("  setting volume=" + vol);
@@ -563,14 +547,14 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 			}
 
 			// Start it.
-			m_outputLine.start();
+			outputLine.start();
 
 			/*
 			 * We create the PCM variables. The index is an array with the same length as
 			 * the number of audio channels.
 			 */
-			m_pcmInfo = new float[1][][];
-			m_pcmIndex = new int[m_jorbisInfo.channels];
+			pcmInfo = new float[1][][];
+			pcmIndex = new int[jorbisInfo.channels];
 		}
 		debugOutput("Done initializing the sound system.");
 
@@ -590,17 +574,17 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 		boolean needMoreData = true;
 
 		while (needMoreData) {
-			if (m_stop)
+			if (stop)
 				return; // we are asked to stop
-			if (m_endOfPlay != -1) {
+			if (endOfPlay != -1) {
 				long now = System.currentTimeMillis();
-				if (m_endOfPlay <= now) {
-					System.out.println("Reached duration=" + m_duration);
+				if (endOfPlay <= now) {
+					System.out.println("Reached duration=" + duration);
 					return;
 				}
 			}
 
-			switch (m_joggSyncState.pageout(m_joggPage)) {
+			switch (joggSyncState.pageout(joggPage)) {
 			// If there is a hole in the data, we just proceed.
 			case -1: {
 				debugOutput("There is a hole in the data. We proceed.");
@@ -614,24 +598,24 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 			// If we have successfully checked out a page, we continue.
 			case 1: {
 				// Give the page to the StreamState object.
-				m_joggStreamState.pagein(m_joggPage);
+				joggStreamState.pagein(joggPage);
 
 				// If granulepos() returns "0", we don't need more data.
-				if (m_joggPage.granulepos() == 0) {
+				if (joggPage.granulepos() == 0) {
 					needMoreData = false;
 					break;
 				}
 
 				// Here is where we process the packets.
 				processPackets: while (true) {
-					if (m_stop)
+					if (stop)
 						return; // we are asked to stop
-					if (m_endOfPlay != -1) {
+					if (endOfPlay != -1) {
 						long now = System.currentTimeMillis();
-						if (m_endOfPlay <= now)
+						if (endOfPlay <= now)
 							return;
 					}
-					switch (m_joggStreamState.packetout(m_joggPacket)) {
+					switch (joggStreamState.packetout(joggPacket)) {
 					// Is it a hole in the data?
 					case -1: {
 						debugOutput("There is a hole in the data, we " + "continue though.");
@@ -654,7 +638,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 				/*
 				 * If the page is the end-of-stream, we don't need more data.
 				 */
-				if (m_joggPage.eos() != 0)
+				if (joggPage.eos() != 0)
 					needMoreData = false;
 			}
 			}
@@ -662,29 +646,29 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 			// If we need more data...
 			if (needMoreData) {
 				// We get the new index and an updated buffer.
-				m_index = m_joggSyncState.buffer(m_bufferSize);
-				if (m_index < 0) {
+				index = joggSyncState.buffer(bufferSize);
+				if (index < 0) {
 					// end of stream
-					debugOutput(" end of stream index=" + m_index);
+					debugOutput(" end of stream index=" + index);
 					return;
 				}
-				m_buffer = m_joggSyncState.data;
+				buffer = joggSyncState.data;
 				// Read from the InputStream.
-				m_count = m_inputStream.read(m_buffer, m_index, m_bufferSize);
-				if (m_count == -1) {
+				count = inputStream.read(buffer, index, bufferSize);
+				if (count == -1) {
 					debugOutput(" end of stream");
 					return;
 				}
-				debugOutput(" read " + m_count + " bytes, index=" + m_index);
+				debugOutput(" read " + count + " bytes, index=" + index);
 
 				// We let SyncState know how many bytes we read.
-				m_length += m_count;
-				if (m_joggSyncState.wrote(m_count) < 0) {
+				length += count;
+				if (joggSyncState.wrote(count) < 0) {
 					debugError("SyncState wrote error", null);
 					return;
 				}
 				// There's no more data in the stream.
-				if (m_count == 0)
+				if (count == 0)
 					needMoreData = false;
 			}
 		}
@@ -698,44 +682,26 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 		debugOutput("Cleaning up.");
 		synchronized (lock) {
 
-			if (m_outputLine != null) {
-				m_outputLine.drain();
-				m_outputLine.stop();
-				m_outputLine.flush();
-				m_outputLine.close();
-				m_outputLine = null;
+			if (outputLine != null) {
+				outputLine.drain();
+				outputLine.stop();
+				outputLine.flush();
+				outputLine.close();
+				outputLine = null;
 			}
 
 			// Clear the necessary JOgg/JOrbis objects.
-			m_joggStreamState.clear();
+			joggStreamState.clear();
 			jorbisBlock.clear();
-			m_jorbisDspState.clear();
-			m_jorbisInfo.clear();
-			m_joggSyncState.clear();
+			jorbisDspState.clear();
+			jorbisInfo.clear();
+			joggSyncState.clear();
 
-//    m_buffer=null;
-//    m_bufferSize=2048;
-//    m_joggPacket=null;
-//    m_joggPage=null;
-//    m_joggStreamState=null;
-//    m_joggSyncState=null;
-//    m_jorbisDspState=null;
-//    jorbisBlock=null;
-//    m_jorbisComment=null;
-//    m_jorbisInfo=null;
-//    m_pcmInfo=null;
-//    m_pcmIndex=null;
+			stop = false;
+			startOfPlay = -1L;
+			endOfPlay = -1L;
 
-			m_stop = false;
-			m_startOfPlay = -1L;
-			m_endOfPlay = -1L;
-
-			m_index = 0;
-
-//    m_count=0;
-//    m_length=0;
-//    m_convertedBuffer=null;
-//    m_convertedBufferSize =0;
+			index = 0;
 
 			debugOutput("Done cleaning up.");
 		}
@@ -748,9 +714,9 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 		int samples;
 
 		// Check that the packet is a audio data packet etc.
-		if (jorbisBlock.synthesis(m_joggPacket) == 0) {
+		if (jorbisBlock.synthesis(joggPacket) == 0) {
 			// Give the block to the DspState object.
-			m_jorbisDspState.synthesis_blockin(jorbisBlock);
+			jorbisDspState.synthesis_blockin(jorbisBlock);
 		}
 
 		// We need to know how many samples to process.
@@ -760,16 +726,16 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 		 * Get the PCM information and count the samples. And while these samples are
 		 * more than zero...
 		 */
-		while ((samples = m_jorbisDspState.synthesis_pcmout(m_pcmInfo, m_pcmIndex)) > 0) {
+		while ((samples = jorbisDspState.synthesis_pcmout(pcmInfo, pcmIndex)) > 0) {
 			// We need to know for how many samples we are going to process.
-			if (samples < m_convertedBufferSize) {
+			if (samples < convertedBufferSize) {
 				range = samples;
 			} else {
-				range = m_convertedBufferSize;
+				range = convertedBufferSize;
 			}
 
 			// For each channel...
-			for (int i = 0; i < m_jorbisInfo.channels; i++) {
+			for (int i = 0; i < jorbisInfo.channels; i++) {
 				int sampleIndex = i * 2;
 
 				// For every sample in our range...
@@ -777,7 +743,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 					/*
 					 * Get the PCM value for the channel at the correct position.
 					 */
-					int value = (int) (m_pcmInfo[0][i][m_pcmIndex[i] + j] * 32767);
+					int value = (int) (pcmInfo[0][i][pcmIndex[i] + j] * 32767);
 
 					/*
 					 * We make sure our value doesn't exceed or falls below +-32767.
@@ -800,22 +766,22 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 					 * Take our value and split it into two, one with the last byte and one with the
 					 * first byte.
 					 */
-					m_convertedBuffer[sampleIndex] = (byte) (value);
-					m_convertedBuffer[sampleIndex + 1] = (byte) (value >>> 8);
+					convertedBuffer[sampleIndex] = (byte) (value);
+					convertedBuffer[sampleIndex + 1] = (byte) (value >>> 8);
 
 					/*
 					 * Move the sample index forward by two (since that's how many values we get at
 					 * once) times the number of channels.
 					 */
-					sampleIndex += 2 * (m_jorbisInfo.channels);
+					sampleIndex += 2 * (jorbisInfo.channels);
 				}
 			}
 
 			// Write the buffer to the audio output line.
-			m_outputLine.write(m_convertedBuffer, 0, 2 * m_jorbisInfo.channels * range);
+			outputLine.write(convertedBuffer, 0, 2 * jorbisInfo.channels * range);
 
 			// Update the DspState object.
-			m_jorbisDspState.synthesis_read(range);
+			jorbisDspState.synthesis_read(range);
 		}
 	}
 
@@ -826,7 +792,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 	 * @param output the debug output information
 	 */
 	private void debugOutput(String output) {
-		if (m_debugMode)
+		if (debugMode)
 			System.out.println("OggPlayer: " + output);
 	}
 

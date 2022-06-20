@@ -3,6 +3,7 @@ package info3.game;
 import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 import info3.game.network.KeyPress;
+import info3.game.network.KeyRelease;
 import info3.game.network.WheelScroll;
 
 public abstract class Controller {
@@ -13,6 +14,8 @@ public abstract class Controller {
 	}
 
 	public abstract void keyPressed(Player p, KeyPress e);
+
+	public abstract void keyReleased(Player p, KeyRelease e);
 
 	public abstract void tick(long elapsed);
 

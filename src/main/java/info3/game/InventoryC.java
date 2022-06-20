@@ -13,9 +13,9 @@ import info3.game.entities.Water;
 public class InventoryC {
 
 	public final short INVENTORY_SIZE = 5; // pickaxe, sword, water,food, block
-	private InventoryCouple tools[];
-	private int currentToolIndex;
-	private int size;
+	private InventoryCouple tools[]; // tableau de couples (objet : quantité)
+	private int currentToolIndex; // index de l'objet en main
+	private int size; // le nombre de catégories d'objets présentes dans l'inventaire
 	LocalController controller;
 	private Player owner;
 
@@ -64,15 +64,14 @@ public class InventoryC {
 
 	public boolean pick(Tool t) {
 		// ramasser un objet
-//		if (!this.isFull()) {
-//			Tool tmp = this.get(t);
-//			if (tmp == null || !tmp.isSpecial()) {
-//				tools[size] = t;
-//				size++;
-//				return true;
-//			}
-//		}
-//		return false;
+
+		InventoryCouple couple = getCouple(t);
+
+		if (couple == null)
+			return this.addCouple(new InventoryCouple(t, 1));
+
+		return couple.add();
+
 	}
 
 	public boolean drop() {
@@ -80,59 +79,80 @@ public class InventoryC {
 		// l'objet en main devient le nouvel objet qui se trouve à l'index de celui
 		// supprimé
 
-//		if (this.isEmpty())
-//			return false;
-//
-//		Tool toDrop = this.toolAt(currentToolIndex);
-//
-//		if (toDrop.isSpecial())
-//			return false;
-//
-//		InventoryCouple newTools[] = new InventoryCouple[this.size - 1];
-//		int j = 0;
-//		for (int i = 0; i < this.size; i++) {
-//			if (tools[i].getTool() != toDrop) {
-//				newTools[j] = tools[i];
-//				j++;
-//			}
-//		}
-//		this.tools = newTools;
-//		this.size = newTools.length;
-//		this.checkCurrentTool();
-//		return true;
+		if (this.isEmpty())
+			return false;
+
+		InventoryCouple toDrop = this.coupleAt(currentToolIndex);
+
+		if (toDrop == null)
+			return false;
+
+		this.checkCurrentTool();
+		return toDrop.sub();
+
 	}
 
 	public boolean use() {
 		// utiliser l'objet en main
 
-//		Tool current = this.toolAt(currentToolIndex);
-//
-//		if (current == null)
-//			return false;
-//
-//		current.useTool();
-//
-//		if (current.isSpecial())
-//			return true;
-//
-//		this.drop();
-//		return true;
+		Tool current = this.toolAt(currentToolIndex);
+
+		if (current == null)
+			return false;
+
+		current.useTool();
+
+		if (current.isSpecial())
+			return true;
+
+		this.drop();
+		return true;
 
 	}
 
-	public boolean isFull() {
-	}
-
+	// l'inventaire est dit vide s'il ne contient aucun consumable
+	// vraiment utile ?
 	public boolean isEmpty() {
+		for (int i = 0; i < this.size; i++) {
+			InventoryCouple tmp = tools[i];
+			if (!tmp.getTool().isSpecial() && tmp.getNumber() > 0)
+				return false;
+		}
+		return true;
+	}
+
+	public InventoryCouple coupleAt(int i) {
+		if (i >= 0 && i < this.size)
+			return tools[i];
+		return null;
 	}
 
 	public Tool toolAt(int i) {
+		return coupleAt(i).getTool();
 	}
 
-	public Tool get(Tool t) {
+	public InventoryCouple getCouple(Tool t) {
+		for (int i = 0; i < this.size; i++) {
+			InventoryCouple tmp = coupleAt(i);
+			if (tmp.getTool().getClass() == t.getClass())
+				return tmp;
+		}
+		return null;
+	}
+
+	public Tool getTool(Tool t) {
+		if (getCouple(t) == null)
+			return null;
+		return getCouple(t).getTool();
 	}
 
 	public int indexOf(Tool t) {
+		for (int i = 0; i < this.size; i++) {
+			Tool tmp = toolAt(i);
+			if (tmp.getClass() == t.getClass())
+				return i;
+		}
+		return -1;
 	}
 
 	public boolean addCouple(InventoryCouple c) {
@@ -145,9 +165,10 @@ public class InventoryC {
 
 	public void printInventory() {
 		System.out.print("[ Inventory : ");
-		for (int i = 0; i < 20; i++) {
-			if (toolAt(i) != null)
-				System.out.print(toolAt(i).getName() + " ");
+		for (int i = 0; i < this.size; i++) {
+			if (coupleAt(i) != null)
+				coupleAt(i).printCouple();
+
 		}
 		if (this.getCurrentTool() != null)
 			System.out.print("CURRENT = " + this.getCurrentTool().getName());
@@ -162,9 +183,12 @@ public class InventoryC {
 		inv.addCouple(new InventoryCouple(new Water(c, owner)));
 		inv.addCouple(new InventoryCouple(new Food(c, owner)));
 		inv.addCouple(new InventoryCouple(new Block(c)));
-
 		return inv;
 
 	}
+
+//	public static void main(String[] args) {
+//
+//	}
 
 }

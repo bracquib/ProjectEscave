@@ -1,6 +1,5 @@
 package info3.game;
 
-import info3.game.entities.Pickaxe;
 import info3.game.entities.Tool;
 
 public class InventoryCouple {
@@ -15,7 +14,7 @@ public class InventoryCouple {
 
 	public InventoryCouple(Tool tool) {
 		this.tool = tool;
-		this.number = 1;
+		this.number = 0;
 	}
 
 	public Tool getTool() {
@@ -26,20 +25,36 @@ public class InventoryCouple {
 		return this.number;
 	}
 
-	public void add() {
+	public boolean add() {
+		if (this.getTool().isSpecial()) {
+			return false;
+		}
 		this.number++;
+		return true;
 	}
 
-	public void add(int i) {
+	public boolean add(int i) {
+		if (this.getTool().isSpecial()) {
+			return false;
+		}
 		this.number += i;
+		return true;
 	}
 
-	public void sub() {
+	public boolean sub() {
+		if (this.getTool().isSpecial() || this.getNumber() <= 0) {
+			return false;
+		}
 		this.number--;
+		return false;
 	}
 
-	public void sub(int i) {
+	public boolean sub(int i) {
+		if (this.getTool().isSpecial() || this.getNumber() <= 0) {
+			return false;
+		}
 		this.number -= i;
+		return true;
 	}
 
 	public void printCouple() {
@@ -47,9 +62,4 @@ public class InventoryCouple {
 			System.out.print("( " + this.tool.getName() + " : " + this.getNumber() + " )");
 	}
 
-	public static void main(String[] args) {
-
-		InventoryCouple c1 = new InventoryCouple(new Pickaxe(null));
-		c1.printCouple();
-	}
 }
