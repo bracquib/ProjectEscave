@@ -55,7 +55,7 @@ public class StalactiteBehaviour extends Behaviour {
 		int rayon_de_vision = 320;
 		switch (d) {
 		case SOUTH:
-			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
+			ArrayList<Entity> nearEntities2 = Model.getNearEntities((int) (e.getPosition().getX()),
 					(int) (e.getPosition().getY()) - rayon_de_vision, 32, rayon_de_vision);
 			for (Entity e1 : nearEntities2) {
 				if (e1.getCategory() == c) {

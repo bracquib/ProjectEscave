@@ -2,6 +2,7 @@ package info3.game.entities;
 
 import info3.game.Inventory;
 import info3.game.LocalController;
+import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
@@ -21,7 +22,7 @@ public class Player extends RigidBody {
 		this.setPosition(pos);
 		this.color = color;
 		this.setCategory(Category.PLAYER);
-		this.setAutomata(c.model.getAutomata("Player"));
+		this.setAutomata(Model.getAutomata("Player"));
 		this.setBehaviour(new PlayerBehaviour());
 		this.avatarOffset = new Vec2(0, -10);
 		if (local) {
