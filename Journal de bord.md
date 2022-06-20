@@ -164,7 +164,7 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 - Ana : règle quelques bugs liés au réseau. Objectif à la fin de la journée : pouvoir se promener à deux (ou plus) sur la carte qu'on génère maintenant, en réseau
 - Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 - Benjamin et Amaury : implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
-- Léa : review des automates et mise au propre du fichier GAL, remodification de l'automate de l'inventaire.
+- Léa : review des automates et mise au propre du fichier GAL, remodification des automates de l'inventaire et de la statue.
 -Ali : Conception du déplacement du joueur lorqu'il atteint les limites de la Map et déplacement de la map en permanence ne plus avoir du vide aux limites . 
 
 ### Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
@@ -247,6 +247,8 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 
 * Lucas : Implementation des conditions key dans les automates
 * Amaury et Benjamin : implémentation des behaviours
+* Léa : réimplémentation de la classe inventaire et des autres classes nécéssaires
+* William : aide et revoit le code de Léa, travaille sur le RayCasting, et l'apparition des mosntres
 
 ### Lucas: Implementation des conditions key dans les automates
 
@@ -258,3 +260,15 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Implémentation des actions des statues, socles et stalactites
 * Factorisation et nettoyage de certaines méthodes
 * Ajout des frottements pour le player
+
+### Léa, William : réimplémentation de la classe inventaire et des autres classes nécéssaires
+
+* Création d'une classe InventoryCouple qui permet de stocker plusieurs fois des objets de même nature
+* Réimplémentation de toute la classe inventaire qui contient maintenant des couples (Tool, Quantité)
+
+### William : aide et revoit le code de Léa, travaille sur le RayCasting, et l'apparition des mosntres
+
+* Implémentation terminée du RayCasting en mono ray pour le cassage de bloc 
+* Début de l'implémentation du RayCasting multi ray pour simuler la lumière
+* Implémentation de l'algorithme d'apparition des monstres sur la carte
+
