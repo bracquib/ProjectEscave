@@ -29,7 +29,8 @@ public class Player extends RigidBody {
 			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 9, 100);
 			sprite.layer = 1;
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
-			this.inventory = new Inventory(c, this);
+			// this.inventory = new Inventory(c, this);
+			this.inventory = Inventory.createInventory(c, this);
 		}
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
@@ -106,6 +107,8 @@ public class Player extends RigidBody {
 
 	public void setHungerPoints(float hungerPoints) {
 		this.hungerPoints = hungerPoints;
+		if (this.hungerPoints > maxHunger)
+			this.hungerPoints = maxHunger;
 	}
 
 	public void feed(float feedPoints) {
@@ -120,6 +123,8 @@ public class Player extends RigidBody {
 
 	public void setThirstPoints(float thirstPoints) {
 		this.thirstPoints = thirstPoints;
+		if (this.thirstPoints > maxThirst)
+			this.thirstPoints = maxThirst;
 	}
 
 	public void water(float waterPoints) {

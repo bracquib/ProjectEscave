@@ -1,27 +1,32 @@
 package info3.game;
 
 import info3.game.assets.Image;
+import info3.game.entities.Block;
+import info3.game.entities.Entity;
+import info3.game.entities.Food;
+import info3.game.entities.Pickaxe;
 import info3.game.entities.Player;
+import info3.game.entities.Sword;
 import info3.game.entities.Tool;
+import info3.game.entities.Water;
 import info3.game.network.UpdateAvatar;
 
-;
-
-public class Inventory {
-
-	public final short INVENTORY_SIZE = 4;
-	private Tool tools[];
-	private Avatar[] cells;
-	private int currentToolIndex;
-	private int size;
+public class Inventory extends Entity {
+	public final short INVENTORY_SIZE = 5; // pickaxe, sword, water,food, block
+	private InventoryCouple tools[]; // tableau de couples (objet : quantité)
+	private int currentToolIndex; // index de l'objet en main
+	private int size; // le nombre de catégories d'objets présentes dans l'inventaire
 	LocalController controller;
 	private Player owner;
+	private Avatar[] cells;
 
 	public Inventory(LocalController c, Player owner) {
+		super(c, 1);
 		this.currentToolIndex = 0;
-		this.tools = new Tool[INVENTORY_SIZE];
+		this.tools = new InventoryCouple[INVENTORY_SIZE];
 		this.controller = c;
 		this.owner = owner;
+
 		this.cells = new Avatar[INVENTORY_SIZE];
 
 		int totalWidth = 74 * INVENTORY_SIZE - 10;
@@ -46,13 +51,15 @@ public class Inventory {
 	// plusieurs façons de se déplacer dans l'inventaire
 
 	public void selectCurrentTool(int i) {
+		// TODO: un peu sale ce code même si ça marche bien
 		this.cells[this.currentToolIndex].setPaintablePath("inventory-cell.png");
 		this.controller.sendTo(this.owner,
 				new UpdateAvatar(this.cells[this.currentToolIndex].getId(), "inventory-cell.png"));
-		this.currentToolIndex = i % INVENTORY_SIZE;
+		this.currentToolIndex = i % INVENTORY_SIZE; // et pour les nombres négatifs ?
 		this.controller.sendTo(this.owner,
 				new UpdateAvatar(this.cells[this.currentToolIndex].getId(), "inventory-cell-selected.png"));
 		this.cells[this.currentToolIndex].setPaintablePath("inventory-cell-selected.png");
+
 	}
 
 	// décale la selection d'un cran vers la droite
@@ -76,48 +83,36 @@ public class Inventory {
 		}
 	}
 
-	public Tool[] getTools() {
+	public InventoryCouple[] getTools() {
 		return this.tools;
 	}
 
 	public boolean pick(Tool t) {
 		// ramasser un objet
-		if (!this.isFull()) {
-			Tool tmp = this.get(t);
-			if (tmp == null || !tmp.isSpecial()) {
-				tools[size] = t;
-				size++;
-				return true;
-			}
-		}
-		return false;
+
+		InventoryCouple couple = getCouple(t);
+
+		if (couple == null)
+			return this.addCouple(new InventoryCouple(t, 1));
+
+		return couple.add();
+
 	}
 
 	public boolean drop() {
 		// se débarasser d'un objet
-		// l'objet en main devient le nouvel objet qui se trouve à l'index de celui
-		// supprimé
 
 		if (this.isEmpty())
 			return false;
 
-		Tool toDrop = this.toolAt(currentToolIndex);
+		InventoryCouple toDrop = this.coupleAt(currentToolIndex);
 
-		if (toDrop.isSpecial())
+		if (toDrop == null)
 			return false;
 
-		Tool newTools[] = new Tool[this.size - 1];
-		int j = 0;
-		for (int i = 0; i < this.size; i++) {
-			if (tools[i] != toDrop) {
-				newTools[j] = tools[i];
-				j++;
-			}
-		}
-		this.tools = newTools;
-		this.size = newTools.length;
 		this.checkCurrentTool();
-		return true;
+		return toDrop.sub();
+
 	}
 
 	public boolean use() {
@@ -138,42 +133,65 @@ public class Inventory {
 
 	}
 
-	public boolean isFull() {
-		return this.size >= INVENTORY_SIZE;
-	}
-
+	// l'inventaire est dit vide s'il ne contient aucun consumable
+	// vraiment utile ?
 	public boolean isEmpty() {
-		return this.size <= 0;
+		for (int i = 0; i < this.size; i++) {
+			InventoryCouple tmp = tools[i];
+			if (!tmp.getTool().isSpecial() && tmp.getNumber() > 0)
+				return false;
+		}
+		return true;
 	}
 
-	public Tool toolAt(int i) {
+	public InventoryCouple coupleAt(int i) {
 		if (i >= 0 && i < this.size)
 			return tools[i];
 		return null;
 	}
 
-	public Tool get(Tool t) {
+	public Tool toolAt(int i) {
+		return coupleAt(i).getTool();
+	}
+
+	public InventoryCouple getCouple(Tool t) {
 		for (int i = 0; i < this.size; i++) {
-			if (tools[i].getClass() == t.getClass())
-				return tools[i];
+			InventoryCouple tmp = coupleAt(i);
+			if (tmp.getTool().getClass() == t.getClass())
+				return tmp;
 		}
 		return null;
 	}
 
+	public Tool getTool(Tool t) {
+		if (getCouple(t) == null)
+			return null;
+		return getCouple(t).getTool();
+	}
+
 	public int indexOf(Tool t) {
 		for (int i = 0; i < this.size; i++) {
-			if (tools[i].getClass() == t.getClass())
+			Tool tmp = toolAt(i);
+			if (tmp.getClass() == t.getClass())
 				return i;
-
 		}
 		return -1;
 	}
 
+	public boolean addCouple(InventoryCouple c) {
+		if (this.size >= this.INVENTORY_SIZE)
+			return false;
+		this.tools[size] = c;
+		this.size++;
+		return true;
+	}
+
 	public void printInventory() {
 		System.out.print("[ Inventory : ");
-		for (int i = 0; i < 20; i++) {
-			if (toolAt(i) != null)
-				System.out.print(toolAt(i).getName() + " ");
+		for (int i = 0; i < this.size; i++) {
+			if (coupleAt(i) != null)
+				coupleAt(i).printCouple();
+
 		}
 		if (this.getCurrentTool() != null)
 			System.out.print("CURRENT = " + this.getCurrentTool().getName());
@@ -181,4 +199,13 @@ public class Inventory {
 
 	}
 
+	public static Inventory createInventory(LocalController c, Player owner) {
+		Inventory inv = new Inventory(c, owner);
+		inv.addCouple(new InventoryCouple(new Pickaxe(c), 1));
+		inv.addCouple(new InventoryCouple(new Sword(c), 1));
+		inv.addCouple(new InventoryCouple(new Water(c, owner)));
+		inv.addCouple(new InventoryCouple(new Food(c, owner)));
+		inv.addCouple(new InventoryCouple(new Block(c)));
+		return inv;
+	}
 }
