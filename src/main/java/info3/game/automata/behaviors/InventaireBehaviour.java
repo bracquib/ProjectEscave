@@ -1,12 +1,10 @@
 package info3.game.automata.behaviors;
 
-import info3.game.Model;
-import info3.game.automata.Category;
+import info3.game.Inventory;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
-import info3.game.physics.RigidBody;
 
-public class StatueBehaviour extends Behaviour {
+public class InventaireBehaviour extends Behaviour {
 
 	@Override
 	public boolean true_(Entity e) {
@@ -26,12 +24,6 @@ public class StatueBehaviour extends Behaviour {
 	}
 
 	@Override
-	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		// pas besoin
-		return false;
-	}
-
-	@Override
 	public boolean gotPower(Entity e) {
 		// pas besoin
 		return false;
@@ -39,54 +31,36 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public boolean gotStuff(Entity e) {
-		// pas besoin
+		Inventory p = (Inventory) e;
+		if (p.rest1place()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public void wizz(Entity e, Direction d) {
-		// activer la statue et le il y a un transfert d'automate
-		e.setCategory(Category.PLAYER);
-		e.setAutomata(Model.getAutomata("Player"));
+		// wizz=mettre en réserve
+		Inventory p = (Inventory) e;
+		// p.pick()
+
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
-		// pas besoin
-
+		// utiliser l'objet donc si c une arme,on appelle le hit de playerbehaviour
+		Inventory p = (Inventory) e;
+		p.use();
 	}
 
 	@Override
 	public void move(Entity e, Direction d) {
-		RigidBody p = (RigidBody) e;
-		// new RigidBody(e, 1, 10);
-		switch (d) {
-		case EST:
-			p.getSpeed().setX(140);
-			break;
-		case WEST:
-			p.getSpeed().setX(-140);
-			break;
-		case SOUTH:
-			break;
-		case NORTH:
-			break;
-		case NORTHWEST:
-			break;
-		case NORTHEST:
-			break;
-
-		}
-
-		return;
-
+		// pas besoin
 	}
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-
-		e.setAutomata(Model.getAutomata("Statue"));
-		return;
+		// pas besoin
 
 	}
 
@@ -98,8 +72,8 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void jump(Entity e) {
-		((RigidBody) e).getSpeed().setY(-250);
-		return;
+		// pas besoin
+
 	}
 
 	@Override
@@ -116,19 +90,21 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void throw_(Entity e) {
-		// pas besoin
+		// jete l'objet de l'inventaire
+		Inventory p = (Inventory) e;
+		p.drop();
 
 	}
 
 	@Override
 	public void store(Entity e) {
-		// pas besoin
+		// store=wizz
 
 	}
 
 	@Override
 	public void get(Entity e) {
-		// pas besoin
+		// se déplaçer dans l'inventaire
 
 	}
 
@@ -146,7 +122,7 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void egg(Entity e, Direction d) {
-		// TODO Auto-generated method stub
+		// pas besoin
 
 	}
 
