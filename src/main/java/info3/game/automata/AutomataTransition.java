@@ -2,6 +2,9 @@ package info3.game.automata;
 
 import java.util.ArrayList;
 
+import info3.game.automata.actions.IAction;
+import info3.game.automata.conditions.ICondition;
+
 public class AutomataTransition {
 	AutomataState sourceState;
 	ArrayList<ICondition> conditions;

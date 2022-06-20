@@ -5,6 +5,15 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import info3.game.automata.actions.Egg;
+import info3.game.automata.actions.Explode;
+import info3.game.automata.actions.Get;
+import info3.game.automata.actions.IAction;
+import info3.game.automata.actions.Move;
+import info3.game.automata.actions.Pop;
+import info3.game.automata.actions.Protect;
+import info3.game.automata.actions.Throw;
+import info3.game.automata.actions.Wizz;
 import info3.game.automata.ast.AST;
 import info3.game.automata.ast.Action;
 import info3.game.automata.ast.Automaton;
@@ -22,6 +31,13 @@ import info3.game.automata.ast.Transition;
 import info3.game.automata.ast.UnaryOp;
 import info3.game.automata.ast.Underscore;
 import info3.game.automata.ast.Value;
+import info3.game.automata.conditions.Cell;
+import info3.game.automata.conditions.Closest;
+import info3.game.automata.conditions.GotPower;
+import info3.game.automata.conditions.GotStuff;
+import info3.game.automata.conditions.ICondition;
+import info3.game.automata.conditions.MyDir;
+import info3.game.automata.conditions.True;
 import info3.game.automata.parser.AutomataParser;
 
 public class BotBuilder implements IVisitor {
@@ -142,7 +158,7 @@ public class BotBuilder implements IVisitor {
 		case "GotStuff":
 			return new GotStuff();
 		case "Key":
-			return new info3.game.automata.Key((int) parameters.get(0));
+			return new info3.game.automata.conditions.Key((int) parameters.get(0));
 		case "MyDir":
 			return new MyDir((info3.game.automata.Direction) parameters.get(0));
 		case "True":

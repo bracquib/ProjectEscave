@@ -26,7 +26,8 @@
 
 package com.jcraft.jorbis;
 
-import com.jcraft.jogg.*;
+import com.jcraft.jogg.Buffer;
+import com.jcraft.jogg.Packet;
 
 public class Info {
 	private static final int OV_EBADPACKET = -136;
@@ -461,8 +462,7 @@ public class Info {
 	}
 
 	public String toString() {
-		return "version:" + new Integer(version) + ", channels:" + new Integer(channels) + ", rate:" + new Integer(rate)
-				+ ", bitrate:" + new Integer(bitrate_upper) + "," + new Integer(bitrate_nominal) + ","
-				+ new Integer(bitrate_lower);
+		return "version:" + version + ", channels:" + channels + ", rate:" + rate + ", bitrate:" + bitrate_upper + ","
+				+ bitrate_nominal + "," + bitrate_lower;
 	}
 }

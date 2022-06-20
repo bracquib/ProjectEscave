@@ -4,8 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JFrame;
@@ -13,18 +14,25 @@ import javax.swing.JLabel;
 
 import info3.game.assets.Paintable;
 import info3.game.graphics.GameCanvas;
-import info3.game.sound.RandomFileInputStream;
 
 public class LocalView extends View {
 	JFrame frame;
 	JLabel text;
 	GameCanvas canvas;
 	CanvasListener listener;
-	Sound music;
 	Semaphore isPainting;
+	protected SortedSet<Avatar> sortedAvatars;
 
 	public LocalView(Controller controller) {
 		super();
+		this.sortedAvatars = new TreeSet<Avatar>((x, y) -> {
+			int cmp = x.image.layer - y.image.layer;
+			if (cmp == 0) {
+				return y.id - x.id;
+			} else {
+				return cmp;
+			}
+		});
 		this.isPainting = new Semaphore(1);
 
 		this.controller = controller;
@@ -66,29 +74,7 @@ public class LocalView extends View {
 	 * ==============================================================
 	 */
 
-	/*
-	 * Called from the GameCanvas listener when the frame
-	 */
-	String m_musicName;
-
-	void loadMusic() {
-		m_musicName = m_musicNames[m_musicIndex];
-		String filename = "resources/" + m_musicName + ".ogg";
-		m_musicIndex = (m_musicIndex + 1) % m_musicNames.length;
-		try {
-			RandomAccessFile file = new RandomAccessFile(filename, "r");
-			RandomFileInputStream fis = new RandomFileInputStream(file);
-			this.canvas.playMusic(fis, 0, 1.0F);
-		} catch (Throwable th) {
-			th.printStackTrace(System.err);
-			System.exit(-1);
-		}
-	}
-
-	private int m_musicIndex = 0;
-	private String[] m_musicNames = new String[] { "Runaway-Food-Truck" };
-
-	private long m_textElapsed;
+	private long textElapsed;
 
 	/*
 	 * This method is invoked almost periodically, given the number of milli-seconds
@@ -103,9 +89,9 @@ public class LocalView extends View {
 
 		// Update every second
 		// the text on top of the frame: tick and fps
-		m_textElapsed += elapsed;
-		if (m_textElapsed > 1000) {
-			m_textElapsed = 0;
+		textElapsed += elapsed;
+		if (textElapsed > 1000) {
+			textElapsed = 0;
 			float period = this.canvas.getTickPeriod();
 			int fps = this.canvas.getFPS();
 
@@ -156,9 +142,9 @@ public class LocalView extends View {
 		int radius = Math.max(width, height) * 2;
 		ArrayList<Avatar> result = new ArrayList<>();
 		Vec2 cameraPos = this.camera.getPos();
-		synchronized (this.avatars) {
-			for (Avatar a : this.avatars.values()) {
-				if (a.position.distance(cameraPos) < radius) {
+		synchronized (this.sortedAvatars) {
+			for (Avatar a : this.sortedAvatars) {
+				if (a.image.fixed || a.position.distance(cameraPos) < radius) {
 					result.add(a);
 				}
 			}
@@ -173,11 +159,24 @@ public class LocalView extends View {
 		synchronized (this.avatars) {
 			this.avatars.put(id, av);
 		}
+		synchronized (this.sortedAvatars) {
+			this.sortedAvatars.add(av);
+		}
 		return av;
 	}
 
 	@Override
 	public void setController(Controller c) {
 		this.controller = c;
+	}
+
+	@Override
+	protected int getWidth() {
+		return this.frame == null ? 1024 : this.frame.getWidth();
+	}
+
+	@Override
+	protected int getHeight() {
+		return this.frame == null ? 768 : this.frame.getHeight();
 	}
 }

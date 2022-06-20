@@ -13,15 +13,15 @@ import info3.game.network.KeyPress;
 import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
 import info3.game.network.Welcome;
+import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
-	public Model model;
 
 	public LocalController() {
 		super();
 		this.views = Collections.synchronizedList(new ArrayList<View>());
-		this.model = new Model(this);
+		Model.init(this);
 	}
 
 	public LocalController(ArrayList<View> views) {
@@ -29,7 +29,7 @@ public class LocalController extends Controller {
 		for (View v : views) {
 			v.setController(this);
 		}
-		this.model = new Model(this);
+		Model.init(this);
 	}
 
 	@Override
@@ -37,10 +37,10 @@ public class LocalController extends Controller {
 		synchronized (this.views) {
 			this.views.add(v);
 		}
-		v.setPlayer(this.model.spawnPlayer());
+		v.setPlayer(Model.spawnPlayer());
 		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer().getColor()));
 		this.sendTo(v.getPlayer(), new SyncCamera(v.getPlayer().getAvatar()));
-		for (Entity e : this.model.allEntities()) {
+		for (Entity e : Model.allEntities()) {
 			Avatar a = e.getAvatar();
 			this.sendTo(v.getPlayer(), new CreateAvatar(a.id, a.getPosition(), a.image));
 		}
@@ -52,7 +52,7 @@ public class LocalController extends Controller {
 		if (e.code == 32) {
 			Cowboy c = new Cowboy(this, 1);
 			c.setPosition(new Vec2(100, 100));
-			this.model.spawn(c);
+			Model.spawn(c);
 		}
 		// Mouvements de camera
 		if (e.code >= 37 && e.code <= 40) {
@@ -88,7 +88,7 @@ public class LocalController extends Controller {
 
 	@Override
 	public void tick(long elapsed) {
-		this.model.tick(elapsed);
+		Model.tick(elapsed);
 	}
 
 	@Override
@@ -135,6 +135,16 @@ public class LocalController extends Controller {
 	protected void removeView(RemoteView view) {
 		synchronized (this.views) {
 			this.views.remove(view);
+		}
+	}
+
+	@Override
+	protected void mouseScroll(Player p, WheelScroll wheelScroll) {
+		Inventory inv = p.getInventory();
+		if (wheelScroll.up) {
+			inv.moveLCurrentTool();
+		} else {
+			inv.moveRCurrentTool();
 		}
 	}
 }
