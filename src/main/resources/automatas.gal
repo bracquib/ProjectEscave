@@ -51,5 +51,4 @@ Player(Init){
 	*(Init)
 	| Closest(P,W) ? Wizz() :(Init)
 	| Closest(P,E) ? Wizz() :(Init)
-	| True? Wizz(): (Init)
 }
