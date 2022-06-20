@@ -7,6 +7,7 @@ import info3.game.entities.Entity;
 
 public abstract class Behaviour {
 	Entity ret;
+
 	/**
 	 * @return toujours true
 	 */
@@ -32,54 +33,46 @@ public abstract class Behaviour {
 	 */
 	boolean cell(Entity e, Direction d, Category c) {
 		// 32 =une case
-		//donner les coord en haut a gacuhe de la zone de vision
+		// donner les coord en haut a gacuhe de la zone de vision
+		int decX, decY;
 		switch (d) {
 		case NORTH:
-			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()),
-					(int) (e.getPosition().getY()) - 32, 32, 32);
-			for (Entity e1 : nearEntities) {
-				if (e1.getCategory() == c) {
-					ret = e1;
-					return true;
-				}
-			}
+			decX = 0;
+			decY = -32;
 			break;
 		case SOUTH:
-			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
-					(int) (e.getPosition().getY()) + 32, 32, 32);
-			for (Entity e1 : nearEntities2) {
-				if (e1.getCategory() == c) {
-					ret = e1;
-					return true;
-				}
-			}
+			decX = 0;
+			decY = 32;
 			break;
 		case EST:
-			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
-					(int) (e.getPosition().getY()), 32, 32);
-			for (Entity e1 : nearEntities3) {
-				if (e1.getCategory() == c) {
-					ret = e1;
-					return true;
-				}
-			}
+			decX = 32;
+			decY = 0;
 			break;
 		case WEST:
-			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) - 32,
-					(int) (e.getPosition().getY()), 32, 32);
-			for (Entity e1 : nearEntities4) {
-				if (e1.getCategory() == c) {
-					ret = e1;
-					return true;
-				}
-			}
+			decX = -32;
+			decY = 0;
+
 			break;
 		case NORTHWEST:
+			decX = -32;
+			decY = -32;
 			break;
 		case NORTHEST:
+			decX = 32;
+			decY = -32;
+			break;
+		default: // notamment HERE
+			decX = decY = 0;
 			break;
 		}
-
+		ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()) + decX,
+				(int) (e.getPosition().getY()) + decY, 32, 32);
+		for (Entity e1 : nearEntities) {
+			if (e1.getCategory() == c) {
+				ret = e1;
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -88,48 +81,41 @@ public abstract class Behaviour {
 	 * @param d la Direction
 	 * @return true si la plus proche Entité de Category c est dans la Direction d
 	 */
-	boolean closest(Entity e, Category c, Direction d, int diam_vision) { //test rayon vision
+	boolean closest(Entity e, Category c, Direction d, int diamVision) {
+		int decX, decY;// test rayon vision
 		switch (d) {
 		case NORTH:
-			ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()) - diam_vision/2,
-					(int) (e.getPosition().getY()) - diam_vision -32, diam_vision, diam_vision);
-			for (Entity e1 : nearEntities) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
+			decX = -diamVision / 2;
+			decY = -diamVision - 32;
 			break;
+
 		case SOUTH:
-			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()) - diam_vision/2,
-					(int) (e.getPosition().getY()) + 32, diam_vision, diam_vision);
-			for (Entity e1 : nearEntities2) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
+			decX = -diamVision / 2;
+			decY = 32;
 			break;
+
 		case EST:
-			ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX())+32,
-					(int) (e.getPosition().getY()) - diam_vision/2, diam_vision, diam_vision );
-			for (Entity e1 : nearEntities3) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
+			decX = 32;
+			decY = -diamVision / 2;
 			break;
+
 		case WEST:
-			ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX())-diam_vision-32,
-					(int) (e.getPosition().getY()) - diam_vision/2, diam_vision, diam_vision);
-			for (Entity e1 : nearEntities4) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
+			decX = -diamVision - 32;
+			decY = -diamVision / 2;
 			break;
-		default://case NORTHWEST: break; case NORTHEST:
+
+		default:
+			decX = decY = 0;
 			break;
 		}
 
+		ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int) (e.getPosition().getX()) + decX,
+				(int) (e.getPosition().getY()) + decY, diamVision, diamVision);
+		for (Entity e1 : nearEntities4) {
+			if (e1.getCategory() == c) {
+				return true;
+			}
+		}
 		return false;
 	}
 

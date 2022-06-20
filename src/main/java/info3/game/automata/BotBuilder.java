@@ -87,8 +87,15 @@ public class BotBuilder implements IVisitor {
 			return info3.game.automata.Direction.WEST;
 		case 'E':
 			return info3.game.automata.Direction.EST;
+		case 'H':
+			return info3.game.automata.Direction.HERE;
 		}
-		return null;
+		if (d.terminal.content.equals("NW"))
+			return info3.game.automata.Direction.NORTHWEST;
+		else if (d.terminal.content.equals("NE"))
+			return info3.game.automata.Direction.NORTHWEST;
+		else
+			return null;
 	}
 
 	public info3.game.automata.Category astCategoryToinfo3Category(Category c) {

@@ -28,46 +28,10 @@ public class StalactiteBehaviour extends Behaviour {
 		return false;
 	}
 
-	/*
-	 * @Override public boolean cell(Entity e, Direction d, Category c) { switch (d)
-	 * { case NORTH: ArrayList<Entity> nearEntities = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()), (int) (e.getPosition().getY()) + 32, 32, 32); for
-	 * (Entity e1 : nearEntities) { if (e1.getCategory() == c) { return true; } }
-	 * break; case SOUTH: ArrayList<Entity> nearEntities2 =
-	 * Model.getNearEntities2((int) (e.getPosition().getX()), (int)
-	 * (e.getPosition().getY()) - 32, 32, 32); for (Entity e1 : nearEntities2) { if
-	 * (e1.getCategory() == c) { return true; } } break; case EST: ArrayList<Entity>
-	 * nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
-	 * (int) (e.getPosition().getY()), 32, 32); for (Entity e1 : nearEntities3) { if
-	 * (e1.getCategory() == c) { return true; } } break; case WEST:
-	 * ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()) - 32, (int) (e.getPosition().getY()) + 32, 32, 32);
-	 * for (Entity e1 : nearEntities4) { if (e1.getCategory() == c) { return true; }
-	 * } break; case NORTHWEST: break; case NORTHEST: break; }
-	 * 
-	 * return false; }
-	 */
-
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		int rayon_de_vision = 320;
-		switch (d) {
-		case SOUTH:
-			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
-					(int) (e.getPosition().getY()) - rayon_de_vision, 32, rayon_de_vision);
-			for (Entity e1 : nearEntities2) {
-				if (e1.getCategory() == c) {
-					return true;
-				}
-			}
-			break;
-		default:
-			break;
-
-		}
-
-		return false;
-
+		int diam = 480; // en pixel
+		return super.closest(e, c, d, diam);
 	}
 
 	@Override
@@ -92,10 +56,16 @@ public class StalactiteBehaviour extends Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=exploser
-		if (cell(e, d, Category.PLAYER)) {
-			ret.getBehaviour().protect(ret, d, (int) ((RigidBody) e).getSpeed().getY() / 2);
-		} else if (cell(e, d, Category.JUMPABLE)) {
-			ret.getBehaviour().wizz(ret, d);
+
+		ArrayList<Entity> nearEntities = Model.getNearEntities2((int) (e.getPosition().getX()) - 32,
+				(int) (e.getPosition().getY()) - 32, 96, 96);
+		for (Entity e1 : nearEntities) {
+			Category cat = e1.getCategory();
+			if (cat == Category.PLAYER || cat == Category.ADVERSAIRE) {
+				e1.getBehaviour().protect(e1, d, (int) ((RigidBody) e).getSpeed().getY() / 2);
+			} else if (e1.getCategory() == Category.JUMPABLE) {
+				e1.getBehaviour().wizz(ret, d);
+			}
 		}
 		return;
 	}
