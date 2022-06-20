@@ -242,3 +242,12 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Définir nos besoins pour implémenter les Ray Casting
 * Créations des classes et de leurs structures de base
 * Implémentation de l'algorithme de Ray Casting
+
+## Lundi 20 juin 2022
+
+* Lucas: Implementation des conditions key dans les automates
+
+### Lucas: Implementation des conditions key dans les automates
+
+* Enregistrement des touches appuyées dans une liste dans le controlleur local
+* Lecture de cette liste par les conditions Key pour savoir si la touche est appuyée ou non
