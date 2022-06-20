@@ -13,6 +13,7 @@ import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
+import info3.game.network.KeyRelease;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
@@ -37,6 +38,11 @@ public class RemoteController extends Controller {
 
 	@Override
 	public void keyPressed(Player p, KeyPress e) {
+		this.networkSender.send(p, e);
+	}
+
+	@Override
+	public void keyReleased(Player p, KeyRelease e) {
 		this.networkSender.send(p, e);
 	}
 

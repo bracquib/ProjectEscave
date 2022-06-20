@@ -15,7 +15,12 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public boolean key(Entity e, int keyCode) {
 		// à faire
-		return false;
+		// FU: 785
+		// FD: 768
+		// FL: 776
+		// FR: 782
+		System.out.println("[DEBUG] Checking key " + keyCode);
+		return e.isKeyPressed(keyCode);
 	}
 
 	@Override

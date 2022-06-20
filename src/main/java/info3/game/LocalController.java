@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import info3.game.assets.Paintable;
-import info3.game.entities.Cowboy;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
+import info3.game.network.KeyRelease;
 import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
 import info3.game.network.Welcome;
@@ -50,32 +50,13 @@ public class LocalController extends Controller {
 	@Override
 	public void keyPressed(Player p, KeyPress e) {
 		System.out.println("[DEBUG] " + p.name() + " pressed " + e.code);
-		if (e.code == 32) {
-			Cowboy c = new Cowboy(this, 1);
-			c.setPosition(new Vec2(100, 100));
-			this.model.spawn(c);
-		}
-		// Mouvements de camera
-		if (e.code >= 37 && e.code <= 40) {
-			switch (e.code) {
-			case 37:
-				// Left
-				p.getSpeed().setX(-150);
-				break;
-			case 38:
-				// Up
-				p.getSpeed().setY(-250);
-				break;
-			case 39:
-				// Right
-				p.getSpeed().setX(150);
-				break;
-			case 40:
-				// Down
-				p.addSpeed(new Vec2(0, 0));
-				break;
-			}
-		}
+		p.addPressedKey(e.code);
+	}
+
+	@Override
+	public void keyReleased(Player p, KeyRelease e) {
+		System.out.println("[DEBUG] " + p.name() + " released " + e.code);
+		p.removePressedKey(e.code);
 	}
 
 	public View viewFor(Player p) {

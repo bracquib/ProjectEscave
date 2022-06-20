@@ -49,6 +49,7 @@ Inventaire(Init){
 
 Player(Init){
 	*(Init)
-	| Closest(P,W) ? Wizz() :(Init)
-	| Closest(P,E) ? Wizz() :(Init)
+	| Key(FL) ? Move(W) :(Init)
+	| Key(FR) ? Move(E) :(Init)
+	| Key(FU)&Cell(S,J) ? Wizz() :(Init)
 }

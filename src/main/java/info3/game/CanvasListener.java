@@ -27,6 +27,7 @@ import java.awt.event.MouseWheelEvent;
 
 import info3.game.graphics.GameCanvasListener;
 import info3.game.network.KeyPress;
+import info3.game.network.KeyRelease;
 import info3.game.network.WheelScroll;
 
 public class CanvasListener implements GameCanvasListener {
@@ -85,7 +86,8 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		KeyRelease kr = new KeyRelease(e.getKeyCode());
+		this.view.controller.keyReleased(this.view.getPlayer(), kr);
 	}
 
 	@Override
