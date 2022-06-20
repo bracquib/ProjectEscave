@@ -106,6 +106,10 @@ public class Vec2 extends Object implements Serializable {
 		return new Vec2((float) Math.floor(this.x), (float) Math.floor(this.y));
 	}
 
+	public Vec2 round() {
+		return new Vec2((float) Math.round(this.x), (float) Math.round(this.y));
+	}
+
 	/**
 	 * Add 2 vectors
 	 * 
@@ -169,5 +173,9 @@ public class Vec2 extends Object implements Serializable {
 
 	public void nullY() {
 		this.y = 0;
+	}
+
+	public Vec2 screenToGlobal(Vec2 pos) {
+		return pos.add(this);
 	}
 }

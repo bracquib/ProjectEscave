@@ -26,6 +26,10 @@ public abstract class View {
 
 	public abstract Avatar createAvatar(int id, Vec2 pos, Paintable image);
 
+	public void deleteAvatar(int id) {
+		this.avatars.remove(id);
+	}
+
 	public void updateAvatar(int id, Vec2 pos) {
 		Avatar a = this.avatars.get(id);
 		if (a != null) {

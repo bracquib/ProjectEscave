@@ -5,15 +5,18 @@ import java.util.Collections;
 import java.util.List;
 
 import info3.game.assets.Paintable;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
+import info3.game.network.MouseClick;
 import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
 import info3.game.network.Welcome;
 import info3.game.network.WheelScroll;
+import info3.game.physics.RayCasting;
 
 public class LocalController extends Controller {
 	List<View> views;
@@ -169,5 +172,23 @@ public class LocalController extends Controller {
 				return true;
 		}
 		return false;
+	}
+
+	@Override
+	protected void mouseClick(Player player, MouseClick mouseClick) {
+		Vec2 mouse = mouseClick.position.screenToGlobal(this.viewFor(player).camera.getPos());
+		Block underCursor = Model.getBlock((int) mouse.getX() / 32, (int) mouse.getY() / 32);
+		Block target = RayCasting.singleCast(mouse, player.getPosition().add(16), 3);
+		if (target != null && target == underCursor) {
+			Vec2 coords = new Vec2(target.getPosition()).divide(32);
+			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
+		}
+	}
+
+	@Override
+	public void deleteAvatar(int avatarId) {
+		for (View v : this.views) {
+			v.deleteAvatar(avatarId);
+		}
 	}
 }

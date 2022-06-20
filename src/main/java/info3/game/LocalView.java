@@ -166,6 +166,12 @@ public class LocalView extends View {
 	}
 
 	@Override
+	public void deleteAvatar(int id) {
+		super.deleteAvatar(id);
+		this.sortedAvatars.removeIf((x) -> x.getId() == id);
+	}
+
+	@Override
 	public void setController(Controller c) {
 		this.controller = c;
 	}

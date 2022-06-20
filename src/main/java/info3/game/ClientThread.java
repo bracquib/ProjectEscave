@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import info3.game.network.KeyPress;
+import info3.game.network.MouseClick;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
 import info3.game.network.WheelScroll;
@@ -45,6 +46,9 @@ public class ClientThread extends Thread {
 				} else if (msg instanceof WheelScroll) {
 					WheelScroll w = (WheelScroll) msg;
 					this.controller.mouseScroll(this.view.getPlayer(), w);
+				} else if (msg instanceof MouseClick) {
+					MouseClick mc = (MouseClick) msg;
+					this.controller.mouseClick(this.view.getPlayer(), mc);
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				this.disconnect();

@@ -50,7 +50,7 @@ public class Model {
 	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
 	 * précis avec la méthode getBlock(x, y) de cette classe.
 	 */
-	static Block[][] map;
+	private static Block[][] map;
 
 	static ArrayList<Vec2> spawnPoints;
 
@@ -90,6 +90,15 @@ public class Model {
 		Model.spawn(p);
 
 		return p;
+	}
+
+	public static void deleteBlock(int x, int y) {
+		if (Model.map[x][y] == null) {
+			return;
+		}
+		int avatarId = Model.map[x][y].getAvatar().getId();
+		Model.map[x][y] = null;
+		Model.controller.deleteAvatar(avatarId);
 	}
 
 	private static void generateMapIfNeeded() {
@@ -237,4 +246,14 @@ public class Model {
 		return null;
 	}
 
+	public static Block[][] getMapZone(int x, int y, int width, int height) {
+		Block[][] resMap = new Block[width][height];
+
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				resMap[i][j] = map[x + i][y + j];
+			}
+		}
+		return resMap;
+	}
 }

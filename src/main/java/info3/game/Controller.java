@@ -4,6 +4,7 @@ import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
+import info3.game.network.MouseClick;
 import info3.game.network.WheelScroll;
 
 public abstract class Controller {
@@ -28,4 +29,8 @@ public abstract class Controller {
 	public abstract Avatar createAvatar(Vec2 pos, Paintable image);
 
 	protected abstract void mouseScroll(Player p, WheelScroll wheelScroll);
+
+	protected abstract void mouseClick(Player player, MouseClick mouseClick);
+
+	public abstract void deleteAvatar(int avatarId);
 }
