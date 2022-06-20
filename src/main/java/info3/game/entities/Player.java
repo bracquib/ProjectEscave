@@ -29,7 +29,8 @@ public class Player extends RigidBody {
 			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 9, 100);
 			sprite.layer = 1;
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
-			this.inventory = new Inventory(c, this);
+			// this.inventory = new Inventory(c, this);
+			this.inventory = Inventory.createInventory(c, this);
 		}
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
