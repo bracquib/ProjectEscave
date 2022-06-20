@@ -63,6 +63,7 @@ public class StatueBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// activer la statue et le il y a un transfert d'automate
 
+		// e.setAutomata(e.getController().model.getAutomata("Player"));
 	}
 
 	@Override
