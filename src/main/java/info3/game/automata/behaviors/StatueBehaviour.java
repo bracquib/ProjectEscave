@@ -62,10 +62,10 @@ public class StatueBehaviour extends Behaviour {
 		// new RigidBody(e, 1, 10);
 		switch (d) {
 		case EST:
-			p.getSpeed().setX(70);
+			p.getSpeed().setX(140);
 			break;
 		case WEST:
-			p.getSpeed().setX(-70);
+			p.getSpeed().setX(-140);
 			break;
 		case SOUTH:
 			break;
