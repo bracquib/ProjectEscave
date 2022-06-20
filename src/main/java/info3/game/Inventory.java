@@ -1,30 +1,47 @@
 package info3.game;
 
+import info3.game.assets.Image;
 import info3.game.entities.Block;
+import info3.game.entities.Entity;
 import info3.game.entities.Food;
 import info3.game.entities.Pickaxe;
 import info3.game.entities.Player;
 import info3.game.entities.Sword;
 import info3.game.entities.Tool;
 import info3.game.entities.Water;
+import info3.game.network.UpdateAvatar;
 
-;
-
-public class Inventory {
-
+public class Inventory extends Entity {
 	public final short INVENTORY_SIZE = 5; // pickaxe, sword, water,food, block
 	private InventoryCouple tools[]; // tableau de couples (objet : quantité)
 	private int currentToolIndex; // index de l'objet en main
 	private int size; // le nombre de catégories d'objets présentes dans l'inventaire
 	LocalController controller;
 	private Player owner;
+	private Avatar[] cells;
 
 	public Inventory(LocalController c, Player owner) {
+		super(c, 1);
 		this.currentToolIndex = 0;
 		this.tools = new InventoryCouple[INVENTORY_SIZE];
 		this.controller = c;
 		this.owner = owner;
 
+		this.cells = new Avatar[INVENTORY_SIZE];
+
+		int totalWidth = 74 * INVENTORY_SIZE - 10;
+		int startX = (this.controller.viewFor(null).getWidth() - totalWidth) / 2;
+		int startY = this.controller.viewFor(null).getHeight() - 130;
+		Image selectedCell = new Image("inventory-cell-selected.png");
+		selectedCell.layer = 1;
+		selectedCell.fixed = true;
+		this.cells[0] = this.controller.createAvatar(new Vec2(startX, startY), selectedCell);
+		for (int i = 1; i < this.cells.length; i++) {
+			Image cell = new Image("inventory-cell.png");
+			cell.layer = 1;
+			cell.fixed = true;
+			this.cells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), cell);
+		}
 	}
 
 	public Tool getCurrentTool() {
@@ -34,7 +51,15 @@ public class Inventory {
 	// plusieurs façons de se déplacer dans l'inventaire
 
 	public void selectCurrentTool(int i) {
+		// TODO: un peu sale ce code même si ça marche bien
+		this.cells[this.currentToolIndex].setPaintablePath("inventory-cell.png");
+		this.controller.sendTo(this.owner,
+				new UpdateAvatar(this.cells[this.currentToolIndex].getId(), "inventory-cell.png"));
 		this.currentToolIndex = i % INVENTORY_SIZE; // et pour les nombres négatifs ?
+		this.controller.sendTo(this.owner,
+				new UpdateAvatar(this.cells[this.currentToolIndex].getId(), "inventory-cell-selected.png"));
+		this.cells[this.currentToolIndex].setPaintablePath("inventory-cell-selected.png");
+
 	}
 
 	// décale la selection d'un cran vers la droite
@@ -182,7 +207,5 @@ public class Inventory {
 		inv.addCouple(new InventoryCouple(new Food(c, owner)));
 		inv.addCouple(new InventoryCouple(new Block(c)));
 		return inv;
-
 	}
-
 }
