@@ -1,14 +1,7 @@
 Block(Init){
 	*(Init)
-	|Cell(N,T)&GotPower?Wizz :(Init)
-	|Cell(S,T)&GotPower?Wizz :(Init)
-	|Cell(W,T)&GotPower?Wizz :(Init)
-	|Cell(E,T)&GotPower?Wizz :(Init)
-    |Cell(N,T)?Wizz :()
-    |Cell(S,T)?Wizz :()
-    |Cell(W,T)?Wizz :()
-    |Cell(E,T)?Wizz :()
-    |True ?	:(Init)
+	|GotPower? :(Init)
+    |True ? Wizz() :()
 }
 
 Block_special(Init){
@@ -49,6 +42,7 @@ Inventaire(Init){
 
 Player(Init){
 	*(Init)
-	| Closest(P,W) ? Wizz() :(Init)
-	| Closest(P,E) ? Wizz() :(Init)
+	| Key(FU)&Cell(S,J) ? Wizz() :(Init)
+	| Key(FL) ? Move(W) :(Init)
+	| Key(FR) ? Move(E) :(Init)
 }

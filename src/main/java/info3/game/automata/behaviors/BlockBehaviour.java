@@ -25,21 +25,6 @@ public class BlockBehaviour extends Behaviour {
 	}
 
 	@Override
-	public boolean cell(Entity e, Direction d, Category c) {
-		/*
-		 * switch (d) { case NORTH: if (e.model.getNearEntities(e.getPosition().getX(),
-		 * e.getPosition().getY() + 32, 32, 32) == c) { return true; } break; case
-		 * SOUTH: if (e.model.getNearEntities(e.getPosition().getX(),
-		 * e.getPosition().getY() - 32, 32, 32) == c) { return true; } break; case EST:
-		 * if (e.model.getNearEntities(e.getPosition().getX()+32,
-		 * e.getPosition().getY(), 32, 32) == c) { return true; } break; case WEST: if
-		 * (e.model.getNearEntities(e.getPosition().getX()-32, e.getPosition().getY() +
-		 * 32, 32, 32) == c) { return true; } break; }
-		 */
-		return false;
-	}
-
-	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
 		// pas besoin
 		return false;

@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import info3.game.assets.Paintable;
-import info3.game.entities.Cowboy;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
+import info3.game.network.KeyRelease;
 import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
 import info3.game.network.Welcome;
@@ -17,10 +17,12 @@ import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
+	ArrayList<Integer> pressedKeys;
 
 	public LocalController() {
 		super();
 		this.views = Collections.synchronizedList(new ArrayList<View>());
+		this.pressedKeys = new ArrayList<Integer>();
 		Model.init(this);
 	}
 
@@ -29,6 +31,7 @@ public class LocalController extends Controller {
 		for (View v : views) {
 			v.setController(this);
 		}
+		this.pressedKeys = new ArrayList<Integer>();
 		Model.init(this);
 	}
 
@@ -49,32 +52,13 @@ public class LocalController extends Controller {
 	@Override
 	public void keyPressed(Player p, KeyPress e) {
 		System.out.println("[DEBUG] " + p.name() + " pressed " + e.code);
-		if (e.code == 32) {
-			Cowboy c = new Cowboy(this, 1);
-			c.setPosition(new Vec2(100, 100));
-			Model.spawn(c);
-		}
-		// Mouvements de camera
-		if (e.code >= 37 && e.code <= 40) {
-			switch (e.code) {
-			case 37:
-				// Left
-				p.getSpeed().setX(-150);
-				break;
-			case 38:
-				// Up
-				p.getSpeed().setY(-250);
-				break;
-			case 39:
-				// Right
-				p.getSpeed().setX(150);
-				break;
-			case 40:
-				// Down
-				p.addSpeed(new Vec2(0, 0));
-				break;
-			}
-		}
+		this.addPressedKey(e.code);
+	}
+
+	@Override
+	public void keyReleased(Player p, KeyRelease e) {
+		System.out.println("[DEBUG] " + p.name() + " released " + e.code);
+		this.removePressedKey(e.code);
 	}
 
 	public View viewFor(Player p) {
@@ -146,5 +130,43 @@ public class LocalController extends Controller {
 		} else {
 			inv.moveRCurrentTool();
 		}
+	}
+
+	private void addPressedKey(int code) {
+		for (Integer key : this.pressedKeys) {
+			if (key.equals(code))
+				return;
+		}
+		this.pressedKeys.add(code);
+	}
+
+	private void removePressedKey(int code) {
+		this.pressedKeys.remove((Integer) code);
+	}
+
+	public boolean isKeyPressed(int code) {
+		int realKeyCode;
+		switch (code) {
+		case 785: // FU
+			realKeyCode = 38;
+			break;
+		case 768: // FD
+			realKeyCode = 40;
+			break;
+		case 776: // FL
+			realKeyCode = 37;
+			break;
+		case 782: // FR
+			realKeyCode = 39;
+			break;
+		default:
+			realKeyCode = code;
+			break;
+		}
+		for (Integer key : this.pressedKeys) {
+			if (key.equals(realKeyCode))
+				return true;
+		}
+		return false;
 	}
 }

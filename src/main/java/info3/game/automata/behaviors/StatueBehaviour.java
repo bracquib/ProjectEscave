@@ -1,8 +1,10 @@
 package info3.game.automata.behaviors;
 
+import info3.game.Model;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
+import info3.game.physics.RigidBody;
 
 public class StatueBehaviour extends Behaviour {
 
@@ -22,26 +24,6 @@ public class StatueBehaviour extends Behaviour {
 		// pas besoin
 		return false;
 	}
-
-	/*
-	 * @Override public boolean cell(Entity e, Direction d, Category c) { switch (d)
-	 * { case NORTH: ArrayList<Entity> nearEntities = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()), (int) (e.getPosition().getY()) + 32, 32, 32); for
-	 * (Entity e1 : nearEntities) { if (e1.getCategory() == c) { return true; } }
-	 * break; case SOUTH: ArrayList<Entity> nearEntities2 =
-	 * Model.getNearEntities2((int) (e.getPosition().getX()), (int)
-	 * (e.getPosition().getY()) - 32, 32, 32); for (Entity e1 : nearEntities2) { if
-	 * (e1.getCategory() == c) { return true; } } break; case EST: ArrayList<Entity>
-	 * nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
-	 * (int) (e.getPosition().getY()), 32, 32); for (Entity e1 : nearEntities3) { if
-	 * (e1.getCategory() == c) { return true; } } break; case WEST:
-	 * ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()) - 32, (int) (e.getPosition().getY()) + 32, 32, 32);
-	 * for (Entity e1 : nearEntities4) { if (e1.getCategory() == c) { return true; }
-	 * } break; case NORTHWEST: break; case NORTHEST: break; }
-	 * 
-	 * return false; }
-	 */
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
@@ -64,7 +46,8 @@ public class StatueBehaviour extends Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// activer la statue et le il y a un transfert d'automate
-
+		e.setCategory(Category.PLAYER);
+		e.setAutomata(Model.getAutomata("Player"));
 	}
 
 	@Override
@@ -75,13 +58,35 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void move(Entity e, Direction d) {
-		// pas besoin
+		RigidBody p = (RigidBody) e;
+		// new RigidBody(e, 1, 10);
+		switch (d) {
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case SOUTH:
+			break;
+		case NORTH:
+			break;
+		case NORTHWEST:
+			break;
+		case NORTHEST:
+			break;
+
+		}
+
+		return;
 
 	}
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		// pas besoin
+
+		e.setAutomata(Model.getAutomata("Statue"));
+		return;
 
 	}
 
@@ -93,8 +98,8 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void jump(Entity e) {
-		// pas besoin
-
+		((RigidBody) e).getSpeed().setY(-250);
+		return;
 	}
 
 	@Override
