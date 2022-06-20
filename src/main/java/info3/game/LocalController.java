@@ -6,6 +6,7 @@ import java.util.List;
 
 import info3.game.assets.Image;
 import info3.game.assets.Paintable;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Mushroom;
 import info3.game.entities.Player;
@@ -62,9 +63,9 @@ public class LocalController extends Controller {
 
 		if (e.code == 32) {
 			Vec2 newPos = new Vec2(p.getPosition());
-			newPos.setX(newPos.getX() + 64);
+			newPos.setX(newPos.getX() + Block.SIZE);
 			Model.spawn(new Statue(p.getController(), p, newPos, 1));
-			Image bg = new Image("bg.png");
+			Image bg = new Image("bg_big.jpg");
 			bg.fixed = true;
 			bg.layer = -1;
 			this.createAvatar(new Vec2(0, 0), bg);
