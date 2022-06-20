@@ -63,6 +63,7 @@ public class SocleBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// wizz=activer la sortie
 		// à faire
+		System.out.println("Bien jouer");
 
 	}
 

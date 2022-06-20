@@ -1,6 +1,7 @@
 package info3.game.automata;
 
 import info3.game.entities.Entity;
+import info3.game.physics.RigidBody;
 
 public class StatueBehaviour extends Behaviour {
 
@@ -63,7 +64,7 @@ public class StatueBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// activer la statue et le il y a un transfert d'automate
 
-		// e.setAutomata(e.getController().model.getAutomata("Player"));
+		e.setAutomata(e.getController().model.getAutomata("Player"));
 	}
 
 	@Override
@@ -74,13 +75,35 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void move(Entity e, Direction d) {
-		// pas besoin
+		RigidBody p = (RigidBody) e;
+		// new RigidBody(e, 1, 10);
+		switch (d) {
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case SOUTH:
+			break;
+		case NORTH:
+			break;
+		case NORTHWEST:
+			break;
+		case NORTHEST:
+			break;
+
+		}
+
+		return;
 
 	}
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		// pas besoin
+
+		e.setAutomata(e.getController().model.getAutomata("Statue"));
+		return;
 
 	}
 
@@ -92,8 +115,8 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void jump(Entity e) {
-		// pas besoin
-
+		((RigidBody) e).getSpeed().setY(-250);
+		return;
 	}
 
 	@Override
