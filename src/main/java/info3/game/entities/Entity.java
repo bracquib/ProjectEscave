@@ -1,7 +1,6 @@
 package info3.game.entities;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import info3.game.Avatar;
 import info3.game.LocalController;
@@ -46,7 +45,6 @@ public abstract class Entity {
 	public int degatPioche;
 	protected Category category;
 	protected Vec2 avatarOffset;
-	ArrayList<Integer> pressedKeys; // Est-ce que je laisse ici ou dans Player?
 
 	protected LocalController controller;
 
@@ -102,7 +100,6 @@ public abstract class Entity {
 		this.automata = null;
 		this.currentState = null;
 		this.behaviour = null;
-		this.pressedKeys = new ArrayList<Integer>();
 		this.degatMob = 0;
 		this.degatEpee = 0;
 		this.degatPioche = 0;
@@ -152,43 +149,5 @@ public abstract class Entity {
 
 	public void setCurrentState(CurrentState s) {
 		this.currentState = s;
-	}
-
-	public void addPressedKey(int code) {
-		for (Integer key : this.pressedKeys) {
-			if (key.equals(code))
-				return;
-		}
-		this.pressedKeys.add(code);
-	}
-
-	public void removePressedKey(int code) {
-		this.pressedKeys.remove((Integer) code);
-	}
-
-	public boolean isKeyPressed(int code) {
-		int realKeyCode;
-		switch (code) {
-		case 785: // FU
-			realKeyCode = 38;
-			break;
-		case 768: // FD
-			realKeyCode = 40;
-			break;
-		case 776: // FL
-			realKeyCode = 37;
-			break;
-		case 782: // FR
-			realKeyCode = 39;
-			break;
-		default:
-			realKeyCode = code;
-			break;
-		}
-		for (Integer key : this.pressedKeys) {
-			if (key.equals(realKeyCode))
-				return true;
-		}
-		return false;
 	}
 }

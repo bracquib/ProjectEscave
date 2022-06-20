@@ -18,7 +18,7 @@ public class PlayerBehaviour extends Behaviour {
 	public boolean key(Entity e, int keyCode) {
 		// à faire
 		// System.out.println("[DEBUG] Checking key " + keyCode);
-		return e.isKeyPressed(keyCode);
+		return e.getController().isKeyPressed(keyCode);
 	}
 
 	@Override
