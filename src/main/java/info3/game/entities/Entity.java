@@ -39,10 +39,10 @@ public abstract class Entity {
 	protected Automata automata;
 	protected CurrentState currentState;
 	protected Behaviour behaviour;
-	public int m_points;
-	public int degat_mob;
-	public int degat_epee;
-	public int degat_pioche;
+	public int pointsDeVie;
+	public int degatMob;
+	public int degatEpee;
+	public int degatPioche;
 	protected Category category;
 	protected Vec2 avatarOffset;
 
@@ -96,13 +96,13 @@ public abstract class Entity {
 		this.controller = c;
 		this.collider = new BoxCollider(32, 32, 0, 0);
 		this.frictionFactor = 0.6f;
-		this.m_points = points;
+		this.pointsDeVie = points;
 		this.automata = null;
 		this.currentState = null;
 		this.behaviour = null;
-		this.degat_mob = 0;
-		this.degat_epee = 0;
-		this.degat_pioche = 0;
+		this.degatMob = 0;
+		this.degatEpee = 0;
+		this.degatPioche = 0;
 	}
 
 	/**

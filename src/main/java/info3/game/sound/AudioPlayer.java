@@ -58,12 +58,12 @@ public abstract class AudioPlayer {
 	 */
 	protected static final boolean VERBOSE_ERROR = false;
 
-	protected AudioPlayerListener m_listener;
+	protected AudioPlayerListener listener;
 
-	protected GameCanvas m_canvas;
+	protected GameCanvas canvas;
 
 	protected AudioPlayer(GameCanvas canvas) {
-		m_canvas = canvas;
+		this.canvas = canvas;
 	}
 
 	public abstract String getName();

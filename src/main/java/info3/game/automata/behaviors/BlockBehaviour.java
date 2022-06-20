@@ -47,7 +47,7 @@ public class BlockBehaviour extends Behaviour {
 
 	@Override
 	public boolean gotPower(Entity e) {
-		if (e.m_points > 0) {
+		if (e.pointsDeVie > 0) {
 			return true;
 		}
 
@@ -64,7 +64,7 @@ public class BlockBehaviour extends Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
-		e.m_points -= 1; // à ajuster (dmg)
+		e.pointsDeVie -= 1; // à ajuster (dmg)
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:

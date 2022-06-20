@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -15,14 +14,12 @@ import javax.swing.JLabel;
 
 import info3.game.assets.Paintable;
 import info3.game.graphics.GameCanvas;
-import info3.game.sound.RandomFileInputStream;
 
 public class LocalView extends View {
 	JFrame frame;
 	JLabel text;
 	GameCanvas canvas;
 	CanvasListener listener;
-	Sound music;
 	Semaphore isPainting;
 	protected SortedSet<Avatar> sortedAvatars;
 
@@ -77,29 +74,7 @@ public class LocalView extends View {
 	 * ==============================================================
 	 */
 
-	/*
-	 * Called from the GameCanvas listener when the frame
-	 */
-	String m_musicName;
-
-	void loadMusic() {
-		m_musicName = m_musicNames[m_musicIndex];
-		String filename = "resources/" + m_musicName + ".ogg";
-		m_musicIndex = (m_musicIndex + 1) % m_musicNames.length;
-		try {
-			RandomAccessFile file = new RandomAccessFile(filename, "r");
-			RandomFileInputStream fis = new RandomFileInputStream(file);
-			this.canvas.playMusic(fis, 0, 1.0F);
-		} catch (Throwable th) {
-			th.printStackTrace(System.err);
-			System.exit(-1);
-		}
-	}
-
-	private int m_musicIndex = 0;
-	private String[] m_musicNames = new String[] { "Runaway-Food-Truck" };
-
-	private long m_textElapsed;
+	private long textElapsed;
 
 	/*
 	 * This method is invoked almost periodically, given the number of milli-seconds
@@ -114,9 +89,9 @@ public class LocalView extends View {
 
 		// Update every second
 		// the text on top of the frame: tick and fps
-		m_textElapsed += elapsed;
-		if (m_textElapsed > 1000) {
-			m_textElapsed = 0;
+		textElapsed += elapsed;
+		if (textElapsed > 1000) {
+			textElapsed = 0;
 			float period = this.canvas.getTickPeriod();
 			int fps = this.canvas.getFPS();
 
