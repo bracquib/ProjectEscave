@@ -24,9 +24,9 @@ public class Player extends RigidBody {
 		this.setCategory(Category.PLAYER);
 		this.setAutomata(Model.getAutomata("Player"));
 		this.setBehaviour(new PlayerBehaviour());
-		this.avatarOffset = new Vec2(0, -10);
+		this.avatarOffset = new Vec2(0, -4);
 		if (local) {
-			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 9, 100);
+			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200);
 			sprite.layer = 1;
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
 			// this.inventory = new Inventory(c, this);
@@ -51,7 +51,7 @@ public class Player extends RigidBody {
 	}
 
 	private String avatarPath() {
-		return "mole-" + this.name().toLowerCase() + ".png";
+		return "player/" + this.name().toLowerCase() + "/idle-right.png";
 	}
 
 	public String name() {
