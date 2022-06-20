@@ -40,6 +40,7 @@ public class LocalController extends Controller {
 		synchronized (this.views) {
 			this.views.add(v);
 		}
+		v.setController(this);
 		v.setPlayer(Model.spawnPlayer());
 		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer().getColor()));
 		this.sendTo(v.getPlayer(), new SyncCamera(v.getPlayer().getAvatar()));

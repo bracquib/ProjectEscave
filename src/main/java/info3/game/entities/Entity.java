@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import info3.game.Avatar;
 import info3.game.LocalController;
+import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.automata.Automata;
 import info3.game.automata.AutomataState;
@@ -53,12 +54,36 @@ public abstract class Entity {
 	}
 
 	public void setPosition(Vec2 pos) {
+		Block[][] map = Model.getMap();
+		Vec2 mapSize = new Vec2(map[0].length * 32, map.length * 32);
+
+		// dépassement du haut
+		if (pos.getX() >= 0 && pos.getX() <= mapSize.getX() && pos.getY() < 0) {
+			pos = new Vec2(pos.getX(), pos.getY() + mapSize.getY());
+		}
+
+		// dépassement du bas
+		else if (pos.getX() >= 0 && pos.getX() <= mapSize.getX() && pos.getY() > mapSize.getY()) {
+			pos = new Vec2(pos.getX(), pos.getY() - mapSize.getY());
+		}
+
+		// dépassement à droite
+		else if (pos.getY() >= 0 && pos.getY() <= mapSize.getY() && pos.getX() > mapSize.getX()) {
+			pos = new Vec2(pos.getX() - mapSize.getX(), pos.getY());
+
+		}
+
+		// dépassement à gauche
+		else if (pos.getY() >= 0 && pos.getY() <= mapSize.getY() && pos.getX() < 0) {
+			pos = new Vec2(pos.getX() + mapSize.getX(), pos.getY());
+		}
+
 		this.position = pos;
 		if (this.avatar != null) {
 			if (this.avatarOffset != null) {
 				this.avatar.setPosition(pos.add(this.avatarOffset));
 			} else {
-				this.avatar.setPosition(pos);
+				this.avatar.setPosition(this.position);
 			}
 			this.controller.sendToClients(new UpdateAvatar(this.avatar.getId(), this.avatar.getPosition()));
 		}
