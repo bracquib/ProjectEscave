@@ -1,0 +1,54 @@
+Block(Init){
+	*(Init)
+	|Cell(N,T)&GotPower?Wizz :(Init)
+	|Cell(S,T)&GotPower?Wizz :(Init)
+	|Cell(W,T)&GotPower?Wizz :(Init)
+	|Cell(E,T)&GotPower?Wizz :(Init)
+    |Cell(N,T)?Wizz :()
+    |Cell(S,T)?Wizz :()
+    |Cell(W,T)?Wizz :()
+    |Cell(E,T)?Wizz :()
+    |True ?	:(Init)
+}
+
+Block_special(Init){
+    *(Init)
+    |Cell(N,@)?Wizz:(Activer)
+    |True?    :(Init)
+    
+	*(Activer)
+    |True?    :(Activer)
+}
+
+Consummable(Init){
+    *(Init)
+}
+
+Inventaire(Init){
+	*(Non_plein)
+	|Cell(N,P)&(GotStuff)?Wizz(N) :(Plein)
+	|Cell(S,P)&(GotStuff)? Wizz(S):(Plein)
+	|Cell(W,P)&(GotStuff)? Wizz(W):(Plein)
+	|Cell(E,P)&(GotStuff)? Wizz(E):(Plein)
+	|Cell(N,P)? Wizz(N) :(Non_plein)
+	|Cell(S,P)? Wizz(S):(Non_plein)
+	|Cell(W,P)? Wizz(W):(Non_plein)
+	|Cell(E,P)? Wizz(E):(Non_plein)
+    |Key(t)&GotStuff? Throw:(Non_plein)
+    |Key(j)?Get:(Non_plein)
+    |Key(p)&GotStuff?Pop:(Non_plein)
+	|True?		:(Non_plein)
+	
+	*(Plein)
+	|Key(p)?Pop:(Non_plein)
+	|Key(t)? Throw:(Non_plein)
+	|Key(j)?Get:(Plein)
+	|GotStuff?     :(Non_plein)
+	|True?		:(Plein)
+}
+
+Player(Init){
+	*(Init)
+	| Closest(P,W) ? Wizz() :(Init)
+	| Closest(P,E) ? Wizz() :(Init)
+}

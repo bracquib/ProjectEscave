@@ -1,0 +1,237 @@
+package info3.game.automata;
+
+import info3.game.Model;
+import info3.game.Vec2;
+import info3.game.entities.Entity;
+import info3.game.entities.Mushroom;
+import info3.game.physics.RigidBody;
+
+public class MushroomBehaviour extends Behaviour {
+
+	Entity ret; // attribut de retour pour savoir a qui mettre les degats
+
+	@Override
+	public boolean true_(Entity e) {
+		return true;
+	}
+
+	@Override
+	public boolean key(Entity e, int keyCode) {
+		// à faire
+		return false;
+	}
+
+	@Override
+	public boolean myDir(Entity e, Direction d) {
+		// pas besoin
+		return false;
+	}
+
+	/*
+	 * @Override public boolean cell(Entity e, Direction d, Category c) { switch (d)
+	 * { case NORTH: ArrayList<Entity> nearEntities = Model.getNearEntities2((int)
+	 * (e.getPosition().getX()), (int) (e.getPosition().getY()) + 32, 32, 32); for
+	 * (Entity e1 : nearEntities) { if (e1.getCategory() == c) { ret = e1; return
+	 * true; } } break; case SOUTH: ArrayList<Entity> nearEntities2 =
+	 * Model.getNearEntities2((int) (e.getPosition().getX()), (int)
+	 * (e.getPosition().getY()) - 32, 32, 32); for (Entity e1 : nearEntities2) { if
+	 * (e1.getCategory() == c) { ret = e1; return true; } } break; case EST:
+	 * ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int)
+	 * (e.getPosition().getX()) + 32, (int) (e.getPosition().getY()), 32, 32); for
+	 * (Entity e1 : nearEntities3) { if (e1.getCategory() == c) { ret = e1; return
+	 * true; } } break; case WEST: ArrayList<Entity> nearEntities4 =
+	 * Model.getNearEntities2((int) (e.getPosition().getX()) - 32, (int)
+	 * (e.getPosition().getY()) + 32, 32, 32); for (Entity e1 : nearEntities4) { if
+	 * (e1.getCategory() == c) { ret = e1; return true; } } break; case NORTHWEST:
+	 * break; case NORTHEST: break; }
+	 * 
+	 * return false; }
+	 */
+
+	@Override
+	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
+
+		int diam = 320; // en pixel
+		return super.closest(e, c, d, diam);
+	}
+
+	@Override
+	public boolean gotPower(Entity e) {
+
+		if (e.m_points > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean gotStuff(Entity e) {
+		// pas besoin
+		return false;
+	}
+
+	@Override
+	public void wizz(Entity e, Direction d) {
+		// wizz=jump
+
+		switch (d) {
+		case NORTH:
+			break;
+		case SOUTH:
+			break;
+		case EST:
+			break;
+		case WEST:
+			break;
+
+		case NORTHEST:
+			RigidBody p = (RigidBody) e;
+			// new RigidBody(e, 1, 5);
+			p.getSpeed().setY(-120);
+			p.getSpeed().setX(70);
+			break;
+		case NORTHWEST:
+			RigidBody p1 = (RigidBody) e;
+			// new RigidBody(e, 1, 5);
+			p1.getSpeed().setY(-120);
+			p1.getSpeed().setX(70);
+			break;
+		}
+
+		return;
+	}
+
+	@Override
+	public void pop(Entity e, Direction d) {
+		// pop = hit
+		if (cell(e, d, Category.PLAYER)) {
+			ret.getBehaviour().protect(ret, d, e.degat_mob);
+		}
+		return;
+
+	}
+
+	@Override
+	public void move(Entity e, Direction d) {
+
+		RigidBody p = (RigidBody) e;
+		// new RigidBody(e, 1, 5);
+		switch (d) {
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case SOUTH:
+			break;
+		case NORTH:
+			break;
+		case NORTHWEST:
+			break;
+		case NORTHEST:
+			break;
+
+		}
+
+	}
+
+	@Override
+	public void protect(Entity e, Direction d, int dmg) {
+		e.m_points -= dmg;
+		RigidBody p = (RigidBody) e;
+		switch (d) {
+		case SOUTH:
+			p.getSpeed().setY(-120);
+			break;
+		case EST:
+			p.getSpeed().setX(70);
+			break;
+		case WEST:
+			p.getSpeed().setX(-70);
+			break;
+		case NORTH:
+			p.getSpeed().setY(120);
+			break;
+		default:
+			break;
+		}
+		return;
+	}
+
+	@Override
+	public void move(Entity e) {
+		// pas besoin
+	}
+
+	@Override
+	public void jump(Entity e) {
+		// wizz=jump donc fait dans wizz
+	}
+
+	@Override
+	public void hit(Entity e) {
+		// pop=hit donc fait dans pop
+
+	}
+
+	@Override
+	public void pick(Entity e) {
+		// pas besoin
+	}
+
+	@Override
+	public void throw_(Entity e) {
+		// pas besoin
+
+	}
+
+	@Override
+	public void store(Entity e) {
+		// pas besoin
+
+	}
+
+	@Override
+	public void get(Entity e) {
+		// pas besoin
+
+	}
+
+	@Override
+	public void power(Entity e) {
+		// pas besoin
+
+	}
+
+	@Override
+	public void explode(Entity e) {
+		// pas besoin
+
+	}
+
+	@Override
+	public void egg(Entity e, Direction d) {
+		Mushroom pere = (Mushroom) e;
+		if (pere.childRemain > 0) {
+			int decX;
+			switch (d) {
+			case EST:
+				decX = 48;
+				break;
+			case WEST:
+				decX = -48;
+				break;
+			default:
+				decX = 0;
+				break;
+			}
+			Vec2 childPos = new Vec2(pere.getPosition().getX() + decX, pere.getPosition().getY());
+			Mushroom child = new Mushroom(pere.getController(), childPos, 100, pere.childRemain - 1);
+			// pts de vie?
+			Model.spawn(child);
+		}
+	}
+
+}

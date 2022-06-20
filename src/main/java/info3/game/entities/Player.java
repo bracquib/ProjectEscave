@@ -4,6 +4,8 @@ import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
+import info3.game.automata.Category;
+import info3.game.automata.PlayerBehaviour;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -14,10 +16,13 @@ public class Player extends RigidBody {
 	private float maxThirst = 100;
 	private Inventory inventory;
 
-	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local) {
-		super(1, c);
+	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
+		super(1, c, points);
 		this.setPosition(pos);
 		this.color = color;
+		this.setCategory(Category.PLAYER);
+		this.setAutomata(c.model.getAutomata("Player"));
+		this.setBehaviour(new PlayerBehaviour());
 		this.avatarOffset = new Vec2(0, -10);
 		if (local) {
 			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 9, 100);

@@ -10,7 +10,6 @@ import info3.game.entities.Block;
 public class PhysicsWorld {
 
 	Model model;
-
 	public static final Vec2 GRAVITY = new Vec2(0.0f, 800f);
 	public static final Vec2 MAXSPEED = new Vec2(200f, 5000f);
 
@@ -122,7 +121,6 @@ public class PhysicsWorld {
 	 *
 	 * @return void
 	 */
-
 	private void computeFrictionX(RigidBody rb, Block e) {
 		if (rb.getFrictionFactor() == 0 || e.getFrictionFactor() == 0)
 			return;
