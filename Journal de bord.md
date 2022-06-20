@@ -56,6 +56,7 @@
 ### William et Jérémy : génération des grottes
 
 * convertir le code de cette génération qui est en javascript en java.
+### Ali Conception de la partie physique du jeu 
 
 ### Idées
 
@@ -146,6 +147,7 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Ana : merge de trois branches
 * Lucas, Benjamin et Léa : rédaction du contrat
 * Lucas : rédaction du planning
+* Ali : Gestion du déplacements du joueur dans une Tore
 
 ### Ana : merge de trois branches
 
@@ -163,6 +165,7 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 - Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 - Benjamin et Amaury : implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
 - Léa : review des automates et mise au propre du fichier GAL, remodification de l'automate de l'inventaire.
+-Ali : Conception du déplacement du joueur lorqu'il atteint les limites de la Map et déplacement de la map en permanence ne plus avoir du vide aux limites . 
 
 ### Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 
@@ -192,6 +195,8 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ### Benjamin et Amaury : implémentation des fonctions des Behaviours de chaque entitié.
 
 * implémentation des fonctions de déplacements (Move,Jump...)
+
+*Ali: implémentation de la fonction setposition dans la classe Entity qui gère le deplacement du joueurs lorqu'il franchit les limites de la map . 
 
 ## Vendredi 17 juin 2022
 
