@@ -2,6 +2,7 @@ package info3.game;
 
 import info3.game.assets.Image;
 import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.automata.behaviors.InventaireBehaviour;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
@@ -120,20 +121,27 @@ public class Inventory extends Entity {
 
 	}
 
-	public boolean use() {
+	public boolean use(Direction d) {
 		// utiliser l'objet en main
 
-		Tool current = this.toolAt(currentToolIndex);
+		InventoryCouple couple = this.coupleAt(currentToolIndex);
+		Tool current = couple.getTool();
 
 		if (current == null)
 			return false;
 
-		current.useTool();
-
-		if (current.isSpecial())
+		if (!current.isSpecial()) {
+			if (couple.getNumber() > 0) {
+				current.useTool(d);
+			} else {
+				return false;
+			}
+		} else {
+			current.useTool(d);
 			return true;
+		}
 
-		this.drop();
+		this.drop(); // enlève 1 à la qtté
 		return true;
 
 	}
@@ -223,7 +231,7 @@ public class Inventory extends Entity {
 		inv.addCouple(new InventoryCouple(new Sword(c), 1));
 		inv.addCouple(new InventoryCouple(new Water(c, owner)));
 		inv.addCouple(new InventoryCouple(new Food(c, owner)));
-		inv.addCouple(new InventoryCouple(new Block(c)));
+		inv.addCouple(new InventoryCouple(new Block(c), 10));
 		return inv;
 	}
 }

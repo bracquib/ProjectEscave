@@ -10,7 +10,4 @@ public abstract class Consumable extends Tool {
 		this.special = false;
 
 	}
-
-	public abstract void useTool();
-
 }
