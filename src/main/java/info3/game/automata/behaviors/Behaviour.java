@@ -8,7 +8,7 @@ import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 
 public abstract class Behaviour {
-	Entity ret;
+	public Entity ret;
 
 	/**
 	 * @return toujours true

@@ -5,6 +5,7 @@ import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.Image;
 import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.automata.behaviors.BlockBehaviour;
 import info3.game.cavegenerator.BlockIDs;
 
@@ -34,8 +35,36 @@ public class Block extends Consumable {
 	}
 
 	@Override
-	public void useTool() {
-		// TODO placer un bloc sur la carte
-
+	public void useTool(Direction d) {
+		// Behaviour behav = owner.getBehaviour();
+		int decX, decY;
+		switch (d) {
+		case NORTH:
+			decX = 0;
+			decY = -32;
+			break;
+		case SOUTH:
+			decX = 0;
+			decY = 32;
+			break;
+		case EST:
+			decX = 32;
+			decY = 0;
+			break;
+		case WEST:
+			decX = -32;
+			decY = 0;
+			break;
+		default:
+			decX = decY = 0;
+		}
+		Vec2 pos = owner.getPosition();
+		int i = ((int) pos.getX() / 32) + decX;
+		int j = ((int) pos.getY() / 32) + decY;
+		Block place = Model.getBlock(i, j);
+		if (place == null) {
+			Model.getMap()[i][j] = new Block(Model.controller, new Vec2(i * 32, j * 32), 1, 1);
+			// TODO placer un bloc sur la carte
+		}
 	}
 }

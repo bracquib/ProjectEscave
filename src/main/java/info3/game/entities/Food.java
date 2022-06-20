@@ -2,6 +2,7 @@ package info3.game.entities;
 
 import info3.game.LocalController;
 import info3.game.Vec2;
+import info3.game.automata.Direction;
 
 public class Food extends Consumable {
 
@@ -28,7 +29,7 @@ public class Food extends Consumable {
 	}
 
 	@Override
-	public void useTool() {
+	public void useTool(Direction d) {
 		owner.feed(feedValue);
 	}
 

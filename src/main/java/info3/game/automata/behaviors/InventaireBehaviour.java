@@ -50,7 +50,7 @@ public class InventaireBehaviour extends Behaviour {
 	public void pop(Entity e, Direction d) {
 		// utiliser l'objet donc si c une arme,on appelle le hit de playerbehaviour
 		Inventory p = (Inventory) e;
-		p.use();
+		p.use(d);
 	}
 
 	@Override

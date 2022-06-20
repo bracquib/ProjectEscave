@@ -1,6 +1,7 @@
 package info3.game.entities;
 
 import info3.game.LocalController;
+import info3.game.automata.Direction;
 
 public abstract class Tool extends Entity {
 
@@ -13,7 +14,7 @@ public abstract class Tool extends Entity {
 		super(c, 0);
 	}
 
-	public abstract void useTool();
+	public abstract void useTool(Direction d);
 
 	public String getName() {
 		return this.name;
