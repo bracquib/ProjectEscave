@@ -7,15 +7,23 @@ public class Food extends Consumable {
 
 	private float feedValue;
 
-	public Food(LocalController c, Vec2 pos, Player owner) {
-		super(c, pos, owner);
+	public Food(LocalController c, Player owner) {
+		super(c, owner);
 		this.setName("Food");
 		this.feedValue = 10;
 	}
 
-	public Food(LocalController c, Vec2 pos, Player owner, int feedVal) {
-		super(c, pos, owner);
+	public Food(LocalController c, Vec2 pos, Player owner) {
+		super(c, owner);
 		this.setName("Food");
+		this.position = pos;
+		this.feedValue = 10;
+	}
+
+	public Food(LocalController c, Vec2 pos, Player owner, int feedVal) {
+		super(c, owner);
+		this.setName("Food");
+		this.position = pos;
 		this.feedValue = feedVal;
 	}
 

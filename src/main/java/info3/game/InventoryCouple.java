@@ -26,6 +26,22 @@ public class InventoryCouple {
 		return this.number;
 	}
 
+	public void add() {
+		this.number++;
+	}
+
+	public void add(int i) {
+		this.number += i;
+	}
+
+	public void sub() {
+		this.number--;
+	}
+
+	public void sub(int i) {
+		this.number -= i;
+	}
+
 	public void printCouple() {
 		if (this.tool != null)
 			System.out.print("( " + this.tool.getName() + " : " + this.getNumber() + " )");

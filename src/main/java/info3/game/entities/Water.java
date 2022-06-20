@@ -7,15 +7,23 @@ public class Water extends Consumable {
 
 	private float waterValue;
 
-	public Water(LocalController c, Vec2 pos, Player owner) {
-		super(c, pos, owner);
+	public Water(LocalController c, Player owner) {
+		super(c, owner);
 		this.setName("Water");
 		this.waterValue = 10;
 	}
 
-	public Water(LocalController c, Vec2 pos, Player owner, float waterVal) {
-		super(c, pos, owner);
+	public Water(LocalController c, Vec2 pos, Player owner) {
+		super(c, owner);
 		this.setName("Water");
+		this.position = pos;
+		this.waterValue = 10;
+	}
+
+	public Water(LocalController c, Vec2 pos, Player owner, float waterVal) {
+		super(c, owner);
+		this.setName("Water");
+		this.position = pos;
 		this.waterValue = waterVal;
 	}
 
