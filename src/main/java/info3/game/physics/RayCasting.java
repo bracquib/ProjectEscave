@@ -11,24 +11,50 @@ public class RayCasting {
 	// *****P***** -> nécessite une range de 11
 	public final int MAXRANGE = 13;
 
-	private ArrayList<Line> map2Lines(int x, int y) {
-		ArrayList<Line> lines = new ArrayList<Line>();
-		Block[][] mapZone = Model.getMapZone(x, y, MAXRANGE, MAXRANGE);
+	/*
+	 * Retourne 1er block touché par le RayCasting
+	 */
+	public Block singleCast(Vec2 mousePos, Vec2 playerPos, int range) {
+		Block closest = null;
+		float minLength = Float.POSITIVE_INFINITY;
+
+		Ray ray = new Ray(playerPos, mousePos.sub(playerPos).normalized());
+
+		Vec2 coord = playerPos.multiply(64).round();
+		Block[][] mapZone = Model.getMapZone((int) coord.getX(), (int) coord.getY(), range, range);
 		for (int i = 1; i < MAXRANGE - 1; i++) {
 			for (int j = 1; j < MAXRANGE - 1; j++) {
 				Block bl = mapZone[i][j];
-				Vec2 pos = bl.getPosition();
+				Vec2 blPos = bl.getPosition();
 
+				ArrayList<Line> lines = new ArrayList<Line>();
 				if (mapZone[i - 1][j] == null)
-					lines.add(new Line(pos.getX(), pos.getY(), pos.getX(), pos.getY() + 32));
+					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX(), blPos.getY() + 64));
 				if (mapZone[i][j - 1] == null)
-					lines.add(new Line(pos.getX(), pos.getY(), pos.getX() + 32, pos.getY()));
+					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX() + 64, blPos.getY()));
 				if (mapZone[i][j + 1] == null)
-					lines.add(new Line(pos.getX(), pos.getY() + 32, pos.getX() + 32, pos.getY() + 32));
+					lines.add(new Line(blPos.getX(), blPos.getY() + 64, blPos.getX() + 64, blPos.getY() + 64));
 				if (mapZone[i + 1][j] == null)
-					lines.add(new Line(pos.getX() + 32, pos.getY(), pos.getX() + 32, pos.getY() + 32));
+					lines.add(new Line(blPos.getX() + 64, blPos.getY(), blPos.getX() + 64, blPos.getY() + 64));
+
+				for (Line line : lines) {
+					Vec2 intersec = ray.intersect(line);
+					if (intersec != null) {
+						float len = intersec.sub(playerPos).length();
+						if (len < minLength) {
+							minLength = len;
+							closest = bl;
+						}
+					}
+				}
 			}
 		}
-		return lines;
+		return closest;
 	}
+
+	public ArrayList<Ray> multiCast(float angleBetween) {
+		ArrayList<Ray> rays = new ArrayList<Ray>();
+		return rays;
+	}
+
 }
