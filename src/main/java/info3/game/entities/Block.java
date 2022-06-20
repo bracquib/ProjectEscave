@@ -3,8 +3,8 @@ package info3.game.entities;
 import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.assets.Image;
-import info3.game.automata.BlockBehaviour;
 import info3.game.automata.Category;
+import info3.game.automata.behaviors.BlockBehaviour;
 import info3.game.cavegenerator.BlockIDs;
 
 public class Block extends Entity {

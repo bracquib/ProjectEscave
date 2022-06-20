@@ -1,8 +1,17 @@
-package info3.game.automata;
+package info3.game.automata.behaviors;
 
+import java.util.ArrayList;
+
+import info3.game.Model;
+import info3.game.Vec2;
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
+import info3.game.physics.RigidBody;
 
-public class SocleBehaviour extends Behaviour {
+public class StalactiteBehaviour extends Behaviour {
+
+	Entity ret;
 
 	@Override
 	public boolean true_(Entity e) {
@@ -43,8 +52,24 @@ public class SocleBehaviour extends Behaviour {
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		// pas besoin
+		int rayon_de_vision = 320;
+		switch (d) {
+		case SOUTH:
+			ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int) (e.getPosition().getX()),
+					(int) (e.getPosition().getY()) - rayon_de_vision, 32, rayon_de_vision);
+			for (Entity e1 : nearEntities2) {
+				if (e1.getCategory() == c) {
+					return true;
+				}
+			}
+			break;
+		default:
+			break;
+
+		}
+
 		return false;
+
 	}
 
 	@Override
@@ -61,15 +86,20 @@ public class SocleBehaviour extends Behaviour {
 
 	@Override
 	public void wizz(Entity e, Direction d) {
-		// wizz=activer la sortie
-		// à faire
-
+		// wizz=tomber
+		RigidBody p = (RigidBody) e;
+		p.addSpeed(new Vec2(0, 0));
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
-		// pas besoin
-
+		// pop=exploser
+		if (cell(e, d, Category.PLAYER)) {
+			ret.getBehaviour().protect(ret, d, (int) ((RigidBody) e).getSpeed().getY() / 2);
+		} else if (cell(e, d, Category.JUMPABLE)) {
+			ret.getBehaviour().wizz(ret, d);
+		}
+		return;
 	}
 
 	@Override

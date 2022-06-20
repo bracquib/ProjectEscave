@@ -5,7 +5,7 @@ import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
-import info3.game.automata.PlayerBehaviour;
+import info3.game.automata.behaviors.PlayerBehaviour;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {

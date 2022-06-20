@@ -1,7 +1,9 @@
-package info3.game.automata;
+package info3.game.automata.behaviors;
 
 import info3.game.Model;
 import info3.game.Vec2;
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 import info3.game.entities.Mushroom;
 import info3.game.physics.RigidBody;
