@@ -1,5 +1,7 @@
-package info3.game.automata;
+package info3.game.automata.conditions;
 
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 
 public class Closest implements ICondition {

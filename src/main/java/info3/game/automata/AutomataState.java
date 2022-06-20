@@ -2,6 +2,8 @@ package info3.game.automata;
 
 import java.util.ArrayList;
 
+import info3.game.automata.actions.IAction;
+import info3.game.automata.conditions.ICondition;
 import info3.game.entities.Entity;
 
 public class AutomataState {

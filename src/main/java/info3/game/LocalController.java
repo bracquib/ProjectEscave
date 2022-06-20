@@ -17,12 +17,11 @@ import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
-	public Model model;
 
 	public LocalController() {
 		super();
 		this.views = Collections.synchronizedList(new ArrayList<View>());
-		this.model = new Model(this);
+		Model.init(this);
 	}
 
 	public LocalController(ArrayList<View> views) {
@@ -30,7 +29,7 @@ public class LocalController extends Controller {
 		for (View v : views) {
 			v.setController(this);
 		}
-		this.model = new Model(this);
+		Model.init(this);
 	}
 
 	@Override
@@ -38,10 +37,10 @@ public class LocalController extends Controller {
 		synchronized (this.views) {
 			this.views.add(v);
 		}
-		v.setPlayer(this.model.spawnPlayer());
+		v.setPlayer(Model.spawnPlayer());
 		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer().getColor()));
 		this.sendTo(v.getPlayer(), new SyncCamera(v.getPlayer().getAvatar()));
-		for (Entity e : this.model.allEntities()) {
+		for (Entity e : Model.allEntities()) {
 			Avatar a = e.getAvatar();
 			this.sendTo(v.getPlayer(), new CreateAvatar(a.id, a.getPosition(), a.image));
 		}
@@ -70,7 +69,7 @@ public class LocalController extends Controller {
 
 	@Override
 	public void tick(long elapsed) {
-		this.model.tick(elapsed);
+		Model.tick(elapsed);
 	}
 
 	@Override

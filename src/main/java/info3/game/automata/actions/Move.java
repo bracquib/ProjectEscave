@@ -1,5 +1,6 @@
-package info3.game.automata;
+package info3.game.automata.actions;
 
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 
 public class Move implements IAction {

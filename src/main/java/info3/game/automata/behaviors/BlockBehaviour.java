@@ -1,5 +1,7 @@
-package info3.game.automata;
+package info3.game.automata.behaviors;
 
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
@@ -23,21 +25,6 @@ public class BlockBehaviour extends Behaviour {
 	}
 
 	@Override
-	public boolean cell(Entity e, Direction d, Category c) {
-		/*
-		 * switch (d) { case NORTH: if (e.model.getNearEntities(e.getPosition().getX(),
-		 * e.getPosition().getY() + 32, 32, 32) == c) { return true; } break; case
-		 * SOUTH: if (e.model.getNearEntities(e.getPosition().getX(),
-		 * e.getPosition().getY() - 32, 32, 32) == c) { return true; } break; case EST:
-		 * if (e.model.getNearEntities(e.getPosition().getX()+32,
-		 * e.getPosition().getY(), 32, 32) == c) { return true; } break; case WEST: if
-		 * (e.model.getNearEntities(e.getPosition().getX()-32, e.getPosition().getY() +
-		 * 32, 32, 32) == c) { return true; } break; }
-		 */
-		return false;
-	}
-
-	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
 		// pas besoin
 		return false;
@@ -45,7 +32,7 @@ public class BlockBehaviour extends Behaviour {
 
 	@Override
 	public boolean gotPower(Entity e) {
-		if (e.m_points > 0) {
+		if (e.pointsDeVie > 0) {
 			return true;
 		}
 
@@ -62,7 +49,7 @@ public class BlockBehaviour extends Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
-		e.m_points -= 1; // à ajuster (dmg)
+		e.pointsDeVie -= 1; // à ajuster (dmg)
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:

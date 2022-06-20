@@ -1,7 +1,9 @@
-package info3.game.automata;
+package info3.game.automata.behaviors;
 
 import info3.game.Model;
 import info3.game.Vec2;
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 import info3.game.entities.Mushroom;
 import info3.game.physics.RigidBody;
@@ -27,27 +29,6 @@ public class MushroomBehaviour extends Behaviour {
 		return false;
 	}
 
-	/*
-	 * @Override public boolean cell(Entity e, Direction d, Category c) { switch (d)
-	 * { case NORTH: ArrayList<Entity> nearEntities = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()), (int) (e.getPosition().getY()) + 32, 32, 32); for
-	 * (Entity e1 : nearEntities) { if (e1.getCategory() == c) { ret = e1; return
-	 * true; } } break; case SOUTH: ArrayList<Entity> nearEntities2 =
-	 * Model.getNearEntities2((int) (e.getPosition().getX()), (int)
-	 * (e.getPosition().getY()) - 32, 32, 32); for (Entity e1 : nearEntities2) { if
-	 * (e1.getCategory() == c) { ret = e1; return true; } } break; case EST:
-	 * ArrayList<Entity> nearEntities3 = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()) + 32, (int) (e.getPosition().getY()), 32, 32); for
-	 * (Entity e1 : nearEntities3) { if (e1.getCategory() == c) { ret = e1; return
-	 * true; } } break; case WEST: ArrayList<Entity> nearEntities4 =
-	 * Model.getNearEntities2((int) (e.getPosition().getX()) - 32, (int)
-	 * (e.getPosition().getY()) + 32, 32, 32); for (Entity e1 : nearEntities4) { if
-	 * (e1.getCategory() == c) { ret = e1; return true; } } break; case NORTHWEST:
-	 * break; case NORTHEST: break; }
-	 * 
-	 * return false; }
-	 */
-
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
 
@@ -58,7 +39,7 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public boolean gotPower(Entity e) {
 
-		if (e.m_points > 0) {
+		if (e.pointsDeVie > 0) {
 			return true;
 		}
 
@@ -106,7 +87,7 @@ public class MushroomBehaviour extends Behaviour {
 	public void pop(Entity e, Direction d) {
 		// pop = hit
 		if (cell(e, d, Category.PLAYER)) {
-			ret.getBehaviour().protect(ret, d, e.degat_mob);
+			ret.getBehaviour().protect(ret, d, e.degatMob);
 		}
 		return;
 
@@ -139,7 +120,7 @@ public class MushroomBehaviour extends Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		e.m_points -= dmg;
+		e.pointsDeVie -= dmg;
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:

@@ -9,32 +9,33 @@ public class RandomFileInputStream extends InputStream {
 	public static void main(String[] args) throws IOException {
 		String filename = "/homex/ogruber/Workshops/2019/workshops/pla/prof.repo/README.md";
 		RandomAccessFile file = new RandomAccessFile(filename, "r");
-		RandomFileInputStream fis = new RandomFileInputStream(file);
-		fis.mark(Integer.MAX_VALUE);
-		int count = 0;
-		for (;;) {
-			int bits = fis.read();
-			if (bits == -1)
-				break;
-			System.out.print(Integer.toString(bits) + " ");
-			if (count++ == 16) {
-				System.out.println();
-				count = 0;
+		try (RandomFileInputStream fis = new RandomFileInputStream(file)) {
+			fis.mark(Integer.MAX_VALUE);
+			int count = 0;
+			for (;;) {
+				int bits = fis.read();
+				if (bits == -1)
+					break;
+				System.out.print(Integer.toString(bits) + " ");
+				if (count++ == 16) {
+					System.out.println();
+					count = 0;
+				}
 			}
-		}
-		System.out.println();
-		fis.reset();
-		for (;;) {
-			int bits = fis.read();
-			if (bits == -1)
-				break;
-			System.out.print(Integer.toString(bits) + " ");
-			if (count++ == 16) {
-				System.out.println();
-				count = 0;
+			System.out.println();
+			fis.reset();
+			for (;;) {
+				int bits = fis.read();
+				if (bits == -1)
+					break;
+				System.out.print(Integer.toString(bits) + " ");
+				if (count++ == 16) {
+					System.out.println();
+					count = 0;
+				}
 			}
+			System.out.println();
 		}
-		System.out.println();
 	}
 
 	private RandomAccessFile raf;

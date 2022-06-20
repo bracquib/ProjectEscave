@@ -1,4 +1,4 @@
-package info3.game.automata;
+package info3.game.automata.conditions;
 
 import info3.game.entities.Entity;
 

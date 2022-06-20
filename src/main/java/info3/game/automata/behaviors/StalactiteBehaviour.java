@@ -1,8 +1,17 @@
-package info3.game.automata;
+package info3.game.automata.behaviors;
 
+import java.util.ArrayList;
+
+import info3.game.Model;
+import info3.game.Vec2;
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
+import info3.game.physics.RigidBody;
 
-public class SocleBehaviour extends Behaviour {
+public class StalactiteBehaviour extends Behaviour {
+
+	Entity ret;
 
 	@Override
 	public boolean true_(Entity e) {
@@ -21,30 +30,11 @@ public class SocleBehaviour extends Behaviour {
 		return false;
 	}
 
-	/*
-	 * @Override public boolean cell(Entity e, Direction d, Category c) { switch (d)
-	 * { case NORTH: ArrayList<Entity> nearEntities = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()), (int) (e.getPosition().getY()) + 32, 32, 32); for
-	 * (Entity e1 : nearEntities) { if (e1.getCategory() == c) { return true; } }
-	 * break; case SOUTH: ArrayList<Entity> nearEntities2 =
-	 * Model.getNearEntities2((int) (e.getPosition().getX()), (int)
-	 * (e.getPosition().getY()) - 32, 32, 32); for (Entity e1 : nearEntities2) { if
-	 * (e1.getCategory() == c) { return true; } } break; case EST: ArrayList<Entity>
-	 * nearEntities3 = Model.getNearEntities2((int) (e.getPosition().getX()) + 32,
-	 * (int) (e.getPosition().getY()), 32, 32); for (Entity e1 : nearEntities3) { if
-	 * (e1.getCategory() == c) { return true; } } break; case WEST:
-	 * ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()) - 32, (int) (e.getPosition().getY()) + 32, 32, 32);
-	 * for (Entity e1 : nearEntities4) { if (e1.getCategory() == c) { return true; }
-	 * } break; case NORTHWEST: break; case NORTHEST: break; }
-	 * 
-	 * return false; }
-	 */
-
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		// pas besoin
-		return false;
+		int diam = 480; // en pixel
+		return super.closest(e, c, d, diam);
+
 	}
 
 	@Override
@@ -61,15 +51,26 @@ public class SocleBehaviour extends Behaviour {
 
 	@Override
 	public void wizz(Entity e, Direction d) {
-		// wizz=activer la sortie
-		// à faire
-
+		// wizz=tomber
+		RigidBody p = (RigidBody) e;
+		p.addSpeed(new Vec2(0, 0));
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
-		// pas besoin
+		// pop=exploser
 
+		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - 32,
+				(int) (e.getPosition().getY()) - 32, 96, 96);
+		for (Entity e1 : nearEntities) {
+			Category cat = e1.getCategory();
+			if (cat == Category.PLAYER || cat == Category.ADVERSAIRE) {
+				e1.getBehaviour().protect(e1, d, (int) ((RigidBody) e).getSpeed().getY() / 2);
+			} else if (e1.getCategory() == Category.JUMPABLE) {
+				e1.getBehaviour().wizz(ret, d);
+			}
+		}
+		return;
 	}
 
 	@Override

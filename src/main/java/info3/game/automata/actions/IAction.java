@@ -1,4 +1,4 @@
-package info3.game.automata;
+package info3.game.automata.actions;
 
 import info3.game.entities.Entity;
 

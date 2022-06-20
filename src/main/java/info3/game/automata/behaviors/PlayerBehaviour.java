@@ -1,5 +1,7 @@
-package info3.game.automata;
+package info3.game.automata.behaviors;
 
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
@@ -15,11 +17,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public boolean key(Entity e, int keyCode) {
 		// à faire
-		// FU: 785
-		// FD: 768
-		// FL: 776
-		// FR: 782
-		System.out.println("[DEBUG] Checking key " + keyCode);
+		// System.out.println("[DEBUG] Checking key " + keyCode);
 		return e.isKeyPressed(keyCode);
 	}
 
@@ -28,29 +26,6 @@ public class PlayerBehaviour extends Behaviour {
 		// pas besoin pour player
 		return false;
 	}
-
-	/*
-	 * @Override public boolean cell(Entity e, Direction d, Category c) { // 32 =une
-	 * case
-	 * 
-	 * switch (d) { case NORTH: ArrayList<Entity> nearEntities =
-	 * Model.getNearEntities2((int) (e.getPosition().getX())+16, (int)
-	 * (e.getPosition().getY()) - 16, 32, 32); for (Entity e1 : nearEntities) { if
-	 * (e1.getCategory() == c) { ret = e1; return true; } } break; case SOUTH:
-	 * ArrayList<Entity> nearEntities2 = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()) + 16, (int) (e.getPosition().getY()) + 48, 32, 32);
-	 * for (Entity e1 : nearEntities2) { if (e1.getCategory() == c) { ret = e1;
-	 * return true; } } break; case EST: ArrayList<Entity> nearEntities3 =
-	 * Model.getNearEntities2((int) (e.getPosition().getX()) + 48, (int)
-	 * (e.getPosition().getY())+16, 32, 32); for (Entity e1 : nearEntities3) { if
-	 * (e1.getCategory() == c) { ret = e1; return true; } } break; case WEST:
-	 * ArrayList<Entity> nearEntities4 = Model.getNearEntities2((int)
-	 * (e.getPosition().getX()) - 16, (int) (e.getPosition().getY()) + 16, 32, 32);
-	 * for (Entity e1 : nearEntities4) { if (e1.getCategory() == c) { ret = e1;
-	 * return true; } } break; case NORTHWEST: break; case NORTHEST: break; }
-	 * 
-	 * return false; }
-	 */
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
@@ -61,7 +36,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public boolean gotPower(Entity e) {
 
-		if (e.m_points > 0) {
+		if (e.pointsDeVie > 0) {
 			return true;
 		}
 
@@ -88,7 +63,7 @@ public class PlayerBehaviour extends Behaviour {
 	public void pop(Entity e, Direction d) {
 		// pop=hit à faire
 		if (cell(e, d, Category.ADVERSAIRE)) {
-			ret.getBehaviour().protect(ret, d, e.degat_epee);
+			ret.getBehaviour().protect(ret, d, e.degatEpee);
 		} else if (cell(e, d, Category.JUMPABLE)) {
 			ret.getBehaviour().wizz(ret, d); // peut etre à ajuster
 		}
@@ -181,7 +156,7 @@ public class PlayerBehaviour extends Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		e.m_points -= dmg;
+		e.pointsDeVie -= dmg;
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:
