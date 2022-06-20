@@ -91,6 +91,8 @@ public class Player extends RigidBody {
 
 	public void setHungerPoints(float hungerPoints) {
 		this.hungerPoints = hungerPoints;
+		if (this.hungerPoints > maxHunger)
+			this.hungerPoints = maxHunger;
 	}
 
 	public void feed(float feedPoints) {
@@ -105,6 +107,8 @@ public class Player extends RigidBody {
 
 	public void setThirstPoints(float thirstPoints) {
 		this.thirstPoints = thirstPoints;
+		if (this.thirstPoints > maxThirst)
+			this.thirstPoints = maxThirst;
 	}
 
 	public void water(float waterPoints) {

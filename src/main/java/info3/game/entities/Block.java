@@ -5,12 +5,18 @@ import info3.game.Vec2;
 import info3.game.assets.Image;
 import info3.game.cavegenerator.BlockIDs;
 
-public class Block extends Entity {
+public class Block extends Consumable {
 	public Block(LocalController c, Vec2 position, int id) {
-		super(c);
-		this.position = position;
+		super(c, position, null);
 		Vec2 offset = BlockIDs.IDsToVec2.getOrDefault(id, new Vec2(0, 0)).multiply(-32);
 		this.avatar = this.controller.createAvatar(this.position.add(offset),
 				new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
+		this.setName("Block");
+	}
+
+	@Override
+	public void useTool() {
+		// TODO placer un bloc sur la carte
+
 	}
 }

@@ -1,15 +1,24 @@
 package info3.game;
 
+import java.util.ArrayList;
+
+import info3.game.assets.AssetServer;
 import info3.game.assets.Image;
+import info3.game.entities.Block;
+import info3.game.entities.Food;
+import info3.game.entities.Pickaxe;
 import info3.game.entities.Player;
+import info3.game.entities.PlayerColor;
+import info3.game.entities.Sword;
 import info3.game.entities.Tool;
+import info3.game.entities.Water;
 import info3.game.network.UpdateAvatar;
 
 ;
 
 public class Inventory {
 
-	public final short INVENTORY_SIZE = 4;
+	public final short INVENTORY_SIZE = 5; // pickaxe, sword, water,food, block
 	private Tool tools[];
 	private Avatar[] cells;
 	private int currentToolIndex;
@@ -178,6 +187,30 @@ public class Inventory {
 		if (this.getCurrentTool() != null)
 			System.out.print("CURRENT = " + this.getCurrentTool().getName());
 		System.out.println("]");
+
+	}
+
+	public static void main(String[] args) {
+		AssetServer.init(false);
+		ArrayList<View> views = new ArrayList<View>();
+		views.add(new RemoteView());
+		LocalController c = new LocalController(views);
+		Vec2 v = new Vec2(0, 0);
+		Player wi = new Player(c, PlayerColor.BLUE, v, true);
+
+		Tool water = new Water(c, v, wi);
+		Tool food = new Food(c, v, wi);
+		Tool sword = new Sword(c);
+		Tool pickaxe = new Pickaxe(c);
+		Tool block = new Block(c, v, 0);
+
+		wi.getInventory().pick(water);
+		wi.getInventory().pick(food);
+		wi.getInventory().pick(sword);
+		wi.getInventory().pick(pickaxe);
+		wi.getInventory().pick(block);
+
+		wi.getInventory().printInventory();
 
 	}
 
