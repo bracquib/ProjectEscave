@@ -1,5 +1,7 @@
-package info3.game.automata;
+package info3.game.automata.behaviors;
 
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 import info3.game.physics.RigidBody;
 
@@ -56,7 +58,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public boolean gotPower(Entity e) {
 
-		if (e.m_points > 0) {
+		if (e.pointsDeVie > 0) {
 			return true;
 		}
 
@@ -83,7 +85,7 @@ public class PlayerBehaviour extends Behaviour {
 	public void pop(Entity e, Direction d) {
 		// pop=hit à faire
 		if (cell(e, d, Category.ADVERSAIRE)) {
-			ret.getBehaviour().protect(ret, d, e.degat_epee);
+			ret.getBehaviour().protect(ret, d, e.degatEpee);
 		} else if (cell(e, d, Category.JUMPABLE)) {
 			ret.getBehaviour().wizz(ret, d); // peut etre à ajuster
 		}
@@ -176,7 +178,7 @@ public class PlayerBehaviour extends Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		e.m_points -= dmg;
+		e.pointsDeVie -= dmg;
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:

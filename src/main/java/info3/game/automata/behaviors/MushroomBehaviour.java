@@ -1,7 +1,9 @@
-package info3.game.automata;
+package info3.game.automata.behaviors;
 
 import info3.game.Model;
 import info3.game.Vec2;
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 import info3.game.entities.Mushroom;
 import info3.game.physics.RigidBody;
@@ -58,7 +60,7 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public boolean gotPower(Entity e) {
 
-		if (e.m_points > 0) {
+		if (e.pointsDeVie > 0) {
 			return true;
 		}
 
@@ -106,7 +108,7 @@ public class MushroomBehaviour extends Behaviour {
 	public void pop(Entity e, Direction d) {
 		// pop = hit
 		if (cell(e, d, Category.PLAYER)) {
-			ret.getBehaviour().protect(ret, d, e.degat_mob);
+			ret.getBehaviour().protect(ret, d, e.degatMob);
 		}
 		return;
 
@@ -139,7 +141,7 @@ public class MushroomBehaviour extends Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		e.m_points -= dmg;
+		e.pointsDeVie -= dmg;
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:
