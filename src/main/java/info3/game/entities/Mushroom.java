@@ -4,6 +4,7 @@ import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.assets.Image;
 import info3.game.automata.Category;
+import info3.game.automata.MushroomBehaviour;
 import info3.game.physics.RigidBody;
 
 public class Mushroom extends RigidBody {
@@ -15,6 +16,8 @@ public class Mushroom extends RigidBody {
 		childRemain = remain;
 		this.setPosition(pos);
 		this.setCategory(Category.ADVERSAIRE);
+		this.setAutomata(c.model.getAutomata("Mushroom"));
+		this.setBehaviour(new MushroomBehaviour());
 		this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
 	}
 
