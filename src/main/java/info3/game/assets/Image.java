@@ -32,8 +32,11 @@ public class Image extends Paintable {
 				this.image = ImageIO.read(imageFile);
 				this.loaded = true;
 			} catch (IOException e) {
+				System.out.println("[WARN] Couldn't read file: " + this.path);
 				return;
 			}
+		} else {
+			System.out.println("[WARN] Image file not found: " + this.path);
 		}
 	}
 

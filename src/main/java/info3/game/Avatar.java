@@ -88,6 +88,10 @@ public class Avatar {
 		this.image = this.image.duplicateFromPath(path);
 	}
 
+	public void setPaintable(Paintable p) {
+		this.image = p;
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		return other instanceof Avatar && this.id == ((Avatar) other).id;

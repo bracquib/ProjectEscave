@@ -3,6 +3,7 @@ package info3.game;
 import info3.game.assets.Paintable;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
+import info3.game.network.UpdateAvatar;
 
 public class RemoteView extends View {
 	ClientThread client;
@@ -48,5 +49,10 @@ public class RemoteView extends View {
 	@Override
 	protected int getHeight() {
 		return 768;
+	}
+
+	@Override
+	public void updateAvatar(int id, Paintable p, Vec2 pos) {
+		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, p, pos));
 	}
 }

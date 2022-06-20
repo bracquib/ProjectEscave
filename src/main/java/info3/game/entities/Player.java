@@ -19,35 +19,48 @@ public class Player extends RigidBody {
 
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
 		super(1, c, points);
-		this.setPosition(pos);
 		this.color = color;
-		this.setCategory(Category.PLAYER);
-		this.setAutomata(Model.getAutomata("Player"));
-		this.setBehaviour(new PlayerBehaviour());
-		this.avatarOffset = new Vec2(0, -4);
 		if (local) {
+			this.setPosition(pos);
+			this.setCategory(Category.PLAYER);
+			this.setAutomata(Model.getAutomata("Player"));
+			this.setBehaviour(new PlayerBehaviour());
+			this.avatarOffset = new Vec2(0, -4);
 			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200);
 			sprite.layer = 1;
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
-			// this.inventory = new Inventory(c, this);
 			this.inventory = Inventory.createInventory(c, this);
+
+			this.hungerPoints = maxHunger;
+			this.thirstPoints = maxThirst;
 		}
-		this.hungerPoints = maxHunger;
-		this.thirstPoints = maxThirst;
 	}
 
 	@Override
 	public void tick(long el) {
-
 		super.tick(el);
 		float curXSpeed = this.getSpeed().getX();
 		if (Math.abs(curXSpeed) > 5) {
-			if (curXSpeed < 0)
+			if (curXSpeed < 0) {
 				this.getSpeed().setX(curXSpeed + 3.1f);
-			else
+			} else {
 				this.getSpeed().setX(curXSpeed - 3.1f);
-		} else
+			}
+		} else {
 			this.getSpeed().setX(0);
+		}
+
+		if (this.controller.isKeyPressed(65)) { // touche A
+			this.playAnimation("spawn", 9, 100, -10);
+		}
+		if (this.controller.isKeyPressed(66)) {
+			this.playAnimation("idle-right", 6, 200, -4);
+		}
+	}
+
+	@Override
+	public String animationDir() {
+		return "player/" + this.name().toLowerCase();
 	}
 
 	private String avatarPath() {

@@ -14,6 +14,7 @@ import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
 import info3.game.network.NetworkMessage;
 import info3.game.network.SyncCamera;
+import info3.game.network.UpdateAvatar;
 import info3.game.network.Welcome;
 import info3.game.network.WheelScroll;
 import info3.game.physics.RayCasting;
@@ -189,6 +190,18 @@ public class LocalController extends Controller {
 	public void deleteAvatar(int avatarId) {
 		for (View v : this.views) {
 			v.deleteAvatar(avatarId);
+		}
+	}
+
+	public void updatePaintable(Avatar av, Paintable p) {
+		for (View v : this.views) {
+			if (v instanceof RemoteView) {
+				RemoteView rv = (RemoteView) v;
+				rv.client.send(new UpdateAvatar(av.getId(), p, av.getPosition()));
+			} else if (v instanceof LocalView) {
+				LocalView lv = (LocalView) v;
+				lv.updateAvatar(av.getId(), p, av.getPosition());
+			}
 		}
 	}
 }
