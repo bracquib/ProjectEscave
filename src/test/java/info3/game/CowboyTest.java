@@ -2,8 +2,6 @@ package info3.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Test;
 
 import info3.game.assets.AssetServer;
@@ -14,9 +12,10 @@ public class CowboyTest {
 	@Test
 	public void testCowboy() {
 		AssetServer.init(false);
-		ArrayList<View> views = new ArrayList<View>();
-		views.add(new RemoteView());
-		Cowboy c = new Cowboy(new LocalController(views), 1);
+		LocalController co = new LocalController();
+		co.addView(new RemoteView());
+
+		Cowboy c = new Cowboy(co, 1);
 		assertEquals(0, c.getPosition().x);
 		c.tick(10);
 		assertEquals(0, c.getPosition().y);
