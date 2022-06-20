@@ -37,15 +37,16 @@ public class Player extends RigidBody {
 
 	@Override
 	public void tick(long el) {
+
+		super.tick(el);
 		float curXSpeed = this.getSpeed().getX();
 		if (Math.abs(curXSpeed) > 5) {
 			if (curXSpeed < 0)
-				this.getSpeed().setX(curXSpeed + 4);
+				this.getSpeed().setX(curXSpeed + 3.1f);
 			else
-				this.getSpeed().setX(curXSpeed - 4);
+				this.getSpeed().setX(curXSpeed - 3.1f);
 		} else
 			this.getSpeed().setX(0);
-		super.tick(el);
 	}
 
 	private String avatarPath() {
