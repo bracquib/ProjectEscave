@@ -18,8 +18,8 @@ public class PhysicsWorld {
 	}
 
 	/**
-	 * Calcul tous les changements de position dans le model dû aux forces du monde
-	 * et aux collisions
+	 * Calcule tous les changements de position dans le model dûs aux forces du
+	 * monde et aux collisions
 	 * 
 	 * @param elapsed Temps écoulé depuis le dernier tick
 	 * 
@@ -171,6 +171,5 @@ public class PhysicsWorld {
 		if (Math.abs(rb.getSpeed().getX()) > MAXSPEED.getX())
 			rb.setSpeed(new Vec2(rb.getSpeed().getX() / Math.abs(rb.getSpeed().getX()) * MAXSPEED.getX(),
 					rb.getSpeed().getY()));
-
 	}
 }

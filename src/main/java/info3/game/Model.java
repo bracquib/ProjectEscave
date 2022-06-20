@@ -9,7 +9,9 @@ import info3.game.automata.Automata;
 import info3.game.automata.BotBuilder;
 import info3.game.automata.ast.AST;
 import info3.game.automata.parser.AutomataParser;
+import info3.game.cavegenerator.DecorationGenerator;
 import info3.game.cavegenerator.SpawnGenerator4D;
+import info3.game.cavegenerator.Torus;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
@@ -54,7 +56,7 @@ public class Model {
 
 	ArrayList<Vec2> spawnPoints;
 
-	private final int maxPlayers = 3;
+	private final int maxPlayers = 1;
 	private int playerCount = 0;
 
 	ArrayList<Automata> automatas;
@@ -96,15 +98,20 @@ public class Model {
 		if (Model.map2 == null) {
 			// génération de la map
 			SpawnGenerator4D generationMap = new SpawnGenerator4D();
-			int[][] blocks = generationMap.spawnStatueTotal(this.maxPlayers);
+			int[][] values = generationMap.spawnStatueTotal(this.maxPlayers);
 			this.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			List<Vec2> statues = generationMap.listSpawnStatues;
+
+			Torus torus = DecorationGenerator.decorate(values);
+			int[][] blocks = torus.toArray();
+
 			Model.map2 = new Block[blocks.length][blocks[0].length]; // this.map
 			for (int i = 0; i < blocks.length; i++) {
 				for (int j = 0; j < blocks[i].length; j++) {
-					if (blocks[i][j] == 1) {
-						Model.map2[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32), 1); // this.map
+					if (blocks[i][j] != 0) {
+						Model.map2[i][j] = new Block(this.controller, new Vec2(i * 32, j * 32), blocks[i][j], 1); // this.map
+
 					}
 				}
 			}

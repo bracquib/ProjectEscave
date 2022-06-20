@@ -24,13 +24,12 @@ import java.awt.Graphics;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import info3.game.sound.AudioPlayer;
+import java.awt.event.MouseWheelListener;
 
 /*
  * A single listener grouping all the callbacks from the GameCanvas.
  */
-public interface GameCanvasListener extends MouseListener, MouseMotionListener, KeyListener {
+public interface GameCanvasListener extends MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
 
 	/*
 	 * Called the first time the window becomes visible on the screen. This is the
