@@ -69,14 +69,14 @@ public class MushroomBehaviour extends Behaviour {
 		case NORTHEST:
 			RigidBody p = (RigidBody) e;
 			// new RigidBody(e, 1, 5);
-			p.getSpeed().setY(-120);
-			p.getSpeed().setX(70);
+			p.getSpeed().setY(-240);
+			p.getSpeed().setX(140);
 			break;
 		case NORTHWEST:
 			RigidBody p1 = (RigidBody) e;
 			// new RigidBody(e, 1, 5);
-			p1.getSpeed().setY(-120);
-			p1.getSpeed().setX(70);
+			p1.getSpeed().setY(-240);
+			p1.getSpeed().setX(140);
 			break;
 		}
 
@@ -100,10 +100,10 @@ public class MushroomBehaviour extends Behaviour {
 		// new RigidBody(e, 1, 5);
 		switch (d) {
 		case EST:
-			p.getSpeed().setX(70);
+			p.getSpeed().setX(140);
 			break;
 		case WEST:
-			p.getSpeed().setX(-70);
+			p.getSpeed().setX(-140);
 			break;
 		case SOUTH:
 			break;
@@ -124,16 +124,16 @@ public class MushroomBehaviour extends Behaviour {
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:
-			p.getSpeed().setY(-120);
+			p.getSpeed().setY(-240);
 			break;
 		case EST:
-			p.getSpeed().setX(70);
+			p.getSpeed().setX(140);
 			break;
 		case WEST:
-			p.getSpeed().setX(-70);
+			p.getSpeed().setX(-140);
 			break;
 		case NORTH:
-			p.getSpeed().setY(120);
+			p.getSpeed().setY(240);
 			break;
 		default:
 			break;

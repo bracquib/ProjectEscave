@@ -55,7 +55,7 @@ public class PlayerBehaviour extends Behaviour {
 		/*
 		 * RigidBody p = new RigidBody(e, 1, 10); p.getSpeed().setY(-120);
 		 */
-		((RigidBody) e).getSpeed().setY(-250);
+		((RigidBody) e).getSpeed().setY(-500);
 		return;
 	}
 
@@ -78,10 +78,10 @@ public class PlayerBehaviour extends Behaviour {
 		// new RigidBody(e, 1, 10);
 		switch (d) {
 		case EST:
-			p.getSpeed().setX(70);
+			p.getSpeed().setX(150);
 			break;
 		case WEST:
-			p.getSpeed().setX(-70);
+			p.getSpeed().setX(-150);
 			break;
 		case SOUTH:
 			break;
@@ -160,16 +160,16 @@ public class PlayerBehaviour extends Behaviour {
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:
-			p.getSpeed().setY(-120);
+			p.getSpeed().setY(-240);
 			break;
 		case EST:
-			p.getSpeed().setX(70);
+			p.getSpeed().setX(140);
 			break;
 		case WEST:
-			p.getSpeed().setX(-70);
+			p.getSpeed().setX(-140);
 			break;
 		case NORTH:
-			p.getSpeed().setY(120);
+			p.getSpeed().setY(240);
 			break;
 		default:
 			break;
