@@ -57,8 +57,8 @@ public class PlayerBehaviour extends Behaviour {
 		/*
 		 * RigidBody p = new RigidBody(e, 1, 10); p.getSpeed().setY(-120);
 		 */
-		((RigidBody) e).getSpeed().setY(-270);
-		return;
+//		((RigidBody) e).getSpeed().setY(-270);
+//		return;
 	}
 
 	@Override
@@ -111,6 +111,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
+		((RigidBody) e).getSpeed().setY(-270);
 	}
 
 	@Override
