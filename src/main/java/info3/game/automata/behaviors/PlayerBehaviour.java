@@ -1,6 +1,7 @@
 package info3.game.automata.behaviors;
 
 import info3.game.Inventory;
+import info3.game.Model;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
@@ -162,6 +163,10 @@ public class PlayerBehaviour extends Behaviour {
 		e.pointsDeVie -= dmg;
 		System.out.println("HP=" + e.pointsDeVie);
 		RigidBody p = (RigidBody) e;
+		if (e.pointsDeVie == 0) {
+			System.out.println("mort du joueur");
+			Model.deleteentities(p);
+		}
 		switch (d) {
 		case SOUTH:
 			p.getSpeed().setY(-240);
