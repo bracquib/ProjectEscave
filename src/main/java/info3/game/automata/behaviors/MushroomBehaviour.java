@@ -57,15 +57,6 @@ public class MushroomBehaviour extends Behaviour {
 		// wizz=jump
 
 		switch (d) {
-		case NORTH:
-			break;
-		case SOUTH:
-			break;
-		case EST:
-			break;
-		case WEST:
-			break;
-
 		case NORTHEST:
 			RigidBody p = (RigidBody) e;
 			// new RigidBody(e, 1, 5);
@@ -78,6 +69,8 @@ public class MushroomBehaviour extends Behaviour {
 			p1.getSpeed().setY(-270);
 			p1.getSpeed().setX(150);
 			break;
+		default:
+			break;
 		}
 
 		return;
@@ -86,6 +79,7 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop = hit
+		System.out.println("Pop");
 		if (cell(e, d, Category.PLAYER)) {
 			ret.getBehaviour().protect(ret, d, e.degatMob);
 		}

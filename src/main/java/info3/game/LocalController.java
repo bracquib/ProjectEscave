@@ -7,6 +7,7 @@ import java.util.List;
 import info3.game.assets.Paintable;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
+import info3.game.entities.Mushroom;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
@@ -57,6 +58,9 @@ public class LocalController extends Controller {
 	public void keyPressed(Player p, KeyPress e) {
 		System.out.println("[DEBUG] " + p.name() + " pressed " + e.code);
 		this.addPressedKey(e.code);
+		if (e.code == 32) {
+			Model.spawn(new Mushroom(p.getController(), p.getPosition(), 1, 1));
+		}
 	}
 
 	@Override

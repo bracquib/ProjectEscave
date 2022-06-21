@@ -96,6 +96,10 @@ public class BotBuilder implements IVisitor {
 	}
 
 	public info3.game.automata.Direction astDirectionToinfo3Direction(Direction d) {
+		if (d.terminal.content.equals("NW"))
+			return info3.game.automata.Direction.NORTHWEST;
+		else if (d.terminal.content.equals("NE"))
+			return info3.game.automata.Direction.NORTHWEST;
 		switch (d.terminal.content.charAt(0)) {
 		case 'N':
 			return info3.game.automata.Direction.NORTH;
@@ -108,12 +112,7 @@ public class BotBuilder implements IVisitor {
 		case 'H':
 			return info3.game.automata.Direction.HERE;
 		}
-		if (d.terminal.content.equals("NW"))
-			return info3.game.automata.Direction.NORTHWEST;
-		else if (d.terminal.content.equals("NE"))
-			return info3.game.automata.Direction.NORTHWEST;
-		else
-			return null;
+		return null;
 	}
 
 	public info3.game.automata.Category astCategoryToinfo3Category(Category c) {
@@ -124,7 +123,7 @@ public class BotBuilder implements IVisitor {
 			return info3.game.automata.Category.JUMPABLE;
 		case 'O':
 			return info3.game.automata.Category.OBJECT;
-		case 'P':
+		case '@':
 			return info3.game.automata.Category.PLAYER;
 		case 'T':
 			return info3.game.automata.Category.TEAM;
