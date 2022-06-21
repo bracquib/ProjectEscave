@@ -7,44 +7,34 @@ import info3.game.entities.Mushroom;
 import info3.game.entities.Player;
 
 public class MobSpawner {
-	private LocalController c;
-
-	private final static int MAXENTITY = 30;
+	private final static int MAXENTITY = 100;
 	private final static int BLOC_SIZE = 32;
 
-	public final static int MIN_SPAWN_DISTANCE = 40;
-	public final static int MAX_SPAWN_DISTANCE = 70;
-	public final static float SPAWN_PROBA = 0.001f;
+	public final static int MIN_SPAWN_DISTANCE = 10;
+	public final static int MAX_SPAWN_DISTANCE = 15;
+	public final static float SPAWN_PROBA = 0.0001f;
 
-	MobSpawner(LocalController c) {
-		this.c = c;
-	}
-
-	public void tick() {
+	public static void tick() {
 		ArrayList<Player> players = Model.getPlayers();
 
-		if (Model.allEntities().size() >= MAXENTITY)
+		if (Model.getEntities().size() >= MAXENTITY) {
+			System.out.println("Max d'entités atteint");
 			return;
+		}
 
-		// Pour chaque joueur, essaye de spawn un mob autour
 		for (Player player : players) {
 			Block[][] inRangeBlocks = getInRangeBlocks(player.getPosition(), MIN_SPAWN_DISTANCE, MAX_SPAWN_DISTANCE);
 			randomSpawn(inRangeBlocks);
-
 		}
-
-		// Nombre random pour décider de si ca spawn ou non
-		// Trouve un bloc de sol dans la range
-		// Check si ce bloc est à une distance
-		// supérieur Ã  MIN_SPAWN_DISTANCE de tous les autres joueurs
-		// Spawn du mob
 	}
 
-	public void randomSpawn(Block[][] blocks) {
+	private static void randomSpawn(Block[][] blocks) {
 		for (int i = 0; i < blocks.length; i++) {
 			for (int j = 0; j < blocks[0].length; j++) {
 				Block bl = blocks[i][j];
-				if (!isInPlayerRange(bl))
+				if (bl == null)
+					continue;
+				if (isInPlayerRange(bl))
 					blocks[i][j] = null;
 				else {
 					int rand = (int) Math.floor((float) Math.random() + SPAWN_PROBA);
@@ -55,22 +45,15 @@ public class MobSpawner {
 				}
 			}
 		}
-
 	}
 
-	private void spawn(Block block) {
-		Mushroom mob = Mushroom.createMushroom(this.c, block.getPosition());
+	private static void spawn(Block block) {
+		System.out.println("Spawn de mushroom RN");
+		Mushroom mob = new Mushroom(block.getPosition());
 		Model.spawn(mob);
-		return;
 	}
 
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-	private Block[][] getInRangeBlocks(Vec2 center, int rangeMin, int rangeMax) {
+	private static Block[][] getInRangeBlocks(Vec2 center, int rangeMin, int rangeMax) {
 		Vec2 coords = new Vec2(center.getX() / BLOC_SIZE, center.getY() / BLOC_SIZE).round();
 		Block[][] mapZone = Model.getMapZone((int) coords.getX() - rangeMax, (int) coords.getY() - rangeMax, rangeMax,
 				rangeMax);
@@ -92,7 +75,7 @@ public class MobSpawner {
 					blocks[i][j] = null;
 					continue;
 				}
-				if (mapZone[i][j + 1] != null && mapZone[i][j + 2] != null) {
+				if (mapZone[i][j - 1] != null || mapZone[i][j - 2] != null) {
 					blocks[i][j] = null;
 				}
 			}
@@ -100,7 +83,9 @@ public class MobSpawner {
 		return blocks;
 	}
 
-	private boolean isInPlayerRange(Block block) {
+	private static boolean isInPlayerRange(Block block) {
+		if (block == null)
+			return false;
 		for (Player player : Model.getPlayers()) {
 			if (!(block.getPosition().sub(player.getPosition()).length() > MIN_SPAWN_DISTANCE * BLOC_SIZE)) {
 				return false;

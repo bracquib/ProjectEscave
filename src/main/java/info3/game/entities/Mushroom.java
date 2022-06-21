@@ -12,6 +12,14 @@ public class Mushroom extends RigidBody {
 
 	public int childRemain;
 
+	public Mushroom(Vec2 pos) {
+		super(1, Model.controller, 100);
+		childRemain = 3;
+		this.setPosition(pos);
+		this.setCategory(Category.ADVERSAIRE);
+		this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
+	}
+
 	public Mushroom(LocalController c, Vec2 pos, int points, int remain) {
 		super(1, c, points);
 		childRemain = remain;
@@ -28,6 +36,6 @@ public class Mushroom extends RigidBody {
 	}
 
 	private String avatarPath() {
-		return "mushroom.png";
+		return "mole.png";
 	}
 }
