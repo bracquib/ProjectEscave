@@ -56,18 +56,6 @@ public class InventaireBehaviour extends Behaviour {
 	@Override
 	public void move(Entity e, Direction d) {
 		// pas besoin
-		Inventory p = (Inventory) e;
-		switch (d) {
-		case WEST:
-			p.moveLCurrentTool();
-			break;
-		case EST:
-			p.moveRCurrentTool();
-			break;
-		default:
-			break;
-		}
-
 	}
 
 	@Override
@@ -117,7 +105,7 @@ public class InventaireBehaviour extends Behaviour {
 	@Override
 	public void get(Entity e) {
 		// se déplaçer dans l'inventaire
-
+		// mouseScroll(Player e, WheelScroll wheelScroll);
 	}
 
 	@Override

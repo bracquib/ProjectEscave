@@ -28,7 +28,7 @@ Inventaire(Init){
 	|Cell(W,P)? Wizz(W):(Non_plein)
 	|Cell(E,P)? Wizz(E):(Non_plein)
     |Key(t)&GotStuff? Throw:(Non_plein)
-    |Key(j)?Get:(Non_plein)
+    |Key(j)?Get(E):(Non_plein)
     |Key(p)&GotStuff?Pop:(Non_plein)
 	|True?		:(Non_plein)
 	

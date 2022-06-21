@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import info3.game.assets.Paintable;
-import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Mushroom;
 import info3.game.entities.Player;
@@ -19,7 +18,6 @@ import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 import info3.game.network.Welcome;
 import info3.game.network.WheelScroll;
-import info3.game.physics.RayCasting;
 
 public class LocalController extends Controller {
 	List<View> views;
@@ -60,11 +58,13 @@ public class LocalController extends Controller {
 	public void keyPressed(Player p, KeyPress e) {
 		System.out.println("[DEBUG] " + p.name() + " pressed " + e.code);
 		this.addPressedKey(e.code);
+
 		if (e.code == 32) {
 			Vec2 newPos = new Vec2(p.getPosition());
 			newPos.setX(newPos.getX() + 64);
 			Model.spawn(new Statue(p.getController(), p, newPos, 1));
 		}
+
 		if (e.code == 67) {
 			Vec2 newPos = new Vec2(p.getPosition());
 			newPos.setX(newPos.getX() + 64);
@@ -208,12 +208,12 @@ public class LocalController extends Controller {
 		player.mousePos = mouse;
 		player.getBehaviour().pop(player, null);
 		/*
-		Block underCursor = Model.getBlock((int) mouse.getX() / 32, (int) mouse.getY() / 32);
-		Block target = RayCasting.singleCast(mouse, player.getPosition().add(16), 3);
-		if (target != null && target == underCursor) {
-			Vec2 coords = new Vec2(target.getPosition()).divide(32);
-			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
-		}*/
+		 * Block underCursor = Model.getBlock((int) mouse.getX() / 32, (int)
+		 * mouse.getY() / 32); Block target = RayCasting.singleCast(mouse,
+		 * player.getPosition().add(16), 3); if (target != null && target ==
+		 * underCursor) { Vec2 coords = new Vec2(target.getPosition()).divide(32);
+		 * Model.deleteBlock((int) coords.getX(), (int) coords.getY()); }
+		 */
 	}
 
 	@Override
