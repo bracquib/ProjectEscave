@@ -28,6 +28,6 @@ public class Mushroom extends RigidBody {
 	}
 
 	private String avatarPath() {
-		return "mushroom.png";
+		return "mole-violet.png";
 	}
 }

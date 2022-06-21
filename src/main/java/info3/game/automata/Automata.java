@@ -22,7 +22,7 @@ public class Automata {
 	public void step(Entity e, AutomataState s) {
 		AutomataState newState = s.step(e);
 		if (newState != null)
-			e.setCurrentState(new CurrentState(s));
+			e.setCurrentState(new CurrentState(newState));
 	}
 
 	public void setInitialState(AutomataState state) {
