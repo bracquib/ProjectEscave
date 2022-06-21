@@ -19,9 +19,12 @@ public class Automata {
 		this.states = states;
 	}
 
-	public void step(Entity e, AutomataState s) {
+	public void step(Entity e, AutomataState s, long elapsed) {
+		e.getCurrentState().step(elapsed);
+		if (e.getCurrentState().blocked())
+			return;
 		AutomataState newState = s.step(e);
-		if (newState != null)
+		if (newState != null && this.states.contains(newState))
 			e.setCurrentState(new CurrentState(newState));
 	}
 

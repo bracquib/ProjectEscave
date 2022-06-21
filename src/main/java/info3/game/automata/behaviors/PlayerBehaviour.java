@@ -57,8 +57,10 @@ public class PlayerBehaviour extends Behaviour {
 		/*
 		 * RigidBody p = new RigidBody(e, 1, 10); p.getSpeed().setY(-120);
 		 */
-		((RigidBody) e).getSpeed().setY(-270);
-		return;
+//		((RigidBody) e).getSpeed().setY(-270);
+//		return;
+		// wizz = prise de contrôle de la statue
+		// e.setCategory(Category.SOMETHING);
 	}
 
 	@Override
@@ -106,6 +108,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
+		((RigidBody) e).getSpeed().setY(-270);
 	}
 
 	@Override
@@ -157,16 +160,17 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
 		e.pointsDeVie -= dmg;
+		System.out.println("HP=" + e.pointsDeVie);
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:
 			p.getSpeed().setY(-240);
 			break;
 		case EST:
-			p.getSpeed().setX(140);
+			p.getSpeed().setX(240);
 			break;
 		case WEST:
-			p.getSpeed().setX(-140);
+			p.getSpeed().setX(-240);
 			break;
 		case NORTH:
 			p.getSpeed().setY(240);

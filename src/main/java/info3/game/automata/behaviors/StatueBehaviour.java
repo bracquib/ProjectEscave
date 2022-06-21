@@ -4,6 +4,7 @@ import info3.game.Model;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
+import info3.game.entities.Statue;
 import info3.game.physics.RigidBody;
 
 public class StatueBehaviour extends Behaviour {
@@ -16,7 +17,6 @@ public class StatueBehaviour extends Behaviour {
 	@Override
 	public boolean key(Entity e, int keyCode) {
 		return e.getController().isKeyPressed(keyCode);
-
 	}
 
 	@Override
@@ -46,20 +46,23 @@ public class StatueBehaviour extends Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// activer la statue et le il y a un transfert d'automate
-		e.setCategory(Category.PLAYER);
-		e.setAutomata(Model.getAutomata("Player"));
+		Statue s = (Statue) e;
+		s.setCategory(Category.PLAYER);
+		s.setAutomata(Model.getAutomata("Player"));
+		s.getPlayer().setCategory(Category.SOMETHING);
+		// TODO: Set la camera !!
+//		e.getController().sendTo(e.getController().v.getPlayer(),
+//				new SyncCamera(e.getController().v.getPlayer().getAvatar()));
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
-		// pas besoin
-
+		// pop=hit
 	}
 
 	@Override
 	public void move(Entity e, Direction d) {
 		RigidBody p = (RigidBody) e;
-		// new RigidBody(e, 1, 10);
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(140);
@@ -69,16 +72,6 @@ public class StatueBehaviour extends Behaviour {
 			break;
 		default:
 			break;
-		/*case SOUTH:
-			break;
-		case NORTH:
-			break;
-		case NORTHWEST:
-			break;
-		case NORTHEST:
-			break;
-			*/
-
 		}
 
 		return;
@@ -87,10 +80,12 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-
-		e.setAutomata(Model.getAutomata("Statue"));
-		return;
-
+		Statue s = (Statue) e;
+		s.getSpeed().setX(0);
+		s.setCategory(Category.TEAM);
+		s.setAutomata(Model.getAutomata("Statue"));
+		s.getPlayer().setCategory(Category.PLAYER);
+		s.getPlayer().setAutomata(Model.getAutomata("Player"));
 	}
 
 	@Override
