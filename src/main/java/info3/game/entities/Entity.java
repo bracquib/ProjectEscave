@@ -141,7 +141,7 @@ public abstract class Entity {
 			this.avatar.tick(elapsed);
 		}
 		if (this.automata != null && this.currentState != null) {
-			this.automata.step(this, this.currentState.getState());
+			this.automata.step(this, this.currentState.getState(), elapsed);
 		}
 	}
 
@@ -174,5 +174,9 @@ public abstract class Entity {
 
 	public void setCurrentState(CurrentState s) {
 		this.currentState = s;
+	}
+
+	public CurrentState getCurrentState() {
+		return this.currentState;
 	}
 }

@@ -52,8 +52,8 @@ Player(Init){
 
 Mushroom(Init){
 	*(Init):
-	| Cell(W,@) ? Pop(W) :(Cooldown)
-	| Cell(H,@) ? Pop(E) :(Cooldown)
+	| Cell(W,@) ? Move(S) & Pop(W) :(Cooldown1000)
+	| Cell(H,@) ? Move(S) & Pop(E) :(Cooldown1000)
 
 	| Closest(@,E) & Cell(E,J) ? Wizz(NE) :(Init)
 	| Closest(@,W) & Cell(W,J) ? Wizz(NW) :(Init)
@@ -63,7 +63,7 @@ Mushroom(Init){
 
 	| True ? Move(S) :(Init)
 	
-	*(Cooldown)
+	*(Cooldown1000)
 	| True ? :(Init)
 	
 	*(Mort)
