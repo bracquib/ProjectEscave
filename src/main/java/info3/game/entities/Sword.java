@@ -9,8 +9,8 @@ public class Sword extends Weapon {
 	int mobDmg = 50;
 	int blockDmg = 0; // dmg à ajuster plus tard
 
-	public Sword(LocalController c) {
-		super(c);
+	public Sword(LocalController c, Player owner) {
+		super(c, owner);
 		this.setName("Sword");
 	}
 

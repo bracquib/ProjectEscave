@@ -226,8 +226,8 @@ public class Inventory extends Entity {
 
 	public static Inventory createInventory(LocalController c, Player owner) {
 		Inventory inv = new Inventory(c, owner);
-		inv.addCouple(new InventoryCouple(new Pickaxe(c), 1));
-		inv.addCouple(new InventoryCouple(new Sword(c), 1));
+		inv.addCouple(new InventoryCouple(new Pickaxe(c, owner), 1));
+		inv.addCouple(new InventoryCouple(new Sword(c, owner), 1));
 		inv.addCouple(new InventoryCouple(new Water(c, owner), 10));
 		inv.addCouple(new InventoryCouple(new Food(c, owner), 10));
 		inv.addCouple(new InventoryCouple(new Block(c, owner), 10));
