@@ -72,6 +72,7 @@ public class PlayerBehaviour extends Behaviour {
 		 */
 		Player p = (Player) e;
 		Inventory inv = p.getInventory();
+		inv.mousePos = p.mousePos;
 		inv.getBehaviour().pop(inv, d);
 
 	}
@@ -88,13 +89,7 @@ public class PlayerBehaviour extends Behaviour {
 		case WEST:
 			p.getSpeed().setX(-190);
 			break;
-		case SOUTH:
-			break;
-		case NORTH:
-			break;
-		case NORTHWEST:
-			break;
-		case NORTHEST:
+		default:
 			break;
 
 		}

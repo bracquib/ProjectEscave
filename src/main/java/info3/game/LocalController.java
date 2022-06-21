@@ -197,12 +197,15 @@ public class LocalController extends Controller {
 	@Override
 	protected void mouseClick(Player player, MouseClick mouseClick) {
 		Vec2 mouse = mouseClick.position.screenToGlobal(this.viewFor(player).camera.getPos());
+		player.mousePos = mouse;
+		player.getBehaviour().pop(player, null);
+		/*
 		Block underCursor = Model.getBlock((int) mouse.getX() / 32, (int) mouse.getY() / 32);
 		Block target = RayCasting.singleCast(mouse, player.getPosition().add(16), 3);
 		if (target != null && target == underCursor) {
 			Vec2 coords = new Vec2(target.getPosition()).divide(32);
 			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
-		}
+		}*/
 	}
 
 	@Override

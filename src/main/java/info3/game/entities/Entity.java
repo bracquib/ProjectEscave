@@ -48,6 +48,7 @@ public abstract class Entity {
 	public int degatPioche;
 	protected Category category;
 	protected Vec2 avatarOffset;
+	public Vec2 mousePos;
 
 	protected LocalController controller;
 

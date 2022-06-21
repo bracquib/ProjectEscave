@@ -67,7 +67,9 @@ public class StatueBehaviour extends Behaviour {
 		case WEST:
 			p.getSpeed().setX(-140);
 			break;
-		case SOUTH:
+		default:
+			break;
+		/*case SOUTH:
 			break;
 		case NORTH:
 			break;
@@ -75,6 +77,7 @@ public class StatueBehaviour extends Behaviour {
 			break;
 		case NORTHEST:
 			break;
+			*/
 
 		}
 
