@@ -14,11 +14,12 @@ public class Sword extends Weapon {
 		this.setName("Sword");
 	}
 
-	public void useTool(Direction d) {
+	public boolean useTool(Direction d) {
 		Behaviour behav = owner.getBehaviour();
 		if (behav.cell(owner, d, Category.ADVERSAIRE)) {
 			behav.ret.getBehaviour().protect(behav.ret, d, mobDmg);
 		}
+		return true;
 		/*
 		 * else if (behav.cell(owner, d, Category.JUMPABLE)) {
 		 * behav.ret.getBehaviour().wizz(behav.ret, d);

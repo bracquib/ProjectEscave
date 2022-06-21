@@ -71,6 +71,7 @@ public class Inventory extends Entity {
 	// décale la selection d'un cran vers la droite
 	public void moveRCurrentTool() {
 		this.selectCurrentTool((this.currentToolIndex + 1) % INVENTORY_SIZE);
+		System.out.println(getCurrentTool());
 	}
 
 	// décale la selection d'un cran vers la gauche
@@ -132,18 +133,16 @@ public class Inventory extends Entity {
 
 		if (!current.isSpecial()) {
 			if (couple.getNumber() > 0) {
-				current.useTool(d);
-			} else {
-				return false;
+				if (current.useTool(d)) {
+					this.drop(); // enlève 1 à la qtté
+					return true;
+				}
 			}
 		} else {
 			current.useTool(d);
 			return true;
 		}
-
-		this.drop(); // enlève 1 à la qtté
-		return true;
-
+		return false;
 	}
 
 	// l'inventaire est dit vide s'il ne contient aucun consumable
@@ -229,9 +228,9 @@ public class Inventory extends Entity {
 		Inventory inv = new Inventory(c, owner);
 		inv.addCouple(new InventoryCouple(new Pickaxe(c), 1));
 		inv.addCouple(new InventoryCouple(new Sword(c), 1));
-		inv.addCouple(new InventoryCouple(new Water(c, owner)));
-		inv.addCouple(new InventoryCouple(new Food(c, owner)));
-		inv.addCouple(new InventoryCouple(new Block(c), 10));
+		inv.addCouple(new InventoryCouple(new Water(c, owner), 10));
+		inv.addCouple(new InventoryCouple(new Food(c, owner), 10));
+		inv.addCouple(new InventoryCouple(new Block(c, owner), 10));
 		return inv;
 	}
 }

@@ -29,9 +29,9 @@ public class Water extends Consumable {
 	}
 
 	@Override
-	public void useTool(Direction d) {
+	public boolean useTool(Direction d) {
 		owner.water(waterValue);
-
+		return true;
 	}
 
 }

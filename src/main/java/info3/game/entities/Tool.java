@@ -14,7 +14,7 @@ public abstract class Tool extends Entity {
 		super(c, 0);
 	}
 
-	public abstract void useTool(Direction d);
+	public abstract boolean useTool(Direction d);
 
 	public String getName() {
 		return this.name;

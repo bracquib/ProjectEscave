@@ -28,43 +28,46 @@ public class Block extends Consumable {
 		this.setName("Block");
 	}
 
-	public Block(LocalController c) {
-		super(c, null);
+	public Block(LocalController c, Player owner) {
+		super(c, owner);
 		this.setCategory(Category.JUMPABLE);
 		this.setName("Block");
+
 	}
 
 	@Override
-	public void useTool(Direction d) {
+	public boolean useTool(Direction d) {
 		// Behaviour behav = owner.getBehaviour();
 		int decX, decY;
 		switch (d) {
 		case NORTH:
 			decX = 0;
-			decY = -32;
+			decY = -1;
 			break;
 		case SOUTH:
 			decX = 0;
-			decY = 32;
+			decY = 1;
 			break;
 		case EST:
-			decX = 32;
+			decX = 1;
 			decY = 0;
 			break;
 		case WEST:
-			decX = -32;
+			decX = -1;
 			decY = 0;
 			break;
 		default:
 			decX = decY = 0;
 		}
-		Vec2 pos = owner.getPosition();
+		Vec2 pos = owner.getPosition(); // pas owner car celui du bloc est null,
+		// mais bien celui en paramètre, player possédant l'inventaire
 		int i = ((int) pos.getX() / 32) + decX;
 		int j = ((int) pos.getY() / 32) + decY;
 		Block place = Model.getBlock(i, j);
 		if (place == null) {
 			Model.getMap()[i][j] = new Block(Model.controller, new Vec2(i * 32, j * 32), 1, 1);
-			// TODO placer un bloc sur la carte
+			return true;
 		}
+		return false;
 	}
 }

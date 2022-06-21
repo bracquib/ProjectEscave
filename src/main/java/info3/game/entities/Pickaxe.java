@@ -14,12 +14,13 @@ public class Pickaxe extends Weapon {
 		this.setName("Pickaxe");
 	}
 
-	public void useTool(Direction d) {
+	public boolean useTool(Direction d) { // pas owner de pickaxe car null
 		Behaviour behav = owner.getBehaviour();
 		if (behav.cell(owner, d, Category.ADVERSAIRE)) {
 			behav.ret.getBehaviour().protect(behav.ret, d, mobDmg);
 		} else if (behav.cell(owner, d, Category.JUMPABLE)) {
 			behav.ret.getBehaviour().wizz(behav.ret, d);
 		}
+		return true;
 	}
 }
