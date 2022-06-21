@@ -45,6 +45,9 @@ Player(Init){
 	| Key(FU) & Cell(S, J) ? Wizz() :(Init)
 	| Key(FL) ? Move(W) :(Init)
 	| Key(FR) ? Move(E) :(Init)
+	| Key(SPACE)&Key(d) ? Pop(E) :(Init)
+	| Key(SPACE)&Key(q) ? Pop(W) :(Init)
+	| Key(SPACE)&Key(z) ? Pop(N) :(Init)
 }
 
 Mushroom(Init){

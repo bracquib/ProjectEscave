@@ -168,6 +168,21 @@ public class LocalController extends Controller {
 		case 782: // FR
 			realKeyCode = 39;
 			break;
+		case 910: // SPace
+			realKeyCode = 32;
+			break;
+		case 100: // d
+			realKeyCode = 68;
+			break;
+		case 113: // q
+			realKeyCode = 81;
+			break;
+		case 115: // s
+			realKeyCode = 83;
+			break;
+		case 122: // z
+			realKeyCode = 90;
+			break;
 		default:
 			realKeyCode = code;
 			break;

@@ -74,7 +74,7 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(Key key) {
-		if (key.terminal.content.length() == 2)
+		if (key.terminal.content.length() != 1)
 			return (int) (key.terminal.content.charAt(0)) * 10 + (int) key.terminal.content.charAt(1);
 		return (int) key.terminal.content.charAt(0);
 	}
