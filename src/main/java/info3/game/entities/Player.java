@@ -56,6 +56,28 @@ public class Player extends RigidBody {
 		if (this.controller.isKeyPressed(66)) {
 			this.playAnimation("idle-right", 6, 200, -4);
 		}
+		if (this.controller.isKeyPressed(67)) {
+			this.playAnimation("attack", 5, 200, -4);
+		}
+		if (this.controller.isKeyPressed(68)) {
+			this.playAnimation("check", 6, 200, -4);
+		}
+		if (this.controller.isKeyPressed(69)) {
+			this.playAnimation("dig", 21, 200, -4);
+		}
+		if (this.controller.isKeyPressed(70)) {
+			this.playAnimation("idle-left", 6, 200, -4);
+		}
+		if (this.controller.isKeyPressed(71)) {
+			this.playAnimation("mine", 5, 200, -32);
+		}
+		if (this.controller.isKeyPressed(72)) {
+			this.playAnimation("walk-left", 5, 200, -4);
+		}
+		if (this.controller.isKeyPressed(73)) {
+			this.playAnimation("walk-right", 5, 100, -4);
+		}
+
 	}
 
 	@Override
