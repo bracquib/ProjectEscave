@@ -60,6 +60,7 @@ public class LocalController extends Controller {
 		this.addPressedKey(e.code);
 		if (e.code == 32) {
 			Model.spawn(new Mushroom(p.getController(), p.getPosition(), 1, 1));
+			// Model.spawn(new Statue(p.getController(), p.getColor(), p.getPosition(), 1));
 		}
 	}
 

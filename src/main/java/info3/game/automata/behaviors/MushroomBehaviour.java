@@ -10,8 +10,6 @@ import info3.game.physics.RigidBody;
 
 public class MushroomBehaviour extends Behaviour {
 
-	Entity ret; // attribut de retour pour savoir a qui mettre les degats
-
 	@Override
 	public boolean true_(Entity e) {
 		return true;
@@ -79,9 +77,9 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop = hit
-		System.out.println("Pop");
-		if (cell(e, d, Category.PLAYER)) {
-			ret.getBehaviour().protect(ret, d, e.degatMob);
+		if (cell(e, Direction.HERE, Category.PLAYER)) {
+			System.out.println("Mushroom hit player?");
+			super.ret.getBehaviour().protect(ret, d, e.degatMob);
 		}
 		return;
 
@@ -94,10 +92,10 @@ public class MushroomBehaviour extends Behaviour {
 		// new RigidBody(e, 1, 5);
 		switch (d) {
 		case EST:
-			p.getSpeed().setX(150);
+			p.getSpeed().setX(50);
 			break;
 		case WEST:
-			p.getSpeed().setX(-150);
+			p.getSpeed().setX(-50);
 			break;
 		case SOUTH:
 			break;

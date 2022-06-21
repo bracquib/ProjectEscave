@@ -162,16 +162,17 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
 		e.pointsDeVie -= dmg;
+		System.out.println("HP=" + e.pointsDeVie);
 		RigidBody p = (RigidBody) e;
 		switch (d) {
 		case SOUTH:
 			p.getSpeed().setY(-240);
 			break;
 		case EST:
-			p.getSpeed().setX(140);
+			p.getSpeed().setX(240);
 			break;
 		case WEST:
-			p.getSpeed().setX(-140);
+			p.getSpeed().setX(-240);
 			break;
 		case NORTH:
 			p.getSpeed().setY(240);
