@@ -256,4 +256,14 @@ public class Model {
 		}
 		return resMap;
 	}
+
+	public static ArrayList<Player> getPlayers() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		for (RigidBody rb : Model.entities) {
+			if (rb instanceof Player) {
+				players.add((Player) rb);
+			}
+		}
+		return players;
+	}
 }
