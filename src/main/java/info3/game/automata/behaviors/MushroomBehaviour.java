@@ -97,6 +97,9 @@ public class MushroomBehaviour extends Behaviour {
 		case WEST:
 			p.getSpeed().setX(-50);
 			break;
+		case SOUTH:
+			p.getSpeed().setX(0);
+			break;
 		default:
 			break;
 		}
