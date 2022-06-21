@@ -73,6 +73,10 @@ public class Model {
 		Model.loadAutomatas();
 	}
 
+	public static void deleteentities(RigidBody e) {
+		entities.remove(e);
+	}
+
 	/**
 	 * Ajoute une entité dans le monde.
 	 * 

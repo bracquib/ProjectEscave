@@ -110,6 +110,9 @@ public class MushroomBehaviour extends Behaviour {
 	public void protect(Entity e, Direction d, int dmg) {
 		e.pointsDeVie -= dmg;
 		RigidBody p = (RigidBody) e;
+		if (e.pointsDeVie == 0) {
+			Model.deleteentities(p);
+		}
 		switch (d) {
 		case SOUTH:
 			p.getSpeed().setY(-240);

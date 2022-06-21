@@ -70,6 +70,8 @@ public class StalactiteBehaviour extends Behaviour {
 				e1.getBehaviour().wizz(ret, d);
 			}
 		}
+		RigidBody p = (RigidBody) e;
+		Model.deleteentities(p);
 		return;
 	}
 
