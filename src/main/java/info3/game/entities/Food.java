@@ -29,8 +29,9 @@ public class Food extends Consumable {
 	}
 
 	@Override
-	public void useTool(Direction d) {
+	public boolean useTool(Direction d) {
 		owner.feed(feedValue);
+		return true;
 	}
 
 }
