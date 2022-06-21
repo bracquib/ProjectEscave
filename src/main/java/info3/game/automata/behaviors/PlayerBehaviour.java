@@ -59,6 +59,8 @@ public class PlayerBehaviour extends Behaviour {
 		 */
 //		((RigidBody) e).getSpeed().setY(-270);
 //		return;
+		// wizz = prise de contrôle de la statue
+		// e.setCategory(Category.SOMETHING);
 	}
 
 	@Override

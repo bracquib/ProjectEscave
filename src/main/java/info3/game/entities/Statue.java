@@ -10,11 +10,13 @@ import info3.game.physics.RigidBody;
 
 public class Statue extends RigidBody {
 	PlayerColor color;
+	Player player;
 
-	public Statue(LocalController c, PlayerColor color, Vec2 pos, int points) {
+	public Statue(LocalController c, Player p, Vec2 pos, int points) {
 		super(1, c, points);
 		this.setPosition(pos);
-		this.color = color;
+		this.player = p;
+		this.color = this.player.getColor();
 		this.setAutomata(Model.getAutomata("Statue"));
 		this.setBehaviour(new StatueBehaviour());
 		this.setCategory(Category.TEAM);
@@ -23,5 +25,9 @@ public class Statue extends RigidBody {
 
 	private String avatarPath() {
 		return "mole-violet.png";
+	}
+
+	public Player getPlayer() {
+		return this.player;
 	}
 }
