@@ -46,8 +46,9 @@ public class StatueBehaviour extends Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		// activer la statue et le il y a un transfert d'automate
-		e.setCategory(Category.PLAYER);
-		e.setAutomata(Model.getAutomata("Player"));
+		System.out.println("Statue CELL");
+		// e.setCategory(Category.PLAYER);
+		// e.setAutomata(Model.getAutomata("Player"));
 	}
 
 	@Override
@@ -59,7 +60,6 @@ public class StatueBehaviour extends Behaviour {
 	@Override
 	public void move(Entity e, Direction d) {
 		RigidBody p = (RigidBody) e;
-		// new RigidBody(e, 1, 10);
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(140);
@@ -69,16 +69,6 @@ public class StatueBehaviour extends Behaviour {
 			break;
 		default:
 			break;
-		/*case SOUTH:
-			break;
-		case NORTH:
-			break;
-		case NORTHWEST:
-			break;
-		case NORTHEST:
-			break;
-			*/
-
 		}
 
 		return;

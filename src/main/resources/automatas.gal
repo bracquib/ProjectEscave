@@ -42,7 +42,7 @@ Inventaire(Init){
 
 Player(Init){
 	*(Init)
-	| Key(FU) ? Wizz() :(Init)
+	| Key(FU) & Cell(S, J) ? Wizz() :(Init)
 	| Key(FL) ? Move(W) :(Init)
 	| Key(FR) ? Move(E) :(Init)
 	| Key(SPACE)&Key(d) ? Pop(E) :(Init)
@@ -51,38 +51,28 @@ Player(Init){
 }
 
 Mushroom(Init){
-	* (Init)
-	| True ? :(Actif_sol)
+	*(Init):
+	| Cell(W,@) ? Pop(W) :(Cooldown)
+	| Cell(H,@) ? Pop(E) :(Cooldown)
 
-	*(Actif_sol):
-	| Cell(E,@) ? Pop(E) :(Actif_sol)
-	| Cell(W,@) ? Pop(W) :(Actif_sol)
-	| Cell(N,@) ? Pop(N) :(Actif_sol)
-	| Cell(S,@) ? Pop(S) :(Actif_sol)
-
-	| Closest(@,E) & Cell(E,J) ? Wizz(NE) :(Actif_air)
-	| Closest(@,W) & Cell(W,J) ? Wizz(NW) :(Actif_air)
+	| Closest(@,E) & Cell(E,J) ? Wizz(NE) :(Init)
+	| Closest(@,W) & Cell(W,J) ? Wizz(NW) :(Init)
 	
-	| Closest(@,E) ? Move(E) :(Actif_sol)
-	| Closest(@,W) ? Move(W) :(Actif_sol)
+	| Closest(@,E) ? Move(E) :(Init)
+	| Closest(@,W) ? Move(W) :(Init)
 
 	| True ? Move(S) :(Init)
-
-	*(Actif_air)
-	| Closest(@,E) ? Move(E) :(Actif_air)
-	| Closest(@,W) ? Move(W) :(Actif_air)
 	
-	| Cell(E,@) ? Pop(E) :(Actif_air)
-	| Cell(W,@) ? Pop(W) :(Actif_air)
-	| Cell(N,@) ? Pop(N) :(Actif_air)
-	| Cell(S,@) ? Pop(S) :(Actif_air)
-	
-	|Cell(S,J)? :(Actif_sol)
-	
-	|True? :(Actif_air)
+	*(Cooldown)
+	| True ? :(Init)
 	
 	*(Mort)
 	|Cell(W,V) ? Egg(W):()
 	|Cell(E,V) ? Egg(E):()
+}
 
+Statue(Init){
+	*(Init):
+	|Cell(H,@) ? Wizz:(Init)
+	|True? :(Init)
 }
