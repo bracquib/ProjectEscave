@@ -24,7 +24,7 @@ public class Automata {
 		if (e.getCurrentState().blocked())
 			return;
 		AutomataState newState = s.step(e);
-		if (newState != null)
+		if (newState != null && this.states.contains(newState))
 			e.setCurrentState(new CurrentState(newState));
 	}
 

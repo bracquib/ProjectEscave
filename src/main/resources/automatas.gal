@@ -42,12 +42,16 @@ Inventaire(Init){
 
 Player(Init){
 	*(Init)
-	| Key(FU) & Cell(S, J) ? Wizz() :(Init)
+	| Cell(H,T) ? :(Statue)
+	| Key(FU) & Cell(S, J) ? Jump :(Init)
 	| Key(FL) ? Move(W) :(Init)
 	| Key(FR) ? Move(E) :(Init)
 	| Key(SPACE)&Key(d) ? Pop(E) :(Init)
 	| Key(SPACE)&Key(q) ? Pop(W) :(Init)
 	| Key(SPACE)&Key(z) ? Pop(N) :(Init)
+	
+	*(Statue)
+	| True ? :(Statue)
 }
 
 Mushroom(Init){
@@ -73,6 +77,6 @@ Mushroom(Init){
 
 Statue(Init){
 	*(Init):
-	|Cell(H,@) ? Wizz:(Init)
+	|Cell(H,@) ? Wizz() :(Init)
 	|True? :(Init)
 }

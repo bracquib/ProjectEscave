@@ -9,6 +9,7 @@ import info3.game.automata.actions.Egg;
 import info3.game.automata.actions.Explode;
 import info3.game.automata.actions.Get;
 import info3.game.automata.actions.IAction;
+import info3.game.automata.actions.Jump;
 import info3.game.automata.actions.Move;
 import info3.game.automata.actions.Pop;
 import info3.game.automata.actions.Protect;
@@ -170,6 +171,8 @@ public class BotBuilder implements IVisitor {
 			return new Explode();
 		case "Get":
 			return new Get();
+		case "Jump":
+			return new Jump();
 		case "Move":
 			return new Move((info3.game.automata.Direction) parameters.get(0));
 		case "Pop":

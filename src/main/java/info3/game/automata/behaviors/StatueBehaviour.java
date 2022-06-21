@@ -16,7 +16,6 @@ public class StatueBehaviour extends Behaviour {
 	@Override
 	public boolean key(Entity e, int keyCode) {
 		return e.getController().isKeyPressed(keyCode);
-
 	}
 
 	@Override
@@ -47,14 +46,13 @@ public class StatueBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// activer la statue et le il y a un transfert d'automate
 		System.out.println("Statue CELL");
-		// e.setCategory(Category.PLAYER);
-		// e.setAutomata(Model.getAutomata("Player"));
+		e.setCategory(Category.PLAYER);
+		e.setAutomata(Model.getAutomata("Player"));
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
-		// pas besoin
-
+		// pop=hit
 	}
 
 	@Override
