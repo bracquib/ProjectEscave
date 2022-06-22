@@ -1,5 +1,6 @@
 package info3.game.physics;
 
+import java.awt.Polygon;
 import java.util.ArrayList;
 
 import info3.game.Model;
@@ -53,9 +54,54 @@ public class RayCasting {
 		return closest;
 	}
 
-	public ArrayList<Ray> multiCast(float angleBetween) {
-		ArrayList<Ray> rays = new ArrayList<Ray>();
-		return rays;
+	private ArrayList<Line> getEdges(Block[][] mapZone) {
+		ArrayList<Line> edges = new ArrayList<Line>();
+		for (int i = 0; i < mapZone.length; i++) {
+			for (int j = 0; i < mapZone[0].length; j++) {
+				Block bl = mapZone[i][j];
+				if (bl == null) {
+					continue;
+				}
+				Vec2 blPos = bl.getPosition();
+				ArrayList<Line> lines = new ArrayList<Line>();
+				if (mapZone[i - 1][j] == null)
+					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX(), blPos.getY() + 32));
+				if (mapZone[i][j - 1] == null)
+					lines.add(new Line(blPos.getX(), blPos.getY(), blPos.getX() + 32, blPos.getY()));
+				if (mapZone[i][j + 1] == null)
+					lines.add(new Line(blPos.getX(), blPos.getY() + 32, blPos.getX() + 32, blPos.getY() + 32));
+				if (mapZone[i + 1][j] == null)
+					lines.add(new Line(blPos.getX() + 32, blPos.getY(), blPos.getX() + 32, blPos.getY() + 32));
+			}
+		}
+		return edges;
 	}
 
+	public ArrayList<Polygon> lightCast(Vec2 playerPos, int range) {
+
+		ArrayList<Polygon> triangles = new ArrayList<Polygon>();
+
+		Vec2 coord = playerPos.divide(32).round();
+		Block[][] mapZone = Model.getMapZone((int) coord.getX() - range, (int) coord.getY() - range, range * 2,
+				range * 2);
+
+		ArrayList<Line> edges = getEdges(mapZone);
+		for (Line line : edges) {
+			Ray ray1 = new Ray(playerPos, playerPos.sub(line.pt1).normalized());
+			Ray ray2 = new Ray(playerPos, playerPos.sub(line.pt2).normalized());
+
+			for (Line l : edges) {
+				if (l == line)
+					continue;
+
+				Vec2 intersec1 = ray1.intersect(l);
+				Vec2 intersec2 = ray1.intersect(l);
+				if (intersec1 != null) {
+
+				}
+			}
+		}
+
+		return triangles;
+	}
 }
