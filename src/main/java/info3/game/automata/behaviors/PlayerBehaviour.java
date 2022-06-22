@@ -92,9 +92,12 @@ public class PlayerBehaviour extends Behaviour {
 		case WEST:
 			p.getSpeed().setX(-190);
 			break;
+		case SOUTH:
+			e.setCategory(Category.SOMETHING);
+			e.setBehaviour(new DoublureBehaviour());
+			break;
 		default:
 			break;
-
 		}
 
 		return;
@@ -155,6 +158,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void egg(Entity e, Direction d) {
 		// pas besoin pour le player
+		// passage en mode doublure
 
 	}
 
