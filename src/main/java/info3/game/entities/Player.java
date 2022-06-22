@@ -52,8 +52,6 @@ public class Player extends RigidBody {
 			this.thirstPoints = maxThirst;
 			this.setControlledEntity(this);
 			this.playAnimation("spawn", 9, 100, 0, -10, false);
-
-			this.setControlledEntity(this);
 		}
 	}
 
