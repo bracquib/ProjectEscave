@@ -1,14 +1,19 @@
 package info3.game;
 
-import javax.swing.JFrame;
-
-public class AutomataSelectionPage extends JFrame {
+public class AutomataSelectionPage {
 	public final String TITLE = "Association des automates";
 
 	public AutomataSelectionPage() {
-		super();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
+		setup();
+		makeInterface();
+	}
+
+	private void setup() {
+
+	}
+
+	private void makeInterface() {
+
 	}
 
 	public static void main(String args[]) throws Exception {
