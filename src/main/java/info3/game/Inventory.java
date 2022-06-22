@@ -228,7 +228,7 @@ public class Inventory extends Entity {
 		Inventory inv = new Inventory(c, owner);
 		inv.addCouple(new InventoryCouple(new Pickaxe(c, owner), 1));
 		inv.addCouple(new InventoryCouple(new Sword(c, owner), 1));
-		inv.addCouple(new InventoryCouple(new Water(c, owner), 10));
+		inv.addCouple(new InventoryCouple(new Water(c, owner), 1));
 		inv.addCouple(new InventoryCouple(new Food(c, owner), 10));
 		inv.addCouple(new InventoryCouple(new Block(c, owner), 10));
 		return inv;
