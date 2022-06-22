@@ -30,6 +30,7 @@ public class Food extends Consumable {
 
 	@Override
 	public boolean useTool(Direction d) {
+		System.out.println("hunger=" + owner.getHungerPoints());
 		owner.feed(feedValue);
 		return true;
 	}
