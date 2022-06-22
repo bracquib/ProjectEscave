@@ -143,6 +143,8 @@ import info3.game.Vec2;
  * 550 : "arbre_montant_mur_droit"
  * 551 : "arbre_tombant_mur_droit"
  * 
+ * 600 : "water_sol"
+ * 
  */
 
 public class BlockIDs {
@@ -253,6 +255,8 @@ public class BlockIDs {
 		IDs.put(505, "cristal_mur_droit_noir");
 		IDs.put(550, "arbre_montant_mur_droit");
 		IDs.put(551, "arbre_tombant_mur_droit");
+		IDs.put(600, "water_sol");
+
 	}
 
 	static {

@@ -14,10 +14,13 @@ import info3.game.cavegenerator.BlockIDs;
 //		super(c, position, null);
 
 public class Block extends Consumable {
+	public Integer id;
+
 	public Block(LocalController c, Vec2 position, int id, int points) {
 		super(c, null);
 		this.pointsDeVie = points;
 		this.position = position;
+		this.id = id;
 		this.setCategory(Category.JUMPABLE);
 		this.setAutomata(Model.getAutomata("Block"));
 		this.setBehaviour(new BlockBehaviour());
