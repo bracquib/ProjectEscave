@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -23,6 +24,7 @@ public class LocalView extends View {
 	GameCanvas canvas;
 	CanvasListener listener;
 	Semaphore isPainting;
+	Sound sound;
 	protected SortedSet<Avatar> sortedAvatars;
 
 	public LocalView(Controller controller) {
@@ -47,6 +49,8 @@ public class LocalView extends View {
 		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
+		playSound("theme", "/home/amaury/Documents/info3/s6/escave/src/main/resources/Runaway-Food-Truck.ogg", (long) 0,
+				1.0f);
 	}
 
 	/*
@@ -201,5 +205,14 @@ public class LocalView extends View {
 	@Override
 	protected void setCameraOffset(Vec2 offset) {
 		this.camera.setOffset(offset);
+	}
+
+	public void playSound(String name, String filename, long duration, float volume) {
+		try {
+			sound = new Sound();
+			sound.load(name, filename, duration, volume, canvas);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

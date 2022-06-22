@@ -272,8 +272,16 @@ public class LocalController extends Controller {
 	public void syncCamera(PlayerColor p, Entity syncWith) {
 		this.viewFor(p).syncCamera(syncWith.getAvatar());
 	}
-	
+
 	public void setCameraOffset(PlayerColor p, Vec2 offset) {
 		this.viewFor(p).setCameraOffset(offset);
+	}
+
+	public void playSound(String name, String filename, long duration, int volume) {
+		for (View v : this.views) {
+			if (v instanceof LocalView) {
+				((LocalView) v).playSound(name, filename, duration, volume);
+			}
+		}
 	}
 }

@@ -73,7 +73,7 @@ public class OggPlayer extends AudioPlayer implements Runnable {
 	private Thread worker;
 
 	// If you wish to debug this source, please set the variable below to true.
-	private final boolean debugMode = false;
+	private final boolean debugMode = true;
 	private final static boolean PLAY_VERBOSE = false;
 	private final static boolean VOLUME_VERBOSE = false;
 
