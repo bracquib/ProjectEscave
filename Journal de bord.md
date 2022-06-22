@@ -279,4 +279,5 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ## Mercredi 22 juin 2022
 
 * Lucas : synchronisation de la caméra quand le joueur devient statue et inversement
+* Lucas : Implémentation des animations du joueur
 
