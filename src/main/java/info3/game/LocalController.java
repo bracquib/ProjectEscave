@@ -79,6 +79,10 @@ public class LocalController extends Controller {
 		if (e.code >= 97 && e.code <= 102) {
 			player.getInventory().selectCurrentTool(e.code - 97);
 		}
+
+		if (e.code >= 49 && e.code <= 53) {
+			p.getInventory().selectCurrentTool(e.code - 49);
+		}
 	}
 
 	@Override
