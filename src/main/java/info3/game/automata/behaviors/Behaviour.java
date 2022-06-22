@@ -8,7 +8,7 @@ import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 
 public abstract class Behaviour {
-	Entity ret;
+	public Entity ret;
 
 	/**
 	 * @return toujours true
@@ -37,6 +37,8 @@ public abstract class Behaviour {
 		// 32 =une case
 		// donner les coord en haut a gacuhe de la zone de vision
 		int decX, decY;
+		int width = 32;
+		int height = 32;
 		switch (d) {
 		case NORTH:
 			decX = 0;
@@ -63,11 +65,12 @@ public abstract class Behaviour {
 			decY = -32;
 			break;
 		default: // notamment HERE
-			decX = decY = 0;
+			decX = decY = -32;
+			width = height = 64;
 			break;
 		}
 		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) + decX,
-				(int) (e.getPosition().getY()) + decY, 32, 32);
+				(int) (e.getPosition().getY()) + decY, width, height);
 		for (Entity e1 : nearEntities) {
 			if (e1.getCategory() == c) {
 				ret = e1;

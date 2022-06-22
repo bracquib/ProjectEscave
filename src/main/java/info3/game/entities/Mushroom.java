@@ -27,6 +27,7 @@ public class Mushroom extends RigidBody {
 		this.setCategory(Category.ADVERSAIRE);
 		this.setAutomata(Model.getAutomata("Mushroom"));
 		this.setBehaviour(new MushroomBehaviour());
+		this.degatMob = 1;
 		this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
 	}
 
@@ -36,6 +37,6 @@ public class Mushroom extends RigidBody {
 	}
 
 	private String avatarPath() {
-		return "mole.png";
+		return "mole-violet.png";
 	}
 }

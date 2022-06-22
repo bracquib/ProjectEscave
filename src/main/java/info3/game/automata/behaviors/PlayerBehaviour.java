@@ -1,13 +1,16 @@
 package info3.game.automata.behaviors;
 
+import info3.game.Inventory;
+import info3.game.Model;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
+import info3.game.entities.Player;
 import info3.game.physics.RigidBody;
 
 public class PlayerBehaviour extends Behaviour {
 
-	Entity ret;
+	public Entity ret;
 
 	@Override
 	public boolean true_(Entity e) {
@@ -55,20 +58,26 @@ public class PlayerBehaviour extends Behaviour {
 		/*
 		 * RigidBody p = new RigidBody(e, 1, 10); p.getSpeed().setY(-120);
 		 */
-		((RigidBody) e).getSpeed().setY(-270);
-		return;
+//		((RigidBody) e).getSpeed().setY(-270);
+//		return;
+		// wizz = prise de contrôle de la statue
+		// e.setCategory(Category.SOMETHING);
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=hit à faire
-		if (cell(e, d, Category.ADVERSAIRE)) {
-			ret.getBehaviour().protect(ret, d, e.degatEpee);
-		} else if (cell(e, d, Category.JUMPABLE)) {
-			ret.getBehaviour().wizz(ret, d); // peut etre à ajuster
-		}
-		return;
-		// e.degat_epee=1;voir comment décider si l'inventaire a une épée ou une pioche
+
+		/*
+		 * if (cell(e, d, Category.ADVERSAIRE)) { ret.getBehaviour().protect(ret, d,
+		 * e.degatEpee); } else if (cell(e, d, Category.JUMPABLE)) {
+		 * ret.getBehaviour().wizz(ret, d); // peut etre à ajuster } return;
+		 */
+		Player p = (Player) e;
+		Inventory inv = p.getInventory();
+		inv.mousePos = p.mousePos;
+		inv.getBehaviour().pop(inv, d);
+
 	}
 
 	@Override
@@ -83,13 +92,7 @@ public class PlayerBehaviour extends Behaviour {
 		case WEST:
 			p.getSpeed().setX(-190);
 			break;
-		case SOUTH:
-			break;
-		case NORTH:
-			break;
-		case NORTHWEST:
-			break;
-		case NORTHEST:
+		default:
 			break;
 
 		}
@@ -106,6 +109,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
+		((RigidBody) e).getSpeed().setY(-270);
 	}
 
 	@Override
@@ -157,16 +161,21 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
 		e.pointsDeVie -= dmg;
+		System.out.println("HP=" + e.pointsDeVie);
 		RigidBody p = (RigidBody) e;
+		if (e.pointsDeVie == 0) {
+			System.out.println("mort du joueur");
+			Model.deleteentities(p);
+		}
 		switch (d) {
 		case SOUTH:
 			p.getSpeed().setY(-240);
 			break;
 		case EST:
-			p.getSpeed().setX(140);
+			p.getSpeed().setX(240);
 			break;
 		case WEST:
-			p.getSpeed().setX(-140);
+			p.getSpeed().setX(-240);
 			break;
 		case NORTH:
 			p.getSpeed().setY(240);

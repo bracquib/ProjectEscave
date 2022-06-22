@@ -1,17 +1,10 @@
 package info3.game.automata.behaviors;
 
-import java.util.ArrayList;
-
-import info3.game.Model;
-import info3.game.Vec2;
-import info3.game.automata.Category;
+import info3.game.Inventory;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
-import info3.game.physics.RigidBody;
 
-public class StalactiteBehaviour extends Behaviour {
-
-	Entity ret;
+public class InventaireBehaviour extends Behaviour {
 
 	@Override
 	public boolean true_(Entity e) {
@@ -20,21 +13,14 @@ public class StalactiteBehaviour extends Behaviour {
 
 	@Override
 	public boolean key(Entity e, int keyCode) {
-		// pas besoin
-		return false;
+		return e.getController().isKeyPressed(keyCode);
+
 	}
 
 	@Override
 	public boolean myDir(Entity e, Direction d) {
 		// pas besoin
 		return false;
-	}
-
-	@Override
-	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		int diam = 480; // en pixel
-		return super.closest(e, c, d, diam);
-
 	}
 
 	@Override
@@ -45,40 +31,31 @@ public class StalactiteBehaviour extends Behaviour {
 
 	@Override
 	public boolean gotStuff(Entity e) {
-		// pas besoin
+		Inventory p = (Inventory) e;
+		if (p.rest1place()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public void wizz(Entity e, Direction d) {
-		// wizz=tomber
-		RigidBody p = (RigidBody) e;
-		p.addSpeed(new Vec2(0, 0));
+		// wizz=mettre en réserve
+		Inventory p = (Inventory) e;
+		// p.pick()
+
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
-		// pop=exploser
-
-		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - 32,
-				(int) (e.getPosition().getY()) - 32, 96, 96);
-		for (Entity e1 : nearEntities) {
-			Category cat = e1.getCategory();
-			if (cat == Category.PLAYER || cat == Category.ADVERSAIRE) {
-				e1.getBehaviour().protect(e1, d, (int) ((RigidBody) e).getSpeed().getY() / 2);
-			} else if (e1.getCategory() == Category.JUMPABLE) {
-				e1.getBehaviour().wizz(ret, d);
-			}
-		}
-		RigidBody p = (RigidBody) e;
-		Model.deleteentities(p);
-		return;
+		// utiliser l'objet donc si c une arme,on appelle le hit de playerbehaviour
+		Inventory p = (Inventory) e;
+		p.use(d);
 	}
 
 	@Override
 	public void move(Entity e, Direction d) {
 		// pas besoin
-
 	}
 
 	@Override
@@ -113,20 +90,22 @@ public class StalactiteBehaviour extends Behaviour {
 
 	@Override
 	public void throw_(Entity e) {
-		// pas besoin
+		// jete l'objet de l'inventaire
+		Inventory p = (Inventory) e;
+		p.drop();
 
 	}
 
 	@Override
 	public void store(Entity e) {
-		// pas besoin
+		// store=wizz
 
 	}
 
 	@Override
 	public void get(Entity e) {
-		// pas besoin
-
+		// se déplaçer dans l'inventaire
+		// mouseScroll(Player e, WheelScroll wheelScroll);
 	}
 
 	@Override

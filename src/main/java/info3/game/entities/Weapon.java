@@ -4,13 +4,9 @@ import info3.game.LocalController;
 
 public abstract class Weapon extends Tool {
 
-	public Weapon(LocalController c) {
-		super(c);
+	public Weapon(LocalController c, Player owner) {
+		super(c, owner);
 		this.special = true;
-	}
-
-	public void useTool() {
-
 	}
 
 }

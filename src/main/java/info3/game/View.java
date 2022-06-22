@@ -60,7 +60,11 @@ public abstract class View {
 
 	public void setPlayer(Player player) {
 		this.player = player;
-		this.camera.followedAvatar = player.getAvatar();
+		this.setFollowedAvatar(player.getAvatar());
+	}
+
+	public void setFollowedAvatar(Avatar a) {
+		this.camera.setAvatar(a);
 	}
 
 	protected abstract int getWidth();

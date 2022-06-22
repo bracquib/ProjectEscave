@@ -1,6 +1,9 @@
 package info3.game;
 
 import info3.game.assets.Image;
+import info3.game.automata.Category;
+import info3.game.automata.Direction;
+import info3.game.automata.behaviors.InventaireBehaviour;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Food;
@@ -22,6 +25,9 @@ public class Inventory extends Entity {
 
 	public Inventory(LocalController c, Player owner) {
 		super(c, 1);
+		this.setCategory(Category.TEAM);
+		this.setAutomata(Model.getAutomata("Inventaire"));
+		this.setBehaviour(new InventaireBehaviour());
 		this.currentToolIndex = 0;
 		this.tools = new InventoryCouple[INVENTORY_SIZE];
 		this.controller = c;
@@ -65,6 +71,7 @@ public class Inventory extends Entity {
 	// décale la selection d'un cran vers la droite
 	public void moveRCurrentTool() {
 		this.selectCurrentTool((this.currentToolIndex + 1) % INVENTORY_SIZE);
+		System.out.println(getCurrentTool());
 	}
 
 	// décale la selection d'un cran vers la gauche
@@ -115,22 +122,27 @@ public class Inventory extends Entity {
 
 	}
 
-	public boolean use() {
+	public boolean use(Direction d) {
 		// utiliser l'objet en main
 
-		Tool current = this.toolAt(currentToolIndex);
+		InventoryCouple couple = this.coupleAt(currentToolIndex);
+		Tool current = couple.getTool();
 
 		if (current == null)
 			return false;
 
-		current.useTool();
-
-		if (current.isSpecial())
+		if (!current.isSpecial()) {
+			if (couple.getNumber() > 0) {
+				if (current.useTool(d)) {
+					this.drop(); // enlève 1 à la qtté
+					return true;
+				}
+			}
+		} else {
+			current.useTool(d);
 			return true;
-
-		this.drop();
-		return true;
-
+		}
+		return false;
 	}
 
 	// l'inventaire est dit vide s'il ne contient aucun consumable
@@ -142,6 +154,19 @@ public class Inventory extends Entity {
 				return false;
 		}
 		return true;
+	}
+
+	public boolean rest1place() {
+		int compteur = 0;
+		for (int i = 0; i < this.size; i++) {
+			InventoryCouple tmp = tools[i];
+			if (!tmp.getTool().isSpecial() && tmp.getNumber() > 0)
+				compteur++;
+		}
+		if (compteur == INVENTORY_SIZE - 1) {
+			return true;
+		}
+		return false;
 	}
 
 	public InventoryCouple coupleAt(int i) {
@@ -201,11 +226,11 @@ public class Inventory extends Entity {
 
 	public static Inventory createInventory(LocalController c, Player owner) {
 		Inventory inv = new Inventory(c, owner);
-		inv.addCouple(new InventoryCouple(new Pickaxe(c), 1));
-		inv.addCouple(new InventoryCouple(new Sword(c), 1));
-		inv.addCouple(new InventoryCouple(new Water(c, owner)));
-		inv.addCouple(new InventoryCouple(new Food(c, owner)));
-		inv.addCouple(new InventoryCouple(new Block(c)));
+		inv.addCouple(new InventoryCouple(new Pickaxe(c, owner), 1));
+		inv.addCouple(new InventoryCouple(new Sword(c, owner), 1));
+		inv.addCouple(new InventoryCouple(new Water(c, owner), 1));
+		inv.addCouple(new InventoryCouple(new Food(c, owner), 10));
+		inv.addCouple(new InventoryCouple(new Block(c, owner), 10));
 		return inv;
 	}
 }

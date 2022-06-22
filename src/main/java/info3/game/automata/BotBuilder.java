@@ -9,6 +9,7 @@ import info3.game.automata.actions.Egg;
 import info3.game.automata.actions.Explode;
 import info3.game.automata.actions.Get;
 import info3.game.automata.actions.IAction;
+import info3.game.automata.actions.Jump;
 import info3.game.automata.actions.Move;
 import info3.game.automata.actions.Pop;
 import info3.game.automata.actions.Protect;
@@ -74,7 +75,7 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(Key key) {
-		if (key.terminal.content.length() == 2)
+		if (key.terminal.content.length() != 1)
 			return (int) (key.terminal.content.charAt(0)) * 10 + (int) key.terminal.content.charAt(1);
 		return (int) key.terminal.content.charAt(0);
 	}
@@ -96,6 +97,10 @@ public class BotBuilder implements IVisitor {
 	}
 
 	public info3.game.automata.Direction astDirectionToinfo3Direction(Direction d) {
+		if (d.terminal.content.equals("NW"))
+			return info3.game.automata.Direction.NORTHWEST;
+		else if (d.terminal.content.equals("NE"))
+			return info3.game.automata.Direction.NORTHWEST;
 		switch (d.terminal.content.charAt(0)) {
 		case 'N':
 			return info3.game.automata.Direction.NORTH;
@@ -108,12 +113,7 @@ public class BotBuilder implements IVisitor {
 		case 'H':
 			return info3.game.automata.Direction.HERE;
 		}
-		if (d.terminal.content.equals("NW"))
-			return info3.game.automata.Direction.NORTHWEST;
-		else if (d.terminal.content.equals("NE"))
-			return info3.game.automata.Direction.NORTHWEST;
-		else
-			return null;
+		return null;
 	}
 
 	public info3.game.automata.Category astCategoryToinfo3Category(Category c) {
@@ -124,7 +124,7 @@ public class BotBuilder implements IVisitor {
 			return info3.game.automata.Category.JUMPABLE;
 		case 'O':
 			return info3.game.automata.Category.OBJECT;
-		case 'P':
+		case '@':
 			return info3.game.automata.Category.PLAYER;
 		case 'T':
 			return info3.game.automata.Category.TEAM;
@@ -171,6 +171,8 @@ public class BotBuilder implements IVisitor {
 			return new Explode();
 		case "Get":
 			return new Get();
+		case "Jump":
+			return new Jump();
 		case "Move":
 			return new Move((info3.game.automata.Direction) parameters.get(0));
 		case "Pop":

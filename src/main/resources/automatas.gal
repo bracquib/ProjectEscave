@@ -28,7 +28,7 @@ Inventaire(Init){
 	|Cell(W,P)? Wizz(W):(Non_plein)
 	|Cell(E,P)? Wizz(E):(Non_plein)
     |Key(t)&GotStuff? Throw:(Non_plein)
-    |Key(j)?Get:(Non_plein)
+    |Key(j)?Get():(Non_plein)
     |Key(p)&GotStuff?Pop:(Non_plein)
 	|True?		:(Non_plein)
 	
@@ -42,7 +42,41 @@ Inventaire(Init){
 
 Player(Init){
 	*(Init)
-	| Key(FU) ? Wizz() :(Init)
+	| Cell(H,T) ? Wizz :(Statue)
+	| Key(FU)  ? Jump :(Init)
 	| Key(FL) ? Move(W) :(Init)
 	| Key(FR) ? Move(E) :(Init)
+	| Key(SPACE)&Key(d) ? Pop(E) :(Init)
+	| Key(SPACE)&Key(q) ? Pop(W) :(Init)
+	| Key(SPACE)&Key(z) ? Pop(N) :(Init)
+	
+	*(Statue)
+	| True ? :(Statue)
+}
+
+Mushroom(Init){
+	*(Init):
+	| Cell(W,@) ? Move(S) & Pop(W) :(Cooldown1000)
+	| Cell(H,@) ? Move(S) & Pop(E) :(Cooldown1000)
+
+	| Closest(@,E) & Cell(E,J) ? Wizz(NE) :(Init)
+	| Closest(@,W) & Cell(W,J) ? Wizz(NW) :(Init)
+	
+	| Closest(@,E) ? Move(E) :(Init)
+	| Closest(@,W) ? Move(W) :(Init)
+
+	| True ? Move(S) :(Init)
+	
+	*(Cooldown1000)
+	| True ? :(Init)
+	
+	*(Mort)
+	|Cell(W,V) ? Egg(W):()
+	|Cell(E,V) ? Egg(E):()
+}
+
+Statue(Init){
+	*(Init):
+	|Cell(H,@) ? Wizz() :(Init)
+	|True? :(Init)
 }

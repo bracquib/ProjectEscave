@@ -73,6 +73,10 @@ public class Model {
 		Model.loadAutomatas();
 	}
 
+	public static void deleteentities(RigidBody e) {
+		entities.remove(e);
+	}
+
 	/**
 	 * Ajoute une entité dans le monde.
 	 * 
@@ -185,7 +189,8 @@ public class Model {
 		// Puis on parcours les entités "dynamiques"
 		for (Entity e : Model.entities) {
 			Vec2 pos = e.getPosition();
-			if (pos.getX() > baseX && pos.getX() < baseX + width && pos.getY() > baseY && pos.getY() < baseY + height) {
+			if (pos.getX() >= baseX && pos.getX() <= baseX + width && pos.getY() >= baseY
+					&& pos.getY() <= baseY + height) {
 				nearEntities.add(e);
 			}
 		}

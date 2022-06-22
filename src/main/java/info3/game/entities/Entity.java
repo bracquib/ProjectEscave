@@ -48,6 +48,7 @@ public abstract class Entity {
 	public int degatPioche;
 	protected Category category;
 	protected Vec2 avatarOffset;
+	public Vec2 mousePos;
 
 	protected LocalController controller;
 
@@ -143,7 +144,7 @@ public abstract class Entity {
 			this.avatar.tick(elapsed);
 		}
 		if (this.automata != null && this.currentState != null) {
-			this.automata.step(this, this.currentState.getState());
+			this.automata.step(this, this.currentState.getState(), elapsed);
 		}
 	}
 
@@ -191,5 +192,9 @@ public abstract class Entity {
 	public void playAnimation(String name, int frameCount, int delay, int offset) {
 		this.avatarOffset.setY(offset);
 		this.setPaintable(new AnimatedImage(this.animationDir() + "/" + name + ".png", frameCount, delay));
+	}
+
+	public CurrentState getCurrentState() {
+		return this.currentState;
 	}
 }

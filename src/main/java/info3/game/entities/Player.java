@@ -16,6 +16,7 @@ public class Player extends RigidBody {
 	private float thirstPoints;
 	private float maxThirst = 100;
 	private Inventory inventory;
+	private int compt;
 
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
 		super(1, c, points);
@@ -39,12 +40,17 @@ public class Player extends RigidBody {
 	@Override
 	public void tick(long el) {
 		super.tick(el);
+		compt++;
+		if (compt % 10000 == 0) {
+			this.hungerPoints -= 5;
+			this.thirstPoints -= 5;
+		}
 		float curXSpeed = this.getSpeed().getX();
 		if (Math.abs(curXSpeed) > 5) {
 			if (curXSpeed < 0) {
-				this.getSpeed().setX(curXSpeed + 3.1f);
+				this.getSpeed().setX(curXSpeed + 7f);
 			} else {
-				this.getSpeed().setX(curXSpeed - 3.1f);
+				this.getSpeed().setX(curXSpeed - 7f);
 			}
 		} else {
 			this.getSpeed().setX(0);
