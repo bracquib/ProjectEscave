@@ -17,9 +17,8 @@ public class Pickaxe extends Weapon {
 	}
 
 	public boolean useTool(Direction d) { // pas owner de pickaxe car null
-		// Behaviour behav = owner.getBehaviour();
 		Vec2 mousePos = owner.mousePos;
-		Block underCursor = Model.getBlock((int) mousePos.getX() / 32, (int) mousePos.getY() / 32);
+		Block underCursor = Model.getBlock((int) mousePos.getX() / Block.SIZE, (int) mousePos.getY() / Block.SIZE);
 
 		Vec2 playerPos = owner.getPosition();
 		Vec2[] pp = new Vec2[4];
@@ -32,21 +31,13 @@ public class Pickaxe extends Weapon {
 			Block target = RayCasting.singleCast(mousePos, pp[i], 3);
 
 			if (target != null && target == underCursor) {
-				Vec2 coords = new Vec2(target.getPosition()).divide(32);
+				Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
 				Model.deleteBlock((int) coords.getX(), (int) coords.getY());
 				Inventory inv = owner.getInventory();
 				inv.pick(inv.toolAt(4));
 			}
 		}
 
-		/*
-		 * if (behav.cell(owner, d, Category.ADVERSAIRE)) {
-		 * behav.ret.getBehaviour().protect(behav.ret, d, mobDmg); } else if
-		 * (behav.cell(owner, d, Category.JUMPABLE)) {
-		 * behav.ret.getBehaviour().wizz(behav.ret, d);
-		 * 
-		 * }
-		 */
 		return true;
 	}
 }

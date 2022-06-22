@@ -3,6 +3,7 @@ package info3.game;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import info3.game.automata.Automata;
@@ -15,6 +16,7 @@ import info3.game.cavegenerator.Torus;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
+import info3.game.entities.Statue;
 import info3.game.physics.PhysicsWorld;
 import info3.game.physics.RigidBody;
 
@@ -35,8 +37,8 @@ public class Model {
 	/**
 	 * La liste des entités dynamiques à spawner au prochain tick
 	 * 
-	 * On ajoute pas directement dans entities pour éviter des accès concurrents
-	 * par plusieurs threads #réseau #parallélisme
+	 * On ajoute pas directement dans entities pour éviter des accès concurrents par
+	 * plusieurs threads #réseau #parallélisme
 	 */
 	static ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
 
@@ -44,11 +46,11 @@ public class Model {
 	 * La liste des blocs de la carte.
 	 * 
 	 * Les élements de ce tableau sont aussi dans le tableau `entities`. Cette
-	 * duplication permet d'accéder précisément à un bloc à une position
-	 * donnée. En réalité, il n'y a pas de duplication, juste de l'aliasing.
+	 * duplication permet d'accéder précisément à un bloc à une position donnée. En
+	 * réalité, il n'y a pas de duplication, juste de l'aliasing.
 	 * 
-	 * On peut voir la carte comme une matrice, dont on peut accéder à un
-	 * élément précis avec la méthode getBlock(x, y) de cette classe.
+	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
+	 * précis avec la méthode getBlock(x, y) de cette classe.
 	 */
 	private static Block[][] map;
 
@@ -65,6 +67,8 @@ public class Model {
 	}
 
 	private static PhysicsWorld physics;
+
+	private static List<Vec2> statuesSpawns;
 
 	public static void init(LocalController controller) {
 		Model.controller = controller;
@@ -90,10 +94,9 @@ public class Model {
 		// TODO: throw exception if there are more players than expected
 		Model.generateMapIfNeeded();
 		Player p = new Player(Model.controller, Player.colorFromInt(Model.playerCount),
-				Model.spawnPoints.get(Model.playerCount).multiply(32), true, 10);
+				Model.spawnPoints.get(Model.playerCount).multiply(Block.SIZE), true, 10);
 		Model.playerCount++;
 		Model.spawn(p);
-
 		return p;
 	}
 
@@ -113,7 +116,7 @@ public class Model {
 			int[][] values = generationMap.spawnStatueTotal(Model.maxPlayers);
 			Model.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
-			List<Vec2> statues = generationMap.listSpawnStatues;
+			Model.statuesSpawns = generationMap.listSpawnStatues;
 
 			Torus torus = DecorationGenerator.decorate(values);
 			int[][] blocks = torus.toArray();
@@ -122,10 +125,11 @@ public class Model {
 			for (int i = 0; i < blocks.length; i++) {
 				for (int j = 0; j < blocks[i].length; j++) {
 					if (blocks[i][j] != 0) {
-						Model.map[i][j] = new Block(Model.controller, new Vec2(i * 32, j * 32), blocks[i][j], 1); // this.map
+						Model.map[i][j] = new Block(Model.controller, new Vec2(i * 64, j * 64), blocks[i][j], 1);
 					}
 				}
 			}
+
 		}
 	}
 
@@ -136,6 +140,15 @@ public class Model {
 		if (!Model.started()) {
 			return;
 		}
+		if (Model.statuesSpawns != null) {
+			Iterator<Player> players = Model.getPlayers().iterator();
+			for (Vec2 s : Model.statuesSpawns) {
+				float x = s.getX();
+				float y = s.getY();
+				Model.spawn(new Statue(Model.controller, players.next(), new Vec2(x * Block.SIZE, y * Block.SIZE), 1));
+			}
+			Model.statuesSpawns = null;
+		}
 		if (elapsed > 200) {
 			System.out.println("[WARN] Tick ignored in model");
 			return;
@@ -145,8 +158,7 @@ public class Model {
 			e.tick(elapsed);
 		}
 		if (activatedSocles == playerCount) {
-			// ActivateLaSortie
-			System.out.println("Sortie activ�e");
+			System.out.println("Sortie activée");
 		}
 	}
 
@@ -178,9 +190,9 @@ public class Model {
 	public static ArrayList<Entity> getNearEntities(int baseX, int baseY, int width, int height) {
 		ArrayList<Entity> nearEntities = new ArrayList<>();
 		// On parcours d'abord la map pour avoir les blocs
-		for (int i = 0; i < width / 32; i++) {
-			for (int j = 0; j < height / 32; j++) {
-				Block block = Model.getBlock(baseX / 32 + i, baseY / 32 + j);
+		for (int i = 0; i < width / Block.SIZE; i++) {
+			for (int j = 0; j < height / Block.SIZE; j++) {
+				Block block = Model.getBlock(baseX / Block.SIZE + i, baseY / Block.SIZE + j);
 				if (block != null) {
 					nearEntities.add(block);
 				}

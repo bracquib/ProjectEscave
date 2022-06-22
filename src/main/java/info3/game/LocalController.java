@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import info3.game.assets.Image;
 import info3.game.assets.Paintable;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Mushroom;
 import info3.game.entities.Player;
@@ -61,8 +63,12 @@ public class LocalController extends Controller {
 
 		if (e.code == 32) {
 			Vec2 newPos = new Vec2(p.getPosition());
-			newPos.setX(newPos.getX() + 64);
+			newPos.setX(newPos.getX() + Block.SIZE);
 			Model.spawn(new Statue(p.getController(), p, newPos, 1));
+			Image bg = new Image("bg_big.jpg");
+			bg.fixed = true;
+			bg.layer = -1;
+			this.createAvatar(new Vec2(0, 0), bg);
 		}
 
 		if (e.code == 67) {
@@ -207,13 +213,6 @@ public class LocalController extends Controller {
 		Vec2 mouse = mouseClick.position.screenToGlobal(this.viewFor(player).camera.getPos());
 		player.mousePos = mouse;
 		player.getBehaviour().pop(player, null);
-		/*
-		 * Block underCursor = Model.getBlock((int) mouse.getX() / 32, (int)
-		 * mouse.getY() / 32); Block target = RayCasting.singleCast(mouse,
-		 * player.getPosition().add(16), 3); if (target != null && target ==
-		 * underCursor) { Vec2 coords = new Vec2(target.getPosition()).divide(32);
-		 * Model.deleteBlock((int) coords.getX(), (int) coords.getY()); }
-		 */
 	}
 
 	@Override

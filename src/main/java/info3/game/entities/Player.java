@@ -21,6 +21,7 @@ public class Player extends RigidBody {
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
 		super(1, c, points);
 		this.color = color;
+		this.avatarOffset = new Vec2(0, -20);
 		if (local) {
 			this.setPosition(pos);
 			this.setCategory(Category.PLAYER);
