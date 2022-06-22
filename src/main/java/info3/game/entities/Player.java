@@ -44,6 +44,10 @@ public class Player extends RigidBody {
 			this.hungerPoints -= 5;
 			this.thirstPoints -= 5;
 		}
+		if (this.hungerPoints <= 0 || this.thirstPoints <= 0) {
+			System.out.println("mort du joueur à cause de la faim ou de la soif");
+			Model.deleteentities(this);
+		}
 
 		super.tick(el);
 		float curXSpeed = this.getSpeed().getX();
