@@ -13,6 +13,7 @@ public class GameJerem implements Runnable {
 
 	private Playing playing;
 	private Menu menu;
+	private Options options;
 
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static float SCALE = 2f;
@@ -47,6 +48,7 @@ public class GameJerem implements Runnable {
 	private void initClasses() {
 		menu = new Menu(this);
 		playing = new Playing(this);
+		options = new Options(this);
 	}
 
 	private void startGameLoop() {
@@ -63,6 +65,8 @@ public class GameJerem implements Runnable {
 			playing.update();
 			break;
 		case OPTIONS:
+			options.update();
+			break;
 		case QUIT:
 		default:
 			System.exit(0);
@@ -78,6 +82,9 @@ public class GameJerem implements Runnable {
 			break;
 		case PLAYING:
 			playing.draw(g);
+			break;
+		case OPTIONS:
+			options.draw(g);
 			break;
 		default:
 			break;
@@ -134,6 +141,10 @@ public class GameJerem implements Runnable {
 
 	public Menu getMenu() {
 		return menu;
+	}
+
+	public Options getOptions() {
+		return options;
 	}
 
 	public Playing getPlaying() {

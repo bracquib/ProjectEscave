@@ -14,6 +14,10 @@ public class State {
 		return mb.getBounds().contains(e.getX(), e.getY());
 	}
 
+	public boolean isIn(MouseEvent e, OptionButton mb) {
+		return mb.getBounds().contains(e.getX(), e.getY());
+	}
+
 	public GameJerem getGame() {
 		return game;
 	}

@@ -1,7 +1,6 @@
 package info3.game.menu;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
@@ -94,16 +93,6 @@ public class Menu extends State implements Statemethods {
 				mb.setMouseOver(true);
 				break;
 			}
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

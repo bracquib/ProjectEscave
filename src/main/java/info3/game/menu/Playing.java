@@ -15,11 +15,9 @@ public class Playing extends State {
 	}
 
 	public void update() {
-
 	}
 
 	public void draw(Graphics g) {
-
 	}
 
 }
