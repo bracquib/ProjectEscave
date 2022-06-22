@@ -35,8 +35,8 @@ public class Model {
 	/**
 	 * La liste des entités dynamiques à spawner au prochain tick
 	 * 
-	 * On ajoute pas directement dans entities pour éviter des accès concurrents par
-	 * plusieurs threads #réseau #parallélisme
+	 * On ajoute pas directement dans entities pour éviter des accès concurrents
+	 * par plusieurs threads #réseau #parallélisme
 	 */
 	static ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
 
@@ -44,11 +44,11 @@ public class Model {
 	 * La liste des blocs de la carte.
 	 * 
 	 * Les élements de ce tableau sont aussi dans le tableau `entities`. Cette
-	 * duplication permet d'accéder précisément à un bloc à une position donnée. En
-	 * réalité, il n'y a pas de duplication, juste de l'aliasing.
+	 * duplication permet d'accéder précisément à un bloc à une position
+	 * donnée. En réalité, il n'y a pas de duplication, juste de l'aliasing.
 	 * 
-	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
-	 * précis avec la méthode getBlock(x, y) de cette classe.
+	 * On peut voir la carte comme une matrice, dont on peut accéder à un
+	 * élément précis avec la méthode getBlock(x, y) de cette classe.
 	 */
 	private static Block[][] map;
 
@@ -56,6 +56,7 @@ public class Model {
 
 	private static final int maxPlayers = 1;
 	private static int playerCount = 0;
+	private static int activatedSocles = 0;
 
 	static ArrayList<Automata> automatas;
 
@@ -125,6 +126,7 @@ public class Model {
 	}
 
 	public static void tick(long elapsed) {
+		activatedSocles = 0;
 		Model.entities.addAll(Model.spawnQueue);
 		Model.spawnQueue.clear();
 		if (!Model.started()) {
@@ -137,6 +139,10 @@ public class Model {
 		Model.physics.tick(elapsed);
 		for (Entity e : Model.allEntities()) {
 			e.tick(elapsed);
+		}
+		if (activatedSocles == playerCount) {
+			// ActivateLaSortie
+			System.out.println("Sortie activ�e");
 		}
 	}
 
@@ -222,6 +228,10 @@ public class Model {
 
 	public static Block[][] getMap() {
 		return Model.map;
+	}
+
+	public static void incrementActivatedSocles() {
+		activatedSocles++;
 	}
 
 	private static void loadAutomatas() {

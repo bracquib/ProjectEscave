@@ -10,6 +10,8 @@ import info3.game.automata.behaviors.SocleBehaviour;
 public class Socle extends Entity {
 	PlayerColor color;
 
+	public boolean isActivated = false;
+
 	public Socle(LocalController c, PlayerColor color, Vec2 position, int points) {
 		super(c, points);
 		this.setCategory(Category.JUMPABLE);
