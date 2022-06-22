@@ -64,21 +64,13 @@ public abstract class Behaviour {
 			decX = Block.SIZE;
 			decY = -Block.SIZE;
 			break;
-		case SOUTHEST:
-			decX = 32;
-			decY = 32;
-			break;
 		case SOUTHWEST:
-			decX = -32;
-			decY = 32;
+			decX = -Block.SIZE;
+			decY = Block.SIZE;
 			break;
 		case SOUTHEST:
-			decX = 32;
-			decY = 32;
-			break;
-		case SOUTHWEST:
-			decX = -32;
-			decY = 32;
+			decX = Block.SIZE;
+			decY = Block.SIZE;
 			break;
 		default: // notamment HERE
 			decX = decY = -Block.SIZE;
