@@ -64,6 +64,14 @@ public abstract class Behaviour {
 			decX = 32;
 			decY = -32;
 			break;
+		case SOUTHEST:
+			decX = 32;
+			decY = 32;
+			break;
+		case SOUTHWEST:
+			decX = -32;
+			decY = 32;
+			break;
 		default: // notamment HERE
 			decX = decY = -32;
 			width = height = 64;
