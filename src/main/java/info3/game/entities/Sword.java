@@ -7,7 +7,6 @@ import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
-import info3.game.automata.behaviors.Behaviour;
 
 public class Sword extends Weapon {
 	int mobDmg = 50;
@@ -19,43 +18,41 @@ public class Sword extends Weapon {
 	}
 
 	public boolean useTool(Direction d) {
-
 		owner.mousePos.print();
-		Behaviour behav = owner.getBehaviour();
 		Direction orientation = owner.getPosition().orientation(owner.mousePos);
 
 		int decX, decY, width, height;
 
 		switch (orientation) {
 		case NORTH:
-			decX = -32;
-			decY = -64;
-			width = 96;
-			height = 64;
+			decX = -Block.SIZE;
+			decY = -Block.SIZE * 2;
+			width = Block.SIZE * 3;
+			height = Block.SIZE * 3;
 			break;
 		case SOUTH:
-			decX = -32;
-			decY = -32;
-			width = 96;
-			height = 64;
+			decX = -Block.SIZE;
+			decY = -Block.SIZE;
+			width = Block.SIZE * 3;
+			height = Block.SIZE * 2;
 			break;
 		case EST:
-			decX = 32;
-			decY = -32;
-			width = 64;
-			height = 96;
+			decX = Block.SIZE;
+			decY = -Block.SIZE;
+			width = Block.SIZE * 2;
+			height = Block.SIZE * 3;
 			break;
 		case WEST:
-			decX = -64;
-			decY = -32;
-			width = 64;
-			height = 96;
+			decX = -Block.SIZE * 2;
+			decY = -Block.SIZE;
+			width = Block.SIZE * 2;
+			height = Block.SIZE * 3;
 			break;
 		default:
 			decX = 0;
 			decY = 0;
-			width = 32;
-			height = 32;
+			width = Block.SIZE;
+			height = Block.SIZE;
 			break;
 		}
 
@@ -74,12 +71,6 @@ public class Sword extends Weapon {
 		}
 
 		return false;
-		/*
-		 * else if (behav.cell(owner, d, Category.JUMPABLE)) {
-		 * behav.ret.getBehaviour().wizz(behav.ret, d);
-		 */
-		// non appelé car épée ne peut pas casser de blocs
-		// (et plus pratique sinon changer wizz par protect...
 	}
 
 }
