@@ -48,6 +48,8 @@ public class Player extends RigidBody {
 			this.hungerPoints -= 5;
 			this.thirstPoints -= 5;
 		}
+
+		super.tick(el);
 		float curXSpeed = this.getSpeed().getX();
 		if (Math.abs(curXSpeed) > 5) {
 			if (curXSpeed < 0) {

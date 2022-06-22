@@ -33,8 +33,17 @@ public class Pickaxe extends Weapon {
 			if (target != null && target == underCursor) {
 				Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
 				Model.deleteBlock((int) coords.getX(), (int) coords.getY());
-				Inventory inv = owner.getInventory();
-				inv.pick(inv.toolAt(4));
+
+				if (underCursor.id == 600) {
+					if (owner.getInventory().coupleAt(2).getNumber() == 0) {
+						Inventory inv = owner.getInventory();
+						inv.pick(inv.toolAt(2));
+						System.out.println("récupère de l'eau");
+					}
+				} else {
+					Inventory inv = owner.getInventory();
+					inv.pick(inv.toolAt(4));
+				}
 			}
 		}
 

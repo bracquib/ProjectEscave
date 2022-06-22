@@ -30,7 +30,7 @@ public class Water extends Consumable {
 
 	@Override
 	public boolean useTool(Direction d) {
-		System.out.println("hunger=" + owner.getThirstPoints());
+		System.out.println("satiété=" + owner.getThirstPoints());
 		owner.water(waterValue);
 		return true;
 	}
