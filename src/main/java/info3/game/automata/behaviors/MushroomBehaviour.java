@@ -107,7 +107,7 @@ public class MushroomBehaviour extends Behaviour {
 	public void protect(Entity e, Direction d, int dmg) {
 		e.pointsDeVie -= dmg;
 		RigidBody p = (RigidBody) e;
-		System.out.println("HP=" + e.pointsDeVie);
+		System.out.println("HPmushroom=" + e.pointsDeVie);
 		if (e.pointsDeVie == 0) {
 			Model.deleteentities(p);
 		}

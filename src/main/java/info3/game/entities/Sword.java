@@ -1,5 +1,6 @@
 package info3.game.entities;
 
+import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
@@ -17,7 +18,12 @@ public class Sword extends Weapon {
 	public boolean useTool(Direction d) {
 		Behaviour behav = owner.getBehaviour();
 		if (behav.cell(owner, d, Category.ADVERSAIRE)) {
+			if (behav.ret.pointsDeVie - mobDmg <= 0) {
+				Inventory inv = owner.getInventory();
+				inv.pick(inv.toolAt(3));
+			}
 			behav.ret.getBehaviour().protect(behav.ret, d, mobDmg);
+
 		}
 		return true;
 		/*
