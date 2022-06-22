@@ -12,16 +12,16 @@ public class OptionButton {
 	public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * 2);
 	private int xPos, yPos, index;
 	private int xOffsetCenter = B_WIDTH / 2;
-	private Gamestate state;
+	ButtonCallback action;
 	private BufferedImage imgs[];
 	private String im1, im2;
 	private boolean mouseOver, mousePressed;
 	private Rectangle bounds;
 
-	public OptionButton(int xPos, int yPos, int rowIndex, Gamestate state, String im1, String im2) {
+	public OptionButton(int xPos, int yPos, int rowIndex, ButtonCallback action, String im1, String im2) {
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.state = state;
+		this.action = action;
 		this.im1 = im1;
 		this.im2 = im2;
 		loadImgs();
@@ -71,10 +71,6 @@ public class OptionButton {
 
 	public Rectangle getBounds() {
 		return bounds;
-	}
-
-	public void applyGamestate() {
-		Gamestate.state = state;
 	}
 
 	public void resetBools() {

@@ -6,14 +6,17 @@ import java.awt.image.BufferedImage;
 
 public class Options extends State implements Statemethods {
 
-	private OptionButton[] buttons = new OptionButton[3];
-	private BufferedImage backgroundImg, playerspng;
-	private int menuX, menuY, menuWidth, menuHeight, playerX, playerY;
+	private OptionButton[] buttons = new OptionButton[5];
+	private BufferedImage backgroundImg, playerspng, boxpng;
+	private int menuX, menuY, menuWidth, menuHeight, playerX, playerY, boxX, boxY;
+	private NumberSelector selector;
 
 	public Options(GameJerem game) {
 		super(game);
+		this.selector = new NumberSelector(game);
 		loadButtons();
 		loadPlayer();
+		loadBox();
 		loadBackground();
 	}
 
@@ -31,14 +34,31 @@ public class Options extends State implements Statemethods {
 		playerY = (int) (150 * GameJerem.SCALE);
 	}
 
+	private void loadBox() {
+		boxpng = LoadSave.GetSpriteAtlas(LoadSave.BOX);
+		boxX = GameJerem.GAME_WIDTH / 2 - 25;
+		boxY = (int) (185 * GameJerem.SCALE);
+	}
+
 	private void loadButtons() {
 
-		buttons[0] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 40, (int) (230 * GameJerem.SCALE), 1,
-				Gamestate.OPTIONS, LoadSave.OPTIONS_AUTOMATES, LoadSave.OPTIONS_IP);
-		buttons[1] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 100, (int) (270 * GameJerem.SCALE), 2,
-				Gamestate.OPTIONS, LoadSave.OPTIONS_IP, LoadSave.OPTIONS_AUTOMATES);
-		buttons[2] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 70, (int) (310 * GameJerem.SCALE), 2, Gamestate.MENU,
-				LoadSave.BUTTON_QUIT, LoadSave.BUTTON_QUIT1);
+		buttons[0] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 40, (int) (230 * GameJerem.SCALE), 1, () -> {
+		}, LoadSave.OPTIONS_AUTOMATES, LoadSave.OPTIONS_AUTOMATES1);
+		buttons[1] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 100, (int) (270 * GameJerem.SCALE), 2, () -> {
+		}, LoadSave.OPTIONS_IP, LoadSave.OPTIONS_IP1);
+		buttons[2] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 70, (int) (310 * GameJerem.SCALE), 2, () -> {
+			Gamestate.state = Gamestate.MENU;
+		}, LoadSave.BUTTON_QUIT, LoadSave.BUTTON_QUIT1);
+		buttons[3] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 50, (int) (190 * GameJerem.SCALE), 2, () -> {
+			GameOptions.instance.playerCount--;
+			if (GameOptions.instance.playerCount < 1)
+				GameOptions.instance.playerCount = 8;
+		}, LoadSave.FLECHE_GAUCHE, LoadSave.FLECHE_GAUCHE1);
+		buttons[4] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 205, (int) (190 * GameJerem.SCALE), 2, () -> {
+			GameOptions.instance.playerCount++;
+			if (GameOptions.instance.playerCount > 8)
+				GameOptions.instance.playerCount = 1;
+		}, LoadSave.FLECHE_DROITE, LoadSave.FLECHE_DROITE1);
 	}
 
 	@Override
@@ -52,7 +72,8 @@ public class Options extends State implements Statemethods {
 
 		g.drawImage(backgroundImg, menuX, menuY, menuWidth, menuHeight, null);
 		g.drawImage(playerspng, playerX, playerY, playerspng.getWidth() * 2, playerspng.getHeight() * 2, null);
-
+		g.drawImage(boxpng, boxX, boxY, boxpng.getWidth() * 2, boxpng.getHeight() * 2, null);
+		this.selector.draw(g);
 		for (OptionButton mb : buttons)
 			mb.draw(g);
 	}
@@ -77,7 +98,7 @@ public class Options extends State implements Statemethods {
 		for (OptionButton mb : buttons) {
 			if (isIn(e, mb)) {
 				if (mb.isMousePressed())
-					mb.applyGamestate();
+					mb.action.exec();
 				break;
 			}
 		}
