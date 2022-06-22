@@ -35,6 +35,9 @@ public class AnimatedImage extends Paintable {
 
 	@Override
 	public void load() {
+		if (this.loaded) {
+			return;
+		}
 		Image img = AssetServer.load(new Image(this.getPath()));
 		BufferedImage image = img.imageToPaint();
 		int width = image.getWidth() / this.frameCount;

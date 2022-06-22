@@ -6,6 +6,8 @@ import info3.game.Avatar;
 import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
+import info3.game.assets.AnimatedImage;
+import info3.game.assets.Paintable;
 import info3.game.automata.Automata;
 import info3.game.automata.AutomataState;
 import info3.game.automata.Category;
@@ -174,5 +176,20 @@ public abstract class Entity {
 
 	public void setCurrentState(CurrentState s) {
 		this.currentState = s;
+	}
+
+	public void setPaintable(Paintable p) {
+		this.avatar.setPaintable(p);
+		this.avatar.setPosition(this.getPosition().add(this.avatarOffset));
+		this.controller.updatePaintable(this.getAvatar(), p);
+	}
+
+	public String animationDir() {
+		return ".";
+	}
+
+	public void playAnimation(String name, int frameCount, int delay, int offset) {
+		this.avatarOffset.setY(offset);
+		this.setPaintable(new AnimatedImage(this.animationDir() + "/" + name + ".png", frameCount, delay));
 	}
 }

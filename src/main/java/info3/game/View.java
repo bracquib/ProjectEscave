@@ -66,4 +66,6 @@ public abstract class View {
 	protected abstract int getWidth();
 
 	protected abstract int getHeight();
+
+	public abstract void updateAvatar(int id, Paintable p, Vec2 pos);
 }

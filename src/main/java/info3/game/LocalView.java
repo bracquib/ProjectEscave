@@ -12,6 +12,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
 import info3.game.graphics.GameCanvas;
 
@@ -184,5 +185,13 @@ public class LocalView extends View {
 	@Override
 	protected int getHeight() {
 		return this.frame == null ? 768 : this.frame.getHeight();
+	}
+
+	@Override
+	public void updateAvatar(int id, Paintable p, Vec2 pos) {
+		Avatar av = this.avatars.get(id);
+		Paintable loaded = AssetServer.load(p);
+		av.setPaintable(loaded);
+		av.setPosition(pos);
 	}
 }
