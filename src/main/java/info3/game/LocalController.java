@@ -75,6 +75,10 @@ public class LocalController extends Controller {
 			newPos.setX(newPos.getX() + 64);
 			Model.spawn(new Mushroom(p.getController(), p.getPosition(), 1, 1));
 		}
+
+		if (e.code >= 49 && e.code <= 53) {
+			p.getInventory().selectCurrentTool(e.code - 49);
+		}
 	}
 
 	@Override
