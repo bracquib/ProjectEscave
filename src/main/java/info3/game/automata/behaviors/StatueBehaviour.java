@@ -4,6 +4,7 @@ import info3.game.Model;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
+import info3.game.entities.Player;
 import info3.game.entities.Statue;
 import info3.game.physics.RigidBody;
 
@@ -47,12 +48,11 @@ public class StatueBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// activer la statue et le il y a un transfert d'automate
 		Statue s = (Statue) e;
+		Player p = s.getPlayer();
 		s.setCategory(Category.PLAYER);
 		s.setAutomata(Model.getAutomata("Player"));
-		s.getPlayer().setCategory(Category.SOMETHING);
-		// TODO: Set la camera !!
-//		e.getController().sendTo(e.getController().v.getPlayer(),
-//				new SyncCamera(e.getController().v.getPlayer().getAvatar()));
+		p.setCategory(Category.SOMETHING);
+		p.getController().viewFor(p).setFollowedAvatar(s.getAvatar());
 	}
 
 	@Override
@@ -81,11 +81,13 @@ public class StatueBehaviour extends Behaviour {
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
 		Statue s = (Statue) e;
+		Player p = s.getPlayer();
 		s.getSpeed().setX(0);
 		s.setCategory(Category.TEAM);
 		s.setAutomata(Model.getAutomata("Statue"));
-		s.getPlayer().setCategory(Category.PLAYER);
-		s.getPlayer().setAutomata(Model.getAutomata("Player"));
+		p.setCategory(Category.PLAYER);
+		p.setAutomata(Model.getAutomata("Player"));
+		p.getController().viewFor(p).setFollowedAvatar(p.getAvatar());
 	}
 
 	@Override
