@@ -191,13 +191,19 @@ public abstract class Entity {
 		this.controller.updatePaintable(this.getAvatar(), p);
 	}
 
+	public Paintable getPaintable() {
+		return this.avatar.getPaintable();
+	}
+
 	public String animationDir() {
 		return ".";
 	}
 
-	public void playAnimation(String name, int frameCount, int delay, int offset) {
-		this.avatarOffset.setY(offset);
-		this.setPaintable(new AnimatedImage(this.animationDir() + "/" + name + ".png", frameCount, delay));
+	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop) {
+		this.avatarOffset.setX(offsetX);
+		this.avatarOffset.setY(offsetY);
+		AnimatedImage anim = new AnimatedImage(this.animationDir() + "/" + name + ".png", frameCount, delay, loop);
+		this.setPaintable(anim);
 	}
 
 	public CurrentState getCurrentState() {

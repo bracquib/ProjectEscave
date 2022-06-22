@@ -20,7 +20,7 @@ public class Statue extends RigidBody {
 		this.avatarOffset = new Vec2(0, -52);
 
 		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset),
-				new AnimatedImage("statue/statue_immobile_morte_verte.png", 4, 100));
+				new AnimatedImage("statue/statue_immobile_morte_verte.png", 4, 100, true));
 		this.setAutomata(Model.getAutomata("Statue"));
 		this.setBehaviour(new StatueBehaviour());
 		this.setCategory(Category.TEAM);

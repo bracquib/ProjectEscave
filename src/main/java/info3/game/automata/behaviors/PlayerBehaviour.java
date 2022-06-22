@@ -88,9 +88,13 @@ public class PlayerBehaviour extends Behaviour {
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(190);
+			p.playAnimation("walk-right", 5, 200, 0, -4, false);
+			p.setDirection(Direction.EST);
 			break;
 		case WEST:
 			p.getSpeed().setX(-190);
+			p.playAnimation("walk-left", 5, 200, 0, -4, false);
+			p.setDirection(Direction.WEST);
 			break;
 		case SOUTH:
 			e.setCategory(Category.SOMETHING);
