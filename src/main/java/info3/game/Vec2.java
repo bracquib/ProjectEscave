@@ -2,6 +2,8 @@ package info3.game;
 
 import java.io.Serializable;
 
+import info3.game.automata.Direction;
+
 /**
  * Un vecteur à deux éléments.
  * 
@@ -177,5 +179,26 @@ public class Vec2 extends Object implements Serializable {
 
 	public Vec2 screenToGlobal(Vec2 pos) {
 		return pos.add(this);
+	}
+
+	public void print() {
+		System.out.println(this.getX() + " " + this.getY());
+	}
+
+	public Direction orientation(Vec2 mousePos) {
+		float distX = mousePos.getX() - this.getX();
+		float distY = mousePos.getY() - this.getY();
+
+		if (Math.abs(distX) > Math.abs(distY)) {
+			if (distX > 0) {
+				return Direction.EST;
+			} else {
+				return Direction.WEST;
+			}
+		} else if (distY > 0) {
+			return Direction.SOUTH;
+		} else {
+			return Direction.NORTH;
+		}
 	}
 }
