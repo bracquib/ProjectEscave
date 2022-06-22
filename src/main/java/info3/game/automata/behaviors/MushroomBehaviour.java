@@ -17,7 +17,7 @@ public class MushroomBehaviour extends Behaviour {
 
 	@Override
 	public boolean key(Entity e, int keyCode) {
-		// à faire
+		// pas besoin
 		return false;
 	}
 
