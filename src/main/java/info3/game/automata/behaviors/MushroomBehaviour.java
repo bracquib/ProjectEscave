@@ -116,17 +116,36 @@ public class MushroomBehaviour extends Behaviour {
 			p.getSpeed().setY(-240);
 			break;
 		case EST:
-			p.getSpeed().setX(140);
+			p.getSpeed().setX(100);
+			p.getSpeed().setY(-100);
 			break;
 		case WEST:
-			p.getSpeed().setX(-140);
+			p.getSpeed().setX(-100);
+			p.getSpeed().setY(-100);
 			break;
 		case NORTH:
 			p.getSpeed().setY(240);
 			break;
+		case NORTHEST:
+			p.getSpeed().setY(240);
+			p.getSpeed().setX(240);
+			break;
+		case NORTHWEST:
+			p.getSpeed().setY(240);
+			p.getSpeed().setX(-240);
+			break;
+		case SOUTHEST:
+			p.getSpeed().setY(-240);
+			p.getSpeed().setX(240);
+			break;
+		case SOUTHWEST:
+			p.getSpeed().setY(-240);
+			p.getSpeed().setX(-240);
+			break;
 		default:
 			break;
 		}
+		p.getCurrentState().block(300);
 		return;
 	}
 

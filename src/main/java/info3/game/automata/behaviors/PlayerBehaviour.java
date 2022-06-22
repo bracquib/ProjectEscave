@@ -180,6 +180,22 @@ public class PlayerBehaviour extends Behaviour {
 		case NORTH:
 			p.getSpeed().setY(240);
 			break;
+		case NORTHEST:
+			p.getSpeed().setY(240);
+			p.getSpeed().setX(240);
+			break;
+		case NORTHWEST:
+			p.getSpeed().setY(240);
+			p.getSpeed().setX(-240);
+			break;
+		case SOUTHEST:
+			p.getSpeed().setY(-240);
+			p.getSpeed().setX(240);
+			break;
+		case SOUTHWEST:
+			p.getSpeed().setY(-240);
+			p.getSpeed().setX(-240);
+			break;
 		default:
 			break;
 		}
