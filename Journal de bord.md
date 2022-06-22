@@ -272,3 +272,11 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Début de l'implémentation du RayCasting multi ray pour simuler la lumière
 * Implémentation de l'algorithme d'apparition des monstres sur la carte
 
+## Mardi 21 juin 2022
+
+* Lucas : implémentation des automates des mobs et des statues
+
+## Mercredi 22 juin 2022
+
+* Lucas : synchronisation de la caméra quand le joueur devient statue et inversement
+
