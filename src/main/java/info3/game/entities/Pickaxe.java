@@ -20,12 +20,23 @@ public class Pickaxe extends Weapon {
 		// Behaviour behav = owner.getBehaviour();
 		Vec2 mousePos = owner.mousePos;
 		Block underCursor = Model.getBlock((int) mousePos.getX() / 32, (int) mousePos.getY() / 32);
-		Block target = RayCasting.singleCast(mousePos, owner.getPosition().add(16), 3);
-		if (target != null && target == underCursor) {
-			Vec2 coords = new Vec2(target.getPosition()).divide(32);
-			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
-			Inventory inv = owner.getInventory();
-			inv.pick(inv.toolAt(4));
+
+		Vec2 playerPos = owner.getPosition();
+		Vec2[] pp = new Vec2[4];
+		pp[0] = playerPos.add(15);
+		pp[1] = playerPos.add(new Vec2(15, 16));
+		pp[2] = playerPos.add(new Vec2(16, 15));
+		pp[3] = playerPos.add(16);
+
+		for (int i = 0; i < 4; i++) {
+			Block target = RayCasting.singleCast(mousePos, pp[i], 3);
+
+			if (target != null && target == underCursor) {
+				Vec2 coords = new Vec2(target.getPosition()).divide(32);
+				Model.deleteBlock((int) coords.getX(), (int) coords.getY());
+				Inventory inv = owner.getInventory();
+				inv.pick(inv.toolAt(4));
+			}
 		}
 
 		/*

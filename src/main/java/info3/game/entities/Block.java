@@ -40,15 +40,20 @@ public class Block extends Consumable {
 		// Behaviour behav = owner.getBehaviour();
 
 		Vec2 mousePos = owner.mousePos;
+		int xBP = (int) (owner.getPosition().getX() / 32); // coord en block du joueur
+		int yBP = (int) (owner.getPosition().getY() / 32);
 		if (mousePos != null) {
 			int i = ((int) mousePos.getX() / 32);
 			int j = ((int) mousePos.getY() / 32);
 			Block place = Model.getBlock(i, j);
-			if (place == null) {
-				Model.getMap()[i][j] = new Block(Model.controller, new Vec2(i * 32, j * 32), 1, 1);
-				return true;
+			if (!(i == xBP & j == yBP) & i >= xBP - 2 & i <= xBP + 2 & j >= yBP - 2 & j <= yBP + 2) {
+				if (place == null) {
+					Model.getMap()[i][j] = new Block(Model.controller, new Vec2(i * 32, j * 32), 1, 1);
+					return true;
+				}
 			}
 			return false;
+
 		} else {
 			int decX, decY;
 			switch (d) {
