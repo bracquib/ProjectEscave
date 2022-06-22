@@ -1,8 +1,10 @@
 package info3.game.automata.behaviors;
 
+import info3.game.Model;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
+import info3.game.entities.Socle;
 
 public class SocleBehaviour extends Behaviour {
 
@@ -43,10 +45,8 @@ public class SocleBehaviour extends Behaviour {
 
 	@Override
 	public void wizz(Entity e, Direction d) {
-		// wizz=activer la sortie
-		// à faire
-		System.out.println("Bien joué");
-
+		((Socle) e).isActivated = true;
+		Model.incrementActivatedSocles();
 	}
 
 	@Override
