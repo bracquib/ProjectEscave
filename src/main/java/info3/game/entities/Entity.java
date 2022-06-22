@@ -110,6 +110,10 @@ public abstract class Entity {
 		this.currentState = new CurrentState(state);
 	}
 
+	public Automata getAutomata() {
+		return this.automata;
+	}
+
 	public void setBehaviour(Behaviour behaviour) {
 		this.behaviour = behaviour;
 	}
