@@ -275,9 +275,17 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ## Mardi 21 juin 2022
 
 * Lucas : implémentation des automates des mobs et des statues
+* Amaury : utilisation des objets de l'inventaire (placement de blocs)
 
 ## Mercredi 22 juin 2022
 
 * Lucas : synchronisation de la caméra quand le joueur devient statue et inversement
 * Lucas : Implémentation des animations du joueur
+* Amaury et Benjamin : utilisation des objets avec la souris
+* Amaury : test d'ajout de musique
+
+### Amaury et Benjamin : objets avec la souris
+* Placement et destruction de blocs selon la position de la souris (avec raycasting)
+* Frappe joueur-ennemi (et réciproquement) avec recul
+* Ressources vitales du personnage, mort personnage et ennemis
 
