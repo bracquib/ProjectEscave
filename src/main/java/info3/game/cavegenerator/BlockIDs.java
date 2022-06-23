@@ -372,6 +372,10 @@ public class BlockIDs {
 		// Transition mur droit
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 4, 1), 12);
 		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 5, 5), 12);
+		PatternCouche2ToIDs.put(patternCreatorCroix(4, 1, 19, 5), 12);
+		PatternCouche2ToIDs.put(patternCreatorCroix(4, 1, 19, 4), 12);
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 1, 19, 4), 12);
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 1, 19, 5), 12);
 
 		// Transition coin droit bas
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 4, 6), 13);
@@ -381,6 +385,9 @@ public class BlockIDs {
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 1, 6), 15);
 		// Transition mur gauche
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 1, 1), 16);
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 22, 1, 6), 16);
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 18, 1, 7), 16);
+
 		// Transition seul gris clair
 		PatternCouche2ToIDs.put(patternCreatorCroix(2, 8, 4, 6), 23);
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 7, 4, 7), 23);
@@ -399,6 +406,20 @@ public class BlockIDs {
 		PatternCouche2ToIDs.put(patternCreatorCroix(25, 2, 2, 4), 23);
 		PatternCouche2ToIDs.put(patternCreatorCroix(25, 2, 2, 19), 23);
 		PatternCouche2ToIDs.put(patternCreatorCroix(22, 2, 1, 6), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 6, 2, 7), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(25, 2, 3, 1), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 6, 1, 7), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 5, 4), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(8, 18, 5, 21), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 6, 7, 1), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 22, 6, 5), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 6, 2, 6), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 6, 2, 6), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 6, 5), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(8, 22, 5, 5), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(26, 8, 6, 5), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 6, 1, 7), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 6, 5), 23);
 
 		// Transition herbe coin haut gauche
 		PatternCouche2ToIDs.put(patternCreatorCroix(22, 2, 1, 1), 26);
@@ -429,6 +450,8 @@ public class BlockIDs {
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 5, 4), 40);
 		// noir_herbe_haut_droit
 		PatternCouche2ToIDs.put(patternCreatorCroix(4, 8, 2, 1), 38);
+		PatternCouche2ToIDs.put(patternCreatorCroix(4, 8, 3, 1), 38);
+
 		// gris_herbe_bas_gauche
 		PatternCouche2ToIDs.put(patternCreatorCroix(2, 7, 1, 7), 37);
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 6, 4, 7), 37);
@@ -469,11 +492,18 @@ public class BlockIDs {
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 14, 1, 28), 32);
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 14, 12, 28), 32);
 		PatternCouche3ToIDs.put(patternCreatorCroix(10, 28, 1, 16), 32);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 28, 1, 15), 32);
 
 		// Transition 3 coin bas droit
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 1, 29, 29), 33);
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 1, 29, 12), 33);
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 1, 14, 29), 33);
+
+		// trans plafond fix
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 28, 29, 23), 14);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 14, 14, 23), 14);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 28, 14, 23), 14);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 14, 29, 23), 14);
 
 	}
 
