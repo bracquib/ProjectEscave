@@ -210,7 +210,7 @@ public class LocalController extends Controller {
 
 	@Override
 	protected void mouseClick(Player player, MouseClick mouseClick) {
-		Vec2 mouse = mouseClick.position.screenToGlobal(this.viewFor(player).camera.getPos());
+		Vec2 mouse = mouseClick.position.screenToGlobal(this.viewFor(player).camera.getPos()).wrapCoords();
 		player.mousePos = mouse;
 		player.getBehaviour().pop(player, null);
 	}
