@@ -18,7 +18,6 @@ public class Sword extends Weapon {
 	}
 
 	public boolean useTool(Direction d) {
-		owner.playAnimation("attack", 5, 200, 0, -4, false);
 		owner.mousePos.print();
 		Direction orientation = owner.getPosition().orientation(owner.mousePos);
 
@@ -30,24 +29,28 @@ public class Sword extends Weapon {
 			decY = -Block.SIZE * 2;
 			width = Block.SIZE * 3;
 			height = Block.SIZE * 3;
+			owner.playAnimation("attack-right", 5, 200, 0, -4, false);
 			break;
 		case SOUTH:
 			decX = -Block.SIZE;
 			decY = -Block.SIZE;
 			width = Block.SIZE * 3;
 			height = Block.SIZE * 2;
+			owner.playAnimation("attack-right", 5, 200, 0, -4, false);
 			break;
 		case EST:
 			decX = Block.SIZE;
 			decY = -Block.SIZE;
 			width = Block.SIZE * 2;
 			height = Block.SIZE * 3;
+			owner.playAnimation("attack-right", 5, 200, 0, -4, false);
 			break;
 		case WEST:
 			decX = -Block.SIZE * 2;
 			decY = -Block.SIZE;
 			width = Block.SIZE * 2;
 			height = Block.SIZE * 3;
+			owner.playAnimation("attack-left", 5, 200, -32, -4, false);
 			break;
 		default:
 			decX = 0;
