@@ -54,7 +54,16 @@ import info3.game.Vec2;
  * 31 : "trans_3_haut_droit"
  * 32 : "trans_3_bas_gauche"
  * 33 : "trans_3_bas_droit"
-
+ * 34 : "gris_herbe_haut_droit"
+ * 35 : "gris_herbe_haut_gauche"
+ * 36 : "gris_herbe_bas_droit"
+ * 37 : "gris_herbe_bas_gauche"
+ * 38 : "noir_herbe_haut_droit"
+ * 39 : "noir_herbe_haut_gauche"
+ * 40 : "noir_herbe_bas_droit"
+ * 41 : "noir_herbe_bas_gauche"
+ * 42 : "noir_milieu_horizontal"
+ * 43 : "noir_milieu_vertical"
  * 
  *  *** Blocs spéciaux
  * 100 : "noir_blanc"
@@ -144,7 +153,7 @@ import info3.game.Vec2;
  * 551 : "arbre_tombant_mur_droit"
  * 
  * 600 : "water_sol"
- * 
+ * 601 : "socle"
  */
 
 public class BlockIDs {
@@ -189,6 +198,16 @@ public class BlockIDs {
 		IDs.put(31, "trans_3_haut_droit");
 		IDs.put(32, "trans_3_bas_gauche");
 		IDs.put(33, "trans_3_bas_droit");
+		IDs.put(34, "gris_herbe_haut_droit");
+		IDs.put(35, "gris_herbe_haut_gauche");
+		IDs.put(36, "gris_herbe_bas_droit");
+		IDs.put(37, "gris_herbe_bas_gauche");
+		IDs.put(38, "noir_herbe_haut_droit");
+		IDs.put(39, "noir_herbe_haut_gauche");
+		IDs.put(40, "noir_herbe_bas_droit");
+		IDs.put(41, "noir_herbe_bas_gauche");
+		IDs.put(42, "noir_milieu_horizontal");
+		IDs.put(43, "noir_milieu_vertical");
 		IDs.put(100, "noir_blanc");
 		IDs.put(101, "noir_noir");
 		IDs.put(102, "noir_bleu");
@@ -256,7 +275,7 @@ public class BlockIDs {
 		IDs.put(550, "arbre_montant_mur_droit");
 		IDs.put(551, "arbre_tombant_mur_droit");
 		IDs.put(600, "water_sol");
-
+		IDs.put(601, "socle");
 	}
 
 	static {
@@ -352,6 +371,8 @@ public class BlockIDs {
 		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 4, 1), 11);
 		// Transition mur droit
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 4, 1), 12);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 5, 5), 12);
+
 		// Transition coin droit bas
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 4, 6), 13);
 		// Transition plafond
@@ -362,6 +383,23 @@ public class BlockIDs {
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 1, 1), 16);
 		// Transition seul gris clair
 		PatternCouche2ToIDs.put(patternCreatorCroix(2, 8, 4, 6), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 7, 4, 7), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 7, 4, 8), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 5, 5), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 6, 5, 21), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 7, 5, 21), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(4, 7, 2, 8), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 19, 5), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 7, 2, 8), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 2, 5, 4), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(4, 6, 2, 7), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 5, 6), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 5, 5), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 2, 5, 5), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(25, 2, 2, 4), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(25, 2, 2, 19), 23);
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 2, 1, 6), 23);
+
 		// Transition herbe coin haut gauche
 		PatternCouche2ToIDs.put(patternCreatorCroix(22, 2, 1, 1), 26);
 		PatternCouche2ToIDs.put(patternCreatorCroix(22, 22, 1, 1), 26);
@@ -384,6 +422,26 @@ public class BlockIDs {
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 6, 5), 29);
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 5, 6), 29);
 		PatternCouche2ToIDs.put(patternCreatorCroix(1, 1, 6, 4), 29);
+
+		// noir_herbe_haut_gauche
+		PatternCouche2ToIDs.put(patternCreatorCroix(8, 2, 4, -2), 39);
+		// noir_herbe_bas_droit
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 8, 5, 4), 40);
+		// noir_herbe_haut_droit
+		PatternCouche2ToIDs.put(patternCreatorCroix(4, 8, 2, 1), 38);
+		// gris_herbe_bas_gauche
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 7, 1, 7), 37);
+		PatternCouche2ToIDs.put(patternCreatorCroix(1, 6, 4, 7), 37);
+
+		// noir-milieu-vertical
+		PatternCouche2ToIDs.put(patternCreatorCroix(-2, 8, 4, 1), 43);
+		// noir-milieu-vertical
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 1, 3, 6), 42);
+		PatternCouche2ToIDs.put(patternCreatorCroix(3, 1, 1, 6), 42);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 1, 6), 42);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 3, 6), 42);
+		PatternCouche2ToIDs.put(patternCreatorCroix(2, 1, 3, 6), 42);
+		PatternCouche2ToIDs.put(patternCreatorCroix(22, 1, 1, 6), 42);
 
 	}
 
@@ -409,6 +467,9 @@ public class BlockIDs {
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 28, 1, 16), 32);
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 28, 1, 28), 32);
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 14, 1, 28), 32);
+		PatternCouche3ToIDs.put(patternCreatorCroix(1, 14, 12, 28), 32);
+		PatternCouche3ToIDs.put(patternCreatorCroix(10, 28, 1, 16), 32);
+
 		// Transition 3 coin bas droit
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 1, 29, 29), 33);
 		PatternCouche3ToIDs.put(patternCreatorCroix(1, 1, 29, 12), 33);
