@@ -7,6 +7,7 @@ import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
 import info3.game.automata.behaviors.PlayerBehaviour;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -22,6 +23,7 @@ public class Player extends RigidBody {
 		super(1, c, points);
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
 		if (local) {
 			this.setPosition(pos);
 			this.setCategory(Category.PLAYER);
