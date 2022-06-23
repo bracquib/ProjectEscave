@@ -2,6 +2,7 @@ package info3.game.physics;
 
 import info3.game.LocalController;
 import info3.game.Vec2;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 
 public class RigidBody extends Entity {
@@ -14,6 +15,7 @@ public class RigidBody extends Entity {
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
 	}
 
 	public RigidBody(float mass, LocalController c, int points) {
@@ -21,6 +23,7 @@ public class RigidBody extends Entity {
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
 	}
 
 	public void addSpeed(Vec2 speed) {
