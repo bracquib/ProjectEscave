@@ -62,6 +62,8 @@ public class PlayerBehaviour extends Behaviour {
 //		return;
 		// wizz = prise de contrôle de la statue
 		// e.setCategory(Category.SOMETHING);
+
+		// action vide pour aller dans l'état statue
 	}
 
 	@Override

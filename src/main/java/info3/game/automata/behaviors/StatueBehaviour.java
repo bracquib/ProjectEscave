@@ -50,6 +50,7 @@ public class StatueBehaviour extends Behaviour {
 		s.setCategory(Category.PLAYER);
 		s.setAutomata(Model.getAutomata("Player"));
 		s.getPlayer().setCategory(Category.SOMETHING);
+		s.getPlayer().getBehaviour().wizz(s.getPlayer(), d);
 		// TODO: Set la camera !!
 //		e.getController().sendTo(e.getController().v.getPlayer(),
 //				new SyncCamera(e.getController().v.getPlayer().getAvatar()));
