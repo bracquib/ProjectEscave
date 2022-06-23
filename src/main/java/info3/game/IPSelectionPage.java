@@ -95,31 +95,29 @@ public class IPSelectionPage extends JFrame {
 		grid.gridy = 1;
 		panel05.add(IPTextField, grid);
 
-		grid.gridy = 1;
-		JButton joinGameBtn = new JButton("Rejoindre une partie");
+		JButton joinGameBtn = new JButton("Valider");
 		joinGameBtn.setPreferredSize(new Dimension(170, 30));
 		joinGameBtn.setBackground(BTN_COLOR);
 		joinGameBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Lancer le jeu en récupérant l'IP
 				frame.dispose();
-				joinGame(IPTextField.getText());
+				// Sauver l'IP dans le fichier d'Options
 			}
 		});
 		panel2.add(joinGameBtn, grid);
 
 		JButton createGameBtn = new JButton("Créer une partie");
-		createGameBtn.setPreferredSize(new Dimension(170, 30));
+		createGameBtn.setPreferredSize(new Dimension(200, 80));
 		createGameBtn.setBackground(BTN_COLOR);
 		createGameBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Créer une partie
 				frame.dispose();
-				createGame(IPTextField.getText());
+				// Sauver l'IP dans le fichier d'Options
 			}
 		});
 		grid.gridy = 2;
-		panel2.add(createGameBtn, grid);
+		// panel2.add(createGameBtn, grid);
 
 		this.setVisible(true);
 	}
