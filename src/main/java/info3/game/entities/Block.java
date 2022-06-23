@@ -11,9 +11,11 @@ import info3.game.cavegenerator.BlockIDs;
 
 public class Block extends Consumable {
 	public static final int SIZE = 64;
+	public int id;
 
 	public Block(LocalController c, Vec2 position, int id, int points) {
 		super(c, null);
+		this.id = id;
 		this.pointsDeVie = points;
 		this.position = position;
 		this.setCategory(Category.JUMPABLE);

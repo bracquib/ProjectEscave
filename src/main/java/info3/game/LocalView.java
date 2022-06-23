@@ -3,6 +3,7 @@ package info3.game;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.SortedSet;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
+import info3.game.entities.Block;
 import info3.game.graphics.GameCanvas;
 
 public class LocalView extends View {
@@ -76,6 +78,8 @@ public class LocalView extends View {
 	 */
 
 	private long textElapsed;
+	public Vec2 mousePos = new Vec2(0);
+	static Font font = new Font("Comic Sans MS", Font.PLAIN, 32);
 
 	/*
 	 * This method is invoked almost periodically, given the number of milli-seconds
@@ -125,6 +129,15 @@ public class LocalView extends View {
 				synchronized (a) {
 					a.paint(g, cameraPos);
 				}
+			}
+			g.setColor(Color.red);
+			int id = 0;
+			Vec2 blocPos = this.mousePos.screenToGlobal(cameraPos).divide(64);
+			Block b = Model.getBlock((int) blocPos.getX(), (int) blocPos.getY());
+			if (b != null) {
+				char[] chars = Integer.toString(b.id).toCharArray();
+				g.setFont(font);
+				g.drawChars(chars, 0, chars.length, (int) this.mousePos.getX(), (int) this.mousePos.getY());
 			}
 			this.isPainting.release();
 		} catch (InterruptedException e) {
