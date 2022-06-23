@@ -195,6 +195,7 @@ public class AutomataSelectionPage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Charger les automates dans le Model
+				frame.dispose();
 				loadModelAutomatas();
 				// Ret
 			}
