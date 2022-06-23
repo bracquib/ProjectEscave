@@ -58,7 +58,6 @@ public class LocalController extends Controller {
 
 	@Override
 	public void keyPressed(Player p, KeyPress e) {
-		System.out.println("[DEBUG] " + p.name() + " pressed " + e.code);
 		this.addPressedKey(e.code);
 
 		if (e.code == 32) {
@@ -80,7 +79,6 @@ public class LocalController extends Controller {
 
 	@Override
 	public void keyReleased(Player p, KeyRelease e) {
-		System.out.println("[DEBUG] " + p.name() + " released " + e.code);
 		this.removePressedKey(e.code);
 	}
 
@@ -224,6 +222,7 @@ public class LocalController extends Controller {
 
 	public void updatePaintable(Avatar av, Paintable p) {
 		for (View v : this.views) {
+			// TODO: move this to each view implementation
 			if (v instanceof RemoteView) {
 				RemoteView rv = (RemoteView) v;
 				rv.client.send(new UpdateAvatar(av.getId(), p, av.getPosition()));

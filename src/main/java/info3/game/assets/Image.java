@@ -29,7 +29,6 @@ public class Image extends Paintable {
 		if (this.loaded) {
 			return;
 		}
-		System.out.println("loading image");
 		File imageFile = new File(AssetServer.baseDir + this.getPath());
 		if (imageFile.exists()) {
 			try {

@@ -171,7 +171,6 @@ public class LocalView extends View {
 
 	@Override
 	public void deleteAvatar(int id) {
-		System.out.println(this.getAvatar(id).image.getPath());
 		super.deleteAvatar(id);
 		this.sortedAvatars.removeIf((x) -> x.getId() == id);
 	}

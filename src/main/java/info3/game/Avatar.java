@@ -27,7 +27,7 @@ public class Avatar {
 
 	private static transient final float DUPLICATE_RANGE = Block.SIZE * 10;
 
-	private transient int[] duplicates;
+	public transient int[] duplicates;
 
 	private void updateDuplicates(Vec2 pos) {
 		if (this.duplicates == null) {

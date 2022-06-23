@@ -27,7 +27,12 @@ public abstract class View {
 	public abstract Avatar createAvatar(int id, Vec2 pos, Paintable image, boolean dup);
 
 	public void deleteAvatar(int id) {
-		this.avatars.remove(id);
+		Avatar av = this.avatars.remove(id);
+		if (av != null && av.duplicates != null) {
+			for (int dup : av.duplicates) {
+				this.controller.deleteAvatar(dup);
+			}
+		}
 	}
 
 	public void updateAvatar(int id, Vec2 pos) {
