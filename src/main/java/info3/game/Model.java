@@ -12,13 +12,14 @@ import info3.game.automata.ast.AST;
 import info3.game.automata.parser.AutomataParser;
 import info3.game.cavegenerator.DecorationGenerator;
 import info3.game.cavegenerator.SpawnGenerator4D;
-import info3.game.cavegenerator.Torus;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
 import info3.game.entities.Statue;
 import info3.game.physics.PhysicsWorld;
 import info3.game.physics.RigidBody;
+import info3.game.torus.IntTorus;
+import info3.game.torus.Map;
 
 /**
  * Représente l'ensemble des données du jeu.
@@ -52,7 +53,7 @@ public class Model {
 	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
 	 * précis avec la méthode getBlock(x, y) de cette classe.
 	 */
-	private static Block[][] map;
+	private static Map map;
 
 	static ArrayList<Vec2> spawnPoints;
 
@@ -77,7 +78,8 @@ public class Model {
 		Model.loadAutomatas();
 	}
 
-	public static void deleteentities(RigidBody e) {
+	public static void deleteEntity(RigidBody e) {
+		// TODO: sync?
 		entities.remove(e);
 	}
 
@@ -101,11 +103,11 @@ public class Model {
 	}
 
 	public static void deleteBlock(int x, int y) {
-		if (Model.map[x][y] == null) {
+		if (Model.map.get(x, y) == null) {
 			return;
 		}
-		int avatarId = Model.map[x][y].getAvatar().getId();
-		Model.map[x][y] = null;
+		int avatarId = Model.map.get(x, y).getAvatar().getId();
+		Model.map.set(x, y, null);
 		Model.controller.deleteAvatar(avatarId);
 	}
 
@@ -118,14 +120,14 @@ public class Model {
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			Model.statuesSpawns = generationMap.listSpawnStatues;
 
-			Torus torus = DecorationGenerator.decorate(values);
+			IntTorus torus = DecorationGenerator.decorate(values);
 			int[][] blocks = torus.toArray();
 
-			Model.map = new Block[blocks.length][blocks[0].length]; // this.map
+			Model.map = new Map(blocks.length, blocks[0].length);
 			for (int i = 0; i < blocks.length; i++) {
 				for (int j = 0; j < blocks[i].length; j++) {
 					if (blocks[i][j] != 0) {
-						Model.map[i][j] = new Block(Model.controller, new Vec2(i * 64, j * 64), blocks[i][j], 1);
+						Model.map.set(i, j, new Block(Model.controller, new Vec2(i * 64, j * 64), blocks[i][j], 1));
 					}
 				}
 			}
@@ -174,8 +176,7 @@ public class Model {
 	 * @return Le bloc à cette position
 	 */
 	public static Block getBlock(int x, int y) {
-		// TODO : on est sur un tore
-		return Model.map[x][y];
+		return Model.map.get(x, y);
 	}
 
 	/**
@@ -216,10 +217,11 @@ public class Model {
 		}
 		if (Model.map != null) {
 			synchronized (Model.map) {
-				for (int i = 0; i < Model.map.length; i++) {
-					for (int j = 0; j < Model.map[i].length; j++) {
-						if (Model.map[i][j] != null) {
-							all.add(Model.map[i][j]);
+				for (int i = 0; i < Model.map.width; i++) {
+					for (int j = 0; j < Model.map.height; j++) {
+						Block block = Model.map.get(i, j);
+						if (block != null) {
+							all.add(block);
 						}
 					}
 				}
@@ -243,7 +245,7 @@ public class Model {
 		return Model.entities;
 	}
 
-	public static Block[][] getMap() {
+	public static Map getMap() {
 		return Model.map;
 	}
 
@@ -278,7 +280,7 @@ public class Model {
 
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				resMap[i][j] = map[x + i][y + j];
+				resMap[i][j] = map.get(x + i, y + j);
 			}
 		}
 		return resMap;

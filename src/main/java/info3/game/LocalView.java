@@ -119,6 +119,9 @@ public class LocalView extends View {
 		g.fillRect(0, 0, width, height);
 
 		Vec2 cameraPos = this.camera.getPos();
+		g.setColor(Color.white);
+		Vec2 mapStart = new Vec2(0).globalToScreen(cameraPos);
+		g.fillRect((int) mapStart.getX(), (int) mapStart.getY(), 200 * 64, 200 * 64);
 		try {
 			this.isPainting.acquire();
 			for (Avatar a : this.getVisibleAvatars()) {
@@ -140,7 +143,7 @@ public class LocalView extends View {
 	public ArrayList<Avatar> getVisibleAvatars() {
 		int width = this.canvas.getWidth();
 		int height = this.canvas.getHeight();
-		int radius = Math.max(width, height) * 2;
+		float radius = Math.max(width, height) * 1.2f;
 		ArrayList<Avatar> result = new ArrayList<>();
 		Vec2 cameraPos = this.camera.getPos();
 		synchronized (this.sortedAvatars) {
@@ -154,9 +157,9 @@ public class LocalView extends View {
 	}
 
 	@Override
-	public Avatar createAvatar(int id, Vec2 pos, Paintable img) {
-		Avatar av = new Avatar(id, img);
-		av.position = pos;
+	public Avatar createAvatar(int id, Vec2 pos, Paintable img, boolean dup) {
+		Avatar av = new Avatar(id, img, dup);
+		av.setPosition(pos);
 		synchronized (this.avatars) {
 			this.avatars.put(id, av);
 		}

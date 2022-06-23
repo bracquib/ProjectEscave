@@ -3,6 +3,7 @@ package info3.game;
 import java.io.Serializable;
 
 import info3.game.automata.Direction;
+import info3.game.entities.Block;
 
 /**
  * Un vecteur à deux éléments.
@@ -200,5 +201,25 @@ public class Vec2 extends Object implements Serializable {
 		} else {
 			return Direction.NORTH;
 		}
+	}
+
+	public Vec2 sub(int i) {
+		return new Vec2(this.x - i, this.y - i);
+	}
+
+	public Vec2 wrapCoords() {
+		float max = Block.SIZE * Model.getMap().width;
+
+		float x = this.x % max;
+		if (x <= 0) {
+			x = max + x;
+		}
+
+		float y = this.y % max;
+		if (y <= 0) {
+			y = max + y;
+		}
+
+		return new Vec2(x, y);
 	}
 }

@@ -2,6 +2,8 @@ package info3.game.cavegenerator;
 
 import java.util.HashMap;
 
+import info3.game.torus.IntTorus;
+
 public class DecorationGenerator {
 	static int[] mineraux = { 100, 101, 102, 103, 104, 105 };
 	static int[] champignons = { 250, 251, 252, 253, 254, 255, 256, 257 };
@@ -13,12 +15,12 @@ public class DecorationGenerator {
 	static int[] arbres_gauche = { 450, 451 };
 	static int[] lanterne_courte = { 351 };
 
-	public static Torus decorate(int[][] map) {
-		Torus step1 = decorateMap(map, BlockIDs.PatternCouche1ToIDs);
-		Torus step2 = decorateMap(step1.toArray(), BlockIDs.PatternCouche2ToIDs);
-		Torus step3 = decorateMap(step2.toArray(), BlockIDs.PatternCouche3ToIDs);
+	public static IntTorus decorate(int[][] map) {
+		IntTorus step1 = decorateMap(map, BlockIDs.PatternCouche1ToIDs);
+		IntTorus step2 = decorateMap(step1.toArray(), BlockIDs.PatternCouche2ToIDs);
+		IntTorus step3 = decorateMap(step2.toArray(), BlockIDs.PatternCouche3ToIDs);
 
-		Torus extendDeco = extensionDecoration(step3.toArray(), 2, champignons, 40);
+		IntTorus extendDeco = extensionDecoration(step3.toArray(), 2, champignons, 40);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 1, mineraux, 0.5);
 		Fillon.generateFilons(extendDeco, 1, mineraux);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 4, cristaux_droit, 15);
@@ -43,9 +45,9 @@ public class DecorationGenerator {
 		return extendDeco;
 	}
 
-	public static Torus decorateMap(int[][] map, HashMap<Integer[][], Integer> hm) {
-		Torus newmap = new Torus(map);
-		Torus map2 = new Torus(map);
+	public static IntTorus decorateMap(int[][] map, HashMap<Integer[][], Integer> hm) {
+		IntTorus newmap = new IntTorus(map);
+		IntTorus map2 = new IntTorus(map);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				int[][] paternToCompare = DecorationGenerator.getPattern(i, j, map2);
@@ -56,7 +58,7 @@ public class DecorationGenerator {
 		return newmap;
 	}
 
-	private static int[][] getPattern(int x, int y, Torus tore) {
+	private static int[][] getPattern(int x, int y, IntTorus tore) {
 		int[] ligne1 = { tore.get(x - 1, y - 1), tore.get(x, y - 1), tore.get(x + 1, y - 1) };
 		int[] ligne2 = { tore.get(x - 1, y), tore.get(x, y), tore.get(x + 1, y) };
 		int[] ligne3 = { tore.get(x - 1, y + 1), tore.get(x, y + 1), tore.get(x + 1, y + 1) };
@@ -64,8 +66,8 @@ public class DecorationGenerator {
 		return res;
 	}
 
-	private static Torus extensionDecoration(int[][] map, int idtoChange, int[] id, double percent) {
-		Torus newmap = new Torus(map);
+	private static IntTorus extensionDecoration(int[][] map, int idtoChange, int[] id, double percent) {
+		IntTorus newmap = new IntTorus(map);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j] == idtoChange) {
@@ -80,8 +82,8 @@ public class DecorationGenerator {
 		return newmap;
 	}
 
-	private static Torus extensionStegDeco(int[][] map, double percent) {
-		Torus newmap = new Torus(map);
+	private static IntTorus extensionStegDeco(int[][] map, double percent) {
+		IntTorus newmap = new IntTorus(map);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j] == 1) {
@@ -97,8 +99,8 @@ public class DecorationGenerator {
 		return newmap;
 	}
 
-	private static Torus extensionTricDeco(int[][] map, double percent) {
-		Torus newmap = new Torus(map);
+	private static IntTorus extensionTricDeco(int[][] map, double percent) {
+		IntTorus newmap = new IntTorus(map);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j] == 1) {
@@ -114,8 +116,8 @@ public class DecorationGenerator {
 		return newmap;
 	}
 
-	private static Torus extensionTRexDeco(int[][] map, double percent) {
-		Torus newmap = new Torus(map);
+	private static IntTorus extensionTRexDeco(int[][] map, double percent) {
+		IntTorus newmap = new IntTorus(map);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j] == 1) {
@@ -131,7 +133,7 @@ public class DecorationGenerator {
 		return newmap;
 	}
 
-	private static void placeTric(Torus tore, int x, int y) {
+	private static void placeTric(IntTorus tore, int x, int y) {
 		tore.set(x - 2, y - 1, 170);
 		tore.set(x - 1, y - 1, 171);
 		tore.set(x, y - 1, 172);
@@ -140,7 +142,7 @@ public class DecorationGenerator {
 		tore.set(x, y, 175);
 	}
 
-	private static void placeTRex(Torus tore, int x, int y) {
+	private static void placeTRex(IntTorus tore, int x, int y) {
 		tore.set(x - 1, y - 1, 150);
 		tore.set(x, y - 1, 151);
 		tore.set(x - 1, y, 152);
@@ -151,7 +153,7 @@ public class DecorationGenerator {
 
 	}
 
-	private static void placeSteg(Torus tore, int x, int y) {
+	private static void placeSteg(IntTorus tore, int x, int y) {
 		tore.set(x - 2, y - 1, 160);
 		tore.set(x - 1, y - 1, 161);
 		tore.set(x, y - 1, 162);
@@ -162,7 +164,7 @@ public class DecorationGenerator {
 		tore.set(x + 1, y, 167);
 	}
 
-	private static boolean checkZoneDino(Torus tore, int x, int y) {
+	private static boolean checkZoneDino(IntTorus tore, int x, int y) {
 		int[] ligne1 = { tore.get(x - 2, y - 1), tore.get(x - 1, y - 1), tore.get(x, y - 1), tore.get(x + 1, y - 1) };
 		int[] ligne2 = { tore.get(x - 2, y), tore.get(x - 1, y), tore.get(x, y), tore.get(x + 1, y) };
 		int[][] res = { ligne1, ligne2 };
@@ -175,7 +177,7 @@ public class DecorationGenerator {
 		return true;
 	}
 
-	private static boolean checkZoneLanterneLongue(Torus tore, int x, int y) {
+	private static boolean checkZoneLanterneLongue(IntTorus tore, int x, int y) {
 		for (int i = 1; i < 3; i++) {
 			if (tore.get(x, y + i) != 0)
 				return false;
@@ -183,7 +185,7 @@ public class DecorationGenerator {
 		return true;
 	}
 
-	private static boolean checkZoneLianes(Torus tore, int x, int y) {
+	private static boolean checkZoneLianes(IntTorus tore, int x, int y) {
 		for (int i = 1; i < 4; i++) {
 			if (tore.get(x, y + i) != 0)
 				return false;
@@ -191,8 +193,8 @@ public class DecorationGenerator {
 		return true;
 	}
 
-	private static Torus extensionLanterneLongueDeco(int[][] map, double percent) {
-		Torus newmap = new Torus(map);
+	private static IntTorus extensionLanterneLongueDeco(int[][] map, double percent) {
+		IntTorus newmap = new IntTorus(map);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j] == 5 || map[i][j] == 6 || map[i][j] == 7) {
@@ -208,8 +210,8 @@ public class DecorationGenerator {
 		return newmap;
 	}
 
-	private static Torus extensionLianesDeco(int[][] map, double percent) {
-		Torus newmap = new Torus(map);
+	private static IntTorus extensionLianesDeco(int[][] map, double percent) {
+		IntTorus newmap = new IntTorus(map);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j] == 5 || map[i][j] == 6 || map[i][j] == 7) {

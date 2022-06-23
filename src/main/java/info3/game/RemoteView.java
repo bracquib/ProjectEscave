@@ -22,8 +22,8 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	public Avatar createAvatar(int id, Vec2 pos, Paintable img) {
-		Avatar av = new Avatar(id, img);
+	public Avatar createAvatar(int id, Vec2 pos, Paintable img, boolean dup) {
+		Avatar av = new Avatar(id, img, dup);
 		av.setPosition(pos);
 		this.avatars.put(id, av);
 		((LocalController) this.controller).sendToClients(new CreateAvatar(id, pos, img));

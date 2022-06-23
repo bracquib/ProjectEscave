@@ -72,7 +72,7 @@ public class StalactiteBehaviour extends Behaviour {
 			}
 		}
 		RigidBody p = (RigidBody) e;
-		Model.deleteentities(p);
+		Model.deleteEntity(p);
 		return;
 	}
 

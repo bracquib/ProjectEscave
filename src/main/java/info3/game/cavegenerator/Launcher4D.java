@@ -8,6 +8,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import info3.game.Vec2;
+import info3.game.torus.IntTorus;
 
 public class Launcher4D {
 	private static final int nbPlayers = 2;
@@ -47,7 +48,7 @@ public class Launcher4D {
 		List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 		List<Vec2> statues = generationMap.listSpawnStatues;
 
-		Torus torus = DecorationGenerator.decorate(values1);
+		IntTorus torus = DecorationGenerator.decorate(values1);
 		int[][] values = torus.toArray();
 
 		/* Test des fillons */

@@ -26,6 +26,9 @@ public class Image extends Paintable {
 
 	@Override
 	public void load() {
+		if (this.loaded) {
+			return;
+		}
 		File imageFile = new File(AssetServer.baseDir + this.getPath());
 		if (imageFile.exists()) {
 			try {

@@ -10,6 +10,7 @@ import info3.game.entities.Block;
 public class PhysicsWorld {
 	public static final Vec2 GRAVITY = new Vec2(0.0f, 800f);
 	public static final Vec2 MAXSPEED = new Vec2(200f, 5000f);
+	private static final int RADIUS = 2;
 
 	/**
 	 * Calcule tous les changements de position dans le model dûs aux forces du
@@ -23,24 +24,27 @@ public class PhysicsWorld {
 	public void tick(long elapsed) {
 		float elapsedSec = elapsed / 1000.0f;
 		ArrayList<RigidBody> entities = Model.getEntities();
-		Block[][] map = Model.getMap();
 
 		for (RigidBody rb : entities) {
 			step(rb, elapsedSec);
+			Vec2 center = rb.getPosition().divide(Block.SIZE);
 
 			HashSet<CollisionType> collisions = new HashSet<CollisionType>();
-			for (int i = 0; i < map.length; i++) {
-				for (int j = 0; j < map[0].length; j++) {
-					if (map[i][j] == null) {
+			Block[][] zone = Model.getMapZone((int) center.sub(RADIUS).getX(), (int) center.sub(RADIUS).getY(),
+					RADIUS * 2, RADIUS * 2);
+			for (int i = 0; i < zone.length; i++) {
+				for (int j = 0; j < zone[i].length; j++) {
+					Block currentBlock = zone[i][j];
+					if (currentBlock == null) {
 						continue;
 					}
 
 					try {
-						CollisionType coll = rb.isColliding(map[i][j]);
+						CollisionType coll = rb.isColliding(currentBlock);
 						if (coll == CollisionType.NONE)
 							continue;
 						collisions.add(coll);
-						clearCoords(rb, map[i][j], coll);
+						clearCoords(rb, currentBlock, coll);
 					} catch (Exception e) {
 						// Ne devrait jamais arriver
 						e.printStackTrace();

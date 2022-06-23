@@ -16,6 +16,7 @@ import info3.game.automata.behaviors.Behaviour;
 import info3.game.network.UpdateAvatar;
 import info3.game.physics.BoxCollider;
 import info3.game.physics.Collider;
+import info3.game.torus.Map;
 
 /**
  * Représente une entité du jeu.
@@ -57,28 +58,29 @@ public abstract class Entity {
 	}
 
 	public void setPosition(Vec2 pos) {
-		Block[][] map = Model.getMap();
-		Vec2 mapSize = new Vec2(map[0].length * Block.SIZE, map.length * Block.SIZE);
+		Map map = Model.getMap();
 
 		// dépassement du haut
-		if (pos.getX() >= 0 && pos.getX() <= mapSize.getX() && pos.getY() < 0) {
-			pos = new Vec2(pos.getX(), pos.getY() + mapSize.getY());
+		float mapWidth = map.width * Block.SIZE;
+		float mapHeight = map.height * Block.SIZE;
+		if (pos.getX() >= 0 && pos.getX() <= mapWidth && pos.getY() < 0) {
+			pos = new Vec2(pos.getX(), pos.getY() + mapHeight);
 		}
 
 		// dépassement du bas
-		else if (pos.getX() >= 0 && pos.getX() <= mapSize.getX() && pos.getY() > mapSize.getY()) {
-			pos = new Vec2(pos.getX(), pos.getY() - mapSize.getY());
+		else if (pos.getX() >= 0 && pos.getX() <= mapWidth && pos.getY() > mapHeight) {
+			pos = new Vec2(pos.getX(), pos.getY() - mapHeight);
 		}
 
 		// dépassement à droite
-		else if (pos.getY() >= 0 && pos.getY() <= mapSize.getY() && pos.getX() > mapSize.getX()) {
-			pos = new Vec2(pos.getX() - mapSize.getX(), pos.getY());
+		else if (pos.getY() >= 0 && pos.getY() <= mapHeight && pos.getX() > mapWidth) {
+			pos = new Vec2(pos.getX() - mapHeight, pos.getY());
 
 		}
 
 		// dépassement à gauche
-		else if (pos.getY() >= 0 && pos.getY() <= mapSize.getY() && pos.getX() < 0) {
-			pos = new Vec2(pos.getX() + mapSize.getX(), pos.getY());
+		else if (pos.getY() >= 0 && pos.getY() <= mapHeight && pos.getX() < 0) {
+			pos = new Vec2(pos.getX() + mapWidth, pos.getY());
 		}
 
 		this.position = pos;
