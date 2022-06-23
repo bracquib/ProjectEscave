@@ -67,6 +67,8 @@ public class Sword extends Weapon {
 				if (e1.pointsDeVie - mobDmg <= 0) {
 					Inventory inv = owner.getInventory();
 					inv.pick(inv.toolAt(3));
+					System.out.println("récupère de la food");
+
 				}
 				e1.getBehaviour().protect(e1, orientation, mobDmg);
 				return true;
