@@ -6,6 +6,7 @@ import java.util.HashSet;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.entities.Block;
+import info3.game.torus.Map;
 
 public class PhysicsWorld {
 	public static final Vec2 GRAVITY = new Vec2(0.0f, 800f);
@@ -23,24 +24,25 @@ public class PhysicsWorld {
 	public void tick(long elapsed) {
 		float elapsedSec = elapsed / 1000.0f;
 		ArrayList<RigidBody> entities = Model.getEntities();
-		Block[][] map = Model.getMap();
+		Map map = Model.getMap();
 
 		for (RigidBody rb : entities) {
 			step(rb, elapsedSec);
 
 			HashSet<CollisionType> collisions = new HashSet<CollisionType>();
-			for (int i = 0; i < map.length; i++) {
-				for (int j = 0; j < map[0].length; j++) {
-					if (map[i][j] == null) {
+			for (int i = 0; i < map.width; i++) {
+				for (int j = 0; j < map.height; j++) {
+					Block currentBlock = map.get(i, j);
+					if (currentBlock == null) {
 						continue;
 					}
 
 					try {
-						CollisionType coll = rb.isColliding(map[i][j]);
+						CollisionType coll = rb.isColliding(currentBlock);
 						if (coll == CollisionType.NONE)
 							continue;
 						collisions.add(coll);
-						clearCoords(rb, map[i][j], coll);
+						clearCoords(rb, currentBlock, coll);
 					} catch (Exception e) {
 						// Ne devrait jamais arriver
 						e.printStackTrace();

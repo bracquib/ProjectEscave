@@ -169,7 +169,7 @@ public class PlayerBehaviour extends Behaviour {
 		RigidBody p = (RigidBody) e;
 		if (e.pointsDeVie == 0) {
 			System.out.println("mort du joueur");
-			Model.deleteentities(p);
+			Model.deleteEntity(p);
 		}
 		switch (d) {
 		case SOUTH:

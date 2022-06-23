@@ -112,7 +112,7 @@ public class MushroomBehaviour extends Behaviour {
 		RigidBody p = (RigidBody) e;
 		System.out.println("HPmushroom=" + e.pointsDeVie);
 		if (e.pointsDeVie == 0) {
-			Model.deleteentities(p);
+			Model.deleteEntity(p);
 		}
 		switch (d) {
 		case SOUTH:

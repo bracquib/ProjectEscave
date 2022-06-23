@@ -140,7 +140,7 @@ public class LocalView extends View {
 	public ArrayList<Avatar> getVisibleAvatars() {
 		int width = this.canvas.getWidth();
 		int height = this.canvas.getHeight();
-		int radius = Math.max(width, height) * 2;
+		float radius = Math.max(width, height) * 1.2f;
 		ArrayList<Avatar> result = new ArrayList<>();
 		Vec2 cameraPos = this.camera.getPos();
 		synchronized (this.sortedAvatars) {
