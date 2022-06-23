@@ -108,7 +108,7 @@ public class MushroomBehaviour extends Behaviour {
 		e.pointsDeVie -= dmg;
 		RigidBody p = (RigidBody) e;
 		System.out.println("HPmushroom=" + e.pointsDeVie);
-		if (e.pointsDeVie == 0) {
+		if (e.pointsDeVie <= 0) {
 			Model.deleteentities(p);
 		}
 		switch (d) {
