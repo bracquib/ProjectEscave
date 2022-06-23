@@ -119,6 +119,9 @@ public class LocalView extends View {
 		g.fillRect(0, 0, width, height);
 
 		Vec2 cameraPos = this.camera.getPos();
+		g.setColor(Color.white);
+		Vec2 mapStart = new Vec2(0).globalToScreen(cameraPos);
+		g.fillRect((int) mapStart.getX(), (int) mapStart.getY(), 200 * 64, 200 * 64);
 		try {
 			this.isPainting.acquire();
 			for (Avatar a : this.getVisibleAvatars()) {

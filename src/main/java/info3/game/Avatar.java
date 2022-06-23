@@ -96,5 +96,4 @@ public class Avatar {
 	public boolean equals(Object other) {
 		return other instanceof Avatar && this.id == ((Avatar) other).id;
 	}
-
 }

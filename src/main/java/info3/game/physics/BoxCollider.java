@@ -15,9 +15,9 @@ public class BoxCollider extends Collider {
 	@Override
 	public CollisionType isColliding(Vec2 pos, Collider other, Vec2 otherPos) throws Exception {
 		Vec2 colliderPos = pos.add(new Vec2(this.offsetX, this.offsetY));
-		if (other instanceof BoxCollider)
+		if (other instanceof BoxCollider) {
 			return testCollision(colliderPos, (BoxCollider) other, otherPos);
-
+		}
 		throw new Exception("Collision not implemented");
 	}
 

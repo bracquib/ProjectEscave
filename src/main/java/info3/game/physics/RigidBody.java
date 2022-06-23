@@ -32,7 +32,8 @@ public class RigidBody extends Entity {
 	}
 
 	public CollisionType isColliding(Entity other) throws Exception {
-		return this.getCollider().isColliding(this.getPosition(), other.getCollider(), other.getPosition());
+		return this.getCollider().isColliding(this.getPosition().wrapCoords(), other.getCollider(),
+				other.getPosition().wrapCoords());
 	}
 
 	/*
