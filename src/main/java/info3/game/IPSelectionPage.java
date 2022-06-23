@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 public class IPSelectionPage extends JFrame {
 
-	private static Color BTN_COLOR = Color.green;
+	private static Color BTN_COLOR = Color.white;
 
 	IPSelectionPage() {
 		setup();
@@ -26,6 +26,7 @@ public class IPSelectionPage extends JFrame {
 	private void setup() {
 		this.setTitle("Escave");
 		this.setSize(300, 300);
+		this.setLocationRelativeTo(null);
 		// this.setIconImage(new
 		// ImageIcon(getClass().getResource("image.jgp)).getImage());
 		this.setResizable(false);
@@ -38,23 +39,23 @@ public class IPSelectionPage extends JFrame {
 		return panel;
 	}
 
-	private void joinGame() {
+	private void joinGame(String ip) {
 
 	}
 
-	private void createGame() {
+	private void createGame(String ip) {
 
 	}
 
 	private void makeInterface() {
 		JFrame frame = this;
+		JPanel bgPanel = new JPanel(new GridBagLayout());
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				frame.dispose();
 			}
 		});
 
-		JPanel bgPanel = new JPanel(new GridBagLayout());
 		this.setContentPane(bgPanel);
 		bgPanel.setOpaque(true);
 		bgPanel.setBackground(Color.lightGray);
@@ -83,7 +84,7 @@ public class IPSelectionPage extends JFrame {
 		grid.gridy = 3;
 		bgPanel.add(panel15, grid);
 		grid.gridy = 4;
-		grid.weighty = 1;
+		grid.weighty = 0.3;
 		bgPanel.add(panel2, grid);
 
 		grid.fill = GridBagConstraints.NONE;
@@ -92,9 +93,9 @@ public class IPSelectionPage extends JFrame {
 		grid.weighty = 1;
 		grid.weightx = 1;
 		grid.gridy = 1;
-		panel1.add(IPTextField, grid);
-		grid.gridy = 2;
+		panel05.add(IPTextField, grid);
 
+		grid.gridy = 1;
 		JButton joinGameBtn = new JButton("Rejoindre une partie");
 		joinGameBtn.setPreferredSize(new Dimension(170, 30));
 		joinGameBtn.setBackground(BTN_COLOR);
@@ -102,10 +103,10 @@ public class IPSelectionPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Lancer le jeu en récupérant l'IP
 				frame.dispose();
-				joinGame();
+				joinGame(IPTextField.getText());
 			}
 		});
-		panel1.add(joinGameBtn, grid);
+		panel2.add(joinGameBtn, grid);
 
 		JButton createGameBtn = new JButton("Créer une partie");
 		createGameBtn.setPreferredSize(new Dimension(170, 30));
@@ -114,10 +115,10 @@ public class IPSelectionPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Créer une partie
 				frame.dispose();
-				createGame();
+				createGame(IPTextField.getText());
 			}
 		});
-		grid.gridy = 1;
+		grid.gridy = 2;
 		panel2.add(createGameBtn, grid);
 
 		this.setVisible(true);
