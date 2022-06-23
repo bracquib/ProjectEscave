@@ -70,9 +70,7 @@ Mushroom(Init){
 	*(Cooldown1000)
 	| True ? :(Init)
 	
-	*(Mort)
-	|Cell(W,V) ? Egg(W):()
-	|Cell(E,V) ? Egg(E):()
+	
 }
 
 Statue(Init){

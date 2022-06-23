@@ -53,6 +53,7 @@ public class StatueBehaviour extends Behaviour {
 		s.setAutomata(Model.getAutomata("Player"));
 		p.setCategory(Category.SOMETHING);
 		p.getController().viewFor(p).setFollowedAvatar(s.getAvatar());
+		s.getPlayer().getBehaviour().wizz(s.getPlayer(), d);
 	}
 
 	@Override

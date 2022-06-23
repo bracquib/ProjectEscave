@@ -111,7 +111,8 @@ public class MushroomBehaviour extends Behaviour {
 		e.pointsDeVie -= dmg;
 		RigidBody p = (RigidBody) e;
 		System.out.println("HPmushroom=" + e.pointsDeVie);
-		if (e.pointsDeVie == 0) {
+		if (e.pointsDeVie <= 0) {
+			e.getBehaviour().egg(e, d);
 			Model.deleteEntity(p);
 		}
 		switch (d) {
@@ -223,6 +224,7 @@ public class MushroomBehaviour extends Behaviour {
 			Mushroom child = new Mushroom(pere.getController(), childPos, 100, pere.childRemain - 1);
 			// pts de vie?
 			Model.spawn(child);
+
 		}
 	}
 
