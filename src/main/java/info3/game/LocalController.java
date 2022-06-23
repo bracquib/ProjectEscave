@@ -99,13 +99,13 @@ public class LocalController extends Controller {
 	}
 
 	@Override
-	public Avatar createAvatar(Vec2 pos, Paintable image) {
+	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		Avatar a = null;
 		synchronized (this.views) {
 			for (View v : this.views) {
-				a = v.createAvatar(id, pos, image);
+				a = v.createAvatar(id, pos, image, dup);
 			}
 		}
 		return a;
@@ -231,6 +231,13 @@ public class LocalController extends Controller {
 				LocalView lv = (LocalView) v;
 				lv.updateAvatar(av.getId(), p, av.getPosition());
 			}
+		}
+	}
+
+	@Override
+	protected void updateAvatar(int i, Vec2 pos) {
+		for (View v : this.views) {
+			v.updateAvatar(i, pos);
 		}
 	}
 }

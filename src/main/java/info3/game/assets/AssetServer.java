@@ -16,7 +16,7 @@ public class AssetServer {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Asset> T load(T request) {
-		String path = request.getPath();
+		String path = request.getClass().getName() + "/" + request.getPath();
 		AssetServer server = AssetServer.instance;
 		if (server == null) {
 			System.out.println("[WARN] Can't load asset '" + path + "' because server is not ready");

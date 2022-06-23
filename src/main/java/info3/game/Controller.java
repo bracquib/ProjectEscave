@@ -26,11 +26,17 @@ public abstract class Controller {
 
 	protected abstract void removeView(RemoteView view);
 
-	public abstract Avatar createAvatar(Vec2 pos, Paintable image);
+	public Avatar createAvatar(Vec2 pos, Paintable image) {
+		return this.createAvatar(pos, image, true);
+	}
+
+	public abstract Avatar createAvatar(Vec2 pos, Paintable image, boolean withDuplicates);
 
 	protected abstract void mouseScroll(Player p, WheelScroll wheelScroll);
 
 	protected abstract void mouseClick(Player player, MouseClick mouseClick);
 
 	public abstract void deleteAvatar(int avatarId);
+
+	protected abstract void updateAvatar(int i, Vec2 pos);
 }

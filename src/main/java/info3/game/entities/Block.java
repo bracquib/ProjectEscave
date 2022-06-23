@@ -23,14 +23,6 @@ public class Block extends Consumable {
 		Vec2 offset = BlockIDs.IDsToVec2.getOrDefault(id, new Vec2(0, 0)).multiply(-Block.SIZE);
 		this.avatar = this.controller.createAvatar(this.position.add(offset),
 				new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
-		if (this.position.getX() < 10 * Block.SIZE) {
-			this.controller.createAvatar(this.position.add(offset).add(new Vec2(Model.getMap().width * Block.SIZE, 0)),
-					new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
-		}
-		if (this.position.getX() > (Model.getMap().width - 10) * Block.SIZE) {
-			this.controller.createAvatar(this.position.add(offset).add(new Vec2(Model.getMap().width * -Block.SIZE, 0)),
-					new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
-		}
 		this.setName("Block");
 	}
 

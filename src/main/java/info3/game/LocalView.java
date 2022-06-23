@@ -157,9 +157,9 @@ public class LocalView extends View {
 	}
 
 	@Override
-	public Avatar createAvatar(int id, Vec2 pos, Paintable img) {
-		Avatar av = new Avatar(id, img);
-		av.position = pos;
+	public Avatar createAvatar(int id, Vec2 pos, Paintable img, boolean dup) {
+		Avatar av = new Avatar(id, img, dup);
+		av.setPosition(pos);
 		synchronized (this.avatars) {
 			this.avatars.put(id, av);
 		}
@@ -171,6 +171,7 @@ public class LocalView extends View {
 
 	@Override
 	public void deleteAvatar(int id) {
+		System.out.println(this.getAvatar(id).image.getPath());
 		super.deleteAvatar(id);
 		this.sortedAvatars.removeIf((x) -> x.getId() == id);
 	}
