@@ -1,7 +1,10 @@
 package info3.game.cavegenerator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import info3.game.Vec2;
 import info3.game.torus.IntTorus;
 
 public class DecorationGenerator {
@@ -16,6 +19,7 @@ public class DecorationGenerator {
 	static int[] lanterne_courte = { 351 };
 	static int[] water_sol = { 600 };
 	static int[] stalactite = { 6 };
+	public static List<Vec2> listSpawnStalactites = new ArrayList<Vec2>();
 
 	public static IntTorus decorate(int[][] map) {
 		IntTorus step1 = decorateMap(map, BlockIDs.PatternCouche1ToIDs);
@@ -56,7 +60,7 @@ public class DecorationGenerator {
 					if (map[i][j] == idtoswitch) {
 						int rand = (int) Math.floor(Math.random() * 100);
 						if (rand <= percent) {
-							newmap.set(i, j + 1, 602);
+							listSpawnStalactites.add(new Vec2(i, j + 1));
 						}
 					}
 				}
