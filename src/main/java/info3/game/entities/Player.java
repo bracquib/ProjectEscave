@@ -81,7 +81,7 @@ public class Player extends RigidBody {
 		}
 
 		AnimatedImage anim = (AnimatedImage) this.getPaintable();
-		if (anim.isFinished()) {
+		if (anim.isFinished() && this.getBehaviour() instanceof PlayerBehaviour) {
 			if (this.getDirection() == Direction.EST) {
 				this.playAnimation("idle-right", 6, 200, 0, -4, true);
 			} else {

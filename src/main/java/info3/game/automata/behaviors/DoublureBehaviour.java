@@ -43,6 +43,7 @@ public class DoublureBehaviour extends Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		if (d == Direction.NORTH) {
+			e.playAnimation("spawn", 9, 200, 0, -10, false);
 			e.setCategory(Category.PLAYER);
 			e.setBehaviour(new PlayerBehaviour());
 		}

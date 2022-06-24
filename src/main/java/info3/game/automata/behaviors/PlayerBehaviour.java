@@ -97,8 +97,9 @@ public class PlayerBehaviour extends Behaviour {
 			p.setDirection(Direction.WEST);
 			break;
 		case SOUTH:
-			e.setCategory(Category.SOMETHING);
-			e.setBehaviour(new DoublureBehaviour());
+			p.playAnimation("dig", 21, 100, -32, -32, false);
+			p.setCategory(Category.SOMETHING);
+			p.setBehaviour(new DoublureBehaviour());
 			break;
 		default:
 			break;
