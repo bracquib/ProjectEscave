@@ -87,7 +87,10 @@ public class RemoteController extends Controller {
 	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
-		return this.view.createAvatar(id, pos, image, dup);
+		Avatar av = new Avatar(id, image, dup);
+		av.setPosition(pos);
+		this.view.createAvatar(av);
+		return av;
 	}
 
 	@Override
@@ -204,7 +207,9 @@ class NetworkReceiverThread extends Thread {
 	private void handleMessage(Object msg) {
 		if (msg instanceof CreateAvatar) {
 			CreateAvatar ca = (CreateAvatar) msg;
-			this.controller.view.createAvatar(ca.id, ca.position, ca.image, false);
+			Avatar av = new Avatar(ca.id, ca.image, false);
+			av.setPosition(ca.position);
+			this.controller.view.createAvatar(av);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
 			try {

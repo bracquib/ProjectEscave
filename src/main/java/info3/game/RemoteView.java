@@ -22,12 +22,10 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	public Avatar createAvatar(int id, Vec2 pos, Paintable img, boolean dup) {
-		Avatar av = new Avatar(id, img, dup);
-		av.setPosition(pos);
-		this.avatars.put(id, av);
-		((LocalController) this.controller).sendToClients(new CreateAvatar(id, pos, img));
-		return av;
+	public void createAvatar(Avatar av) {
+		this.avatars.put(av.getId(), av);
+		((LocalController) this.controller)
+				.sendToClients(new CreateAvatar(av.getId(), av.getPosition(), av.getPaintable()));
 	}
 
 	@Override

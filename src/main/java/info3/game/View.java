@@ -26,7 +26,7 @@ public abstract class View {
 		this.camera = new Camera(null, this);
 	}
 
-	public abstract Avatar createAvatar(int id, Vec2 pos, Paintable image, boolean dup);
+	public abstract void createAvatar(Avatar av);
 
 	public void deleteAvatar(int id) {
 		Avatar av = this.avatars.remove(id);

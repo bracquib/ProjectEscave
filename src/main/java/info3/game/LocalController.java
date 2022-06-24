@@ -106,10 +106,11 @@ public class LocalController extends Controller {
 	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
-		Avatar a = null;
+		Avatar a = new Avatar(id, image, dup);
+		a.position = pos;
 		synchronized (this.views) {
 			for (View v : this.views) {
-				a = v.createAvatar(id, pos, image, dup);
+				v.createAvatar(a);
 			}
 		}
 		return a;

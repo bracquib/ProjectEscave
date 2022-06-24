@@ -158,16 +158,13 @@ public class LocalView extends View {
 	}
 
 	@Override
-	public Avatar createAvatar(int id, Vec2 pos, Paintable img, boolean dup) {
-		Avatar av = new Avatar(id, img, dup);
-		av.setPosition(pos);
+	public void createAvatar(Avatar av) {
 		synchronized (this.avatars) {
-			this.avatars.put(id, av);
+			this.avatars.put(av.getId(), av);
 		}
 		synchronized (this.sortedAvatars) {
 			this.sortedAvatars.add(av);
 		}
-		return av;
 	}
 
 	@Override
