@@ -8,6 +8,7 @@ import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
+import info3.game.physics.RbState;
 import info3.game.physics.RigidBody;
 
 public class StalactiteBehaviour extends Behaviour {
@@ -33,7 +34,7 @@ public class StalactiteBehaviour extends Behaviour {
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		int diam = Block.SIZE * 15; // en pixel
+		int diam = Block.SIZE * 3; // en pixel
 		return super.closest(e, c, d, diam);
 
 	}
@@ -54,6 +55,8 @@ public class StalactiteBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// wizz=tomber
 		RigidBody p = (RigidBody) e;
+		p.setState(RbState.DYNAMIC);
+		System.out.println("stala tombe");
 		p.addSpeed(new Vec2(0, 0));
 	}
 
@@ -71,8 +74,11 @@ public class StalactiteBehaviour extends Behaviour {
 				e1.getBehaviour().wizz(ret, d);
 			}
 		}
+		System.out.println("stala explose");
+
 		RigidBody p = (RigidBody) e;
 		Model.deleteEntity(p);
+
 		return;
 	}
 

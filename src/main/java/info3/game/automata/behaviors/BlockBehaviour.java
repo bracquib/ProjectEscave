@@ -5,6 +5,7 @@ import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 
 public class BlockBehaviour extends Behaviour {
+	Entity ret;
 
 	@Override
 	public boolean true_(Entity e) {
@@ -25,7 +26,6 @@ public class BlockBehaviour extends Behaviour {
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		// pas besoin
 		return false;
 	}
 
@@ -49,6 +49,7 @@ public class BlockBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
 		e.pointsDeVie -= 1; // à ajuster (dmg)
+
 		/*
 		 * RigidBody p = (RigidBody) e; switch (d) { case SOUTH:
 		 * p.getSpeed().setY(-240); break; case EST: p.getSpeed().setX(140); break; case
@@ -61,7 +62,6 @@ public class BlockBehaviour extends Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// TODO pas besoin
-
 	}
 
 	@Override

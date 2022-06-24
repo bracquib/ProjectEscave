@@ -2,7 +2,20 @@ Block(Init){
 	*(Init)
 	|GotPower? :(Init)
     |True ? Wizz() :()
+ }
+ 
+ Stalactite(Accrocher){
+	*(Accrocher)
+	|Closest(@,S)?Wizz:(Air)
+	|True? :(Accrocher)
+ 
+    *(Air)
+    |Cell(S,@)?Pop:()
+    |Cell(S,A)?Pop:()
+	|True? :(Air)
 }
+    
+
 
 Block_special(Init){
     *(Init)
@@ -12,6 +25,8 @@ Block_special(Init){
 	*(Activer)
     |True?    :(Activer)
 }
+
+
 
 Consummable(Init){
     *(Init)

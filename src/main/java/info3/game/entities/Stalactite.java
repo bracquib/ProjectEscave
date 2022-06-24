@@ -6,15 +6,20 @@ import info3.game.Vec2;
 import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.behaviors.StalactiteBehaviour;
+import info3.game.physics.RbState;
+import info3.game.physics.RigidBody;
 
-public class Stalactite extends Entity {
+public class Stalactite extends RigidBody {
 
-	public Stalactite(LocalController c, Vec2 position, int points) {
-		super(c, points);
-		this.position = position;
+	public Stalactite(LocalController c, Vec2 pos, int points) {
+		super(1, c, points);
+		this.setPosition(pos);
+		this.avatarOffset = new Vec2(0, 0);
 		this.setCategory(Category.SOMETHING);
 		this.setAutomata(Model.getAutomata("Stalactite"));
 		this.setBehaviour(new StalactiteBehaviour());
-		this.avatar = this.controller.createAvatar(this.position, new Image("stalactite.png"));
+		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset),
+				new Image("classic_block/stalactite.png"));
+		this.setState(RbState.STATIC);
 	}
 }

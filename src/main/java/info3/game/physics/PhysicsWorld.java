@@ -26,6 +26,8 @@ public class PhysicsWorld {
 		ArrayList<RigidBody> entities = Model.getEntities();
 
 		for (RigidBody rb : entities) {
+			if (rb.type == RbState.STATIC)
+				continue;
 			step(rb, elapsedSec);
 			Vec2 center = rb.getPosition().divide(Block.SIZE);
 

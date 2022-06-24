@@ -15,6 +15,7 @@ import info3.game.cavegenerator.SpawnGenerator4D;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
+import info3.game.entities.Stalactite;
 import info3.game.entities.Statue;
 import info3.game.physics.PhysicsWorld;
 import info3.game.physics.RigidBody;
@@ -70,6 +71,7 @@ public class Model {
 	private static PhysicsWorld physics;
 
 	private static List<Vec2> statuesSpawns;
+	private static List<Vec2> stalactiteSpawns;
 
 	public static void init(LocalController controller) {
 		Model.controller = controller;
@@ -115,11 +117,12 @@ public class Model {
 		if (Model.map == null) {
 			// génération de la map
 			SpawnGenerator4D generationMap = new SpawnGenerator4D();
+			DecorationGenerator forStalactite = new DecorationGenerator();
 			int[][] values = generationMap.spawnStatueTotal(Model.maxPlayers);
 			Model.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			Model.statuesSpawns = generationMap.listSpawnStatues;
-
+			Model.stalactiteSpawns = DecorationGenerator.listSpawnStalactites;
 			IntTorus torus = DecorationGenerator.decorate(values);
 			int[][] blocks = torus.toArray();
 
@@ -150,7 +153,13 @@ public class Model {
 				Model.spawn(new Statue(Model.controller, players.next(), new Vec2(x * Block.SIZE, y * Block.SIZE), 1));
 			}
 			Model.statuesSpawns = null;
+
+			for (Vec2 posStalactite : Model.stalactiteSpawns) {
+				Model.spawn(new Stalactite((LocalController) Controller.controller, posStalactite.multiply(Block.SIZE),
+						10));
+			}
 		}
+
 		if (elapsed > 200) {
 			System.out.println("[WARN] Tick ignored in model");
 			return;
