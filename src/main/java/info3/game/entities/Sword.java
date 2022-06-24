@@ -11,6 +11,7 @@ import info3.game.automata.Direction;
 public class Sword extends Weapon {
 	int mobDmg = 50;
 	int blockDmg = 0; // dmg à ajuster plus tard
+	long elapsed = 0;
 
 	public Sword(LocalController c, Player owner) {
 		super(c, owner);

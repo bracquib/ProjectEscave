@@ -12,6 +12,7 @@ import info3.game.physics.RigidBody;
 public class PlayerBehaviour extends Behaviour {
 
 	public Entity ret;
+	private long jumpElapsed = 0;
 
 	@Override
 	public boolean true_(Entity e) {
@@ -113,6 +114,13 @@ public class PlayerBehaviour extends Behaviour {
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
 		((RigidBody) e).getSpeed().setY(-270);
+		/*
+		 * if (System.currentTimeMillis() - jumpElapsed > 200) { try {
+		 * Sound.playSound("src/main/resources/jump.wav"); } catch
+		 * (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+		 * // TODO Auto-generated catch block e1.printStackTrace(); } jumpElapsed =
+		 * System.currentTimeMillis(); }
+		 */
 	}
 
 	@Override
