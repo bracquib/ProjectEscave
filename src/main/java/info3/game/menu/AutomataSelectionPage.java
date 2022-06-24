@@ -1,4 +1,4 @@
-package info3.game;
+package info3.game.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,4 +1,4 @@
-package info3.game;
+package info3.game.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -100,14 +100,14 @@ public class IPSelectionPage extends JFrame {
 		joinGameBtn.setBackground(BTN_COLOR);
 		joinGameBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Lancer le jeu en récupérant l'IP
+				// Lancer le jeu en rï¿½cupï¿½rant l'IP
 				frame.dispose();
 				// Sauver l'IP dans le fichier d'Options
 			}
 		});
 		panel2.add(joinGameBtn, grid);
 
-		JButton createGameBtn = new JButton("Créer une partie");
+		JButton createGameBtn = new JButton("Crï¿½er une partie");
 		createGameBtn.setPreferredSize(new Dimension(200, 80));
 		createGameBtn.setBackground(BTN_COLOR);
 		createGameBtn.addActionListener(new ActionListener() {
