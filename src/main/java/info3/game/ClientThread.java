@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import info3.game.network.JoinGame;
 import info3.game.network.KeyPress;
+import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
@@ -47,6 +48,9 @@ public class ClientThread extends Thread {
 				} else if (msg instanceof KeyPress) {
 					KeyPress k = (KeyPress) msg;
 					this.controller.keyPressed(this.view.getPlayer(), k);
+				} else if (msg instanceof KeyRelease) {
+					KeyRelease kr = (KeyRelease) msg;
+					this.controller.keyReleased(this.view.getPlayer(), kr);
 				} else if (msg instanceof WheelScroll) {
 					WheelScroll w = (WheelScroll) msg;
 					this.controller.mouseScroll(this.view.getPlayer(), w);
@@ -83,6 +87,7 @@ public class ClientThread extends Thread {
 		try {
 			this.outputStream.writeObject(msg);
 			this.outputStream.reset();
+			this.setName("Sender: " + getPlayerName());
 		} catch (IOException e) {
 			this.disconnect();
 		}
