@@ -6,6 +6,7 @@ import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
 import info3.game.automata.behaviors.StatueBehaviour;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Statue extends RigidBody {
@@ -24,6 +25,8 @@ public class Statue extends RigidBody {
 		this.setAutomata(Model.getAutomata("Statue"));
 		this.setBehaviour(new StatueBehaviour());
 		this.setCategory(Category.TEAM);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1.5f, 1.5f);
+
 	}
 
 	public Player getPlayer() {
