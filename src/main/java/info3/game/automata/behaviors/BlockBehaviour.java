@@ -53,9 +53,7 @@ public class BlockBehaviour extends Behaviour {
 	@Override // pas normal les speed
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
-		Block target = (Block) e;
-		Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
-		Model.deleteBlock((int) coords.getX(), (int) coords.getY());
+		Model.deleteBlock((int) e.getPosition().getX(), (int) e.getPosition().getY());
 
 		/*
 		 * RigidBody p = (RigidBody) e; switch (d) { case SOUTH:
