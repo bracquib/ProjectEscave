@@ -1,11 +1,13 @@
 package info3.game.automata.behaviors;
 
+import info3.game.Model;
+import info3.game.Vec2;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 
 public class BlockBehaviour extends Behaviour {
-	Entity ret;
 
 	@Override
 	public boolean true_(Entity e) {
@@ -33,6 +35,9 @@ public class BlockBehaviour extends Behaviour {
 	public boolean gotPower(Entity e) {
 		if (e.pointsDeVie > 0) {
 			return true;
+		} else {
+			Vec2 coords = new Vec2(e.getPosition()).divide(Block.SIZE);
+			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
 		}
 
 		return false;
@@ -48,7 +53,9 @@ public class BlockBehaviour extends Behaviour {
 	@Override // pas normal les speed
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
-		e.pointsDeVie -= 1; // à ajuster (dmg)
+		Block target = (Block) e;
+		Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
+		Model.deleteBlock((int) coords.getX(), (int) coords.getY());
 
 		/*
 		 * RigidBody p = (RigidBody) e; switch (d) { case SOUTH:

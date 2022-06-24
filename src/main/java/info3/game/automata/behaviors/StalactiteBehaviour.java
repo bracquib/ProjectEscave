@@ -69,13 +69,13 @@ public class StalactiteBehaviour extends Behaviour {
 		for (Entity e1 : nearEntities) {
 			Category cat = e1.getCategory();
 			if (cat == Category.PLAYER || cat == Category.ADVERSAIRE) {
+				System.out.println("stala explose");
 				e1.getBehaviour().protect(e1, d, (int) ((RigidBody) e).getSpeed().getY() / 2);
 			} else if (e1.getCategory() == Category.JUMPABLE) {
+				System.out.println("stala explose");
 				e1.getBehaviour().wizz(ret, d);
 			}
 		}
-		System.out.println("stala explose");
-
 		RigidBody p = (RigidBody) e;
 		Model.deleteEntity(p);
 
