@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.io.UTFDataFormatException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -13,6 +14,7 @@ import info3.game.assets.Paintable;
 import info3.game.entities.Player;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
+import info3.game.network.JoinGame;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
@@ -22,20 +24,23 @@ import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 import info3.game.network.Welcome;
 import info3.game.network.WheelScroll;
+import info3.game.network.WindowResize;
 
 public class RemoteController extends Controller {
 	Socket sock;
+	String ip;
+	int port;
 	NetworkSenderThread networkSender;
 	NetworkReceiverThread networkReceiver;
 	protected LocalView view;
 
-	public RemoteController(String ip, int port) throws IOException {
+	public RemoteController(String ip, int port) {
 		super();
-		this.sock = new Socket(ip, port);
-		this.networkSender = new NetworkSenderThread(this.sock);
-		this.networkReceiver = new NetworkReceiverThread(this.sock, this);
-		this.networkReceiver.start();
-		this.networkSender.start();
+		this.ip = ip;
+		this.port = port;
+
+		this.networkSender = new NetworkSenderThread();
+		this.networkReceiver = new NetworkReceiverThread(this);
 	}
 
 	@Override
@@ -55,8 +60,26 @@ public class RemoteController extends Controller {
 
 	@Override
 	public void addView(View v) {
-		if (v instanceof LocalView) {
-			this.view = (LocalView) v;
+		if (v instanceof LocalView && this.view == null) {
+			try {
+				this.sock = new Socket(ip, port);
+				this.networkReceiver.setSocket(this.sock);
+				this.networkSender.setSocket(this.sock);
+				this.networkReceiver.start();
+				this.networkSender.start();
+
+				this.view = (LocalView) v;
+				this.networkSender.send(null, new JoinGame(v.getDimensions()));
+			} catch (ConnectException ce) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				this.addView(v);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -91,6 +114,11 @@ public class RemoteController extends Controller {
 	protected void updateAvatar(int i, Vec2 pos) {
 		this.view.updateAvatar(i, pos);
 	}
+
+	@Override
+	public void windowResize(Player p, Vec2 size) {
+		this.networkSender.send(p, new WindowResize(size));
+	}
 }
 
 class NetworkSenderThread extends Thread {
@@ -98,16 +126,21 @@ class NetworkSenderThread extends Thread {
 	ObjectOutputStream stream;
 	ArrayBlockingQueue<NetworkMessage> queue;
 
-	public NetworkSenderThread(Socket sock) throws UnknownHostException, IOException {
-		this.socket = sock;
-		this.stream = new ObjectOutputStream(this.socket.getOutputStream());
+	public NetworkSenderThread() {
 		this.queue = new ArrayBlockingQueue<NetworkMessage>(10);
 		this.setName("Sender");
 	}
 
+	public void setSocket(Socket sock) throws UnknownHostException, IOException {
+		this.socket = sock;
+		this.stream = new ObjectOutputStream(this.socket.getOutputStream());
+	}
+
 	public void send(Player p, NetworkMessage msg) {
 		try {
-			msg.player = p.getColor();
+			if (p != null) {
+				msg.player = p.getColor();
+			}
 			this.queue.put(msg);
 		} catch (InterruptedException e) {
 			// TODO: do something with it?
@@ -117,6 +150,7 @@ class NetworkSenderThread extends Thread {
 
 	@Override
 	public void run() {
+		System.out.println("sender started");
 		while (true) {
 			try {
 				NetworkMessage msg = this.queue.take();
@@ -137,15 +171,19 @@ class NetworkReceiverThread extends Thread {
 	ObjectInputStream stream;
 	RemoteController controller;
 
-	public NetworkReceiverThread(Socket s, RemoteController c) {
-		this.socket = s;
+	public NetworkReceiverThread(RemoteController c) {
 		this.controller = c;
 		this.setName("Receiver");
+	}
+
+	public void setSocket(Socket sock) {
+		this.socket = sock;
 	}
 
 	@Override
 	public void run() {
 		try {
+			System.out.println("receiver started");
 			this.stream = new ObjectInputStream(this.socket.getInputStream());
 			while (true) {
 				Object msg = this.stream.readObject();

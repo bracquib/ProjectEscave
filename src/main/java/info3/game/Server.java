@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 import info3.game.assets.AssetServer;
 
@@ -51,7 +52,8 @@ class TickerThread extends Thread {
 				this.controller.tick(end - start);
 				// Sync the clients
 				synchronized (this.controller.views) {
-					for (View view : this.controller.views) {
+					List<View> views = new ArrayList<>(this.controller.views);
+					for (View view : views) {
 						if (view instanceof RemoteView) {
 							RemoteView rv = (RemoteView) view;
 							rv.client.actualSend();

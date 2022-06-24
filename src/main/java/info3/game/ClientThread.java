@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import info3.game.network.JoinGame;
 import info3.game.network.KeyPress;
 import info3.game.network.MouseClick;
 import info3.game.network.MultiMessage;
@@ -31,7 +32,6 @@ public class ClientThread extends Thread {
 		this.controller = c;
 		this.messageQueue = new ArrayList<NetworkMessage>();
 		this.view = new RemoteView(this);
-		this.controller.addView(this.view);
 	}
 
 	@Override
@@ -40,7 +40,11 @@ public class ClientThread extends Thread {
 			Object msg;
 			try {
 				msg = this.inputStream.readObject();
-				if (msg instanceof KeyPress) {
+				if (msg instanceof JoinGame) {
+					JoinGame jg = (JoinGame) msg;
+					this.view.setDimensions(jg.screenSize);
+					this.controller.addView(this.view);
+				} else if (msg instanceof KeyPress) {
 					KeyPress k = (KeyPress) msg;
 					this.controller.keyPressed(this.view.getPlayer(), k);
 				} else if (msg instanceof WheelScroll) {

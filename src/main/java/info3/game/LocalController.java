@@ -52,7 +52,9 @@ public class LocalController extends Controller {
 		this.sendTo(v.getPlayer(), new SyncCamera(v.getPlayer().getAvatar()));
 		for (Entity e : Model.allEntities()) {
 			Avatar a = e.getAvatar();
-			this.sendTo(v.getPlayer(), new CreateAvatar(a.id, a.getPosition(), a.image));
+			if (a != null) { // if the file couldn't be loaded, a will be null
+				this.sendTo(v.getPlayer(), new CreateAvatar(a.id, a.getPosition(), a.image));
+			}
 		}
 	}
 
@@ -242,5 +244,11 @@ public class LocalController extends Controller {
 		for (View v : this.views) {
 			v.updateAvatar(i, pos);
 		}
+	}
+
+	@Override
+	public void windowResize(Player p, Vec2 size) {
+		this.viewFor(p).setDimensions(size);
+		p.getInventory().updateAvatars();
 	}
 }

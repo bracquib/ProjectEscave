@@ -18,6 +18,8 @@ public abstract class Controller {
 
 	public abstract void keyReleased(Player p, KeyRelease e);
 
+	public abstract void windowResize(Player p, Vec2 size);
+
 	public abstract void tick(long elapsed);
 
 	public abstract void addView(View v);

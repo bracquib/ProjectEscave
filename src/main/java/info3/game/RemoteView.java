@@ -42,16 +42,6 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	protected int getWidth() {
-		return 1024; // TODO: add a network packet to sync view size
-	}
-
-	@Override
-	protected int getHeight() {
-		return 768;
-	}
-
-	@Override
 	public void updateAvatar(int id, Paintable p, Vec2 pos) {
 		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, p, pos));
 	}

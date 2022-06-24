@@ -21,6 +21,7 @@
 package info3.game;
 
 import java.awt.Graphics;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -104,7 +105,6 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void windowOpened() {
-
 	}
 
 	@Override
@@ -125,5 +125,23 @@ public class CanvasListener implements GameCanvasListener {
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		WheelScroll ws = new WheelScroll(e.getWheelRotation() > 0);
 		this.view.controller.mouseScroll(this.view.getPlayer(), ws);
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		this.view.controller.windowResize(this.view.getPlayer(),
+				new Vec2(this.view.canvas.getWidth(), this.view.canvas.getHeight()));
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
 	}
 }

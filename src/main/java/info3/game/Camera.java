@@ -2,15 +2,17 @@ package info3.game;
 
 public class Camera {
 	Avatar followedAvatar;
+	View view;
 
-	public Camera(Avatar a) {
+	public Camera(Avatar a, View v) {
 		this.followedAvatar = a;
+		this.view = v;
 	}
 
 	public Vec2 getPos() {
 		if (this.followedAvatar != null) {
-			// TODO: remove hardcoded offset
-			return this.followedAvatar.getPosition().add(new Vec2(-528, -368));
+			return this.followedAvatar.getPosition()
+					.add(new Vec2(-this.view.getWidth() / 2, -this.view.getHeight() / 2));
 		} else {
 			return new Vec2(0);
 		}

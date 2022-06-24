@@ -19,9 +19,11 @@ public abstract class View {
 
 	protected Camera camera;
 
+	private Vec2 dimensions;
+
 	protected View() {
 		this.avatars = new HashMap<Integer, Avatar>();
-		this.camera = new Camera(null);
+		this.camera = new Camera(null, this);
 	}
 
 	public abstract Avatar createAvatar(int id, Vec2 pos, Paintable image, boolean dup);
@@ -72,9 +74,21 @@ public abstract class View {
 		this.camera.setAvatar(a);
 	}
 
-	protected abstract int getWidth();
+	protected int getWidth() {
+		return (int) this.dimensions.getX();
+	}
 
-	protected abstract int getHeight();
+	protected int getHeight() {
+		return (int) this.dimensions.getY();
+	}
 
 	public abstract void updateAvatar(int id, Paintable p, Vec2 pos);
+
+	public void setDimensions(Vec2 size) {
+		this.dimensions = size;
+	}
+
+	public Vec2 getDimensions() {
+		return this.dimensions;
+	}
 }

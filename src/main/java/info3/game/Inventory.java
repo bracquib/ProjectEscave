@@ -52,6 +52,15 @@ public class Inventory extends Entity {
 		}
 	}
 
+	public void updateAvatars() {
+		int totalWidth = 74 * INVENTORY_SIZE - 10;
+		int startX = (this.controller.viewFor(this.owner).getWidth() - totalWidth) / 2;
+		int startY = this.controller.viewFor(this.owner).getHeight() - 130;
+		for (int i = 0; i < this.cells.length; i++) {
+			this.controller.updateAvatar(this.cells[i].getId(), new Vec2(startX + 74 * i, startY));
+		}
+	}
+
 	public Tool getCurrentTool() {
 		return toolAt(currentToolIndex);
 	}

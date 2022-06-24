@@ -37,12 +37,13 @@ public class LocalView extends View {
 		this.isPainting = new Semaphore(1);
 
 		this.controller = controller;
-		this.controller.addView(this);
 
 		this.listener = new CanvasListener(this);
 
 		this.canvas = new GameCanvas(this.listener);
 		Dimension d = new Dimension(1024, 768);
+		this.setDimensions(new Vec2(1024, 768));
+		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
 	}

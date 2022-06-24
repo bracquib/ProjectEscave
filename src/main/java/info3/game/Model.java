@@ -57,7 +57,7 @@ public class Model {
 
 	static ArrayList<Vec2> spawnPoints;
 
-	private static final int maxPlayers = 1;
+	private static final int maxPlayers = 2;
 	private static int playerCount = 0;
 	private static int activatedSocles = 0;
 
@@ -76,6 +76,7 @@ public class Model {
 		Model.entities = new ArrayList<RigidBody>();
 		Model.physics = new PhysicsWorld();
 		Model.loadAutomatas();
+		Model.generateMapIfNeeded();
 	}
 
 	public static void deleteEntity(RigidBody e) {
@@ -94,7 +95,7 @@ public class Model {
 
 	public static Player spawnPlayer() {
 		// TODO: throw exception if there are more players than expected
-		Model.generateMapIfNeeded();
+		System.out.println("Spawning player");
 		Player p = new Player(Model.controller, Player.colorFromInt(Model.playerCount),
 				Model.spawnPoints.get(Model.playerCount).multiply(Block.SIZE), true, 10);
 		Model.playerCount++;
