@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -31,6 +32,10 @@ import info3.game.automata.parser.AutomataParser;
 import info3.game.automata.parser.ParseException;
 
 public class AutomataSelectionPage extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7749010576833684899L;
 	public final String TITLE = "Association des automates";
 	public final Color BTN_COLOR = Color.white;
 	public JFrame caller;
@@ -43,8 +48,16 @@ public class AutomataSelectionPage extends JFrame {
 		makeInterface();
 	}
 
-	private void loadModelAutomatas() {
-
+	private void loadModelAutomatas(JComboBox<String> playerCombo, JComboBox<String> statueCombo,
+			JComboBox<String> blockCombo, JComboBox<String> mushroomCombo, JComboBox<String> socleCombo,
+			JComboBox<String> waterCombo, JComboBox<String> foodCombo) {
+		GameOptions.Automates.put("Player", (String) playerCombo.getSelectedItem());
+		GameOptions.Automates.put("Statue", (String) statueCombo.getSelectedItem());
+		GameOptions.Automates.put("Block", (String) blockCombo.getSelectedItem());
+		GameOptions.Automates.put("Mushroom", (String) mushroomCombo.getSelectedItem());
+		GameOptions.Automates.put("Socle", (String) socleCombo.getSelectedItem());
+		GameOptions.Automates.put("Water", (String) waterCombo.getSelectedItem());
+		GameOptions.Automates.put("Food", (String) foodCombo.getSelectedItem());
 	}
 
 	private void setup() {
@@ -83,7 +96,6 @@ public class AutomataSelectionPage extends JFrame {
 		JPanel panel1 = genPanel(Color.white);
 		panel1.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
 		JPanel panel2 = genPanel(Color.white);
-		JPanel panel3 = genPanel(Color.white);
 		JPanel panel4 = genPanel(Color.white);
 
 		grid.weightx = 1;
@@ -199,7 +211,8 @@ public class AutomataSelectionPage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Charger les automates dans le Model
-				loadModelAutomatas();
+				loadModelAutomatas(playerCombo, statueCombo, blockCombo, mushroomCombo, socleCombo, waterCombo,
+						foodCombo);
 				caller.requestFocus();
 				caller.toFront();
 				caller.setState(Frame.NORMAL);
@@ -212,9 +225,33 @@ public class AutomataSelectionPage extends JFrame {
 		this.setVisible(true);
 	}
 
+	private String readFile(String file) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+		String line = null;
+		StringBuilder stringBuilder = new StringBuilder();
+		String ls = System.getProperty("line.separator");
+
+		try {
+			while ((line = reader.readLine()) != null) {
+				stringBuilder.append(line);
+				stringBuilder.append(ls);
+			}
+
+			return stringBuilder.toString();
+		} finally {
+			reader.close();
+		}
+	}
+
 	public ArrayList<String> getAutomatasName(String url) throws FileNotFoundException, ParseException {
 
 		AST ast = new AutomataParser(new BufferedReader(new FileReader(url))).Run();
+		try {
+			GameOptions.fichierGal = readFile(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		BotBuilder bot_builder = new BotBuilder();
 		ast.accept(bot_builder);
 		ArrayList<String> res = new ArrayList<String>();

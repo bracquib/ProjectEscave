@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import info3.game.Client;
+
 public class Menu extends State implements Statemethods {
 
 	private MenuButton[] buttons = new MenuButton[3];
@@ -27,9 +29,19 @@ public class Menu extends State implements Statemethods {
 	}
 
 	private void loadButtons() {
-		buttons[0] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (150 * GameJerem.SCALE), 0, Gamestate.PLAYING);
-		buttons[1] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (220 * GameJerem.SCALE), 1, Gamestate.OPTIONS);
-		buttons[2] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (290 * GameJerem.SCALE), 2, Gamestate.QUIT);
+		buttons[0] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (150 * GameJerem.SCALE), 0, Gamestate.PLAYING,
+				() -> {
+					if (Options.ip.equals(""))
+						Client.startGame();
+					else {
+
+					}
+				});
+		buttons[1] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (220 * GameJerem.SCALE), 1, Gamestate.OPTIONS,
+				() -> {
+				});
+		buttons[2] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (290 * GameJerem.SCALE), 2, Gamestate.QUIT, () -> {
+		});
 	}
 
 	@Override
@@ -68,7 +80,8 @@ public class Menu extends State implements Statemethods {
 		for (MenuButton mb : buttons) {
 			if (isIn(e, mb)) {
 				if (mb.isMousePressed())
-					mb.applyGamestate();
+					mb.action.exec();
+				mb.applyGamestate();
 				break;
 			}
 		}

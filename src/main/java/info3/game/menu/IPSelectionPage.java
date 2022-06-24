@@ -2,6 +2,7 @@ package info3.game.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,10 +13,16 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class IPSelectionPage extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4387000242423850271L;
+
 	public JFrame caller;
 
 	private static Color BTN_COLOR = Color.white;
@@ -42,14 +49,6 @@ public class IPSelectionPage extends JFrame {
 		panel.setBackground(color);
 		panel.setOpaque(true);
 		return panel;
-	}
-
-	private void joinGame(String ip) {
-
-	}
-
-	private void createGame(String ip) {
-
 	}
 
 	private void makeInterface() {
@@ -93,11 +92,17 @@ public class IPSelectionPage extends JFrame {
 		bgPanel.add(panel2, grid);
 
 		grid.fill = GridBagConstraints.NONE;
-		JTextField IPTextField = new JTextField(" IP");
+		JLabel label = new JLabel("Rentrer l'IP du serveur !");
+		label.setFont(new Font("Serif", Font.BOLD, 60));
+		JTextField IPTextField = new JTextField("");
 		IPTextField.setPreferredSize(new Dimension(150, 30));
-		grid.weighty = 1;
+		grid.weighty = 200;
 		grid.weightx = 1;
 		grid.gridy = 1;
+		panel05.add(label, grid);
+		grid.weighty = -100;
+		grid.weightx = 1;
+		grid.gridy = 2;
 		panel05.add(IPTextField, grid);
 
 		JButton joinGameBtn = new JButton("Valider");
@@ -111,6 +116,7 @@ public class IPSelectionPage extends JFrame {
 				caller.setState(Frame.NORMAL);
 				frame.dispose();
 				// Sauver l'IP dans le fichier d'Options
+				Options.ip = IPTextField.getText();
 			}
 		});
 		panel2.add(joinGameBtn, grid);

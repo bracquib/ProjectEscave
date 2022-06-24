@@ -16,12 +16,14 @@ public class MenuButton {
 	private BufferedImage[] imgs;
 	private boolean mouseOver, mousePressed;
 	private Rectangle bounds;
+	ButtonCallback action;
 
-	public MenuButton(int xPos, int yPos, int rowIndex, Gamestate state) {
+	public MenuButton(int xPos, int yPos, int rowIndex, Gamestate state, ButtonCallback action) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.rowIndex = rowIndex;
 		this.state = state;
+		this.action = action;
 		loadImgs();
 		initBounds();
 	}

@@ -12,6 +12,7 @@ public class Options extends State implements Statemethods {
 	private BufferedImage backgroundImg, playerspng, boxpng;
 	private int menuX, menuY, menuWidth, menuHeight, playerX, playerY, boxX, boxY;
 	private NumberSelector selector;
+	public static String ip = "";
 
 	public Options(GameJerem game) {
 		super(game);
