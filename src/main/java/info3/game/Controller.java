@@ -38,9 +38,9 @@ public abstract class Controller {
 
 	public abstract Avatar createAvatar(Vec2 pos, Paintable image, boolean withDuplicates, Vec2 scale);
 
-	protected abstract void mouseScroll(PlayerColor p, WheelScroll wheelScroll);
-
 	protected abstract void mouseClick(PlayerColor player, MouseClick mouseClick);
+
+	protected abstract void mouseScroll(PlayerColor p, WheelScroll wheelScroll);
 
 	public abstract void deleteAvatar(int avatarId);
 

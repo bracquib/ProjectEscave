@@ -93,4 +93,6 @@ public abstract class View {
 	public Vec2 getDimensions() {
 		return this.dimensions;
 	}
+
+	protected abstract void syncCamera(Avatar syncWith);
 }

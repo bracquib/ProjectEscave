@@ -12,6 +12,7 @@ import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.automata.behaviors.PlayerBehaviour;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -30,6 +31,8 @@ public class Player extends RigidBody {
 		super(1, c, points);
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+
 		if (local) {
 			this.setPosition(pos);
 			this.setCategory(Category.PLAYER);
@@ -43,13 +46,14 @@ public class Player extends RigidBody {
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
 			this.background = this.controller.createAvatar(setBackground(), spriteBackground);
 			this.inventory = Inventory.createInventory(c, this);
-
 			this.pressedKeys = new ArrayList<Integer>();
 
 			this.hungerPoints = maxHunger;
 			this.thirstPoints = maxThirst;
 			this.setControlledEntity(this);
 			this.playAnimation("spawn", 9, 100, 0, -10, false);
+
+			this.setControlledEntity(this);
 		}
 	}
 

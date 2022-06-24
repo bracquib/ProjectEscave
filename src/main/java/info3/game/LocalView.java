@@ -193,4 +193,9 @@ public class LocalView extends View {
 		av.setPaintable(loaded);
 		av.setPosition(pos);
 	}
+
+	@Override
+	protected void syncCamera(Avatar av) {
+		this.camera.setAvatar(av);
+	}
 }

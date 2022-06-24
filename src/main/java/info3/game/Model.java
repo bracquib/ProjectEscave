@@ -59,7 +59,8 @@ public class Model {
 
 	static ArrayList<Vec2> spawnPoints;
 
-	private static final int maxPlayers = 1;
+	private static final int maxPlayers = 2;
+
 	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;
 
