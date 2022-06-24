@@ -26,9 +26,9 @@ public class Avatar {
 		return position;
 	}
 
-	private static transient final float DUPLICATE_RANGE = Block.SIZE * 10;
+	private static transient final float DUPLICATE_RANGE = Block.SIZE * 15;
 
-	public transient int[] duplicates;
+	public transient Avatar[] duplicates;
 
 	private void updateDuplicates(Vec2 pos) {
 		if (this.duplicates == null) {
@@ -63,15 +63,14 @@ public class Avatar {
 
 	private void duplicate(boolean matches, int i, Vec2 pos) {
 		if (matches) {
-			if (this.duplicates[i] == -1) {
-				this.duplicates[i] = Controller.controller.createAvatar(pos, this.image.clone(), false, this.scale)
-						.getId();
+			if (this.duplicates[i] == null) {
+				this.duplicates[i] = Controller.controller.createAvatar(pos, this.image.clone(), false, this.scale);
 			}
-			Controller.controller.updateAvatar(this.duplicates[i], pos);
+			Controller.controller.updateAvatar(this.duplicates[i].getId(), pos);
 		} else {
-			if (this.duplicates[i] != -1) {
-				Controller.controller.deleteAvatar(this.duplicates[i]);
-				this.duplicates[i] = -1;
+			if (this.duplicates[i] != null) {
+				Controller.controller.deleteAvatar(this.duplicates[i].getId());
+				this.duplicates[i] = null;
 			}
 		}
 	}
@@ -106,8 +105,8 @@ public class Avatar {
 		this.scale = new Vec2(2.0f, 2.0f);
 		this.image = AssetServer.load(img);
 		if (dup) {
-			this.duplicates = new int[8];
-			Arrays.fill(this.duplicates, -1);
+			this.duplicates = new Avatar[8];
+			Arrays.fill(this.duplicates, null);
 		}
 	}
 
