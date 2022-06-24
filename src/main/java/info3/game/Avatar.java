@@ -36,6 +36,10 @@ public class Avatar {
 		}
 		int width = Model.getMap().width * Block.SIZE;
 		int height = Model.getMap().height * Block.SIZE;
+		if (this.image.fixed) {
+			width = 1024;
+			height = 768;
+		}
 
 		boolean top = pos.getY() < DUPLICATE_RANGE;
 		boolean bottom = pos.getY() > height - DUPLICATE_RANGE;

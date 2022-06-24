@@ -2,11 +2,13 @@ package info3.game.entities;
 
 import java.util.ArrayList;
 
+import info3.game.Avatar;
 import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
+import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.automata.behaviors.PlayerBehaviour;
@@ -22,6 +24,7 @@ public class Player extends RigidBody {
 	private int compt;
 	Entity controlledEntity;
 	public ArrayList<Integer> pressedKeys;
+	private Avatar background;
 
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
 		super(1, c, points);
@@ -34,8 +37,11 @@ public class Player extends RigidBody {
 			this.setBehaviour(new PlayerBehaviour());
 			this.avatarOffset = new Vec2(0, -4);
 			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
+			Image spriteBackground = new Image("bg_big.jpg");
+			spriteBackground.fixed = true;
 			sprite.layer = 1;
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
+			this.background = this.controller.createAvatar(setBackground(), spriteBackground);
 			this.inventory = Inventory.createInventory(c, this);
 
 			this.pressedKeys = new ArrayList<Integer>();
@@ -50,6 +56,34 @@ public class Player extends RigidBody {
 	public void setControlledEntity(Entity entity) {
 		this.controlledEntity = entity;
 		this.controller.syncCamera(this.color, entity);
+	}
+
+	@Override
+	public void setPosition(Vec2 pos) {
+		super.setPosition(pos);
+		if (this.background != null)
+			this.background.setPosition(this.setBackground());
+	}
+
+	public Vec2 setBackground() {
+		Vec2 goodPos = new Vec2(0, 0);
+		float heightMap = Model.getMap().height * Block.SIZE;
+		float widthMap = Model.getMap().width * Block.SIZE;
+		float xPlayer = this.getPosition().getX();
+		float yPlayer = this.getPosition().getY();
+		float ratioX = xPlayer / widthMap;
+		float ratioY = yPlayer / heightMap;
+		System.out.println(ratioX + " " + ratioY);
+		// bg_big:2461x1675
+		float bgX = 2461 * 2;
+		float bgY = 1675 * 2;
+		float posInBackX = bgX * ratioX;
+		float posInBackY = bgY * ratioY;
+
+		goodPos.setX(-posInBackX + 528);
+		goodPos.setY(-posInBackY + 400);
+		goodPos.print();
+		return goodPos;
 	}
 
 	@Override
