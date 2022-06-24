@@ -3,6 +3,7 @@ package info3.game.physics;
 import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.automata.Direction;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 
 public class RigidBody extends Entity {
