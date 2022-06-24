@@ -13,6 +13,7 @@ import info3.game.network.MouseClick;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
 import info3.game.network.WheelScroll;
+import info3.game.network.WindowResize;
 
 public class ClientThread extends Thread {
 	Socket sock;
@@ -57,6 +58,9 @@ public class ClientThread extends Thread {
 				} else if (msg instanceof MouseClick) {
 					MouseClick mc = (MouseClick) msg;
 					this.controller.mouseClick(this.view.getPlayer(), mc);
+				} else if (msg instanceof WindowResize) {
+					WindowResize wr = (WindowResize) msg;
+					this.controller.windowResize(this.view.getPlayer(), wr.size);
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				this.disconnect();
