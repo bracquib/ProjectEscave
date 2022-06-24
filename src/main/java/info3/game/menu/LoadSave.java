@@ -19,10 +19,10 @@ public class LoadSave {
 	public static final String OPTIONS_IP1 = "button_ip1.png";
 	public static final String BUTTON_QUIT = "button_quit.png";
 	public static final String BUTTON_QUIT1 = "button_quit1.png";
-	public static final String FLECHE_GAUCHE = "FLECHE_GAUCHE.png";
-	public static final String FLECHE_GAUCHE1 = "FLECHE_GAUCHE1.png";
-	public static final String FLECHE_DROITE = "FLECHE_DROITE.png";
-	public static final String FLECHE_DROITE1 = "FLECHE_DROITE1.png";
+	public static final String FLECHE_GAUCHE = "fleche_gauche.png";
+	public static final String FLECHE_GAUCHE1 = "fleche_gauche1.png";
+	public static final String FLECHE_DROITE = "fleche_droite.png";
+	public static final String FLECHE_DROITE1 = "fleche_droite1.png";
 	public static final String BOX = "box.png";
 	public static final String NUMBERS = "numbers.png";
 
