@@ -1,7 +1,7 @@
 package info3.game;
 
 import info3.game.assets.Paintable;
-import info3.game.entities.Player;
+import info3.game.entities.PlayerColor;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
@@ -14,9 +14,11 @@ public abstract class Controller {
 		Controller.controller = this;
 	}
 
-	public abstract void keyPressed(Player p, KeyPress e);
+	public abstract void keyPressed(PlayerColor p, KeyPress e);
 
-	public abstract void keyReleased(Player p, KeyRelease e);
+	public abstract void keyReleased(PlayerColor p, KeyRelease e);
+
+	public abstract void windowResize(PlayerColor p, Vec2 size);
 
 	public abstract void tick(long elapsed);
 
@@ -27,14 +29,18 @@ public abstract class Controller {
 	protected abstract void removeView(RemoteView view);
 
 	public Avatar createAvatar(Vec2 pos, Paintable image) {
-		return this.createAvatar(pos, image, true);
+		return this.createAvatar(pos, image, true, new Vec2(2));
 	}
 
-	public abstract Avatar createAvatar(Vec2 pos, Paintable image, boolean withDuplicates);
+	public Avatar createAvatar(Vec2 pos, Vec2 scale, Paintable image) {
+		return this.createAvatar(pos, image, true, scale);
+	}
 
-	protected abstract void mouseScroll(Player p, WheelScroll wheelScroll);
+	public abstract Avatar createAvatar(Vec2 pos, Paintable image, boolean withDuplicates, Vec2 scale);
 
-	protected abstract void mouseClick(Player player, MouseClick mouseClick);
+	protected abstract void mouseScroll(PlayerColor p, WheelScroll wheelScroll);
+
+	protected abstract void mouseClick(PlayerColor player, MouseClick mouseClick);
 
 	public abstract void deleteAvatar(int avatarId);
 

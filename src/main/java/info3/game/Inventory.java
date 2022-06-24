@@ -36,19 +36,26 @@ public class Inventory extends Entity {
 		this.cells = new Avatar[INVENTORY_SIZE];
 
 		int totalWidth = 74 * INVENTORY_SIZE - 10;
-		int startX = (this.controller.viewFor(null).getWidth() - totalWidth) / 2;
-		int startY = this.controller.viewFor(null).getHeight() - 130;
+		int startX = (this.controller.viewFor(this.owner.getColor()).getWidth() - totalWidth) / 2;
+		int startY = this.controller.viewFor(this.owner.getColor()).getHeight() - 130;
 		Image selectedCell = new Image("inventory-cell-selected.png");
 		selectedCell.layer = 1;
 		selectedCell.fixed = true;
-		this.cells[0] = this.controller.createAvatar(new Vec2(startX, startY), selectedCell);
-		this.cells[0].setScale(new Vec2(1));
+		this.cells[0] = this.controller.createAvatar(new Vec2(startX, startY), new Vec2(1), selectedCell);
 		for (int i = 1; i < this.cells.length; i++) {
 			Image cell = new Image("inventory-cell.png");
 			cell.layer = 1;
 			cell.fixed = true;
-			this.cells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), cell);
-			this.cells[i].setScale(new Vec2(1));
+			this.cells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), new Vec2(1), cell);
+		}
+	}
+
+	public void updateAvatars() {
+		int totalWidth = 74 * INVENTORY_SIZE - 10;
+		int startX = (this.controller.viewFor(this.owner.getColor()).getWidth() - totalWidth) / 2;
+		int startY = this.controller.viewFor(this.owner.getColor()).getHeight() - 130;
+		for (int i = 0; i < this.cells.length; i++) {
+			this.controller.updateAvatar(this.cells[i].getId(), new Vec2(startX + 74 * i, startY));
 		}
 	}
 

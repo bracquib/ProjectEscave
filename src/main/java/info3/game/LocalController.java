@@ -10,25 +10,22 @@ import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Mushroom;
 import info3.game.entities.Player;
+import info3.game.entities.PlayerColor;
 import info3.game.entities.Statue;
-import info3.game.network.CreateAvatar;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
 import info3.game.network.NetworkMessage;
-import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 import info3.game.network.Welcome;
 import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
-	ArrayList<Integer> pressedKeys;
 
 	public LocalController() {
 		super();
 		this.views = Collections.synchronizedList(new ArrayList<View>());
-		this.pressedKeys = new ArrayList<Integer>();
 		Model.init(this);
 	}
 
@@ -37,7 +34,6 @@ public class LocalController extends Controller {
 		for (View v : views) {
 			v.setController(this);
 		}
-		this.pressedKeys = new ArrayList<Integer>();
 		Model.init(this);
 	}
 
@@ -47,23 +43,27 @@ public class LocalController extends Controller {
 			this.views.add(v);
 		}
 		v.setController(this);
-		v.setPlayer(Model.spawnPlayer());
-		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer().getColor()));
-		this.sendTo(v.getPlayer(), new SyncCamera(v.getPlayer().getAvatar()));
+		int playerNum = Model.playerCount.getAndIncrement();
+		v.setPlayer(Player.colorFromInt(playerNum));
 		for (Entity e : Model.allEntities()) {
 			Avatar a = e.getAvatar();
-			this.sendTo(v.getPlayer(), new CreateAvatar(a.id, a.getPosition(), a.image));
+			if (a != null) { // if the file couldn't be loaded, a will be null
+				v.createAvatar(a);
+			}
 		}
+		Model.spawnPlayer(playerNum);
+		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer()));
 	}
 
 	@Override
-	public void keyPressed(Player p, KeyPress e) {
-		this.addPressedKey(e.code);
+	public void keyPressed(PlayerColor p, KeyPress e) {
+		this.addPressedKey(p, e.code);
 
+		Player player = Model.getPlayer(p);
 		if (e.code == 32) {
-			Vec2 newPos = new Vec2(p.getPosition());
+			Vec2 newPos = new Vec2(player.getPosition());
 			newPos.setX(newPos.getX() + Block.SIZE);
-			Model.spawn(new Statue(p.getController(), p, newPos, 1));
+			Model.spawn(new Statue(this, player, newPos, 1));
 			Image bg = new Image("bg_big.jpg");
 			bg.fixed = true;
 			bg.layer = -1;
@@ -71,22 +71,22 @@ public class LocalController extends Controller {
 		}
 
 		if (e.code == 67) {
-			Vec2 newPos = new Vec2(p.getPosition());
+			Vec2 newPos = new Vec2(player.getPosition());
 			newPos.setX(newPos.getX() + 64);
-			Model.spawn(new Mushroom(p.getController(), p.getPosition(), 1, 1));
+			Model.spawn(new Mushroom(player.getController(), player.getPosition(), 1, 1));
 		}
 
 		if (e.code >= 97 && e.code <= 102) {
-			p.getInventory().selectCurrentTool(e.code - 97);
+			player.getInventory().selectCurrentTool(e.code - 97);
 		}
 	}
 
 	@Override
-	public void keyReleased(Player p, KeyRelease e) {
-		this.removePressedKey(e.code);
+	public void keyReleased(PlayerColor p, KeyRelease e) {
+		this.removePressedKey(p, e.code);
 	}
 
-	public View viewFor(Player p) {
+	public View viewFor(PlayerColor p) {
 		for (View v : this.views) {
 			if (v.getPlayer() == p) {
 				return v;
@@ -101,19 +101,25 @@ public class LocalController extends Controller {
 	}
 
 	@Override
-	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup) {
+	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup, Vec2 scale) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
-		Avatar a = null;
+		Avatar a = new Avatar(id, image, dup);
+		a.position = pos;
+		a.scale = scale;
 		synchronized (this.views) {
 			for (View v : this.views) {
-				a = v.createAvatar(id, pos, image, dup);
+				v.createAvatar(a);
 			}
 		}
 		return a;
 	}
 
 	public void sendTo(Player p, NetworkMessage msg) {
+		this.sendTo(p.getColor(), msg);
+	}
+
+	public void sendTo(PlayerColor p, NetworkMessage msg) {
 		synchronized (this.views) {
 			for (View v : views) {
 				if (v instanceof RemoteView) {
@@ -148,8 +154,8 @@ public class LocalController extends Controller {
 	}
 
 	@Override
-	protected void mouseScroll(Player p, WheelScroll wheelScroll) {
-		Inventory inv = p.getInventory();
+	protected void mouseScroll(PlayerColor p, WheelScroll wheelScroll) {
+		Inventory inv = Model.getPlayer(p).getInventory();
 		if (wheelScroll.up) {
 			inv.moveLCurrentTool();
 		} else {
@@ -157,19 +163,37 @@ public class LocalController extends Controller {
 		}
 	}
 
-	private void addPressedKey(int code) {
-		for (Integer key : this.pressedKeys) {
+	private void addPressedKey(PlayerColor color, int code) {
+		Player p = Model.getPlayer(color);
+		if (p == null) {
+			return;
+		}
+		for (Integer key : p.pressedKeys) {
 			if (key.equals(code))
 				return;
 		}
-		this.pressedKeys.add(code);
+		p.pressedKeys.add(code);
 	}
 
-	private void removePressedKey(int code) {
-		this.pressedKeys.remove((Integer) code);
+	private void removePressedKey(PlayerColor p, int code) {
+		Player player = Model.getPlayer(p);
+		if (player == null) {
+			return;
+		}
+		player.pressedKeys.remove((Integer) code);
 	}
 
-	public boolean isKeyPressed(int code) {
+	public boolean isKeyPressed(Entity forEntity, int code) {
+		Player p = null;
+		for (Player player : Model.getPlayers()) {
+			if (player.getControlledEntity().equals(forEntity)) {
+				p = player;
+				break;
+			}
+		}
+		if (p == null) {
+			return false;
+		}
 		int realKeyCode;
 		switch (code) {
 		case 785: // FU
@@ -203,7 +227,7 @@ public class LocalController extends Controller {
 			realKeyCode = code;
 			break;
 		}
-		for (Integer key : this.pressedKeys) {
+		for (Integer key : p.pressedKeys) {
 			if (key.equals(realKeyCode))
 				return true;
 		}
@@ -211,8 +235,9 @@ public class LocalController extends Controller {
 	}
 
 	@Override
-	protected void mouseClick(Player player, MouseClick mouseClick) {
-		Vec2 mouse = mouseClick.position.screenToGlobal(this.viewFor(player).camera.getPos()).wrapCoords();
+	protected void mouseClick(PlayerColor p, MouseClick mouseClick) {
+		Vec2 mouse = mouseClick.position.screenToGlobal(this.viewFor(p).camera.getPos()).wrapCoords();
+		Player player = Model.getPlayer(p);
 		player.mousePos = mouse;
 		player.getBehaviour().pop(player, null);
 	}
@@ -242,5 +267,18 @@ public class LocalController extends Controller {
 		for (View v : this.views) {
 			v.updateAvatar(i, pos);
 		}
+	}
+
+	@Override
+	public void windowResize(PlayerColor p, Vec2 size) {
+		this.viewFor(p).setDimensions(size);
+		Player player = Model.getPlayer(p);
+		if (player != null) {
+			player.getInventory().updateAvatars();
+		}
+	}
+
+	public void syncCamera(PlayerColor p, Entity syncWith) {
+		this.viewFor(p).setFollowedAvatar(syncWith.getAvatar());
 	}
 }

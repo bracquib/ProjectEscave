@@ -1,5 +1,7 @@
 package info3.game.entities;
 
+import java.util.ArrayList;
+
 import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.Model;
@@ -18,12 +20,15 @@ public class Player extends RigidBody {
 	private float maxThirst = 100;
 	private Inventory inventory;
 	private int compt;
+	Entity controlledEntity;
+	public ArrayList<Integer> pressedKeys;
 
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
 		super(1, c, points);
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
 		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+
 		if (local) {
 			this.setPosition(pos);
 			this.setCategory(Category.PLAYER);
@@ -35,9 +40,18 @@ public class Player extends RigidBody {
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
 			this.inventory = Inventory.createInventory(c, this);
 
+			this.pressedKeys = new ArrayList<Integer>();
+
 			this.hungerPoints = maxHunger;
 			this.thirstPoints = maxThirst;
+
+			this.setControlledEntity(this);
 		}
+	}
+
+	public void setControlledEntity(Entity entity) {
+		this.controlledEntity = entity;
+		this.controller.syncCamera(this.color, entity);
 	}
 
 	@Override
@@ -65,31 +79,31 @@ public class Player extends RigidBody {
 			this.getSpeed().setX(0);
 		}
 
-		if (this.controller.isKeyPressed(65)) { // touche A
+		if (this.controller.isKeyPressed(this, 65)) { // touche A
 			this.playAnimation("spawn", 9, 100, -10);
 		}
-		if (this.controller.isKeyPressed(66)) {
+		if (this.controller.isKeyPressed(this, 66)) {
 			this.playAnimation("idle-right", 6, 200, -4);
 		}
-		if (this.controller.isKeyPressed(67)) {
+		if (this.controller.isKeyPressed(this, 67)) {
 			this.playAnimation("attack", 5, 200, -4);
 		}
-		if (this.controller.isKeyPressed(68)) {
+		if (this.controller.isKeyPressed(this, 68)) {
 			this.playAnimation("check", 6, 200, -4);
 		}
-		if (this.controller.isKeyPressed(69)) {
+		if (this.controller.isKeyPressed(this, 69)) {
 			this.playAnimation("dig", 21, 200, -4);
 		}
-		if (this.controller.isKeyPressed(70)) {
+		if (this.controller.isKeyPressed(this, 70)) {
 			this.playAnimation("idle-left", 6, 200, -4);
 		}
-		if (this.controller.isKeyPressed(71)) {
+		if (this.controller.isKeyPressed(this, 71)) {
 			this.playAnimation("mine", 5, 200, -32);
 		}
-		if (this.controller.isKeyPressed(72)) {
+		if (this.controller.isKeyPressed(this, 72)) {
 			this.playAnimation("walk-left", 5, 200, -4);
 		}
-		if (this.controller.isKeyPressed(73)) {
+		if (this.controller.isKeyPressed(this, 73)) {
 			this.playAnimation("walk-right", 5, 100, -4);
 		}
 
@@ -185,6 +199,10 @@ public class Player extends RigidBody {
 
 	public Inventory getInventory() {
 		return inventory;
+	}
+
+	public Entity getControlledEntity() {
+		return this.controlledEntity;
 	}
 
 }

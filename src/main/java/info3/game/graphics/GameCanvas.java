@@ -41,6 +41,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -386,6 +387,9 @@ public class GameCanvas extends Canvas {
 		frame = new WindowFrame();
 
 		frame.setSize(d);
+		GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(frame);
+
+		frame.addComponentListener(this.listener);
 		frame.addWindowListener(new WindowListener());
 		return frame;
 	}

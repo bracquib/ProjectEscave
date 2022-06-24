@@ -21,6 +21,7 @@
 package info3.game.graphics;
 
 import java.awt.Graphics;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -29,7 +30,8 @@ import java.awt.event.MouseWheelListener;
 /*
  * A single listener grouping all the callbacks from the GameCanvas.
  */
-public interface GameCanvasListener extends MouseListener, MouseMotionListener, MouseWheelListener, KeyListener {
+public interface GameCanvasListener
+		extends MouseListener, MouseMotionListener, MouseWheelListener, KeyListener, ComponentListener {
 
 	/*
 	 * Called the first time the window becomes visible on the screen. This is the

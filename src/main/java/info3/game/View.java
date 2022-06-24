@@ -3,7 +3,7 @@ package info3.game;
 import java.util.HashMap;
 
 import info3.game.assets.Paintable;
-import info3.game.entities.Player;
+import info3.game.entities.PlayerColor;
 
 public abstract class View {
 	static View view;
@@ -11,7 +11,7 @@ public abstract class View {
 	/**
 	 * Chaque vue affiche un joueur particulier.
 	 */
-	private Player player;
+	private PlayerColor player;
 
 	protected Controller controller;
 
@@ -19,12 +19,15 @@ public abstract class View {
 
 	protected Camera camera;
 
+	private Vec2 dimensions;
+
 	protected View() {
 		this.avatars = new HashMap<Integer, Avatar>();
-		this.camera = new Camera(null);
+		this.camera = new Camera(null, this);
+		View.view = this;
 	}
 
-	public abstract Avatar createAvatar(int id, Vec2 pos, Paintable image, boolean dup);
+	public abstract void createAvatar(Avatar av);
 
 	public void deleteAvatar(int id) {
 		Avatar av = this.avatars.remove(id);
@@ -59,22 +62,33 @@ public abstract class View {
 		return this.avatars.get(avatarId);
 	}
 
-	public Player getPlayer() {
+	public PlayerColor getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(PlayerColor player) {
 		this.player = player;
-		this.setFollowedAvatar(player.getAvatar());
 	}
 
 	public void setFollowedAvatar(Avatar a) {
 		this.camera.setAvatar(a);
 	}
 
-	protected abstract int getWidth();
+	protected int getWidth() {
+		return (int) this.dimensions.getX();
+	}
 
-	protected abstract int getHeight();
+	protected int getHeight() {
+		return (int) this.dimensions.getY();
+	}
 
 	public abstract void updateAvatar(int id, Paintable p, Vec2 pos);
+
+	public void setDimensions(Vec2 size) {
+		this.dimensions = size;
+	}
+
+	public Vec2 getDimensions() {
+		return this.dimensions;
+	}
 }
