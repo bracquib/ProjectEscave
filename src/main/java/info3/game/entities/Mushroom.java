@@ -8,6 +8,7 @@ import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.automata.behaviors.MushroomBehaviour;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Mushroom extends RigidBody {
@@ -19,6 +20,7 @@ public class Mushroom extends RigidBody {
 		childRemain = 3;
 		this.setPosition(pos);
 		this.setCategory(Category.ADVERSAIRE);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1.5f, 1.5f);
 		this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
 	}
 
@@ -32,6 +34,7 @@ public class Mushroom extends RigidBody {
 		this.degatMob = 1;
 		this.avatarOffset = new Vec2(0, 0);
 		this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1.5f, 1.5f);
 		this.playAnimation("spawn-right", 4, 100, 0, -10, false);
 	}
 
