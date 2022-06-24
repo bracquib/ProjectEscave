@@ -41,14 +41,12 @@ public class Inventory extends Entity {
 		Image selectedCell = new Image("inventory-cell-selected.png");
 		selectedCell.layer = 1;
 		selectedCell.fixed = true;
-		this.cells[0] = this.controller.createAvatar(new Vec2(startX, startY), selectedCell);
-		this.cells[0].setScale(new Vec2(1));
+		this.cells[0] = this.controller.createAvatar(new Vec2(startX, startY), new Vec2(1), selectedCell);
 		for (int i = 1; i < this.cells.length; i++) {
 			Image cell = new Image("inventory-cell.png");
 			cell.layer = 1;
 			cell.fixed = true;
-			this.cells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), cell);
-			this.cells[i].setScale(new Vec2(1));
+			this.cells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), new Vec2(1), cell);
 		}
 	}
 

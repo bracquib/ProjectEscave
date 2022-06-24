@@ -24,6 +24,7 @@ public abstract class View {
 	protected View() {
 		this.avatars = new HashMap<Integer, Avatar>();
 		this.camera = new Camera(null, this);
+		View.view = this;
 	}
 
 	public abstract void createAvatar(Avatar av);
@@ -67,7 +68,6 @@ public abstract class View {
 
 	public void setPlayer(PlayerColor player) {
 		this.player = player;
-		// TODO? this.setFollowedAvatar(player.getAvatar());
 	}
 
 	public void setFollowedAvatar(Avatar a) {
@@ -91,6 +91,4 @@ public abstract class View {
 	public Vec2 getDimensions() {
 		return this.dimensions;
 	}
-
-	protected abstract void syncCamera(Avatar syncWith);
 }

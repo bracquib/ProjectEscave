@@ -29,10 +29,14 @@ public abstract class Controller {
 	protected abstract void removeView(RemoteView view);
 
 	public Avatar createAvatar(Vec2 pos, Paintable image) {
-		return this.createAvatar(pos, image, true);
+		return this.createAvatar(pos, image, true, new Vec2(2));
 	}
 
-	public abstract Avatar createAvatar(Vec2 pos, Paintable image, boolean withDuplicates);
+	public Avatar createAvatar(Vec2 pos, Vec2 scale, Paintable image) {
+		return this.createAvatar(pos, image, true, scale);
+	}
+
+	public abstract Avatar createAvatar(Vec2 pos, Paintable image, boolean withDuplicates, Vec2 scale);
 
 	protected abstract void mouseScroll(PlayerColor p, WheelScroll wheelScroll);
 

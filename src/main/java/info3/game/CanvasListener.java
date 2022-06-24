@@ -72,7 +72,7 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-
+		this.view.mousePos = new Vec2(e.getX(), e.getY());
 	}
 
 	@Override

@@ -25,8 +25,7 @@ public class RemoteView extends View {
 	@Override
 	public void createAvatar(Avatar av) {
 		this.avatars.put(av.getId(), av);
-		((LocalController) this.controller)
-				.sendToClients(new CreateAvatar(av.getId(), av.getPosition(), av.getPaintable()));
+		((LocalController) this.controller).sendToClients(new CreateAvatar(av));
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	protected void syncCamera(Avatar syncWith) {
+	public void setFollowedAvatar(Avatar syncWith) {
 		((LocalController) this.controller).sendTo(this.getPlayer(), new SyncCamera(syncWith));
 	}
 }

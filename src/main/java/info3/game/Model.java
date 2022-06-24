@@ -66,7 +66,8 @@ public class Model {
 	static ArrayList<Automata> automatas;
 
 	private static boolean started() {
-		return Model.playerCount.get() == Model.maxPlayers;
+		// TODO: memoization
+		return Model.playerCount.get() == Model.maxPlayers && Model.getPlayers().size() == Model.maxPlayers;
 	}
 
 	private static PhysicsWorld physics;
@@ -96,11 +97,10 @@ public class Model {
 		Model.spawnQueue.add(e);
 	}
 
-	public static Player spawnPlayer() {
+	public static Player spawnPlayer(int playerNum) {
 		// TODO: throw exception if there are more players than expected
-		Player p = new Player(Model.controller, Player.colorFromInt(Model.playerCount.get()),
-				Model.spawnPoints.get(Model.playerCount.get()).multiply(Block.SIZE), true, 10);
-		Model.playerCount.getAndIncrement();
+		Player p = new Player(Model.controller, Player.colorFromInt(playerNum),
+				Model.spawnPoints.get(playerNum).multiply(Block.SIZE), true, 10);
 		Model.spawn(p);
 		return p;
 	}

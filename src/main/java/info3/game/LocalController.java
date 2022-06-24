@@ -43,15 +43,16 @@ public class LocalController extends Controller {
 			this.views.add(v);
 		}
 		v.setController(this);
-		v.setPlayer(Player.colorFromInt(Model.playerCount.get()));
-		Model.spawnPlayer();
-		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer()));
+		int playerNum = Model.playerCount.getAndIncrement();
+		v.setPlayer(Player.colorFromInt(playerNum));
 		for (Entity e : Model.allEntities()) {
 			Avatar a = e.getAvatar();
 			if (a != null) { // if the file couldn't be loaded, a will be null
 				v.createAvatar(a);
 			}
 		}
+		Model.spawnPlayer(playerNum);
+		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer()));
 	}
 
 	@Override
@@ -100,11 +101,12 @@ public class LocalController extends Controller {
 	}
 
 	@Override
-	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup) {
+	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup, Vec2 scale) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		Avatar a = new Avatar(id, image, dup);
 		a.position = pos;
+		a.scale = scale;
 		synchronized (this.views) {
 			for (View v : this.views) {
 				v.createAvatar(a);
@@ -277,6 +279,6 @@ public class LocalController extends Controller {
 	}
 
 	public void syncCamera(PlayerColor p, Entity syncWith) {
-		this.viewFor(p).syncCamera(syncWith.getAvatar());
+		this.viewFor(p).setFollowedAvatar(syncWith.getAvatar());
 	}
 }

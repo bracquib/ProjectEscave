@@ -63,7 +63,8 @@ public class Avatar {
 	private void duplicate(boolean matches, int i, Vec2 pos) {
 		if (matches) {
 			if (this.duplicates[i] == -1) {
-				this.duplicates[i] = Controller.controller.createAvatar(pos, this.image.clone(), false).getId();
+				this.duplicates[i] = Controller.controller.createAvatar(pos, this.image.clone(), false, this.scale)
+						.getId();
 			}
 			Controller.controller.updateAvatar(this.duplicates[i], pos);
 		} else {

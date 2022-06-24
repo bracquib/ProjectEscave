@@ -77,6 +77,7 @@ public class LocalView extends View {
 	 */
 
 	private long textElapsed;
+	public Vec2 mousePos = new Vec2(0);
 
 	/*
 	 * This method is invoked almost periodically, given the number of milli-seconds
@@ -163,7 +164,10 @@ public class LocalView extends View {
 			this.avatars.put(av.getId(), av);
 		}
 		synchronized (this.sortedAvatars) {
-			this.sortedAvatars.add(av);
+			if (!this.sortedAvatars.add(av)) {
+				this.sortedAvatars.remove(av);
+				this.sortedAvatars.add(av);
+			}
 		}
 	}
 
@@ -187,10 +191,5 @@ public class LocalView extends View {
 		Paintable loaded = AssetServer.load(p);
 		av.setPaintable(loaded);
 		av.setPosition(pos);
-	}
-
-	@Override
-	protected void syncCamera(Avatar av) {
-		this.camera.setAvatar(av);
 	}
 }

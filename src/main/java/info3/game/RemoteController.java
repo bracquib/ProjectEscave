@@ -85,11 +85,12 @@ public class RemoteController extends Controller {
 	}
 
 	@Override
-	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup) {
+	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup, Vec2 scale) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		Avatar av = new Avatar(id, image, dup);
 		av.setPosition(pos);
+		av.setScale(scale);
 		this.view.createAvatar(av);
 		return av;
 	}
@@ -208,6 +209,7 @@ class NetworkReceiverThread extends Thread {
 			CreateAvatar ca = (CreateAvatar) msg;
 			Avatar av = new Avatar(ca.id, ca.image, false);
 			av.setPosition(ca.position);
+			av.setScale(ca.scale);
 			this.controller.view.createAvatar(av);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
@@ -234,6 +236,7 @@ class NetworkReceiverThread extends Thread {
 			}
 		} else if (msg instanceof SyncCamera) {
 			SyncCamera sc = (SyncCamera) msg;
+			System.out.println("sync cam for " + this.controller.view.getPlayer() + " " + sc.avatarId);
 			this.controller.view.camera.setAvatar(this.controller.view.getAvatar(sc.avatarId));
 		} else if (msg instanceof Welcome) {
 			Welcome w = (Welcome) msg;
