@@ -49,6 +49,13 @@ public class LocalController extends Controller {
 			Avatar a = e.getAvatar();
 			if (a != null) { // if the file couldn't be loaded, a will be null
 				v.createAvatar(a);
+				if (a.duplicates != null) {
+					for (Avatar dup : a.duplicates) {
+						if (dup != null) {
+							v.createAvatar(dup);
+						}
+					}
+				}
 			}
 		}
 		Model.spawnPlayer(playerNum);
@@ -109,8 +116,8 @@ public class LocalController extends Controller {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		Avatar a = new Avatar(id, image, dup);
-		a.position = pos;
-		a.scale = scale;
+		a.setPosition(pos);
+		a.setScale(scale);
 		synchronized (this.views) {
 			for (View v : this.views) {
 				v.createAvatar(a);
