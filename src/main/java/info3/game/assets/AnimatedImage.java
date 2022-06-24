@@ -12,7 +12,7 @@ public class AnimatedImage extends Paintable {
 	 * 
 	 * Reste à 0 dans le cas d'une image statique.
 	 */
-	int imageIndex = 0;
+	int imageIndex;
 
 	/**
 	 * Indique combien de temps s'est écoulé depuis le dernier changement d'image.
@@ -27,10 +27,14 @@ public class AnimatedImage extends Paintable {
 	 */
 	public long animationDelay;
 
-	public AnimatedImage(String path, int fc, long delay) {
+	boolean loop;
+
+	public AnimatedImage(String path, int fc, long delay, boolean loop) {
 		super(path);
 		this.frameCount = fc;
 		this.animationDelay = delay;
+		this.loop = loop;
+		this.imageIndex = 0;
 	}
 
 	@Override
@@ -72,19 +76,31 @@ public class AnimatedImage extends Paintable {
 	 * Passe à l'image suivante de l'animation
 	 */
 	void nextFrame() {
-		if (this.frames != null) {
-			this.imageIndex = (this.imageIndex + 1) % this.frames.length;
+		if (this.loop)
+			this.imageIndex = (this.imageIndex + 1) % this.frameCount;
+		else {
+			if (this.imageIndex == this.frameCount - 1)
+				return;
+			this.imageIndex = this.imageIndex + 1;
 		}
 	}
 
 	@Override
 	public Paintable duplicateFromPath(String path) {
-		AnimatedImage img = new AnimatedImage(path, this.frameCount, this.animationDelay);
+		AnimatedImage img = new AnimatedImage(path, this.frameCount, this.animationDelay, this.loop);
 		img.fixed = this.fixed;
 		img.layer = this.layer;
 		if (this.loaded) {
 			img.load();
 		}
 		return img;
+	}
+
+	public boolean isFinished() {
+		return !this.loop && this.imageIndex == this.frameCount - 1;
+	}
+
+	public void restart() {
+		this.imageIndex = 0;
 	}
 }

@@ -79,6 +79,10 @@ public class LocalController extends Controller {
 		if (e.code >= 97 && e.code <= 102) {
 			player.getInventory().selectCurrentTool(e.code - 97);
 		}
+
+		if (e.code >= 49 && e.code <= 53) {
+			player.getInventory().selectCurrentTool(e.code - 49);
+		}
 	}
 
 	@Override
@@ -254,7 +258,9 @@ public class LocalController extends Controller {
 			// TODO: move this to each view implementation
 			if (v instanceof RemoteView) {
 				RemoteView rv = (RemoteView) v;
-				rv.client.send(new UpdateAvatar(av.getId(), p, av.getPosition()));
+				if (rv.client != null) {
+					rv.client.send(new UpdateAvatar(av.getId(), p, av.getPosition()));
+				}
 			} else if (v instanceof LocalView) {
 				LocalView lv = (LocalView) v;
 				lv.updateAvatar(av.getId(), p, av.getPosition());

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
+import info3.game.assets.AnimatedImage;
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
 import info3.game.entities.Block;
@@ -147,14 +148,19 @@ public class Avatar {
 
 	public void setPaintable(Paintable p) {
 		this.image = p;
+		if (this.image instanceof AnimatedImage) {
+			AnimatedImage anim = (AnimatedImage) this.image;
+			if (anim.isFinished())
+				anim.restart();
+		}
+	}
+
+	public Paintable getPaintable() {
+		return this.image;
 	}
 
 	@Override
 	public boolean equals(Object other) {
 		return other instanceof Avatar && this.id == ((Avatar) other).id;
-	}
-
-	public Paintable getPaintable() {
-		return this.image;
 	}
 }

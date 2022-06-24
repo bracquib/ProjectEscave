@@ -8,8 +8,8 @@ import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
+import info3.game.automata.Direction;
 import info3.game.automata.behaviors.PlayerBehaviour;
-import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -27,15 +27,13 @@ public class Player extends RigidBody {
 		super(1, c, points);
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
-		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
-
 		if (local) {
 			this.setPosition(pos);
 			this.setCategory(Category.PLAYER);
 			this.setAutomata(Model.getAutomata("Player"));
 			this.setBehaviour(new PlayerBehaviour());
 			this.avatarOffset = new Vec2(0, -4);
-			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200);
+			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
 			sprite.layer = 1;
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
 			this.inventory = Inventory.createInventory(c, this);
@@ -44,8 +42,8 @@ public class Player extends RigidBody {
 
 			this.hungerPoints = maxHunger;
 			this.thirstPoints = maxThirst;
-
 			this.setControlledEntity(this);
+			this.playAnimation("spawn", 9, 100, 0, -10, false);
 		}
 	}
 
@@ -79,34 +77,14 @@ public class Player extends RigidBody {
 			this.getSpeed().setX(0);
 		}
 
-		if (this.controller.isKeyPressed(this, 65)) { // touche A
-			this.playAnimation("spawn", 9, 100, -10);
+		AnimatedImage anim = (AnimatedImage) this.getPaintable();
+		if (anim.isFinished() && this.getBehaviour() instanceof PlayerBehaviour) {
+			if (this.getDirection() == Direction.EST) {
+				this.playAnimation("idle-right", 6, 200, 0, -4, true);
+			} else {
+				this.playAnimation("idle-left", 6, 200, 0, -4, true);
+			}
 		}
-		if (this.controller.isKeyPressed(this, 66)) {
-			this.playAnimation("idle-right", 6, 200, -4);
-		}
-		if (this.controller.isKeyPressed(this, 67)) {
-			this.playAnimation("attack", 5, 200, -4);
-		}
-		if (this.controller.isKeyPressed(this, 68)) {
-			this.playAnimation("check", 6, 200, -4);
-		}
-		if (this.controller.isKeyPressed(this, 69)) {
-			this.playAnimation("dig", 21, 200, -4);
-		}
-		if (this.controller.isKeyPressed(this, 70)) {
-			this.playAnimation("idle-left", 6, 200, -4);
-		}
-		if (this.controller.isKeyPressed(this, 71)) {
-			this.playAnimation("mine", 5, 200, -32);
-		}
-		if (this.controller.isKeyPressed(this, 72)) {
-			this.playAnimation("walk-left", 5, 200, -4);
-		}
-		if (this.controller.isKeyPressed(this, 73)) {
-			this.playAnimation("walk-right", 5, 100, -4);
-		}
-
 	}
 
 	@Override

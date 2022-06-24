@@ -93,9 +93,13 @@ public class MushroomBehaviour extends Behaviour {
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(50);
+			p.playAnimation("walk-right", 5, 400, 0, -64, false);
+			p.setDirection(Direction.EST);
 			break;
 		case WEST:
 			p.getSpeed().setX(-50);
+			p.playAnimation("walk-left", 5, 400, 0, -64, false);
+			p.setDirection(Direction.WEST);
 			break;
 		case SOUTH:
 			p.getSpeed().setX(0);
@@ -112,9 +116,18 @@ public class MushroomBehaviour extends Behaviour {
 		RigidBody p = (RigidBody) e;
 		System.out.println("HPmushroom=" + e.pointsDeVie);
 		if (e.pointsDeVie <= 0) {
+			if (p.getDirection() == Direction.EST)
+				p.playAnimation("death-right", 9, 200, 0, -60, false);
+			else if (p.getDirection() == Direction.WEST)
+				p.playAnimation("death-left", 9, 200, 0, -60, false);
 			e.getBehaviour().egg(e, d);
 			Model.deleteEntity(p);
+			return;
 		}
+		if (p.getDirection() == Direction.EST)
+			p.playAnimation("hurt-right", 4, 200, 0, -64, false);
+		else if (p.getDirection() == Direction.WEST)
+			p.playAnimation("hurt-left", 4, 200, 0, -64, false);
 		switch (d) {
 		case SOUTH:
 			p.getSpeed().setY(-240);

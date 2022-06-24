@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
 declare -A hue
-hue[vert]=50,-20
-hue[bleu]=180,-50,2
-hue[rouge]=-80,-20,5
-hue[violet]=-110,-20
+hue[vert]=30,240,30
+hue[bleu]=80,110,230
+hue[rouge]=210,50,50
+hue[violet]=180,50,190
+hue[noir]=30,30,30
+hue[blanc]=248,248,248
+hue[orange]=230,120,20
 
 for color in "${!hue[@]}"; do
     if [ ! -d $color ]; then
