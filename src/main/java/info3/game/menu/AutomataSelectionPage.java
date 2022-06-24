@@ -3,6 +3,7 @@ package info3.game.menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -32,10 +33,12 @@ import info3.game.automata.parser.ParseException;
 public class AutomataSelectionPage extends JFrame {
 	public final String TITLE = "Association des automates";
 	public final Color BTN_COLOR = Color.white;
+	public JFrame caller;
 
 	public static String galURL = "src/main/resources/automatas.gal";
 
-	public AutomataSelectionPage() {
+	public AutomataSelectionPage(JFrame caller) {
+		this.caller = caller;
 		setup();
 		makeInterface();
 	}
@@ -47,11 +50,12 @@ public class AutomataSelectionPage extends JFrame {
 	private void setup() {
 		this.setTitle("Escave");
 		this.setSize(500, 400);
+		this.setUndecorated(true);
+
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setMinimumSize(new Dimension(800, 850));
 		// this.setIconImage(new
 		// ImageIcon(getClass().getResource("image.jgp)).getImage());
-		this.setResizable(true);
 	}
 
 	private JPanel genPanel(Color color) {
@@ -195,9 +199,11 @@ public class AutomataSelectionPage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Charger les automates dans le Model
-				frame.dispose();
 				loadModelAutomatas();
-				// Ret
+				caller.requestFocus();
+				caller.toFront();
+				caller.setState(Frame.NORMAL);
+				frame.dispose();
 			}
 		});
 		validateBtn.setBackground(BTN_COLOR);
@@ -218,7 +224,4 @@ public class AutomataSelectionPage extends JFrame {
 		return res;
 	}
 
-	public static void main(String args[]) throws Exception {
-		AutomataSelectionPage ASP = new AutomataSelectionPage();
-	}
 }

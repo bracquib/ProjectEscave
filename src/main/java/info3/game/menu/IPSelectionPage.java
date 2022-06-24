@@ -2,6 +2,7 @@ package info3.game.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -15,10 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class IPSelectionPage extends JFrame {
+	public JFrame caller;
 
 	private static Color BTN_COLOR = Color.white;
 
-	IPSelectionPage() {
+	IPSelectionPage(JFrame caller) {
+		this.caller = caller;
 		setup();
 		makeInterface();
 	}
@@ -26,6 +29,8 @@ public class IPSelectionPage extends JFrame {
 	private void setup() {
 		this.setTitle("Escave");
 		this.setSize(300, 300);
+		this.setUndecorated(true);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setLocationRelativeTo(null);
 		// this.setIconImage(new
 		// ImageIcon(getClass().getResource("image.jgp)).getImage());
@@ -80,7 +85,7 @@ public class IPSelectionPage extends JFrame {
 		grid.gridy = 2;
 		bgPanel.add(panel1, grid);
 		grid.weightx = 1;
-		grid.weighty = 0.3;
+		grid.weighty = 0;
 		grid.gridy = 3;
 		bgPanel.add(panel15, grid);
 		grid.gridy = 4;
@@ -101,6 +106,9 @@ public class IPSelectionPage extends JFrame {
 		joinGameBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Lancer le jeu en r�cup�rant l'IP
+				caller.requestFocus();
+				caller.toFront();
+				caller.setState(Frame.NORMAL);
 				frame.dispose();
 				// Sauver l'IP dans le fichier d'Options
 			}
@@ -122,7 +130,4 @@ public class IPSelectionPage extends JFrame {
 		this.setVisible(true);
 	}
 
-	public static void main(String[] args) {
-		IPSelectionPage page = new IPSelectionPage();
-	}
 }

@@ -14,6 +14,7 @@ public class GameJerem implements Runnable {
 	private Playing playing;
 	private Menu menu;
 	private Options options;
+	GameWindow gamewindow;
 
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static float SCALE = 2f;
@@ -29,7 +30,7 @@ public class GameJerem implements Runnable {
 		initClasses();
 		gamePanel = new GamePanel(this);
 
-		GameWindow gamewindow = new GameWindow(gamePanel);
+		gamewindow = new GameWindow(gamePanel);
 		device.setFullScreenWindow(gamewindow);
 		gamePanel.requestFocus();
 
@@ -39,6 +40,10 @@ public class GameJerem implements Runnable {
 
 	public int getGameWidth() {
 		return GAME_WIDTH;
+	}
+
+	public GameWindow getMainFrame() {
+		return gamewindow;
 	}
 
 	public int getGameHeight() {

@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFrame;
+
 public class Options extends State implements Statemethods {
 
 	private OptionButton[] buttons = new OptionButton[5];
@@ -43,8 +45,12 @@ public class Options extends State implements Statemethods {
 	private void loadButtons() {
 
 		buttons[0] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 40, (int) (230 * GameJerem.SCALE), 1, () -> {
+			JFrame mainwindow = this.getGame().getMainFrame();
+			new AutomataSelectionPage(mainwindow);
 		}, LoadSave.OPTIONS_AUTOMATES, LoadSave.OPTIONS_AUTOMATES1);
 		buttons[1] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 100, (int) (270 * GameJerem.SCALE), 2, () -> {
+			JFrame mainwindow = this.getGame().getMainFrame();
+			new IPSelectionPage(mainwindow);
 		}, LoadSave.OPTIONS_IP, LoadSave.OPTIONS_IP1);
 		buttons[2] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 70, (int) (310 * GameJerem.SCALE), 2, () -> {
 			Gamestate.state = Gamestate.MENU;
