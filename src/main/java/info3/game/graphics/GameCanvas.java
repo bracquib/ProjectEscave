@@ -99,7 +99,6 @@ public class GameCanvas extends Canvas {
 		addMouseListener(l);
 		addMouseMotionListener(l);
 		addMouseWheelListener(l);
-		addComponentListener(l);
 		setFocusable(true);
 		requestFocusInWindow();
 
@@ -390,6 +389,7 @@ public class GameCanvas extends Canvas {
 		frame.setSize(d);
 		GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(frame);
 
+		frame.addComponentListener(this.listener);
 		frame.addWindowListener(new WindowListener());
 		return frame;
 	}

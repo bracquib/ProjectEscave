@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
@@ -26,14 +27,14 @@ public class LocalView extends View {
 
 	public LocalView(Controller controller) {
 		super();
-		this.sortedAvatars = new TreeSet<Avatar>((x, y) -> {
+		this.sortedAvatars = Collections.synchronizedSortedSet(new TreeSet<Avatar>((x, y) -> {
 			int cmp = x.image.layer - y.image.layer;
 			if (cmp == 0) {
 				return y.id - x.id;
 			} else {
 				return cmp;
 			}
-		});
+		}));
 		this.isPainting = new Semaphore(1);
 
 		this.controller = controller;

@@ -121,6 +121,7 @@ public class RemoteController extends Controller {
 
 	@Override
 	public void windowResize(PlayerColor p, Vec2 size) {
+		size.print();
 		this.networkSender.send(p, new WindowResize(size));
 	}
 }
