@@ -49,7 +49,7 @@ public class LocalView extends View {
 		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
-		playSound("theme", "src/main/resources/Runaway-Food-Truck.ogg", (long) 0, 1.0f);
+		playSound("Menu Amaury", "src/main/resources/menu.ogg", (long) 0, 0.9f);
 	}
 
 	/*
