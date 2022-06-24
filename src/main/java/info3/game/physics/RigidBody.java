@@ -15,7 +15,7 @@ public class RigidBody extends Entity {
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;
-		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
 	}
 
 	public RigidBody(float mass, LocalController c, int points) {
@@ -23,7 +23,7 @@ public class RigidBody extends Entity {
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;
-		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
 	}
 
 	public void addSpeed(Vec2 speed) {

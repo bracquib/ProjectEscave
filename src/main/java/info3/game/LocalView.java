@@ -41,8 +41,8 @@ public class LocalView extends View {
 		this.listener = new CanvasListener(this);
 
 		this.canvas = new GameCanvas(this.listener);
-		Dimension d = new Dimension(1024, 768);
-		this.setDimensions(new Vec2(1024, 768));
+		Dimension d = new Dimension(1500, 1000);
+		this.setDimensions(new Vec2(1500, 1000));
 		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
@@ -179,20 +179,18 @@ public class LocalView extends View {
 	}
 
 	@Override
-	protected int getWidth() {
-		return this.frame == null ? 1024 : this.frame.getWidth();
-	}
-
-	@Override
-	protected int getHeight() {
-		return this.frame == null ? 768 : this.frame.getHeight();
-	}
-
-	@Override
 	public void updateAvatar(int id, Paintable p, Vec2 pos) {
+		System.out.println("update avatar :" + p.getPath());
 		Avatar av = this.avatars.get(id);
+		av.getPosition().print();
+		pos.print();
 		Paintable loaded = AssetServer.load(p);
 		av.setPaintable(loaded);
 		av.setPosition(pos);
+	}
+
+	@Override
+	protected void syncCamera(Avatar av) {
+		this.camera.setAvatar(av);
 	}
 }

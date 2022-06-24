@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import info3.game.automata.Automata;
 import info3.game.automata.BotBuilder;
@@ -15,6 +16,7 @@ import info3.game.cavegenerator.SpawnGenerator4D;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
+import info3.game.entities.PlayerColor;
 import info3.game.entities.Statue;
 import info3.game.physics.PhysicsWorld;
 import info3.game.physics.RigidBody;
@@ -58,13 +60,13 @@ public class Model {
 	static ArrayList<Vec2> spawnPoints;
 
 	private static final int maxPlayers = 2;
-	private static int playerCount = 0;
+	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;
 
 	static ArrayList<Automata> automatas;
 
 	private static boolean started() {
-		return Model.playerCount == Model.maxPlayers;
+		return Model.playerCount.get() == Model.maxPlayers;
 	}
 
 	private static PhysicsWorld physics;
@@ -72,6 +74,7 @@ public class Model {
 	private static List<Vec2> statuesSpawns;
 
 	public static void init(LocalController controller) {
+		System.out.println("init model");
 		Model.controller = controller;
 		Model.entities = new ArrayList<RigidBody>();
 		Model.physics = new PhysicsWorld();
@@ -95,10 +98,9 @@ public class Model {
 
 	public static Player spawnPlayer() {
 		// TODO: throw exception if there are more players than expected
-		System.out.println("Spawning player");
-		Player p = new Player(Model.controller, Player.colorFromInt(Model.playerCount),
-				Model.spawnPoints.get(Model.playerCount).multiply(Block.SIZE), true, 10);
-		Model.playerCount++;
+		Player p = new Player(Model.controller, Player.colorFromInt(Model.playerCount.get()),
+				Model.spawnPoints.get(Model.playerCount.get()).multiply(Block.SIZE), true, 10);
+		Model.playerCount.getAndIncrement();
 		Model.spawn(p);
 		return p;
 	}
@@ -160,7 +162,7 @@ public class Model {
 		for (Entity e : Model.allEntities()) {
 			e.tick(elapsed);
 		}
-		if (activatedSocles == playerCount) {
+		if (activatedSocles == playerCount.get()) {
 			System.out.println("Sortie activée");
 		}
 	}
@@ -295,5 +297,16 @@ public class Model {
 			}
 		}
 		return players;
+	}
+
+	public static Player getPlayer(PlayerColor color) {
+		for (RigidBody rb : Model.entities) {
+			if (rb instanceof Player) {
+				if (((Player) rb).getColor() == color) {
+					return (Player) rb;
+				}
+			}
+		}
+		return null;
 	}
 }

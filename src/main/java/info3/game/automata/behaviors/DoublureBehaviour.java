@@ -13,7 +13,7 @@ public class DoublureBehaviour extends Behaviour {
 
 	@Override
 	public boolean key(Entity e, int keyCode) {
-		return e.getController().isKeyPressed(keyCode);
+		return e.getController().isKeyPressed(e, keyCode);
 	}
 
 	@Override

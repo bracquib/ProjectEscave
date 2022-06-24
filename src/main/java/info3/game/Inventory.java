@@ -36,8 +36,8 @@ public class Inventory extends Entity {
 		this.cells = new Avatar[INVENTORY_SIZE];
 
 		int totalWidth = 74 * INVENTORY_SIZE - 10;
-		int startX = (this.controller.viewFor(null).getWidth() - totalWidth) / 2;
-		int startY = this.controller.viewFor(null).getHeight() - 130;
+		int startX = (this.controller.viewFor(this.owner.getColor()).getWidth() - totalWidth) / 2;
+		int startY = this.controller.viewFor(this.owner.getColor()).getHeight() - 130;
 		Image selectedCell = new Image("inventory-cell-selected.png");
 		selectedCell.layer = 1;
 		selectedCell.fixed = true;
@@ -54,8 +54,8 @@ public class Inventory extends Entity {
 
 	public void updateAvatars() {
 		int totalWidth = 74 * INVENTORY_SIZE - 10;
-		int startX = (this.controller.viewFor(this.owner).getWidth() - totalWidth) / 2;
-		int startY = this.controller.viewFor(this.owner).getHeight() - 130;
+		int startX = (this.controller.viewFor(this.owner.getColor()).getWidth() - totalWidth) / 2;
+		int startY = this.controller.viewFor(this.owner.getColor()).getHeight() - 130;
 		for (int i = 0; i < this.cells.length; i++) {
 			this.controller.updateAvatar(this.cells[i].getId(), new Vec2(startX + 74 * i, startY));
 		}

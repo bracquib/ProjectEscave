@@ -3,7 +3,7 @@ package info3.game;
 import java.util.HashMap;
 
 import info3.game.assets.Paintable;
-import info3.game.entities.Player;
+import info3.game.entities.PlayerColor;
 
 public abstract class View {
 	static View view;
@@ -11,7 +11,7 @@ public abstract class View {
 	/**
 	 * Chaque vue affiche un joueur particulier.
 	 */
-	private Player player;
+	private PlayerColor player;
 
 	protected Controller controller;
 
@@ -61,13 +61,13 @@ public abstract class View {
 		return this.avatars.get(avatarId);
 	}
 
-	public Player getPlayer() {
+	public PlayerColor getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(PlayerColor player) {
 		this.player = player;
-		this.setFollowedAvatar(player.getAvatar());
+		// TODO? this.setFollowedAvatar(player.getAvatar());
 	}
 
 	public void setFollowedAvatar(Avatar a) {
@@ -91,4 +91,6 @@ public abstract class View {
 	public Vec2 getDimensions() {
 		return this.dimensions;
 	}
+
+	protected abstract void syncCamera(Avatar syncWith);
 }

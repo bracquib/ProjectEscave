@@ -3,6 +3,7 @@ package info3.game;
 import info3.game.assets.Paintable;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
+import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 
 public class RemoteView extends View {
@@ -42,5 +43,10 @@ public class RemoteView extends View {
 	@Override
 	public void updateAvatar(int id, Paintable p, Vec2 pos) {
 		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, p, pos));
+	}
+
+	@Override
+	protected void syncCamera(Avatar syncWith) {
+		((LocalController) this.controller).sendTo(this.getPlayer(), new SyncCamera(syncWith));
 	}
 }

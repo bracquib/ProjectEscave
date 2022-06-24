@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import info3.game.assets.Paintable;
-import info3.game.entities.Player;
+import info3.game.entities.PlayerColor;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
 import info3.game.network.JoinGame;
@@ -44,12 +44,12 @@ public class RemoteController extends Controller {
 	}
 
 	@Override
-	public void keyPressed(Player p, KeyPress e) {
+	public void keyPressed(PlayerColor p, KeyPress e) {
 		this.networkSender.send(p, e);
 	}
 
 	@Override
-	public void keyReleased(Player p, KeyRelease e) {
+	public void keyReleased(PlayerColor p, KeyRelease e) {
 		this.networkSender.send(p, e);
 	}
 
@@ -69,6 +69,7 @@ public class RemoteController extends Controller {
 				this.networkSender.start();
 
 				this.view = (LocalView) v;
+				System.out.println("send joingame");
 				this.networkSender.send(null, new JoinGame(v.getDimensions()));
 			} catch (ConnectException ce) {
 				try {
@@ -99,12 +100,12 @@ public class RemoteController extends Controller {
 	}
 
 	@Override
-	protected void mouseScroll(Player p, WheelScroll wheelScroll) {
+	protected void mouseScroll(PlayerColor p, WheelScroll wheelScroll) {
 		this.networkSender.send(p, wheelScroll);
 	}
 
 	@Override
-	protected void mouseClick(Player player, MouseClick mouseClick) {
+	protected void mouseClick(PlayerColor player, MouseClick mouseClick) {
 		this.networkSender.send(player, mouseClick);
 	}
 
@@ -119,7 +120,7 @@ public class RemoteController extends Controller {
 	}
 
 	@Override
-	public void windowResize(Player p, Vec2 size) {
+	public void windowResize(PlayerColor p, Vec2 size) {
 		this.networkSender.send(p, new WindowResize(size));
 	}
 }
@@ -139,11 +140,9 @@ class NetworkSenderThread extends Thread {
 		this.stream = new ObjectOutputStream(this.socket.getOutputStream());
 	}
 
-	public void send(Player p, NetworkMessage msg) {
+	public void send(PlayerColor p, NetworkMessage msg) {
 		try {
-			if (p != null) {
-				msg.player = p.getColor();
-			}
+			msg.player = p;
 			this.queue.put(msg);
 		} catch (InterruptedException e) {
 			// TODO: do something with it?
@@ -223,9 +222,10 @@ class NetworkReceiverThread extends Thread {
 				if (ua.newPath != null) {
 					this.controller.view.updateAvatar(ua.avatarId, ua.newPath);
 				}
-				this.controller.view.isPainting.release();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			} finally {
+				this.controller.view.isPainting.release();
 			}
 		} else if (msg instanceof MultiMessage) {
 			MultiMessage mm = (MultiMessage) msg;
@@ -237,7 +237,7 @@ class NetworkReceiverThread extends Thread {
 			this.controller.view.camera.setAvatar(this.controller.view.getAvatar(sc.avatarId));
 		} else if (msg instanceof Welcome) {
 			Welcome w = (Welcome) msg;
-			this.controller.view.setPlayer(new Player(new LocalController(), w.yourColor, new Vec2(0), false, 3));
+			this.controller.view.setPlayer(w.yourColor);
 		} else if (msg instanceof DeleteAvatar) {
 			DeleteAvatar da = (DeleteAvatar) msg;
 			this.controller.view.deleteAvatar(da.id);
