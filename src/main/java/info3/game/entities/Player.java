@@ -9,7 +9,6 @@ import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
-import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.automata.behaviors.PlayerBehaviour;
@@ -49,8 +48,9 @@ public class Player extends RigidBody {
 		this.setBehaviour(new PlayerBehaviour());
 		this.avatarOffset = new Vec2(0, -4);
 		AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
-		Image spriteBackground = new Image("bg_big.jpg");
+		AnimatedImage spriteBackground = new AnimatedImage("bg_animated.png", 12, 1250, true);
 		spriteBackground.fixed = true;
+		spriteBackground.layer = -1;
 		sprite.layer = 1;
 		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
 
@@ -133,7 +133,9 @@ public class Player extends RigidBody {
 		}
 
 		AnimatedImage anim = (AnimatedImage) this.getPaintable();
-		if (anim.isFinished() && this.getBehaviour() instanceof PlayerBehaviour) {
+		// Pas en doublure ni en statue
+		if (anim.isFinished() && this.getBehaviour() instanceof PlayerBehaviour
+				&& this.getCategory() == Category.PLAYER) {
 			if (this.getDirection() == Direction.EST) {
 				this.playAnimation("idle-right", 6, 200, 0, -4, true);
 			} else {
