@@ -116,8 +116,8 @@ public class LocalController extends Controller {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
 		Avatar a = new Avatar(id, image, dup);
-		a.setPosition(pos);
 		a.setScale(scale);
+		a.setPosition(pos);
 		synchronized (this.views) {
 			for (View v : this.views) {
 				v.createAvatar(a);

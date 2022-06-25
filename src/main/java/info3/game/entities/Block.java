@@ -3,6 +3,7 @@ package info3.game.entities;
 import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
+import info3.game.assets.AnimatedImage;
 import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
@@ -23,9 +24,16 @@ public class Block extends Consumable {
 		this.setBehaviour(new BlockBehaviour());
 
 		Vec2 offset = BlockIDs.IDsToVec2.getOrDefault(id, new Vec2(0, 0)).multiply(-Block.SIZE);
-		this.avatar = this.controller.createAvatar(this.position.add(offset),
-				new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
-		this.setName("Block");
+		if (id != 600) {
+			this.avatar = this.controller.createAvatar(this.position.add(offset),
+					new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
+			this.setName("Block");
+		} else {
+			AnimatedImage sprite = new AnimatedImage("classic_block/water_sol.png", 16, 5500, true);
+			this.avatar = this.controller.createAvatar(this.position, new Vec2(1), sprite);
+			this.setName("Block");
+		}
+
 	}
 
 	public Block(LocalController c, Player owner) {
