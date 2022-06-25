@@ -104,6 +104,8 @@ public class LocalView extends View {
 				txt += " ";
 			txt += fps + " fps   ";
 			txt += " AvatarsOnScreen=" + this.getVisibleAvatars().size();
+			txt += "     " + (int) this.camera.getPos().getX() / 64 + " ";
+			txt += (int) this.camera.getPos().getY() / 64;
 			this.text.setText(txt);
 		}
 	}

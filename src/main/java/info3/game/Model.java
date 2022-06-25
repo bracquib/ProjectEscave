@@ -17,6 +17,7 @@ import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
 import info3.game.entities.PlayerColor;
+import info3.game.entities.Socle;
 import info3.game.entities.Statue;
 import info3.game.physics.PhysicsWorld;
 import info3.game.physics.RigidBody;
@@ -122,7 +123,6 @@ public class Model {
 			Model.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			Model.statuesSpawns = generationMap.listSpawnStatues;
-
 			IntTorus torus = DecorationGenerator.decorate(values);
 			int[][] blocks = torus.toArray();
 
@@ -133,6 +133,10 @@ public class Model {
 						Model.map.set(i, j, new Block(Model.controller, new Vec2(i * 64, j * 64), blocks[i][j], 1));
 					}
 				}
+			}
+			for (Vec2 socle : blocs) {
+				Model.map.set((int) socle.getX(), (int) socle.getY(),
+						new Socle(Model.controller, socle.multiply(Block.SIZE)));
 			}
 
 		}
