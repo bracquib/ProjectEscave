@@ -201,10 +201,13 @@ public class PlayerBehaviour extends Behaviour {
 		}
 		if (e.getPointsDeVie() <= 0) {
 			System.out.println("mort du joueur");
-			if (e instanceof Player) {
+			if (p instanceof Player) {
+				Player pp = (Player) p;
+				pp.gameOver();
 				e.getController().viewFor(((Player) e).getColor()).playSound(5);
+			} else {
+				Model.deleteEntity(p);
 			}
-			Model.deleteEntity(p);
 		}
 		switch (d) {
 		case SOUTH:

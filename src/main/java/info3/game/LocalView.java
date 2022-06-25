@@ -20,7 +20,7 @@ import info3.game.graphics.GameCanvas;
 public class LocalView extends View {
 	JFrame frame;
 	JLabel text;
-	GameCanvas canvas;
+	public GameCanvas canvas;
 	CanvasListener listener;
 	Semaphore isPainting;
 	protected SortedSet<Avatar> sortedAvatars;
@@ -211,6 +211,10 @@ public class LocalView extends View {
 	@Override
 	protected void setCameraOffset(Vec2 offset) {
 		this.camera.setOffset(offset);
+	}
+
+	public JFrame getFrame() {
+		return frame;
 	}
 
 	public void playSound(int idx) {

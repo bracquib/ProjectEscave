@@ -1,5 +1,6 @@
 package info3.game;
 
+import info3.game.assets.AnimatedImage;
 import info3.game.assets.Image;
 import info3.game.assets.Label;
 import info3.game.entities.Player;
@@ -13,6 +14,8 @@ public class HUD {
 	private Avatar[] food;
 	private Avatar[] water;
 	private Avatar[] labels;
+
+	public Avatar gameOverAvatar;
 
 	public HUD(LocalController c, Player player) {
 		this.player = player;
@@ -161,5 +164,19 @@ public class HUD {
 
 	public void setCounter(int idx, int cpt) {
 		this.controller.updatePaintable(this.labels[idx], new Label(Integer.toString(cpt)));
+	}
+
+	public void showGameOver() {
+		AnimatedImage gameOverAnim = new AnimatedImage("gameover/gameover-partie1.png", 21, 50, false);
+		gameOverAvatar = new AvatarBuilder(gameOverAnim).position(new Vec2(0)).scale(new Vec2(1)).layer(10).fixed()
+				.build(this.controller);
+	}
+
+	public void gameOver2() {
+		AnimatedImage gameOverAnim = new AnimatedImage("gameover/gameover-partie2.png", 22, 100, true);
+//		gameOverAnim.layer = 10;
+//		gameOverAnim.fixed = true;
+		Model.controller.updatePaintable(gameOverAvatar, gameOverAnim);
+		// gameOverAvatar.setPaintable(gameOverAnim);
 	}
 }
