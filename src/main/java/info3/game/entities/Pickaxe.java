@@ -17,7 +17,6 @@ public class Pickaxe extends Weapon {
 	}
 
 	public boolean useTool(Direction d) { // pas owner de pickaxe car null
-		owner.playAnimation("mine", 5, 200, 0, 0, false); // TODO: Remplacer les 0 par -32
 		Vec2 mousePos = owner.mousePos;
 		Block underCursor = Model.getBlock((int) mousePos.getX() / Block.SIZE, (int) mousePos.getY() / Block.SIZE);
 
@@ -30,14 +29,13 @@ public class Pickaxe extends Weapon {
 
 		Direction orientation = owner.getPosition().orientation(owner.mousePos);
 		switch (orientation) {
-		case NORTH:
-		case SOUTH:
 		case EST:
 			owner.playAnimation("mine-right", 5, 200, -64, -64, false); // TODO: Remplacer les 0 par -32
 			break;
 		case WEST:
 			owner.playAnimation("mine-left", 5, 200, -64, -64, false); // TODO: Remplacer les 0 par -32
 		default:
+			owner.playAnimation("mine-left", 5, 200, 0, 0, false); // TODO: Remplacer les 0 par -32
 			break;
 		}
 
