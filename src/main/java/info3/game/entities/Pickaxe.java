@@ -27,10 +27,8 @@ public class Pickaxe extends Weapon {
 		case EST:
 			owner.playAnimation("mine-right", 5, 200, -64, -64, false); // TODO: Remplacer les 0 par -32
 			break;
-		case WEST:
-			owner.playAnimation("mine-left", 5, 200, -64, -64, false); // TODO: Remplacer les 0 par -32
 		default:
-			owner.playAnimation("mine-left", 5, 200, 0, 0, false); // TODO: Remplacer les 0 par -32
+			owner.playAnimation("mine-left", 5, 200, -64, -64, false); // TODO: Remplacer les 0 par -32
 			break;
 		}
 

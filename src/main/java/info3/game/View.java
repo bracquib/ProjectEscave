@@ -95,4 +95,6 @@ public abstract class View {
 	}
 
 	protected abstract void syncCamera(Avatar syncWith);
+	
+	protected abstract void setCameraOffset(Vec2 offset);
 }
