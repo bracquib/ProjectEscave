@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import info3.game.assets.Image;
 import info3.game.automata.Automata;
 import info3.game.automata.BotBuilder;
 import info3.game.automata.ast.AST;

@@ -46,7 +46,7 @@ public class DecorationGenerator {
 		extendDeco = extensionTricDeco(extendDeco.toArray(), 0.01);
 		extendDeco = extensionLanterneLongueDeco(extendDeco.toArray(), 1);
 		extendDeco = extensionLianesDeco(extendDeco.toArray(), 10);
-		extendDeco = extensionStalactite(extendDeco.toArray(), stalactite, 10);
+		extendDeco = extensionStalactite(extendDeco.toArray(), stalactite, 20);
 		Fillon.generateFilons(extendDeco, 1, mineraux);
 
 		return extendDeco;
