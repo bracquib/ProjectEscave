@@ -2,6 +2,7 @@ package info3.game.automata.behaviors;
 
 import info3.game.Inventory;
 import info3.game.Model;
+import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
@@ -76,15 +77,18 @@ public class PlayerBehaviour extends Behaviour {
 
 		RigidBody p = (RigidBody) e;
 		// new RigidBody(e, 1, 10);
+		AnimatedImage anim = (AnimatedImage) e.getPaintable();
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(190);
-			p.playAnimation("walk-right", 5, 200, 0, -4, false);
+			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
+				p.playAnimation("walk-right", 5, 200, 0, -4, false, true);
 			p.setDirection(Direction.EST);
 			break;
 		case WEST:
 			p.getSpeed().setX(-190);
-			p.playAnimation("walk-left", 5, 200, 0, -4, false);
+			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
+				p.playAnimation("walk-left", 5, 200, 0, -4, false, true);
 			p.setDirection(Direction.WEST);
 			break;
 		case SOUTH:
@@ -162,6 +166,16 @@ public class PlayerBehaviour extends Behaviour {
 	public void protect(Entity e, Direction d, int dmg) {
 		e.setPointsDeVie(e.getPointsDeVie() - dmg);
 		RigidBody p = (RigidBody) e;
+		switch (p.getDirection()) {
+		case EST:
+			p.playAnimation("protect-right", 2, 300, 0, 0, false);
+			break;
+		case WEST:
+			p.playAnimation("protect-left", 2, 300, 0, 0, false);
+			break;
+		default:
+			break;
+		}
 		if (e.getPointsDeVie() <= 0) {
 			System.out.println("mort du joueur");
 			Model.deleteEntity(p);

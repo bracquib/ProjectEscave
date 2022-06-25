@@ -61,4 +61,10 @@ public class RemoteView extends View {
 		this.setFollowedAvatar(syncWith);
 		((LocalController) this.controller).sendTo(this.getPlayer(), new SyncCamera(syncWith));
 	}
+
+	@Override
+	protected void setCameraOffset(Vec2 offset) {
+		// TODO Auto-generated method stub
+		//((LocalController) this.controller).sendTo(this.getPlayer(), new CameraOffset(offset));
+	}
 }

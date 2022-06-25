@@ -31,6 +31,7 @@ public class AnimatedImage extends Paintable {
 	public long animationDelay;
 
 	boolean loop;
+	boolean cancellable;
 
 	public AnimatedImage(String path, int fc, long delay, boolean loop) {
 		super(path);
@@ -38,6 +39,16 @@ public class AnimatedImage extends Paintable {
 		this.animationDelay = delay;
 		this.loop = loop;
 		this.imageIndex = 0;
+		this.cancellable = false;
+	}
+
+	public AnimatedImage(String path, int fc, long delay, boolean loop, boolean cancellable) {
+		super(path);
+		this.frameCount = fc;
+		this.animationDelay = delay;
+		this.loop = loop;
+		this.imageIndex = 0;
+		this.cancellable = cancellable;
 	}
 
 	@Override
@@ -104,6 +115,14 @@ public class AnimatedImage extends Paintable {
 
 	public boolean isFinished() {
 		return !this.loop && this.imageIndex == this.frameCount - 1;
+	}
+
+	public boolean isLoop() {
+		return this.loop;
+	}
+
+	public boolean isCancellable() {
+		return this.cancellable;
 	}
 
 	public void restart() {

@@ -294,4 +294,8 @@ public class LocalController extends Controller {
 	public void syncCamera(PlayerColor p, Entity syncWith) {
 		this.viewFor(p).syncCamera(syncWith.getAvatar());
 	}
+	
+	public void setCameraOffset(PlayerColor p, Vec2 offset) {
+		this.viewFor(p).setCameraOffset(offset);
+	}
 }

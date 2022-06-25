@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import info3.game.Model;
 import info3.game.Vec2;
+import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Block;
@@ -58,6 +59,7 @@ public class StalactiteBehaviour extends Behaviour {
 		p.setState(RbState.DYNAMIC);
 		System.out.println("stala tombe");
 		p.addSpeed(new Vec2(0, 0));
+		p.setPaintable(new Image("classic_block/stalactite_chute.png"));
 	}
 
 	@Override
@@ -86,6 +88,7 @@ public class StalactiteBehaviour extends Behaviour {
 	public void protect(Entity e, Direction d, int dmg) {
 		// pas besoin
 		RigidBody p = (RigidBody) e;
+		e.setPaintable(new Image(""));
 		Model.deleteEntity(p);
 	}
 

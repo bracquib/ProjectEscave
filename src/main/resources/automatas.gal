@@ -103,3 +103,9 @@ Statue(Init){
 	|Cell(H,@) ? Wizz() :(Init)
 	|True? :(Init)
 }
+
+Socle(Init){
+	*(Init):
+	|Cell(N,@) ? Wizz() :(Init)
+	|True ? :(Init)
+}
