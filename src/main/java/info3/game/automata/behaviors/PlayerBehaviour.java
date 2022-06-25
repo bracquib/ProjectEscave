@@ -162,6 +162,16 @@ public class PlayerBehaviour extends Behaviour {
 	public void protect(Entity e, Direction d, int dmg) {
 		e.setPointsDeVie(e.getPointsDeVie() - dmg);
 		RigidBody p = (RigidBody) e;
+		switch(p.getDirection()) {
+		case EST:
+			p.playAnimation("protect-right", 2, 300, 0, 0, false);
+			break;
+		case WEST:
+			p.playAnimation("protect-left", 2, 300, 0, 0, false);
+			break;
+		default:
+			break;
+		}
 		if (e.getPointsDeVie() <= 0) {
 			System.out.println("mort du joueur");
 			Model.deleteEntity(p);
