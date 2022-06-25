@@ -63,8 +63,9 @@ public class SpawnGenerator4D {
 				int y = (int) (Math.random() * this.height);
 
 				if (x > 15 && y < this.height - 15 && y > 15 && x < this.width - 15 && values[x][y + 1] == 1
-						&& values[x - 2][y + 1] == 1 && values[x - 1][y + 1] == 1 && values[x + 1][y + 1] == 1
-						&& values[x + 2][y + 1] == 1 && values[x + 3][y + 1] == 1 && values[x - 3][y + 1] == 1) {
+						&& values[x - 3][y + 1] == 1 && values[x - 4][y + 1] == 1 && values[x - 2][y + 1] == 1
+						&& values[x - 1][y + 1] == 1 && values[x + 1][y + 1] == 1 && values[x + 2][y + 1] == 1
+						&& values[x + 3][y + 1] == 1 && values[x + 4][y + 1] == 1 && values[x - 3][y + 1] == 1) {
 					stop = false;
 					depart += zoneLen;
 					values[x][y] = 0;
