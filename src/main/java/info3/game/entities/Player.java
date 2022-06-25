@@ -18,10 +18,10 @@ import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
 	PlayerColor color;
-	private float hungerPoints;
-	private float maxHunger = 100;
-	private float thirstPoints;
-	private float maxThirst = 100;
+	private int hungerPoints;
+	private int maxHunger = 10;
+	private int thirstPoints;
+	private int maxThirst = 10;
 	private Inventory inventory;
 	private int compt;
 	Entity controlledEntity;
@@ -39,6 +39,9 @@ public class Player extends RigidBody {
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
 		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+
+		this.hungerPoints = maxHunger;
+		this.thirstPoints = maxThirst;
 
 		this.setPosition(pos);
 		this.setCategory(Category.PLAYER);
@@ -62,9 +65,6 @@ public class Player extends RigidBody {
 		this.hud = new HUD(this.controller, this);
 
 		this.pressedKeys = new ArrayList<Integer>();
-
-		this.hungerPoints = maxHunger;
-		this.thirstPoints = maxThirst;
 		this.setControlledEntity(this);
 		this.playAnimation("spawn", 9, 100, 0, -10, false);
 	}
@@ -109,10 +109,11 @@ public class Player extends RigidBody {
 	@Override
 	public void tick(long el) {
 		super.tick(el);
-		compt++;
-		if (compt % 10000 == 0) {
-			this.hungerPoints -= 5;
-			this.thirstPoints -= 5;
+		compt += el;
+		if (compt > 100000) {
+			this.setHungerPoints(this.hungerPoints - 1);
+			this.setThirstPoints(this.thirstPoints - 1);
+			compt = 0;
 		}
 		if (this.hungerPoints <= 0 || this.thirstPoints <= 0) {
 			System.out.println("mort du joueur à cause de la faim ou de la soif");
@@ -197,36 +198,52 @@ public class Player extends RigidBody {
 		}
 	}
 
-	public float getHungerPoints() {
+	public int getHungerPoints() {
 		return this.hungerPoints;
 	}
 
-	public void setHungerPoints(float hungerPoints) {
+	public void setHungerPoints(int hungerPoints) {
+		int diff = this.hungerPoints - hungerPoints;
 		this.hungerPoints = hungerPoints;
 		if (this.hungerPoints > maxHunger)
 			this.hungerPoints = maxHunger;
+		if (diff > 0) {
+			for (int i = 0; i < diff; i++) {
+				this.hud.loseFood(this.hungerPoints);
+			}
+		} else if (diff < 0) {
+			for (int i = 0; i < -diff; i++) {
+				this.hud.gainFood(this.hungerPoints);
+			}
+		}
 	}
 
-	public void feed(float feedPoints) {
-		this.hungerPoints += feedPoints;
-		if (this.hungerPoints > maxHunger)
-			this.hungerPoints = maxHunger;
+	public void feed(int feedPoints) {
+		this.setHungerPoints(this.hungerPoints + feedPoints);
 	}
 
-	public float getThirstPoints() {
+	public int getThirstPoints() {
 		return this.thirstPoints;
 	}
 
-	public void setThirstPoints(float thirstPoints) {
+	public void setThirstPoints(int thirstPoints) {
+		int diff = this.thirstPoints - thirstPoints;
 		this.thirstPoints = thirstPoints;
 		if (this.thirstPoints > maxThirst)
 			this.thirstPoints = maxThirst;
+		if (diff > 0) {
+			for (int i = 0; i < diff; i++) {
+				this.hud.loseWater(this.thirstPoints);
+			}
+		} else if (diff < 0) {
+			for (int i = 0; i < -diff; i++) {
+				this.hud.gainWater(this.thirstPoints);
+			}
+		}
 	}
 
-	public void water(float waterPoints) {
-		this.thirstPoints += waterPoints;
-		if (this.thirstPoints > maxThirst)
-			this.thirstPoints = maxThirst;
+	public void water(int waterPoints) {
+		this.setThirstPoints(this.thirstPoints + waterPoints);
 	}
 
 	public Inventory getInventory() {

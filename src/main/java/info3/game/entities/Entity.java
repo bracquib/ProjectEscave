@@ -43,7 +43,16 @@ public abstract class Entity {
 	protected Automata automata;
 	protected CurrentState currentState;
 	protected Behaviour behaviour;
-	public int pointsDeVie;
+	private int pointsDeVie;
+
+	public int getPointsDeVie() {
+		return pointsDeVie;
+	}
+
+	public void setPointsDeVie(int pointsDeVie) {
+		this.pointsDeVie = pointsDeVie;
+	}
+
 	public int degatMob;
 	public int degatEpee;
 	public int degatPioche;

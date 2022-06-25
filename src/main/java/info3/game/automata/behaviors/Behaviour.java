@@ -134,7 +134,9 @@ public abstract class Behaviour {
 	/**
 	 * @return true s'il reste de l'énergie à l'entité
 	 */
-	public abstract boolean gotPower(Entity e);
+	public boolean gotPower(Entity e) {
+		return e.getPointsDeVie() > 0;
+	}
 
 	/**
 	 * @return true s'il reste des choses dans le store

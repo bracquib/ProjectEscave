@@ -15,7 +15,7 @@ public class Block extends Consumable {
 
 	public Block(LocalController c, Vec2 position, int id, int points) {
 		super(c, null);
-		this.pointsDeVie = points;
+		this.setPointsDeVie(points);
 		this.position = position;
 		this.id = id;
 		this.setCategory(Category.JUMPABLE);

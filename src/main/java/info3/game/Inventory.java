@@ -180,7 +180,7 @@ public class Inventory extends Entity {
 	}
 
 	public boolean addCouple(InventoryCouple c) {
-		if (this.size >= this.INVENTORY_SIZE)
+		if (this.size >= Inventory.INVENTORY_SIZE)
 			return false;
 		this.tools[size] = c;
 		this.size++;

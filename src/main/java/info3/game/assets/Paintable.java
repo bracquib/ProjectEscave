@@ -1,6 +1,8 @@
 package info3.game.assets;
 
-import java.awt.image.BufferedImage;
+import java.awt.Graphics;
+
+import info3.game.Vec2;
 
 public abstract class Paintable extends Asset implements Cloneable {
 	public int layer = 0;
@@ -11,8 +13,6 @@ public abstract class Paintable extends Asset implements Cloneable {
 	}
 
 	public abstract void tick(long elapsed);
-
-	public abstract BufferedImage imageToPaint();
 
 	public abstract Paintable duplicateFromPath(String path);
 
@@ -27,4 +27,6 @@ public abstract class Paintable extends Asset implements Cloneable {
 			return null;
 		}
 	}
+
+	public abstract void paint(Graphics g, Vec2 screenCoords, Vec2 scale);
 }

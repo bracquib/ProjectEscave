@@ -35,16 +35,6 @@ public class MushroomBehaviour extends Behaviour {
 	}
 
 	@Override
-	public boolean gotPower(Entity e) {
-
-		if (e.pointsDeVie > 0) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
 	public boolean gotStuff(Entity e) {
 		// pas besoin
 		return false;
@@ -112,10 +102,9 @@ public class MushroomBehaviour extends Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		e.pointsDeVie -= dmg;
+		e.setPointsDeVie(e.getPointsDeVie() - dmg);
 		RigidBody p = (RigidBody) e;
-		System.out.println("HPmushroom=" + e.pointsDeVie);
-		if (e.pointsDeVie <= 0) {
+		if (e.getPointsDeVie() <= 0) {
 			if (p.getDirection() == Direction.EST)
 				p.playAnimation("death-right", 9, 200, 0, -60, false);
 			else if (p.getDirection() == Direction.WEST)
