@@ -13,6 +13,8 @@ public class PlayerBehaviour extends Behaviour {
 
 	public Entity ret;
 	private long jumpElapsed = 0;
+	private long estElapsed = 0;
+	private long westElapsed = 0;
 
 	@Override
 	public boolean true_(Entity e) {
@@ -81,12 +83,20 @@ public class PlayerBehaviour extends Behaviour {
 		AnimatedImage anim = (AnimatedImage) e.getPaintable();
 		switch (d) {
 		case EST:
+			if (System.currentTimeMillis() - estElapsed > 655) {
+				e.getController().playSE(11);
+				estElapsed = System.currentTimeMillis();
+			}
 			p.getSpeed().setX(190);
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-right", 5, 200, 0, -4, false, true);
 			p.setDirection(Direction.EST);
 			break;
 		case WEST:
+			if (System.currentTimeMillis() - westElapsed > 655) {
+				e.getController().playSE(11);
+				westElapsed = System.currentTimeMillis();
+			}
 			p.getSpeed().setX(-190);
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-left", 5, 200, 0, -4, false, true);
@@ -114,13 +124,12 @@ public class PlayerBehaviour extends Behaviour {
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
 		((RigidBody) e).getSpeed().setY(-270);
-		/*
-		 * if (System.currentTimeMillis() - jumpElapsed > 200) { try {
-		 * Sound.playSound("src/main/resources/jump.wav"); } catch
-		 * (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-		 * // TODO Auto-generated catch block e1.printStackTrace(); } jumpElapsed =
-		 * System.currentTimeMillis(); }
-		 */
+
+		if (System.currentTimeMillis() - jumpElapsed > 200) {
+			e.getController().playSE(0);
+			jumpElapsed = System.currentTimeMillis();
+		}
+
 	}
 
 	@Override
@@ -186,6 +195,7 @@ public class PlayerBehaviour extends Behaviour {
 		}
 		if (e.getPointsDeVie() <= 0) {
 			System.out.println("mort du joueur");
+			e.getController().playSE(5);
 			Model.deleteEntity(p);
 		}
 		switch (d) {

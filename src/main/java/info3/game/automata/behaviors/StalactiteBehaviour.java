@@ -65,7 +65,7 @@ public class StalactiteBehaviour extends Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=exploser
-		System.out.println("pop");
+		e.getController().playSE(9);
 		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - Block.SIZE,
 				(int) (e.getPosition().getY()) - Block.SIZE, Block.SIZE * 3, Block.SIZE * 3);
 		for (Entity e1 : nearEntities) {

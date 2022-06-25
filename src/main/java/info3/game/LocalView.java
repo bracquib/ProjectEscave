@@ -209,7 +209,7 @@ public class LocalView extends View {
 	public void playSound(String name, String filename, long duration, float volume) {
 		try {
 			sound = new Sound();
-			sound.load(name, filename, duration, volume, canvas);
+			sound.Load(name, filename, duration, volume, canvas);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -18,6 +18,8 @@ import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
+	ArrayList<Integer> pressedKeys;
+	Sound sound = new Sound();
 
 	public LocalController() {
 		super();
@@ -283,5 +285,9 @@ public class LocalController extends Controller {
 				((LocalView) v).playSound(name, filename, duration, volume);
 			}
 		}
+	}
+
+	public void playSE(int i) {
+		sound.play(i);
 	}
 }

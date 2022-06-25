@@ -26,6 +26,7 @@ public class Water extends Consumable {
 	@Override
 	public boolean useTool(Direction d) {
 		owner.water(waterValue);
+		this.getController().playSE(3);
 		return true;
 	}
 }

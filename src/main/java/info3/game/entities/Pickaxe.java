@@ -10,6 +10,7 @@ import info3.game.physics.RayCasting;
 public class Pickaxe extends Weapon {
 	int mobDmg = 25;
 	int blockdmg = 1; // dmg à ajuster plus tard
+	long elapsed = 0;
 
 	public Pickaxe(LocalController c, Player owner) {
 		super(c, owner);
@@ -37,6 +38,11 @@ public class Pickaxe extends Weapon {
 		if (target != null && target == underCursor) {
 			Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
 			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
+
+			if (System.currentTimeMillis() - elapsed > 70) {
+				this.getController().playSE(2);
+				elapsed = System.currentTimeMillis();
+			}
 
 			if (underCursor.id == 600) {
 				if (owner.getInventory().coupleAt(2).getNumber() == 0) {

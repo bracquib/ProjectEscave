@@ -19,6 +19,11 @@ public class Sword extends Weapon {
 	}
 
 	public boolean useTool(Direction d) {
+		if (System.currentTimeMillis() - elapsed > 300) {
+			this.getController().playSE(1);
+			elapsed = System.currentTimeMillis();
+		}
+
 		Direction orientation = owner.getPosition().orientation(owner.mousePos);
 
 		int decX, decY, width, height;
