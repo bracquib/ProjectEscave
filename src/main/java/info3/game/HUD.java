@@ -27,7 +27,7 @@ public class HUD {
 			cell.fixed = true;
 			this.inventoryCells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), new Vec2(1), cell);
 		}
-		String[] items = { "sword", "pioche", "gourde_pleine", "comestibles",
+		String[] items = { "pioche", "sword", "gourde_pleine", "comestibles",
 				"classic_block/player_" + this.player.name().toLowerCase() };
 
 		int i = 0;
