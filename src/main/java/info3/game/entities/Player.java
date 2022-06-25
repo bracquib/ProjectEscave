@@ -117,7 +117,7 @@ public class Player extends RigidBody {
 		}
 		if (this.hungerPoints <= 0 || this.thirstPoints <= 0) {
 			System.out.println("mort du joueur à cause de la faim ou de la soif");
-			Model.deleteEntity(this);
+			this.gameOver();
 		}
 
 		super.tick(el);
@@ -147,9 +147,7 @@ public class Player extends RigidBody {
 				&& this.getPosition().getX() <= Model.exitAvatar.getPosition().getX() + 5 * Block.SIZE
 				&& this.getPosition().getY() >= Model.exitAvatar.getPosition().getY() + 4 * Block.SIZE
 				&& this.getPosition().getY() <= Model.exitAvatar.getPosition().getY() + 6 * Block.SIZE) {
-			System.out.println("End");
-			this.hud.showGameOver();
-			Model.deleteEntity(this);
+			this.gameOver();
 		}
 	}
 
@@ -276,6 +274,12 @@ public class Player extends RigidBody {
 			boolean cancellable) {
 		super.playAnimation(name, frameCount, delay, offsetX, offsetY, loop, cancellable);
 		this.controller.setCameraOffset(this.color, new Vec2(-offsetX, -offsetY));
+	}
+
+	public void gameOver() {
+		System.out.println("End");
+		this.hud.showGameOver();
+		Model.deleteEntity(this);
 	}
 
 }

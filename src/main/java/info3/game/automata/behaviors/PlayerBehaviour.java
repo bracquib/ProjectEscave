@@ -178,7 +178,12 @@ public class PlayerBehaviour extends Behaviour {
 		}
 		if (e.getPointsDeVie() <= 0) {
 			System.out.println("mort du joueur");
-			Model.deleteEntity(p);
+			if (p instanceof Player) {
+				Player pp = (Player) p;
+				pp.gameOver();
+			} else {
+				Model.deleteEntity(p);
+			}
 		}
 		switch (d) {
 		case SOUTH:
