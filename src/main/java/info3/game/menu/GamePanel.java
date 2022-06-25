@@ -24,7 +24,7 @@ public class GamePanel extends JPanel {
 		setPanelSize();
 		addMouseListener(mouseInputs);
 		addMouseMotionListener(mouseInputs);
-		this.bg = new ImageIcon("src/main/resources/UI/test.jpg").getImage();
+		this.bg = new ImageIcon("src/main/resources/UI/bg_menu.png").getImage();
 	}
 
 	private void setPanelSize() {
