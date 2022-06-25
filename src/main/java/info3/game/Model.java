@@ -179,7 +179,9 @@ public class Model {
 		}
 		if (activatedSocles == playerCount.get()) {
 			System.out.println("Sortie activée");
-			controller.playSE(10);
+			for (View v : Model.controller.views) {
+				v.playSound(10);
+			}
 		}
 	}
 

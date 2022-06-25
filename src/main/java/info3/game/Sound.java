@@ -1,7 +1,6 @@
 package info3.game;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
@@ -11,24 +10,13 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import info3.game.graphics.GameCanvas;
-import info3.game.sound.RandomFileInputStream;
-
 public class Sound {
 
 	String m_name;
 	String m_filename;
 
-	public void Load(String name, String filename, long duration, float volume, GameCanvas canvas) throws IOException {
-		m_name = name;
-		m_filename = filename;
-		RandomAccessFile file = new RandomAccessFile(filename, "r");
-		RandomFileInputStream fis = new RandomFileInputStream(file);
-		canvas.playSound(name, fis, duration, volume);
-	}
-
-	Clip[] clips = new Clip[20];
-	URL soundUrl[] = new URL[20];
+	Clip[] clips = new Clip[14];
+	URL soundUrl[] = new URL[14];
 	boolean volumed = false;
 
 	public Sound() {
@@ -45,8 +33,9 @@ public class Sound {
 		soundUrl[10] = getClass().getResource("/src/main/resources/allsocle.wav");
 		soundUrl[11] = getClass().getResource("/src/main/resources/step3.wav");
 		soundUrl[12] = getClass().getResource("/src/main/resources/block.wav");
+		soundUrl[13] = getClass().getResource("/src/main/resources/menu.wav");
 
-		for (int i = 0; i < 13; i++) {
+		for (int i = 0; i < soundUrl.length; i++) {
 
 			try {
 				AudioInputStream ais = AudioSystem.getAudioInputStream(soundUrl[i]);
@@ -63,7 +52,7 @@ public class Sound {
 	}
 
 	public void setVolume() {
-		for (int i = 0; i < 13; i++) {
+		for (int i = 0; i < soundUrl.length; i++) {
 			FloatControl gainControl = (FloatControl) clips[i].getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(20f * (float) Math.log10(1.1f));
 		}

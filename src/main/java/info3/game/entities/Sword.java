@@ -20,7 +20,7 @@ public class Sword extends Weapon {
 
 	public boolean useTool(Direction d) {
 		if (System.currentTimeMillis() - elapsed > 300) {
-			this.getController().playSE(1);
+			this.getController().viewFor(owner.getColor()).playSound(1);
 			elapsed = System.currentTimeMillis();
 		}
 

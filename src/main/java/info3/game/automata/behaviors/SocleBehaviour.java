@@ -47,7 +47,7 @@ public class SocleBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		if (cell(e, Direction.NORTH, Category.PLAYER)) {
 			if (super.ret.getBehaviour() instanceof StatueBehaviour) {
-				e.getController().playSE(6);
+				e.getController().playSound(6);
 				((Socle) e).isActivated = true;
 				Model.incrementActivatedSocles();
 			}

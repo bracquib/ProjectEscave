@@ -6,6 +6,7 @@ import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
 import info3.game.entities.Mushroom;
+import info3.game.entities.Player;
 import info3.game.physics.RigidBody;
 
 public class MushroomBehaviour extends Behaviour {
@@ -69,7 +70,9 @@ public class MushroomBehaviour extends Behaviour {
 		// pop = hit
 		if (cell(e, Direction.HERE, Category.PLAYER)) {
 			System.out.println("Mushroom hit player?");
-			e.getController().playSE(7);
+			if (ret instanceof Player) {
+				e.getController().viewFor(((Player) ret).getColor()).playSound(7);
+			}
 			super.ret.getBehaviour().protect(ret, d, e.degatMob);
 			switch (d) {
 			case EST:
@@ -114,7 +117,9 @@ public class MushroomBehaviour extends Behaviour {
 		e.setPointsDeVie(e.getPointsDeVie() - dmg);
 		RigidBody p = (RigidBody) e;
 		if (e.getPointsDeVie() <= 0) {
-			e.getController().playSE(4);
+			if (ret instanceof Player) {
+				e.getController().viewFor(((Player) ret).getColor()).playSound(4);
+			}
 			if (p.getDirection() == Direction.EST)
 				p.playAnimation("death-right", 9, 200, 0, -60, false);
 			else if (p.getDirection() == Direction.WEST)

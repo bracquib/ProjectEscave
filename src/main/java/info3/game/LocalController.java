@@ -19,7 +19,6 @@ import info3.game.network.WheelScroll;
 public class LocalController extends Controller {
 	List<View> views;
 	ArrayList<Integer> pressedKeys;
-	Sound sound = new Sound();
 
 	public LocalController() {
 		super();
@@ -279,15 +278,9 @@ public class LocalController extends Controller {
 		this.viewFor(p).setCameraOffset(offset);
 	}
 
-	public void playSound(String name, String filename, long duration, int volume) {
+	public void playSound(int i) {
 		for (View v : this.views) {
-			if (v instanceof LocalView) {
-				((LocalView) v).playSound(name, filename, duration, volume);
-			}
+			v.playSound(i);
 		}
-	}
-
-	public void playSE(int i) {
-		sound.play(i);
 	}
 }

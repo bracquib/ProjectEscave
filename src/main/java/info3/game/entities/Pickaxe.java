@@ -40,7 +40,7 @@ public class Pickaxe extends Weapon {
 			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
 
 			if (System.currentTimeMillis() - elapsed > 70) {
-				this.getController().playSE(2);
+				this.getController().viewFor(owner.getColor()).playSound(2);
 				elapsed = System.currentTimeMillis();
 			}
 

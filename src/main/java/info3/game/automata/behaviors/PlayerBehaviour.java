@@ -84,7 +84,9 @@ public class PlayerBehaviour extends Behaviour {
 		switch (d) {
 		case EST:
 			if (System.currentTimeMillis() - estElapsed > 655) {
-				e.getController().playSE(11);
+				if (e instanceof Player) {
+					e.getController().viewFor(((Player) e).getColor()).playSound(11);
+				}
 				estElapsed = System.currentTimeMillis();
 			}
 			p.getSpeed().setX(190);
@@ -94,7 +96,9 @@ public class PlayerBehaviour extends Behaviour {
 			break;
 		case WEST:
 			if (System.currentTimeMillis() - westElapsed > 655) {
-				e.getController().playSE(11);
+				if (e instanceof Player) {
+					e.getController().viewFor(((Player) e).getColor()).playSound(11);
+				}
 				westElapsed = System.currentTimeMillis();
 			}
 			p.getSpeed().setX(-190);
@@ -126,7 +130,9 @@ public class PlayerBehaviour extends Behaviour {
 		((RigidBody) e).getSpeed().setY(-270);
 
 		if (System.currentTimeMillis() - jumpElapsed > 200) {
-			e.getController().playSE(0);
+			if (e instanceof Player) {
+				e.getController().viewFor(((Player) e).getColor()).playSound(0);
+			}
 			jumpElapsed = System.currentTimeMillis();
 		}
 
@@ -195,7 +201,9 @@ public class PlayerBehaviour extends Behaviour {
 		}
 		if (e.getPointsDeVie() <= 0) {
 			System.out.println("mort du joueur");
-			e.getController().playSE(5);
+			if (e instanceof Player) {
+				e.getController().viewFor(((Player) e).getColor()).playSound(5);
+			}
 			Model.deleteEntity(p);
 		}
 		switch (d) {

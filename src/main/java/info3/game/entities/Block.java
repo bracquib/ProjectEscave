@@ -54,7 +54,7 @@ public class Block extends Consumable {
 			Block place = Model.getBlock(i, j);
 			if (!(i == xBP && j == yBP) && i >= xBP - 2 && i <= xBP + 2 && j >= yBP - 2 && j <= yBP + 2) {
 				if (place == null) {
-					this.getController().playSE(12);
+					this.getController().viewFor(owner.getColor()).playSound(12);
 					Model.getMap().set(i, j, new Block(Model.controller, new Vec2(i * Block.SIZE, j * Block.SIZE),
 							700 + this.owner.color.ordinal(), 1));
 					return true;
@@ -90,7 +90,7 @@ public class Block extends Consumable {
 			int j = ((int) pos.getY() / Block.SIZE) + decY;
 			Block place = Model.getBlock(i, j);
 			if (place == null) {
-				this.getController().playSE(12);
+				this.getController().viewFor(owner.getColor()).playSound(12);
 				Model.getMap().set(i, j, new Block(Model.controller, new Vec2(i * Block.SIZE, j * Block.SIZE),
 						700 + this.owner.color.ordinal(), 1));
 				return true;

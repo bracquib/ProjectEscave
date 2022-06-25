@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -24,11 +23,18 @@ public class LocalView extends View {
 	GameCanvas canvas;
 	CanvasListener listener;
 	Semaphore isPainting;
-	Sound sound;
 	protected SortedSet<Avatar> sortedAvatars;
+	Sound sound;
 
 	public LocalView(Controller controller) {
 		super();
+		try {
+			this.sound = new Sound();
+		} catch (Exception e) {
+			System.out.println("[WARN] Son non fonctionnel");
+			e.printStackTrace();
+		}
+
 		this.sortedAvatars = Collections.synchronizedSortedSet(new TreeSet<Avatar>((x, y) -> {
 			int cmp = x.layer - y.layer;
 			if (cmp == 0) {
@@ -49,7 +55,7 @@ public class LocalView extends View {
 		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
-		playSound("Menu Amaury", "src/main/resources/menu.ogg", (long) 0, 0.8f);
+		this.playSound(13);
 	}
 
 	/*
@@ -206,12 +212,9 @@ public class LocalView extends View {
 		this.camera.setOffset(offset);
 	}
 
-	public void playSound(String name, String filename, long duration, float volume) {
-		try {
-			sound = new Sound();
-			sound.Load(name, filename, duration, volume, canvas);
-		} catch (IOException e) {
-			e.printStackTrace();
+	public void playSound(int idx) {
+		if (this.sound != null) {
+			sound.play(idx);
 		}
 	}
 }
