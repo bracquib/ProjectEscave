@@ -5,9 +5,6 @@ import java.awt.Graphics;
 import info3.game.Vec2;
 
 public abstract class Paintable extends Asset implements Cloneable {
-	public int layer = 0;
-	public boolean fixed = false;
-
 	public Paintable(String path) {
 		super(path);
 	}

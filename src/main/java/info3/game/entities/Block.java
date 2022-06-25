@@ -1,5 +1,6 @@
 package info3.game.entities;
 
+import info3.game.AvatarBuilder;
 import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
@@ -24,12 +25,12 @@ public class Block extends Consumable {
 		this.setBehaviour(new BlockBehaviour());
 		Vec2 offset = BlockIDs.IDsToVec2.getOrDefault(id, new Vec2(0, 0)).multiply(-Block.SIZE);
 		if (id != 600) {
-			this.avatar = this.controller.createAvatar(this.position.add(offset),
-					new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
+			this.avatar = new AvatarBuilder(new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"))
+					.position(this.position.add(offset)).build(this.controller);
 			this.setName("Block");
 		} else {
-			AnimatedImage sprite = new AnimatedImage("classic_block/water_sol.png", 16, 5500, true);
-			this.avatar = this.controller.createAvatar(this.position, new Vec2(1), sprite);
+			this.avatar = new AvatarBuilder(new AnimatedImage("classic_block/water_sol.png", 16, 5500, true))
+					.position(position).scale(new Vec2(1)).build(this.controller);
 			this.setName("Block");
 		}
 

@@ -20,6 +20,7 @@
  */
 package info3.game.entities;
 
+import info3.game.AvatarBuilder;
 import info3.game.LocalController;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
@@ -37,7 +38,8 @@ public class Cowboy extends RigidBody {
 	public Cowboy(LocalController controller, int points) {
 		super(5, controller, points);
 		this.setPosition(new Vec2(0.0f, 0.0f));
-		this.avatar = this.controller.createAvatar(this.getPosition(), new AnimatedImage("cowboy.png", 24, 200, true));
+		this.avatar = new AvatarBuilder(new AnimatedImage("cowboy.png", 24, 200, true)).position(this.getPosition())
+				.build(this.controller);
 	}
 
 	@Override

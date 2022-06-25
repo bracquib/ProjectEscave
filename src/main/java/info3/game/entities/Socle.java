@@ -1,5 +1,6 @@
 package info3.game.entities;
 
+import info3.game.AvatarBuilder;
 import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
@@ -18,6 +19,7 @@ public class Socle extends Block {
 		this.position = position;
 		this.setAutomata(Model.getAutomata("Socle"));
 		this.setBehaviour(new SocleBehaviour());
-		this.avatar = this.controller.createAvatar(this.position, new Image("classic_block/socle.png"));
+		this.avatar = new AvatarBuilder(new Image("classic_block/socle.png")).position(this.getPosition())
+				.build(this.controller);
 	}
 }

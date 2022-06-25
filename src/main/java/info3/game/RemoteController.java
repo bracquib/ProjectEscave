@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import info3.game.assets.Paintable;
 import info3.game.entities.PlayerColor;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
@@ -85,12 +84,10 @@ public class RemoteController extends Controller {
 	}
 
 	@Override
-	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup, Vec2 scale) {
+	public Avatar createAvatar(Avatar av) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
-		Avatar av = new Avatar(id, image, dup);
-		av.setPosition(pos);
-		av.setScale(scale);
+		av.id = id;
 		this.view.createAvatar(av);
 		return av;
 	}
@@ -207,10 +204,7 @@ class NetworkReceiverThread extends Thread {
 	private void handleMessage(Object msg) {
 		if (msg instanceof CreateAvatar) {
 			CreateAvatar ca = (CreateAvatar) msg;
-			Avatar av = new Avatar(ca.id, ca.image, false);
-			av.setPosition(ca.position);
-			av.setScale(ca.scale);
-			this.controller.view.createAvatar(av);
+			this.controller.view.createAvatar(ca.avatar);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
 			try {

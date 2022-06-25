@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import info3.game.Vec2;
 
 public class Image extends Paintable {
-
 	private static final long serialVersionUID = -1054334314973696343L;
 	transient BufferedImage image;
 
@@ -52,8 +51,6 @@ public class Image extends Paintable {
 	@Override
 	public Paintable duplicateFromPath(String path) {
 		Image img = new Image(path);
-		img.fixed = this.fixed;
-		img.layer = this.layer;
 		if (this.loaded) {
 			img.load();
 		}

@@ -23,14 +23,12 @@ public class HUD {
 		int startX = (this.controller.viewFor(this.player.getColor()).getWidth() - totalWidth) / 2;
 		int startY = this.startY();
 		Image selectedCell = new Image("inventory-cell-selected.png");
-		selectedCell.layer = 1;
-		selectedCell.fixed = true;
-		this.inventoryCells[0] = this.controller.createAvatar(new Vec2(startX, startY), new Vec2(1), selectedCell);
+		this.inventoryCells[0] = new AvatarBuilder(selectedCell).position(new Vec2(startX, startY)).scale(new Vec2(1))
+				.layer(1).fixed().build(this.controller);
 		for (int i = 1; i < this.inventoryCells.length; i++) {
 			Image cell = new Image("inventory-cell.png");
-			cell.layer = 1;
-			cell.fixed = true;
-			this.inventoryCells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), new Vec2(1), cell);
+			this.inventoryCells[i] = new AvatarBuilder(cell).position(new Vec2(startX + 74 * i, startY))
+					.scale(new Vec2(1)).layer(1).fixed().build(this.controller);
 		}
 		String[] items = { "pioche", "sword", "gourde_pleine", "comestibles",
 				"classic_block/player_" + this.player.name().toLowerCase() };
@@ -40,12 +38,10 @@ public class HUD {
 		this.labels = new Avatar[Inventory.INVENTORY_SIZE];
 		for (String item : items) {
 			Image img = new Image(item + ".png");
-			img.fixed = true;
-			img.layer = 2;
 			Vec2 pos = new Vec2(startX + 74 * i, startY);
 			int count = player.getInventory().coupleAt(i).getNumber();
-			this.labels[i] = this.controller.createAvatar(pos.add(new Vec2(40, 60)),
-					new Label(Integer.toString(count)));
+			this.labels[i] = new AvatarBuilder(new Label(Integer.toString(count))).position(pos.add(new Vec2(40, 60)))
+					.fixed().layer(3).build(this.controller);
 			// miam le code sale
 			if (i == 2) {
 				pos.y -= 2;
@@ -53,46 +49,63 @@ public class HUD {
 			if (i == 4) {
 				pos = pos.add(16);
 			}
-			this.inventoryItems[i] = this.controller.createAvatar(pos, new Vec2(1), img);
+			this.inventoryItems[i] = new AvatarBuilder(img).position(pos).scale(new Vec2(1)).fixed(true).layer(2)
+					.build(this.controller);
 
 			i++;
 		}
 
 		this.lifes = new Avatar[player.getPointsDeVie()];
 		Image heart = new Image("barre_vie.png");
-		heart.fixed = true;
-		heart.layer = 2;
 		startY -= 54;
 		for (int j = 0; j < this.lifes.length; j++) {
-			this.lifes[j] = this.controller.createAvatar(new Vec2(startX + 32 * j, startY), heart, false, new Vec2(1));
+			this.lifes[j] = new AvatarBuilder(heart).position(new Vec2(startX + 32 * j, startY)).duplicate(false)
+					.fixed(true).layer(2).scale(new Vec2(1)).build(this.controller);
 		}
 
 		this.food = new Avatar[player.getHungerPoints()];
 		Image foodImg = new Image("barre_nourriture.png");
-		foodImg.fixed = true;
-		foodImg.layer = 2;
 		startY -= 32;
 		for (int j = 0; j < this.food.length; j++) {
-			this.food[j] = this.controller.createAvatar(new Vec2(startX + 32 * j, startY), foodImg, false, new Vec2(1));
+			this.food[j] = new AvatarBuilder(foodImg).position(new Vec2(startX + 32 * j, startY)).duplicate(false)
+					.fixed(true).layer(2).scale(new Vec2(1)).build(this.controller);
 		}
 
 		this.water = new Avatar[player.getThirstPoints()];
 		Image waterImg = new Image("barre_eau.png");
-		waterImg.fixed = true;
-		waterImg.layer = 2;
 		startY -= 32;
 		for (int j = 0; j < this.water.length; j++) {
-			this.water[j] = this.controller.createAvatar(new Vec2(startX + 32 * j, startY), waterImg, false,
-					new Vec2(1));
+			this.water[j] = new AvatarBuilder(waterImg).position(new Vec2(startX + 32 * j, startY)).duplicate(false)
+					.fixed(true).layer(2).scale(new Vec2(1)).build(this.controller);
 		}
 	}
 
 	public void updateAvatars() {
 		int totalWidth = 74 * Inventory.INVENTORY_SIZE - 10;
 		int startX = (this.controller.viewFor(this.player.getColor()).getWidth() - totalWidth) / 2;
-		int startY = this.controller.viewFor(this.player.getColor()).getHeight() - 130;
+		int startY = this.startY();
 		for (int i = 0; i < this.inventoryCells.length; i++) {
+			Vec2 pos = new Vec2(startX + 74 * i, startY);
+			this.controller.updateAvatar(this.labels[i].getId(), pos.add(new Vec2(40, 60)));
 			this.controller.updateAvatar(this.inventoryCells[i].getId(), new Vec2(startX + 74 * i, startY));
+		}
+		startY -= 54;
+		for (int i = 0; i < this.lifes.length; i++) {
+			if (this.lifes[i].getPosition().getY() > 0) {
+				this.controller.updateAvatar(this.lifes[i].getId(), new Vec2(startX + 32 * i, startY));
+			}
+		}
+		startY -= 32;
+		for (int i = 0; i < this.food.length; i++) {
+			if (this.food[i].getPosition().getY() > 0) {
+				this.controller.updateAvatar(this.food[i].getId(), new Vec2(startX + 32 * i, startY));
+			}
+		}
+		startY -= 32;
+		for (int i = 0; i < this.water.length; i++) {
+			if (this.water[i].getPosition().getY() > 0) {
+				this.controller.updateAvatar(this.water[i].getId(), new Vec2(startX + 32 * i, startY));
+			}
 		}
 	}
 
@@ -124,15 +137,15 @@ public class HUD {
 	}
 
 	public void gainLife(int newVal) {
-		this.moveAvatar(this.lifes, newVal, this.startY() - 184);
+		this.moveAvatar(this.lifes, newVal - 1, this.startY() - 184);
 	}
 
 	public void gainFood(int newVal) {
-		this.moveAvatar(this.food, newVal, this.startY() - 226);
+		this.moveAvatar(this.food, newVal - 1, this.startY() - 86);
 	}
 
 	public void gainWater(int newVal) {
-		this.moveAvatar(this.water, newVal, this.startY() - 268);
+		this.moveAvatar(this.water, newVal - 1, this.startY() - 268);
 	}
 
 	private int startY() {

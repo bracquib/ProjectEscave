@@ -1,7 +1,6 @@
 package info3.game;
 
 import java.awt.Graphics;
-import java.util.Arrays;
 
 import info3.game.assets.AnimatedImage;
 import info3.game.assets.AssetServer;
@@ -10,6 +9,11 @@ import info3.game.entities.Block;
 
 public class Avatar {
 	int id;
+	int layer;
+	boolean fixed;
+	Vec2 position;
+	Vec2 scale;
+	Paintable image;
 
 	public int getId() {
 		return id;
@@ -18,8 +22,6 @@ public class Avatar {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	Vec2 position;
 
 	public Vec2 getPosition() {
 		return position;
@@ -30,7 +32,7 @@ public class Avatar {
 	public transient Avatar[] duplicates;
 
 	private void updateDuplicates(Vec2 pos) {
-		if (this.duplicates == null || this.image.fixed) {
+		if (this.duplicates == null || this.fixed) {
 			return;
 		}
 		int width = Model.getMap().width * Block.SIZE;
@@ -63,7 +65,8 @@ public class Avatar {
 	private void duplicate(boolean matches, int i, Vec2 pos) {
 		if (matches) {
 			if (this.duplicates[i] == null) {
-				this.duplicates[i] = Controller.controller.createAvatar(pos, this.image.clone(), false, this.scale);
+				this.duplicates[i] = new AvatarBuilder(this.image.clone()).duplicate(false).position(pos)
+						.scale(this.scale).build(Controller.controller);
 			}
 			Controller.controller.updateAvatar(this.duplicates[i].getId(), pos);
 		} else {
@@ -89,9 +92,11 @@ public class Avatar {
 		this.scale = scale;
 	}
 
-	Vec2 scale;
-
-	Paintable image;
+	Avatar() {
+		this.position = new Vec2(0.0f, 0.0f);
+		this.scale = new Vec2(2.0f, 2.0f);
+		this.duplicates = new Avatar[8];
+	}
 
 	/**
 	 * Crée un nouvel avatar.
@@ -105,7 +110,6 @@ public class Avatar {
 		this.image = AssetServer.load(img);
 		if (dup) {
 			this.duplicates = new Avatar[8];
-			Arrays.fill(this.duplicates, null);
 		}
 	}
 
@@ -128,7 +132,7 @@ public class Avatar {
 	 */
 	public void paint(Graphics g, Vec2 cameraPos) {
 		Vec2 screenCoords;
-		if (!this.image.fixed) {
+		if (!this.fixed) {
 			screenCoords = this.position.globalToScreen(cameraPos);
 		} else {
 			screenCoords = this.position;

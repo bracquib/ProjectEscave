@@ -1,5 +1,6 @@
 package info3.game.entities;
 
+import info3.game.AvatarBuilder;
 import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
@@ -20,8 +21,8 @@ public class Statue extends RigidBody {
 		this.color = this.player.getColor();
 		this.avatarOffset = new Vec2(0, -52);
 
-		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset),
-				new AnimatedImage("statue/blanc/statue-idle.png", 4, 100, false));
+		this.avatar = new AvatarBuilder(new AnimatedImage("statue/blanc/statue-idle.png", 4, 100, false))
+				.position(this.getPosition().add(this.avatarOffset)).build(this.controller);
 		this.setAutomata(Model.getAutomata("Statue"));
 		this.setBehaviour(new StatueBehaviour());
 		this.setCategory(Category.TEAM);
