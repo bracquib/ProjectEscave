@@ -29,7 +29,7 @@ public class SpawnGenerator4D {
 	public List<Vec2> listSpawnBlocsStatues = new ArrayList<Vec2>();
 	public List<Vec2> listSpawnStatues = new ArrayList<Vec2>();
 
-	Vec2 exit = new Vec2(0);
+	public Vec2 exit = new Vec2(0);
 
 	public int[][] classicGen(int nbPlayers) {
 		long rand = (long) (Math.random() * System.currentTimeMillis());
@@ -196,10 +196,10 @@ public class SpawnGenerator4D {
 		for (int i = -6; i < 7; i++) {
 			values[x + i][y - 2] = 0;
 		}
-		for (int i = -4; i < 5; i++) {
+		for (int i = -5; i < 6; i++) {
 			values[x + i][y - 3] = 0;
 		}
-		for (int i = -1; i < 3; i++) {
+		for (int i = -3; i < 4; i++) {
 			values[x + i][y - 4] = 0;
 		}
 		values[x][y] = 0;

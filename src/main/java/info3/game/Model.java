@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import info3.game.assets.Image;
+import info3.game.assets.AnimatedImage;
 import info3.game.automata.Automata;
 import info3.game.automata.BotBuilder;
 import info3.game.automata.ast.AST;
@@ -61,6 +61,8 @@ public class Model {
 	private static Map map;
 
 	static ArrayList<Vec2> spawnPoints;
+	static Vec2 exitPoint;
+	public static Avatar exitAvatar;
 
 	private static final int maxPlayers = 1;
 
@@ -126,6 +128,7 @@ public class Model {
 			DecorationGenerator forStalactite = new DecorationGenerator();
 			int[][] values = generationMap.spawnStatueTotal(Model.maxPlayers);
 			Model.spawnPoints = generationMap.listSpawnPlayer;
+			Model.exitPoint = generationMap.exit;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			Model.statuesSpawns = generationMap.listSpawnStatues;
 			Model.stalactiteSpawns = DecorationGenerator.listSpawnStalactites;
@@ -140,6 +143,12 @@ public class Model {
 					}
 				}
 			}
+			AnimatedImage exit = new AnimatedImage("fixed_animations/exit.png", 6, 300, true);
+			exit.layer = -1;
+			exitPoint.setX(exitPoint.getX() - 4);
+			exitPoint.setY(exitPoint.getY() - 4);
+			exitPoint = exitPoint.multiply(Block.SIZE);
+			exitAvatar = Controller.controller.createAvatar(exitPoint, new Vec2(1), exit);
 			for (Vec2 socle : blocs) {
 				Model.map.set((int) socle.getX(), (int) socle.getY(),
 						new Socle(Model.controller, socle.multiply(Block.SIZE)));

@@ -50,7 +50,7 @@ public class Player extends RigidBody {
 		AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
 		AnimatedImage spriteBackground = new AnimatedImage("bg_animated.png", 12, 1250, true);
 		spriteBackground.fixed = true;
-		spriteBackground.layer = -1;
+		spriteBackground.layer = -10;
 		sprite.layer = 1;
 		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
 
