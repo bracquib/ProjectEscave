@@ -19,6 +19,7 @@ import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
+import info3.game.network.PlaySound;
 import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 import info3.game.network.Welcome;
@@ -238,6 +239,9 @@ class NetworkReceiverThread extends Thread {
 		} else if (msg instanceof DeleteAvatar) {
 			DeleteAvatar da = (DeleteAvatar) msg;
 			this.controller.view.deleteAvatar(da.id);
+		} else if (msg instanceof PlaySound) {
+			PlaySound ps = (PlaySound) msg;
+			this.controller.view.playSound(ps.idx);
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}

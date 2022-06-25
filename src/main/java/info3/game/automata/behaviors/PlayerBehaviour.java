@@ -12,6 +12,9 @@ import info3.game.physics.RigidBody;
 public class PlayerBehaviour extends Behaviour {
 
 	public Entity ret;
+	private long jumpElapsed = 0;
+	private long estElapsed = 0;
+	private long westElapsed = 0;
 
 	@Override
 	public boolean true_(Entity e) {
@@ -80,12 +83,24 @@ public class PlayerBehaviour extends Behaviour {
 		AnimatedImage anim = (AnimatedImage) e.getPaintable();
 		switch (d) {
 		case EST:
+			if (System.currentTimeMillis() - estElapsed > 655) {
+				if (e instanceof Player) {
+					e.getController().viewFor(((Player) e).getColor()).playSound(11);
+				}
+				estElapsed = System.currentTimeMillis();
+			}
 			p.getSpeed().setX(190);
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-right", 5, 200, 0, -4, false, true);
 			p.setDirection(Direction.EST);
 			break;
 		case WEST:
+			if (System.currentTimeMillis() - westElapsed > 655) {
+				if (e instanceof Player) {
+					e.getController().viewFor(((Player) e).getColor()).playSound(11);
+				}
+				westElapsed = System.currentTimeMillis();
+			}
 			p.getSpeed().setX(-190);
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-left", 5, 200, 0, -4, false, true);
@@ -113,6 +128,14 @@ public class PlayerBehaviour extends Behaviour {
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
 		((RigidBody) e).getSpeed().setY(-270);
+
+		if (System.currentTimeMillis() - jumpElapsed > 200) {
+			if (e instanceof Player) {
+				e.getController().viewFor(((Player) e).getColor()).playSound(0);
+			}
+			jumpElapsed = System.currentTimeMillis();
+		}
+
 	}
 
 	@Override
@@ -181,6 +204,7 @@ public class PlayerBehaviour extends Behaviour {
 			if (p instanceof Player) {
 				Player pp = (Player) p;
 				pp.gameOver();
+				e.getController().viewFor(((Player) e).getColor()).playSound(5);
 			} else {
 				Model.deleteEntity(p);
 			}

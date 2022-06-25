@@ -20,6 +20,7 @@ import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
+	ArrayList<Integer> pressedKeys;
 
 	public LocalController() {
 		super();
@@ -293,4 +294,9 @@ public class LocalController extends Controller {
 		this.viewFor(p).setCameraOffset(offset);
 	}
 
+	public void playSound(int i) {
+		for (View v : this.views) {
+			v.playSound(i);
+		}
+	}
 }

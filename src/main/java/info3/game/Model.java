@@ -212,6 +212,9 @@ public class Model {
 			Model.controller.updatePaintable(exitAvatar, newAnim);
 			System.out.println("Sortie activée");
 			exitOpened = true;
+			for (View v : Model.controller.views) {
+				v.playSound(10);
+			}
 		}
 	}
 

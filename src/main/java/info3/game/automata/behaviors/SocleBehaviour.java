@@ -51,6 +51,7 @@ public class SocleBehaviour extends Behaviour {
 			if (super.ret.getBehaviour() instanceof StatueBehaviour) {
 				super.ret.getBehaviour().explode(super.ret);
 				super.ret.setPosition(e.getPosition().add(new Vec2(0, -96)));
+				e.getController().playSound(6);
 				((Socle) e).isActivated = true;
 				Model.incrementActivatedSocles();
 			}

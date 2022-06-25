@@ -26,6 +26,7 @@ public class Food extends Consumable {
 
 	@Override
 	public boolean useTool(Direction d) {
+		this.getController().viewFor(owner.getColor()).playSound(8);
 		owner.feed(feedValue);
 		return true;
 	}
