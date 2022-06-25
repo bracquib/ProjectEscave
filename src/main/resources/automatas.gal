@@ -10,13 +10,14 @@ Block(Init){
 	|True? :(Accrocher)
  
     *(Air)
-    |Cell(S,@)?Pop:(Mort)
-    |Cell(S,A)?Pop:(Mort)
-    |Cell(S,J)?Pop:(Mort)
+    |Cell(H,@)?Pop:(Mort)
+    |Cell(H,A)?Pop:(Air)
+    |Cell(S,J)?:(Mort)
 	|True? :(Air)
 	
 	*(Mort)
-	|True?		:()
+	|Cell(S,J)?Protect(S):()
+	|True?:(Mort)
 }
     
 
