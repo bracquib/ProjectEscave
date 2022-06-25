@@ -91,6 +91,7 @@ public class StatueBehaviour extends Behaviour {
 		p.setCategory(Category.PLAYER);
 		p.setAutomata(Model.getAutomata("Player"));
 		p.setControlledEntity(p);
+		e.playAnimation("statue-idle", 4, 1000, -16, -64, true);
 	}
 
 	@Override

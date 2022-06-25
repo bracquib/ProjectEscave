@@ -21,7 +21,7 @@ public class Statue extends RigidBody {
 		this.avatarOffset = new Vec2(0, -52);
 
 		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset),
-				new AnimatedImage("statue/statue_immobile_morte_verte.png", 4, 100, false));
+				new AnimatedImage("statue/blanc/statue-idle.png", 4, 100, false));
 		this.setAutomata(Model.getAutomata("Statue"));
 		this.setBehaviour(new StatueBehaviour());
 		this.setCategory(Category.TEAM);
@@ -37,7 +37,10 @@ public class Statue extends RigidBody {
 		super.tick(el);
 		AnimatedImage anim = (AnimatedImage) this.getPaintable();
 		if (anim.isFinished()) {
-			this.playAnimation("statue-levitation", 16, 200, -16, -104, true);// -96, true);
+			if (this.getCategory() == Category.TEAM)
+				this.playAnimation("statue-idle", 4, 1000, -16, -64, true);
+			else if (this.getCategory() == Category.PLAYER)
+				this.playAnimation("statue-levitation", 16, 200, -16, -104, true);
 		}
 	}
 
