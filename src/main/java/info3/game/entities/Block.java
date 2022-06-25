@@ -81,7 +81,8 @@ public class Block extends Consumable {
 			int j = ((int) pos.getY() / Block.SIZE) + decY;
 			Block place = Model.getBlock(i, j);
 			if (place == null) {
-				Model.getMap().set(i, j, new Block(Model.controller, new Vec2(i * Block.SIZE, j * Block.SIZE), 1, 1));
+				Model.getMap().set(i, j, new Block(Model.controller, new Vec2(i * Block.SIZE, j * Block.SIZE),
+						700 + this.owner.color.ordinal(), 1));
 				return true;
 			}
 			return false;

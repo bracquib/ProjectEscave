@@ -11,7 +11,6 @@ import info3.game.entities.Player;
 import info3.game.entities.Sword;
 import info3.game.entities.Tool;
 import info3.game.entities.Water;
-import info3.game.network.UpdateAvatar;
 
 public class Inventory extends Entity {
 	public final static short INVENTORY_SIZE = 5; // pickaxe, sword, water,food, block
@@ -32,15 +31,6 @@ public class Inventory extends Entity {
 		this.owner = owner;
 	}
 
-	public void updateAvatars() {
-		int totalWidth = 74 * INVENTORY_SIZE - 10;
-		int startX = (this.controller.viewFor(this.owner.getColor()).getWidth() - totalWidth) / 2;
-		int startY = this.controller.viewFor(this.owner.getColor()).getHeight() - 130;
-		for (int i = 0; i < this.cells.length; i++) {
-			this.controller.updateAvatar(this.cells[i].getId(), new Vec2(startX + 74 * i, startY));
-		}
-	}
-
 	public Tool getCurrentTool() {
 		return toolAt(currentToolIndex);
 	}
@@ -48,15 +38,10 @@ public class Inventory extends Entity {
 	// plusieurs façons de se déplacer dans l'inventaire
 
 	public void selectCurrentTool(int i) {
-		// TODO: un peu sale ce code même si ça marche bien
-		this.cells[this.currentToolIndex].setPaintablePath("inventory-cell.png");
-		this.controller.sendTo(this.owner,
-				new UpdateAvatar(this.cells[this.currentToolIndex].getId(), "inventory-cell.png"));
-		this.currentToolIndex = i % INVENTORY_SIZE; // et pour les nombres négatifs ?
-		this.controller.sendTo(this.owner,
-				new UpdateAvatar(this.cells[this.currentToolIndex].getId(), "inventory-cell-selected.png"));
-		this.cells[this.currentToolIndex].setPaintablePath("inventory-cell-selected.png");
+		this.owner.hud.unselect(this.currentToolIndex);
 
+		this.currentToolIndex = i % INVENTORY_SIZE; // et pour les nombres négatifs ?
+		this.owner.hud.select(this.currentToolIndex);
 	}
 
 	// décale la selection d'un cran vers la droite

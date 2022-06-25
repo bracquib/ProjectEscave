@@ -3,6 +3,7 @@ package info3.game.entities;
 import java.util.ArrayList;
 
 import info3.game.Avatar;
+import info3.game.HUD;
 import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.Model;
@@ -26,6 +27,7 @@ public class Player extends RigidBody {
 	Entity controlledEntity;
 	public ArrayList<Integer> pressedKeys;
 	private Avatar background;
+	public HUD hud;
 
 	static final float bgW = 2461 * 2;
 	static final float bgH = 1675 * 2;
@@ -58,6 +60,7 @@ public class Player extends RigidBody {
 				i++;
 			}
 			this.inventory = Inventory.createInventory(c, this);
+			this.hud = new HUD(this.controller, this);
 			this.pressedKeys = new ArrayList<Integer>();
 
 			this.hungerPoints = maxHunger;

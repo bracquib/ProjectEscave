@@ -289,7 +289,7 @@ public class LocalController extends Controller {
 		this.viewFor(p).setDimensions(size);
 		Player player = Model.getPlayer(p);
 		if (player != null) {
-			player.getInventory().updateAvatars();
+			player.hud.updateAvatars();
 		}
 	}
 

@@ -27,5 +27,45 @@ public class HUD {
 			cell.fixed = true;
 			this.inventoryCells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), new Vec2(1), cell);
 		}
+		String[] items = { "sword", "pioche", "gourde_pleine", "comestibles",
+				"classic_block/player_" + this.player.name().toLowerCase() };
+
+		int i = 0;
+		this.inventoryItems = new Avatar[Inventory.INVENTORY_SIZE];
+		for (String item : items) {
+			Image img = new Image(item + ".png");
+			img.fixed = true;
+			img.layer = 2;
+			Vec2 pos = new Vec2(startX + 74 * i, startY);
+			// miam le code sale
+			if (i == 2) {
+				pos.y -= 2;
+			}
+			if (i == 4) {
+				pos = pos.add(16);
+			}
+			this.inventoryItems[i] = this.controller.createAvatar(pos, new Vec2(1), img);
+
+			i++;
+		}
+	}
+
+	public void updateAvatars() {
+		int totalWidth = 74 * Inventory.INVENTORY_SIZE - 10;
+		int startX = (this.controller.viewFor(this.player.getColor()).getWidth() - totalWidth) / 2;
+		int startY = this.controller.viewFor(this.player.getColor()).getHeight() - 130;
+		for (int i = 0; i < this.inventoryCells.length; i++) {
+			this.controller.updateAvatar(this.inventoryCells[i].getId(), new Vec2(startX + 74 * i, startY));
+		}
+	}
+
+	public void unselect(int idx) {
+		this.controller.updatePaintable(this.inventoryCells[idx],
+				this.inventoryCells[idx].image.duplicateFromPath("inventory-cell.png"));
+	}
+
+	public void select(int idx) {
+		this.controller.updatePaintable(this.inventoryCells[idx],
+				this.inventoryCells[idx].image.duplicateFromPath("inventory-cell-selected.png"));
 	}
 }
