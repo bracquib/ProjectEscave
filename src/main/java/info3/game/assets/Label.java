@@ -12,9 +12,7 @@ public class Label extends Paintable {
 
 	public Label(String text) {
 		super(text);
-		this.fixed = true;
 		this.chars = text.toCharArray();
-		this.layer = 10;
 	}
 
 	private static final long serialVersionUID = -4481581749224198365L;

@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import info3.game.assets.Image;
 import info3.game.automata.Automata;
 import info3.game.automata.BotBuilder;
 import info3.game.automata.ast.AST;
@@ -91,6 +90,7 @@ public class Model {
 	public static void deleteEntity(RigidBody e) {
 		// TODO: sync?
 		entities.remove(e);
+		Model.controller.deleteAvatar(e.getAvatar().getId());
 	}
 
 	/**
@@ -123,7 +123,6 @@ public class Model {
 		if (Model.map == null) {
 			// génération de la map
 			SpawnGenerator4D generationMap = new SpawnGenerator4D();
-			DecorationGenerator forStalactite = new DecorationGenerator();
 			int[][] values = generationMap.spawnStatueTotal(Model.maxPlayers);
 			Model.spawnPoints = generationMap.listSpawnPlayer;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;

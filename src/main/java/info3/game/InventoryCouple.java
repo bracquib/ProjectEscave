@@ -5,6 +5,7 @@ import info3.game.entities.Tool;
 public class InventoryCouple {
 	private int number;
 	private Tool tool;
+	private int index;
 
 	public InventoryCouple(Tool tool, int number) {
 		this.tool = tool;
@@ -62,4 +63,11 @@ public class InventoryCouple {
 			System.out.print("( " + this.tool.getName() + " : " + this.getNumber() + " )");
 	}
 
+	public void setIndex(int idx) {
+		this.index = idx;
+	}
+
+	public int getIndex() {
+		return this.index;
+	}
 }

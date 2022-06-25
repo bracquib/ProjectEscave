@@ -105,8 +105,6 @@ public class AnimatedImage extends Paintable {
 	@Override
 	public Paintable duplicateFromPath(String path) {
 		AnimatedImage img = new AnimatedImage(path, this.frameCount, this.animationDelay, this.loop);
-		img.fixed = this.fixed;
-		img.layer = this.layer;
 		if (this.loaded) {
 			img.load();
 		}

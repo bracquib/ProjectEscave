@@ -28,5 +28,4 @@ public class Water extends Consumable {
 		owner.water(waterValue);
 		return true;
 	}
-
 }

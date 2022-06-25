@@ -196,7 +196,11 @@ public abstract class Entity {
 
 	public void setPaintable(Paintable p) {
 		this.avatar.setPaintable(p);
-		this.avatar.setPosition(this.getPosition().add(this.avatarOffset));
+		Vec2 pos = this.getPosition();
+		if (this.avatarOffset != null) {
+			pos = pos.add(this.avatarOffset);
+		}
+		this.avatar.setPosition(pos);
 		this.controller.updatePaintable(this.getAvatar(), p);
 	}
 

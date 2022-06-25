@@ -1,5 +1,6 @@
 package info3.game.entities;
 
+import info3.game.AvatarBuilder;
 import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
@@ -21,7 +22,8 @@ public class Mushroom extends RigidBody {
 		this.setPosition(pos);
 		this.setCategory(Category.ADVERSAIRE);
 		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
-		this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
+		this.avatar = new AvatarBuilder(new Image(this.avatarPath())).position(this.getPosition())
+				.build(this.controller);
 	}
 
 	public Mushroom(LocalController c, Vec2 pos, int points, int remain) {
@@ -34,7 +36,8 @@ public class Mushroom extends RigidBody {
 		this.degatMob = 1;
 		this.avatarOffset = new Vec2(0, 0);
 		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
-		this.avatar = this.controller.createAvatar(new Vec2(this.getPosition()), new Image(this.avatarPath()));
+		this.avatar = new AvatarBuilder(new Image(this.avatarPath())).position(this.getPosition())
+				.build(this.controller);
 		this.playAnimation("spawn-right", 4, 100, 0, -10, false);
 	}
 
