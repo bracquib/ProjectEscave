@@ -145,7 +145,9 @@ public class StatueBehaviour extends Behaviour {
 	@Override
 	public void explode(Entity e) {
 		// pas besoin
-
+		this.protect(e, null, 0);
+		e.setAutomata(null);
+		e.setBehaviour(null);
 	}
 
 	@Override

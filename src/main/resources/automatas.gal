@@ -62,7 +62,6 @@ Inventaire(Init){
 
 Player(Init){
 	*(Init)
-	| Cell(H,T) ? Wizz :(Statue)
 	| Key(FU)  ? Jump :(Init)
 	| Key(FL) ? Move(W) :(Init)
 	| Key(FR) ? Move(E) :(Init)

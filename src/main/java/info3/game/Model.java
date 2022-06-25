@@ -165,6 +165,7 @@ public class Model {
 	public static ArrayList<Avatar> generateSpawnBackground(ArrayList<Vec2> spawnBackground) {
 		ArrayList<Avatar> res = new ArrayList<>();
 		AnimatedImage sprite = new AnimatedImage("spawn-area.png", 7, 100, true);
+		sprite.layer = -1;
 		for (Vec2 posBackground : spawnBackground) {
 			posBackground = posBackground.add(new Vec2(-4, -3)).multiply(Block.SIZE);
 			posBackground = posBackground.add(new Vec2(0, 1));
