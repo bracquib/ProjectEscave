@@ -81,6 +81,8 @@ public class Model {
 	private static List<Vec2> statuesSpawns;
 	private static List<Vec2> stalactiteSpawns;
 
+	private static AnimatedImage exit;
+
 	public static void init(LocalController controller) {
 		System.out.println("init model");
 		Model.controller = controller;
@@ -143,8 +145,8 @@ public class Model {
 					}
 				}
 			}
-			AnimatedImage exit = new AnimatedImage("fixed_animations/exit.png", 6, 300, true);
-			exit.layer = -1;
+			Model.exit = new AnimatedImage("exit/exit.png", 6, 300, true);
+			Model.exit.layer = -1;
 			exitPoint.setX(exitPoint.getX() - 4);
 			exitPoint.setY(exitPoint.getY() - 4);
 			exitPoint = exitPoint.multiply(Block.SIZE);
