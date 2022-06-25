@@ -45,8 +45,12 @@ public class SocleBehaviour extends Behaviour {
 
 	@Override
 	public void wizz(Entity e, Direction d) {
-		((Socle) e).isActivated = true;
-		Model.incrementActivatedSocles();
+		if (cell(e, Direction.NORTH, Category.PLAYER)) {
+			if (super.ret.getBehaviour() instanceof StatueBehaviour) {
+				((Socle) e).isActivated = true;
+				Model.incrementActivatedSocles();
+			}
+		}
 	}
 
 	@Override
