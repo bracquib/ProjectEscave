@@ -2,14 +2,17 @@ package info3.game.entities;
 
 import java.util.ArrayList;
 
+import info3.game.Avatar;
 import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
+import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.automata.behaviors.PlayerBehaviour;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -22,11 +25,19 @@ public class Player extends RigidBody {
 	private int compt;
 	Entity controlledEntity;
 	public ArrayList<Integer> pressedKeys;
+	private Avatar background;
+
+	static final float bgW = 2461 * 2;
+	static final float bgH = 1675 * 2;
+	static Vec2[] bgDiffs = { new Vec2(-bgW, -bgH), new Vec2(0, -bgH), new Vec2(bgW, -bgH), new Vec2(-bgW, 0),
+			new Vec2(bgW, 0), new Vec2(-bgW, bgH), new Vec2(0, bgH), new Vec2(bgW, bgH) };
 
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
 		super(1, c, points);
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+
 		if (local) {
 			this.setPosition(pos);
 			this.setCategory(Category.PLAYER);
@@ -34,10 +45,19 @@ public class Player extends RigidBody {
 			this.setBehaviour(new PlayerBehaviour());
 			this.avatarOffset = new Vec2(0, -4);
 			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
+			Image spriteBackground = new Image("bg_big.jpg");
+			spriteBackground.fixed = true;
 			sprite.layer = 1;
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
-			this.inventory = Inventory.createInventory(c, this);
 
+			Vec2 bgPos = setBackground();
+			this.background = this.controller.createAvatar(bgPos, spriteBackground);
+			int i = 0;
+			for (Vec2 diff : bgDiffs) {
+				this.background.duplicates[i] = this.controller.createAvatar(bgPos.add(diff), spriteBackground);
+				i++;
+			}
+			this.inventory = Inventory.createInventory(c, this);
 			this.pressedKeys = new ArrayList<Integer>();
 
 			this.hungerPoints = maxHunger;
@@ -50,6 +70,38 @@ public class Player extends RigidBody {
 	public void setControlledEntity(Entity entity) {
 		this.controlledEntity = entity;
 		this.controller.syncCamera(this.color, entity);
+	}
+
+	@Override
+	public void setPosition(Vec2 pos) {
+		super.setPosition(pos);
+		if (this.background != null) {
+			Vec2 bgPos = this.setBackground();
+			this.background.setPosition(bgPos);
+
+			int i = 0;
+			for (Vec2 diff : bgDiffs) {
+				this.controller.updateAvatar(this.background.duplicates[i].getId(), bgPos.add(diff));
+				i++;
+			}
+		}
+	}
+
+	public Vec2 setBackground() {
+		Vec2 goodPos = new Vec2(0, 0);
+		float heightMap = Model.getMap().height * Block.SIZE;
+		float widthMap = Model.getMap().width * Block.SIZE;
+		float xPlayer = this.getPosition().getX();
+		float yPlayer = this.getPosition().getY();
+		float ratioX = xPlayer / widthMap;
+		float ratioY = yPlayer / heightMap;
+		float posInBackX = bgW * ratioX;
+		float posInBackY = bgH * ratioY;
+
+		Vec2 viewSize = this.controller.viewFor(this.color).getDimensions();
+		goodPos.setX(-posInBackX + viewSize.getX() / 2 + 16);
+		goodPos.setY(-posInBackY + viewSize.getY() / 2 + 16);
+		return goodPos;
 	}
 
 	@Override

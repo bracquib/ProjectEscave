@@ -26,12 +26,12 @@ public class Avatar {
 		return position;
 	}
 
-	private static transient final float DUPLICATE_RANGE = Block.SIZE * 15;
+	private static transient final float DUPLICATE_RANGE = Block.SIZE * 20;
 
 	public transient Avatar[] duplicates;
 
 	private void updateDuplicates(Vec2 pos) {
-		if (this.duplicates == null) {
+		if (this.duplicates == null || this.image.fixed) {
 			return;
 		}
 		int width = Model.getMap().width * Block.SIZE;
