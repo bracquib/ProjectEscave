@@ -1,6 +1,7 @@
 package info3.game.automata.behaviors;
 
 import info3.game.Model;
+import info3.game.Vec2;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Entity;
@@ -46,6 +47,14 @@ public class SocleBehaviour extends Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		if (cell(e, Direction.NORTH, Category.PLAYER)) {
+			if (super.ret.getBehaviour() instanceof StatueBehaviour) {
+				super.ret.getBehaviour().protect(super.ret, Direction.SOUTH, 1);
+				super.ret.setPosition(e.getPosition().add(new Vec2(0, -96)));
+				((Socle) e).isActivated = true;
+				Model.incrementActivatedSocles();
+			}
+		}
+		if (cell(e, Direction.NORTH, Category.TEAM)) {
 			if (super.ret.getBehaviour() instanceof StatueBehaviour) {
 				((Socle) e).isActivated = true;
 				Model.incrementActivatedSocles();
