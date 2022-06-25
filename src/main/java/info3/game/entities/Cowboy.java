@@ -37,7 +37,7 @@ public class Cowboy extends RigidBody {
 	public Cowboy(LocalController controller, int points) {
 		super(5, controller, points);
 		this.setPosition(new Vec2(0.0f, 0.0f));
-		this.avatar = this.controller.createAvatar(this.getPosition(), new AnimatedImage("cowboy.png", 24, 200));
+		this.avatar = this.controller.createAvatar(this.getPosition(), new AnimatedImage("cowboy.png", 24, 200, true));
 	}
 
 	@Override

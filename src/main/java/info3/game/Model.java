@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import info3.game.automata.Automata;
 import info3.game.automata.BotBuilder;
@@ -15,6 +16,8 @@ import info3.game.cavegenerator.SpawnGenerator4D;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
+import info3.game.entities.PlayerColor;
+import info3.game.entities.Socle;
 import info3.game.entities.Stalactite;
 import info3.game.entities.Statue;
 import info3.game.physics.PhysicsWorld;
@@ -59,13 +62,15 @@ public class Model {
 	static ArrayList<Vec2> spawnPoints;
 
 	private static final int maxPlayers = 1;
-	private static int playerCount = 0;
+
+	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;
 
 	static ArrayList<Automata> automatas;
 
 	private static boolean started() {
-		return Model.playerCount == Model.maxPlayers;
+		// TODO: memoization
+		return Model.playerCount.get() == Model.maxPlayers && Model.getPlayers().size() == Model.maxPlayers;
 	}
 
 	private static PhysicsWorld physics;
@@ -74,10 +79,12 @@ public class Model {
 	private static List<Vec2> stalactiteSpawns;
 
 	public static void init(LocalController controller) {
+		System.out.println("init model");
 		Model.controller = controller;
 		Model.entities = new ArrayList<RigidBody>();
 		Model.physics = new PhysicsWorld();
 		Model.loadAutomatas();
+		Model.generateMapIfNeeded();
 	}
 
 	public static void deleteEntity(RigidBody e) {
@@ -94,12 +101,10 @@ public class Model {
 		Model.spawnQueue.add(e);
 	}
 
-	public static Player spawnPlayer() {
+	public static Player spawnPlayer(int playerNum) {
 		// TODO: throw exception if there are more players than expected
-		Model.generateMapIfNeeded();
-		Player p = new Player(Model.controller, Player.colorFromInt(Model.playerCount),
-				Model.spawnPoints.get(Model.playerCount).multiply(Block.SIZE), true, 10);
-		Model.playerCount++;
+		Player p = new Player(Model.controller, Player.colorFromInt(playerNum),
+				Model.spawnPoints.get(playerNum).multiply(Block.SIZE), 10);
 		Model.spawn(p);
 		return p;
 	}
@@ -133,6 +138,10 @@ public class Model {
 						Model.map.set(i, j, new Block(Model.controller, new Vec2(i * 64, j * 64), blocks[i][j], 1));
 					}
 				}
+			}
+			for (Vec2 socle : blocs) {
+				Model.map.set((int) socle.getX(), (int) socle.getY(),
+						new Socle(Model.controller, socle.multiply(Block.SIZE)));
 			}
 
 		}
@@ -168,7 +177,7 @@ public class Model {
 		for (Entity e : Model.allEntities()) {
 			e.tick(elapsed);
 		}
-		if (activatedSocles == playerCount) {
+		if (activatedSocles == playerCount.get()) {
 			System.out.println("Sortie activée");
 		}
 	}
@@ -303,5 +312,16 @@ public class Model {
 			}
 		}
 		return players;
+	}
+
+	public static Player getPlayer(PlayerColor color) {
+		for (RigidBody rb : Model.entities) {
+			if (rb instanceof Player) {
+				if (((Player) rb).getColor() == color) {
+					return (Player) rb;
+				}
+			}
+		}
+		return null;
 	}
 }

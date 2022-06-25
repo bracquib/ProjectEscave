@@ -33,7 +33,7 @@ public class BlockBehaviour extends Behaviour {
 
 	@Override
 	public boolean gotPower(Entity e) {
-		if (e.pointsDeVie > 0) {
+		if (e.getPointsDeVie() > 0) {
 			return true;
 		} else {
 			Vec2 coords = new Vec2(e.getPosition()).divide(Block.SIZE);
@@ -53,15 +53,7 @@ public class BlockBehaviour extends Behaviour {
 	@Override // pas normal les speed
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
-		Model.deleteBlock((int) e.getPosition().getX(), (int) e.getPosition().getY());
-
-		/*
-		 * RigidBody p = (RigidBody) e; switch (d) { case SOUTH:
-		 * p.getSpeed().setY(-240); break; case EST: p.getSpeed().setX(140); break; case
-		 * WEST: p.getSpeed().setX(-140); break; case NORTH: p.getSpeed().setY(240);
-		 * break; default: break; } return;
-		 */
-
+		e.setPointsDeVie(e.getPointsDeVie() - 1); // à ajuster (dmg)
 	}
 
 	@Override

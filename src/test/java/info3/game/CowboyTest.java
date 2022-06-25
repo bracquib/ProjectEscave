@@ -13,7 +13,9 @@ public class CowboyTest {
 	public void testCowboy() {
 		AssetServer.init(false);
 		LocalController co = new LocalController();
-		co.addView(new RemoteView());
+		View view = new RemoteView();
+		view.setDimensions(new Vec2(0));
+		co.addView(view);
 
 		Cowboy c = new Cowboy(co, 1);
 		assertEquals(0, c.getPosition().x);

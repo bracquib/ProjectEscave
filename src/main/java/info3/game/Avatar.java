@@ -1,9 +1,9 @@
 package info3.game;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
+import info3.game.assets.AnimatedImage;
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
 import info3.game.entities.Block;
@@ -25,12 +25,12 @@ public class Avatar {
 		return position;
 	}
 
-	private static transient final float DUPLICATE_RANGE = Block.SIZE * 10;
+	private static transient final float DUPLICATE_RANGE = Block.SIZE * 20;
 
-	public transient int[] duplicates;
+	public transient Avatar[] duplicates;
 
 	private void updateDuplicates(Vec2 pos) {
-		if (this.duplicates == null) {
+		if (this.duplicates == null || this.image.fixed) {
 			return;
 		}
 		int width = Model.getMap().width * Block.SIZE;
@@ -62,14 +62,14 @@ public class Avatar {
 
 	private void duplicate(boolean matches, int i, Vec2 pos) {
 		if (matches) {
-			if (this.duplicates[i] == -1) {
-				this.duplicates[i] = Controller.controller.createAvatar(pos, this.image.clone(), false).getId();
+			if (this.duplicates[i] == null) {
+				this.duplicates[i] = Controller.controller.createAvatar(pos, this.image.clone(), false, this.scale);
 			}
-			Controller.controller.updateAvatar(this.duplicates[i], pos);
+			Controller.controller.updateAvatar(this.duplicates[i].getId(), pos);
 		} else {
-			if (this.duplicates[i] != -1) {
-				Controller.controller.deleteAvatar(this.duplicates[i]);
-				this.duplicates[i] = -1;
+			if (this.duplicates[i] != null) {
+				Controller.controller.deleteAvatar(this.duplicates[i].getId());
+				this.duplicates[i] = null;
 			}
 		}
 	}
@@ -104,8 +104,8 @@ public class Avatar {
 		this.scale = new Vec2(2.0f, 2.0f);
 		this.image = AssetServer.load(img);
 		if (dup) {
-			this.duplicates = new int[8];
-			Arrays.fill(this.duplicates, -1);
+			this.duplicates = new Avatar[8];
+			Arrays.fill(this.duplicates, null);
 		}
 	}
 
@@ -133,11 +133,7 @@ public class Avatar {
 		} else {
 			screenCoords = this.position;
 		}
-		BufferedImage img = this.image.imageToPaint();
-		if (img != null) {
-			g.drawImage(img, (int) screenCoords.getX(), (int) screenCoords.getY(),
-					((int) scale.getX()) * img.getWidth(), ((int) scale.getY()) * img.getHeight(), null);
-		}
+		this.image.paint(g, screenCoords, scale);
 	}
 
 	public void setPaintablePath(String path) {
@@ -146,6 +142,15 @@ public class Avatar {
 
 	public void setPaintable(Paintable p) {
 		this.image = p;
+		if (this.image instanceof AnimatedImage) {
+			AnimatedImage anim = (AnimatedImage) this.image;
+			if (anim.isFinished())
+				anim.restart();
+		}
+	}
+
+	public Paintable getPaintable() {
+		return this.image;
 	}
 
 	@Override

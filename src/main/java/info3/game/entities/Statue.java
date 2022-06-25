@@ -6,6 +6,7 @@ import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
 import info3.game.automata.behaviors.StatueBehaviour;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Statue extends RigidBody {
@@ -20,13 +21,50 @@ public class Statue extends RigidBody {
 		this.avatarOffset = new Vec2(0, -52);
 
 		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset),
-				new AnimatedImage("statue/statue_immobile_morte_verte.png", 4, 100));
+				new AnimatedImage("statue/statue_immobile_morte_verte.png", 4, 100, false));
 		this.setAutomata(Model.getAutomata("Statue"));
 		this.setBehaviour(new StatueBehaviour());
 		this.setCategory(Category.TEAM);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1.5f, 1.5f);
 	}
 
 	public Player getPlayer() {
 		return this.player;
+	}
+
+	@Override
+	public void tick(long el) {
+		super.tick(el);
+		AnimatedImage anim = (AnimatedImage) this.getPaintable();
+		if (anim.isFinished()) {
+			this.playAnimation("statue-levitation", 16, 200, -16, -104, true);// -96, true);
+		}
+	}
+
+	@Override
+	public String animationDir() {
+		return "statue/" + this.name().toLowerCase();
+	}
+
+	public String name() {
+		switch (this.color) {
+		case BLUE:
+			return "Bleu";
+		case RED:
+			return "Rouge";
+		case GREEN:
+			return "Vert";
+		case YELLOW:
+			return "Jaune";
+		case ORANGE:
+			return "Orange";
+		case PURPLE:
+			return "Violet";
+		case WHITE:
+			return "Blanc";
+		case BLACK:
+			return "Noir";
+		}
+		return "_";
 	}
 }

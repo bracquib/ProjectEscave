@@ -3,7 +3,9 @@ package info3.game;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.List;
 
 import info3.game.assets.AssetServer;
 
@@ -18,18 +20,17 @@ public class Server {
 
 	private static void run(LocalController controller) {
 		try {
-			TickerThread ticker = new TickerThread(controller);
 			ServerThread server = new ServerThread(controller);
+			TickerThread ticker = new TickerThread(controller, server);
 			ticker.start();
 			server.start();
 
-			server.join();
 			for (ClientThread ct : server.clients) {
 				ct.join();
 			}
 			ticker.join();
 		} catch (InterruptedException e) {
-			// TODO: do something?
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,9 +39,11 @@ public class Server {
 
 class TickerThread extends Thread {
 	LocalController controller;
+	private ServerThread serverThread;
 
-	public TickerThread(LocalController c) {
+	public TickerThread(LocalController c, ServerThread st) {
 		this.controller = c;
+		this.serverThread = st;
 	}
 
 	public void run() {
@@ -51,18 +54,25 @@ class TickerThread extends Thread {
 				this.controller.tick(end - start);
 				// Sync the clients
 				synchronized (this.controller.views) {
-					for (View view : this.controller.views) {
+					List<View> views = new ArrayList<>(this.controller.views);
+					for (View view : views) {
 						if (view instanceof RemoteView) {
 							RemoteView rv = (RemoteView) view;
 							rv.client.actualSend();
 						}
+					}
+					if (views.isEmpty() && !Model.getPlayers().isEmpty()) {
+						this.serverThread.sock.close();
+						return;
 					}
 				}
 				long execTime = System.currentTimeMillis() - end;
 				start = end;
 				Thread.sleep(Math.max(0, 30 - execTime));
 			} catch (InterruptedException e) {
-				// TODO ?
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -86,6 +96,8 @@ class ServerThread extends Thread {
 				Socket client = this.sock.accept();
 				ClientThread thread = new ClientThread(client, this.controller);
 				thread.start();
+			} catch (SocketException e) {
+				return;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

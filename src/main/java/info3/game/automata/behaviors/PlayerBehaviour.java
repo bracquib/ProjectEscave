@@ -19,9 +19,7 @@ public class PlayerBehaviour extends Behaviour {
 
 	@Override
 	public boolean key(Entity e, int keyCode) {
-		// à faire
-		// System.out.println("[DEBUG] Checking key " + keyCode);
-		return e.getController().isKeyPressed(keyCode);
+		return e.getController().isKeyPressed(e, keyCode);
 	}
 
 	@Override
@@ -34,16 +32,6 @@ public class PlayerBehaviour extends Behaviour {
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
 		int diam = 320; // en pixel
 		return super.closest(e, c, d, diam);
-	}
-
-	@Override
-	public boolean gotPower(Entity e) {
-
-		if (e.pointsDeVie > 0) {
-			return true;
-		}
-
-		return false;
 	}
 
 	@Override
@@ -64,6 +52,7 @@ public class PlayerBehaviour extends Behaviour {
 		// e.setCategory(Category.SOMETHING);
 
 		// action vide pour aller dans l'état statue
+		e.playAnimation("fige", 6, 200, 0, 0, false);
 	}
 
 	@Override
@@ -90,13 +79,18 @@ public class PlayerBehaviour extends Behaviour {
 		switch (d) {
 		case EST:
 			p.getSpeed().setX(190);
+			p.playAnimation("walk-right", 5, 200, 0, -4, false);
+			p.setDirection(Direction.EST);
 			break;
 		case WEST:
 			p.getSpeed().setX(-190);
+			p.playAnimation("walk-left", 5, 200, 0, -4, false);
+			p.setDirection(Direction.WEST);
 			break;
 		case SOUTH:
-			e.setCategory(Category.SOMETHING);
-			e.setBehaviour(new DoublureBehaviour());
+			p.playAnimation("dig", 21, 100, -32, -32, false);
+			p.setCategory(Category.SOMETHING);
+			p.setBehaviour(new DoublureBehaviour());
 			break;
 		default:
 			break;
@@ -166,10 +160,9 @@ public class PlayerBehaviour extends Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		e.pointsDeVie -= dmg;
-		System.out.println("HP=" + e.pointsDeVie);
+		e.setPointsDeVie(e.getPointsDeVie() - dmg);
 		RigidBody p = (RigidBody) e;
-		if (e.pointsDeVie <= 0) {
+		if (e.getPointsDeVie() <= 0) {
 			System.out.println("mort du joueur");
 			Model.deleteEntity(p);
 		}
