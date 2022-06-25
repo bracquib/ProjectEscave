@@ -81,7 +81,7 @@ public class Model {
 	private static List<Vec2> statuesSpawns;
 	private static List<Vec2> stalactiteSpawns;
 
-	private static AnimatedImage exit;
+	private static boolean finished = false;
 
 	public static void init(LocalController controller) {
 		System.out.println("init model");
@@ -145,8 +145,8 @@ public class Model {
 					}
 				}
 			}
-			Model.exit = new AnimatedImage("exit/exit.png", 6, 300, true);
-			Model.exit.layer = -1;
+			AnimatedImage exit = new AnimatedImage("exit/exit.png", 6, 300, true);
+			exit.layer = -1;
 			exitPoint.setX(exitPoint.getX() - 4);
 			exitPoint.setY(exitPoint.getY() - 4);
 			exitPoint = exitPoint.multiply(Block.SIZE);
@@ -189,8 +189,13 @@ public class Model {
 		for (Entity e : Model.allEntities()) {
 			e.tick(elapsed);
 		}
-		if (activatedSocles == playerCount.get()) {
+		if (activatedSocles == playerCount.get() && !finished) {
+			AnimatedImage newAnim = new AnimatedImage("exit/exit-destroy.png", 5, 300, false);
+			exitAvatar.setPaintable(newAnim);
+			// exitAvatar.setPosition(this.getPosition().add(this.avatarOffset));
+			Model.controller.updatePaintable(exitAvatar, newAnim);
 			System.out.println("Sortie activée");
+			finished = true;
 		}
 	}
 
