@@ -83,6 +83,8 @@ public class Model {
 	private static List<Vec2> statuesSpawns;
 	private static List<Vec2> stalactiteSpawns;
 
+	private static boolean finished = false;
+
 	public static void init(LocalController controller) {
 		System.out.println("init model");
 		Model.controller = controller;
@@ -145,7 +147,7 @@ public class Model {
 					}
 				}
 			}
-			AnimatedImage exit = new AnimatedImage("fixed_animations/exit.png", 6, 300, true);
+			AnimatedImage exit = new AnimatedImage("exit/exit.png", 6, 300, true);
 			exit.layer = -1;
 			exitPoint.setX(exitPoint.getX() - 4);
 			exitPoint.setY(exitPoint.getY() - 4);
@@ -162,7 +164,7 @@ public class Model {
 
 	public static ArrayList<Avatar> generateSpawnBackground(ArrayList<Vec2> spawnBackground) {
 		ArrayList<Avatar> res = new ArrayList<>();
-		AnimatedImage sprite = new AnimatedImage("fixed_animations/spawn-area.png", 7, 100, true);
+		AnimatedImage sprite = new AnimatedImage("spawn-area.png", 7, 100, true);
 		for (Vec2 posBackground : spawnBackground) {
 			posBackground = posBackground.add(new Vec2(-4, -3)).multiply(Block.SIZE);
 			posBackground = posBackground.add(new Vec2(0, 1));
@@ -202,8 +204,13 @@ public class Model {
 		for (Entity e : Model.allEntities()) {
 			e.tick(elapsed);
 		}
-		if (activatedSocles == playerCount.get()) {
+		if (activatedSocles == playerCount.get() && !finished) {
+			AnimatedImage newAnim = new AnimatedImage("exit/exit-destroy.png", 5, 300, false);
+			exitAvatar.setPaintable(newAnim);
+			// exitAvatar.setPosition(this.getPosition().add(this.avatarOffset));
+			Model.controller.updatePaintable(exitAvatar, newAnim);
 			System.out.println("Sortie activée");
+			finished = true;
 		}
 	}
 
