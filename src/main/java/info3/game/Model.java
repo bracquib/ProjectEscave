@@ -97,6 +97,7 @@ public class Model {
 	public static void deleteEntity(RigidBody e) {
 		// TODO: sync?
 		entities.remove(e);
+		Model.controller.deleteAvatar(e.getAvatar().getId());
 	}
 
 	/**
@@ -129,7 +130,6 @@ public class Model {
 		if (Model.map == null) {
 			// génération de la map
 			SpawnGenerator4D generationMap = new SpawnGenerator4D();
-			DecorationGenerator forStalactite = new DecorationGenerator();
 			int[][] values = generationMap.spawnStatueTotal(Model.maxPlayers);
 			Model.spawnPoints = generationMap.listSpawnPlayer;
 			Model.exitPoint = generationMap.exit;
@@ -148,11 +148,11 @@ public class Model {
 				}
 			}
 			AnimatedImage exit = new AnimatedImage("exit/exit.png", 6, 200, true);
-			exit.layer = -1;
 			exitPoint.setX(exitPoint.getX() - 4);
 			exitPoint.setY(exitPoint.getY() - 4);
 			exitPoint = exitPoint.multiply(Block.SIZE);
-			exitAvatar = Controller.controller.createAvatar(exitPoint, new Vec2(1), exit);
+			exitAvatar = new AvatarBuilder(exit).position(exitPoint).scale(new Vec2(1)).layer(-1)
+					.build(Controller.controller);
 			spawnPointsBackground = generateSpawnBackground(spawnPoints);
 			for (Vec2 socle : blocs) {
 				Model.map.set((int) socle.getX(), (int) socle.getY(),
@@ -165,11 +165,11 @@ public class Model {
 	public static ArrayList<Avatar> generateSpawnBackground(ArrayList<Vec2> spawnBackground) {
 		ArrayList<Avatar> res = new ArrayList<>();
 		AnimatedImage sprite = new AnimatedImage("spawn-area.png", 7, 100, true);
-		sprite.layer = -1;
 		for (Vec2 posBackground : spawnBackground) {
 			posBackground = posBackground.add(new Vec2(-4, -3)).multiply(Block.SIZE);
 			posBackground = posBackground.add(new Vec2(0, 1));
-			Avatar bg_avatar = Controller.controller.createAvatar(posBackground, new Vec2(1), sprite);
+			Avatar bg_avatar = new AvatarBuilder(sprite).position(posBackground).scale(new Vec2(1)).layer(-1)
+					.build(Controller.controller);
 			res.add(bg_avatar);
 		}
 		return res;

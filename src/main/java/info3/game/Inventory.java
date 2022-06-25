@@ -71,15 +71,14 @@ public class Inventory extends Entity {
 	}
 
 	public boolean pick(Tool t) {
-		// ramasser un objet
-
 		InventoryCouple couple = getCouple(t);
 
 		if (couple == null)
 			return this.addCouple(new InventoryCouple(t, 1));
 
-		return couple.add();
-
+		boolean res = couple.add();
+		this.owner.hud.setCounter(couple.getIndex(), couple.getNumber());
+		return res;
 	}
 
 	public boolean drop() {
@@ -94,8 +93,9 @@ public class Inventory extends Entity {
 			return false;
 
 		this.checkCurrentTool();
-		return toDrop.sub();
-
+		boolean res = toDrop.sub();
+		this.owner.hud.setCounter(currentToolIndex, toDrop.getNumber());
+		return res;
 	}
 
 	public boolean use(Direction d) {
@@ -182,6 +182,7 @@ public class Inventory extends Entity {
 	public boolean addCouple(InventoryCouple c) {
 		if (this.size >= Inventory.INVENTORY_SIZE)
 			return false;
+		c.setIndex(this.size);
 		this.tools[size] = c;
 		this.size++;
 		return true;

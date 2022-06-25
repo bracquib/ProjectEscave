@@ -28,7 +28,7 @@ public class LocalView extends View {
 	public LocalView(Controller controller) {
 		super();
 		this.sortedAvatars = Collections.synchronizedSortedSet(new TreeSet<Avatar>((x, y) -> {
-			int cmp = x.image.layer - y.image.layer;
+			int cmp = x.layer - y.layer;
 			if (cmp == 0) {
 				return y.id - x.id;
 			} else {
@@ -153,7 +153,7 @@ public class LocalView extends View {
 		Vec2 cameraPos = this.camera.getPos();
 		synchronized (this.sortedAvatars) {
 			for (Avatar a : this.sortedAvatars) {
-				if (a.image.fixed || a.position.distance(cameraPos) < radius) {
+				if (a.fixed || a.position.distance(cameraPos) < radius) {
 					result.add(a);
 				}
 			}

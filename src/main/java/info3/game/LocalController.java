@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import info3.game.assets.Image;
 import info3.game.assets.Paintable;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
@@ -74,10 +73,6 @@ public class LocalController extends Controller {
 			Vec2 newPos = new Vec2(player.getPosition());
 			newPos.setX(newPos.getX() + Block.SIZE);
 			Model.spawn(new Statue(this, player, newPos, 1));
-			Image bg = new Image("bg_big.jpg");
-			bg.fixed = true;
-			bg.layer = -1;
-			this.createAvatar(new Vec2(0, 0), bg);
 		}
 
 		if (e.code == 67) {
@@ -113,18 +108,16 @@ public class LocalController extends Controller {
 	}
 
 	@Override
-	public Avatar createAvatar(Vec2 pos, Paintable image, boolean dup, Vec2 scale) {
+	public Avatar createAvatar(Avatar av) {
 		int id = Controller.avatarID;
 		Controller.avatarID++;
-		Avatar a = new Avatar(id, image, dup);
-		a.setScale(scale);
-		a.setPosition(pos);
+		av.id = id;
 		synchronized (this.views) {
 			for (View v : this.views) {
-				v.createAvatar(a);
+				v.createAvatar(av);
 			}
 		}
-		return a;
+		return av;
 	}
 
 	public void sendTo(Player p, NetworkMessage msg) {
