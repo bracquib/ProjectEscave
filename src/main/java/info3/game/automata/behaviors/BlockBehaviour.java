@@ -1,7 +1,10 @@
 package info3.game.automata.behaviors;
 
+import info3.game.Model;
+import info3.game.Vec2;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 
 public class BlockBehaviour extends Behaviour {
@@ -25,8 +28,20 @@ public class BlockBehaviour extends Behaviour {
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		// pas besoin
 		return false;
+	}
+
+	@Override
+	public boolean gotPower(Entity e) {
+		if (e.getPointsDeVie() > 0) {
+			return true;
+		} else {
+			Vec2 coords = new Vec2(e.getPosition()).divide(Block.SIZE);
+			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
+		}
+
+		return false;
+
 	}
 
 	@Override
@@ -44,7 +59,6 @@ public class BlockBehaviour extends Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// TODO pas besoin
-
 	}
 
 	@Override

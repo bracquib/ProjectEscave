@@ -8,6 +8,7 @@ import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
+import info3.game.physics.RbState;
 import info3.game.physics.RigidBody;
 
 public class StalactiteBehaviour extends Behaviour {
@@ -33,7 +34,7 @@ public class StalactiteBehaviour extends Behaviour {
 
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
-		int diam = Block.SIZE * 15; // en pixel
+		int diam = Block.SIZE * 3; // en pixel
 		return super.closest(e, c, d, diam);
 
 	}
@@ -54,25 +55,24 @@ public class StalactiteBehaviour extends Behaviour {
 	public void wizz(Entity e, Direction d) {
 		// wizz=tomber
 		RigidBody p = (RigidBody) e;
+		p.setState(RbState.DYNAMIC);
+		System.out.println("stala tombe");
 		p.addSpeed(new Vec2(0, 0));
 	}
 
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=exploser
-
+		System.out.println("pop");
 		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - Block.SIZE,
 				(int) (e.getPosition().getY()) - Block.SIZE, Block.SIZE * 3, Block.SIZE * 3);
 		for (Entity e1 : nearEntities) {
 			Category cat = e1.getCategory();
 			if (cat == Category.PLAYER || cat == Category.ADVERSAIRE) {
-				e1.getBehaviour().protect(e1, d, (int) ((RigidBody) e).getSpeed().getY() / 2);
-			} else if (e1.getCategory() == Category.JUMPABLE) {
-				e1.getBehaviour().wizz(ret, d);
+				System.out.println("stala explose");
+				e1.getBehaviour().protect(e1, Direction.HERE, 1);
 			}
 		}
-		RigidBody p = (RigidBody) e;
-		Model.deleteEntity(p);
 		return;
 	}
 
@@ -85,7 +85,8 @@ public class StalactiteBehaviour extends Behaviour {
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
 		// pas besoin
-
+		RigidBody p = (RigidBody) e;
+		Model.deleteEntity(p);
 	}
 
 	@Override

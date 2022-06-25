@@ -22,7 +22,6 @@ public class Block extends Consumable {
 		this.setCategory(Category.JUMPABLE);
 		this.setAutomata(Model.getAutomata("Block"));
 		this.setBehaviour(new BlockBehaviour());
-
 		Vec2 offset = BlockIDs.IDsToVec2.getOrDefault(id, new Vec2(0, 0)).multiply(-Block.SIZE);
 		if (id != 600) {
 			this.avatar = this.controller.createAvatar(this.position.add(offset),

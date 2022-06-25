@@ -10,6 +10,7 @@ public class RigidBody extends Entity {
 	private Vec2 force;
 	private Vec2 speed;
 	private float mass;
+	public RbState type;
 	private Direction direction;
 
 	public RigidBody(Entity e, float mass, int points) {
@@ -17,8 +18,13 @@ public class RigidBody extends Entity {
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;
-		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+		this.type = RbState.DYNAMIC;
 		this.direction = Direction.EST;
+	}
+
+	public void setState(RbState type) {
+		this.type = type;
 	}
 
 	public RigidBody(float mass, LocalController c, int points) {

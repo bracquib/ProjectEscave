@@ -18,7 +18,7 @@ public class MobSpawner {
 		ArrayList<Player> players = Model.getPlayers();
 
 		if (Model.getEntities().size() >= MAXENTITY) {
-			System.out.println("Max d'entités atteint");
+			System.out.println("Max d'entitï¿½s atteint");
 			return;
 		}
 
