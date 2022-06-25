@@ -288,4 +288,23 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Placement et destruction de blocs selon la position de la souris (avec raycasting)
 * Frappe joueur-ennemi (et réciproquement) avec recul
 * Ressources vitales du personnage, mort personnage et ennemis
+* dégradation de la soif et de la satiété avec mort éventuelle
+* ramasser de l'eau et de la nourriture et l'utiliser 
+
+## Jeudi 23 juin 2022
+* Benjamin:fix quelques bugs ou implémentation
+
+###Benjamin:fix quelques bugs ou implémentation
+* réglage collider player
+* mouvement du player dans l'état statue
+* egg du Mushroom
+* fix point de vie du mob et sa mort
+
+##Vendredi 24 juin 2022
+* Benjamin:fix quelques bugs ou implémentation
+
+###Benjamin:fix quelques bugs ou implémentation
+* implémentation des stalactites avec toutes ses conséquences
+* fix collider
+
 
