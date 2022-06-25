@@ -1,7 +1,10 @@
 package info3.game.cavegenerator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import info3.game.Vec2;
 import info3.game.torus.IntTorus;
 
 public class DecorationGenerator {
@@ -15,24 +18,26 @@ public class DecorationGenerator {
 	static int[] arbres_gauche = { 450, 451 };
 	static int[] lanterne_courte = { 351 };
 	static int[] water_sol = { 600 };
+	static int[] stalactite = { 6 };
+	public static List<Vec2> listSpawnStalactites = new ArrayList<Vec2>();
 
 	public static IntTorus decorate(int[][] map) {
 		IntTorus step1 = decorateMap(map, BlockIDs.PatternCouche1ToIDs);
 		IntTorus step2 = decorateMap(step1.toArray(), BlockIDs.PatternCouche2ToIDs);
 		IntTorus step3 = decorateMap(step2.toArray(), BlockIDs.PatternCouche3ToIDs);
 
-		IntTorus extendDeco = extensionDecoration(step3.toArray(), 2, champignons, 40);
+		IntTorus extendDeco = extensionDecoration(step3.toArray(), 2, champignons, 30);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 1, mineraux, 0.5);
 		Fillon.generateFilons(extendDeco, 1, mineraux);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 4, cristaux_droit, 15);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 8, cristaux_gauche, 15);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 4, cristaux_droit, 10);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 8, cristaux_gauche, 10);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 2, water_sol, 10);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 2, cristaux_sol, 20);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 22, cristaux_sol, 20);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 3, cristaux_sol, 20);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 6, cristaux_plafond, 20);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 7, cristaux_plafond, 20);
-		extendDeco = extensionDecoration(extendDeco.toArray(), 5, cristaux_plafond, 20);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 2, cristaux_sol, 10);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 22, cristaux_sol, 10);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 3, cristaux_sol, 10);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 6, cristaux_plafond, 10);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 7, cristaux_plafond, 10);
+		extendDeco = extensionDecoration(extendDeco.toArray(), 5, cristaux_plafond, 10);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 4, arbres_droit, 5);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 8, arbres_gauche, 5);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 6, lanterne_courte, 1);
@@ -41,10 +46,27 @@ public class DecorationGenerator {
 		extendDeco = extensionTricDeco(extendDeco.toArray(), 0.01);
 		extendDeco = extensionLanterneLongueDeco(extendDeco.toArray(), 1);
 		extendDeco = extensionLianesDeco(extendDeco.toArray(), 10);
-
+		extendDeco = extensionStalactite(extendDeco.toArray(), stalactite, 10);
 		Fillon.generateFilons(extendDeco, 1, mineraux);
 
 		return extendDeco;
+	}
+
+	private static IntTorus extensionStalactite(int[][] map, int[] idtoChange, double percent) {
+		IntTorus newmap = new IntTorus(map);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				for (int idtoswitch : idtoChange) {
+					if (map[i][j] == idtoswitch) {
+						int rand = (int) Math.floor(Math.random() * 100);
+						if (rand <= percent) {
+							listSpawnStalactites.add(new Vec2(i, j + 1));
+						}
+					}
+				}
+			}
+		}
+		return newmap;
 	}
 
 	public static IntTorus decorateMap(int[][] map, HashMap<Integer[][], Integer> hm) {
