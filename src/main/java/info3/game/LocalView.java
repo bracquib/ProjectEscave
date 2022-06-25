@@ -24,9 +24,17 @@ public class LocalView extends View {
 	CanvasListener listener;
 	Semaphore isPainting;
 	protected SortedSet<Avatar> sortedAvatars;
+	Sound sound;
 
 	public LocalView(Controller controller) {
 		super();
+		try {
+			this.sound = new Sound();
+		} catch (Exception e) {
+			System.out.println("[WARN] Son non fonctionnel");
+			e.printStackTrace();
+		}
+
 		this.sortedAvatars = Collections.synchronizedSortedSet(new TreeSet<Avatar>((x, y) -> {
 			int cmp = x.layer - y.layer;
 			if (cmp == 0) {
@@ -47,6 +55,7 @@ public class LocalView extends View {
 		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
+		this.playSound(13);
 	}
 
 	/*
@@ -201,5 +210,11 @@ public class LocalView extends View {
 	@Override
 	protected void setCameraOffset(Vec2 offset) {
 		this.camera.setOffset(offset);
+	}
+
+	public void playSound(int idx) {
+		if (this.sound != null) {
+			sound.play(idx);
+		}
 	}
 }

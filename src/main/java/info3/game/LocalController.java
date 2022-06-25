@@ -18,6 +18,7 @@ import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
+	ArrayList<Integer> pressedKeys;
 
 	public LocalController() {
 		super();
@@ -272,8 +273,14 @@ public class LocalController extends Controller {
 	public void syncCamera(PlayerColor p, Entity syncWith) {
 		this.viewFor(p).syncCamera(syncWith.getAvatar());
 	}
-	
+
 	public void setCameraOffset(PlayerColor p, Vec2 offset) {
 		this.viewFor(p).setCameraOffset(offset);
+	}
+
+	public void playSound(int i) {
+		for (View v : this.views) {
+			v.playSound(i);
+		}
 	}
 }
