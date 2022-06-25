@@ -7,6 +7,7 @@ import info3.game.AvatarBuilder;
 import info3.game.HUD;
 import info3.game.Inventory;
 import info3.game.LocalController;
+import info3.game.LocalView;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
@@ -159,8 +160,8 @@ public class Player extends RigidBody {
 			if (gameOverAnim.isFinished())
 				this.hud.gameOver2();
 			if (this.getController().isKeyPressed(this, 113)) {
-				System.out.println("Restart");
-				// TODO Restart
+				LocalView v = (LocalView) this.getController().viewFor(this.getColor());
+				v.getFrame().dispose();
 			}
 		}
 	}
