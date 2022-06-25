@@ -17,7 +17,7 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public boolean key(Entity e, int keyCode) {
-		return e.getController().isKeyPressed(keyCode);
+		return e.getController().isKeyPressed(e, keyCode);
 	}
 
 	@Override
@@ -49,11 +49,13 @@ public class StatueBehaviour extends Behaviour {
 		// activer la statue et le il y a un transfert d'automate
 		Statue s = (Statue) e;
 		Player p = s.getPlayer();
+		s.playAnimation("statue-transfert", 12, 200, -16, -104, false);
 		s.setCategory(Category.PLAYER);
 		s.setAutomata(Model.getAutomata("Player"));
 		p.setCategory(Category.SOMETHING);
-		p.getController().viewFor(p).setFollowedAvatar(s.getAvatar());
+		p.setControlledEntity(e);
 		s.getPlayer().getBehaviour().wizz(s.getPlayer(), d);
+		s.getCurrentState().block(1000);
 	}
 
 	@Override
@@ -88,7 +90,7 @@ public class StatueBehaviour extends Behaviour {
 		s.setAutomata(Model.getAutomata("Statue"));
 		p.setCategory(Category.PLAYER);
 		p.setAutomata(Model.getAutomata("Player"));
-		p.getController().viewFor(p).setFollowedAvatar(p.getAvatar());
+		p.setControlledEntity(p);
 	}
 
 	@Override

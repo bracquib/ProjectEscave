@@ -13,16 +13,36 @@ public class Client {
 	public static void main(String args[]) throws Exception {
 		AssetServer.init(true);
 		try {
-			Controller backend;
 			if (args.length == 0) {
-				backend = new LocalController();
+				startGame();
 			} else {
 				int port = 1906;
 				if (args.length == 2) {
 					port = Integer.parseInt(args[1]);
 				}
-				backend = new RemoteController(args[0], port);
+				startGame(args[0], port);
 			}
+		} catch (Throwable th) {
+			th.printStackTrace(System.err);
+		}
+	}
+
+	public static void startGame() {
+		AssetServer.init(true);
+		try {
+			Controller backend;
+			backend = new LocalController();
+			new LocalView(backend);
+		} catch (Throwable th) {
+			th.printStackTrace(System.err);
+		}
+	}
+
+	public static void startGame(String IP, int port) {
+		AssetServer.init(true);
+		try {
+			Controller backend;
+			backend = new RemoteController(IP, port);
 			new LocalView(backend);
 		} catch (Throwable th) {
 			th.printStackTrace(System.err);

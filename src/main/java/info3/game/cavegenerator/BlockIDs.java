@@ -278,6 +278,14 @@ public class BlockIDs {
 		IDs.put(600, "water_sol");
 		IDs.put(601, "socle");
 		IDs.put(602, "stalactite");
+		IDs.put(700, "player_jaune");
+		IDs.put(701, "player_rouge");
+		IDs.put(702, "player_vert");
+		IDs.put(703, "player_bleu");
+		IDs.put(704, "player_orange");
+		IDs.put(705, "player_violet");
+		IDs.put(706, "player_blanc");
+		IDs.put(707, "player_noir");
 	}
 
 	static {

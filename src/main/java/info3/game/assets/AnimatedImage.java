@@ -1,6 +1,9 @@
 package info3.game.assets;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import info3.game.Vec2;
 
 public class AnimatedImage extends Paintable {
 
@@ -12,7 +15,7 @@ public class AnimatedImage extends Paintable {
 	 * 
 	 * Reste à 0 dans le cas d'une image statique.
 	 */
-	int imageIndex = 0;
+	int imageIndex;
 
 	/**
 	 * Indique combien de temps s'est écoulé depuis le dernier changement d'image.
@@ -27,10 +30,14 @@ public class AnimatedImage extends Paintable {
 	 */
 	public long animationDelay;
 
-	public AnimatedImage(String path, int fc, long delay) {
+	boolean loop;
+
+	public AnimatedImage(String path, int fc, long delay, boolean loop) {
 		super(path);
 		this.frameCount = fc;
 		this.animationDelay = delay;
+		this.loop = loop;
+		this.imageIndex = 0;
 	}
 
 	@Override
@@ -39,7 +46,7 @@ public class AnimatedImage extends Paintable {
 			return;
 		}
 		Image img = AssetServer.load(new Image(this.getPath()));
-		BufferedImage image = img.imageToPaint();
+		BufferedImage image = img.image;
 		int width = image.getWidth() / this.frameCount;
 		int height = image.getHeight();
 
@@ -61,30 +68,45 @@ public class AnimatedImage extends Paintable {
 	}
 
 	@Override
-	public BufferedImage imageToPaint() {
+	public void paint(Graphics g, Vec2 screenCoords, Vec2 scale) {
 		if (this.frames != null) {
-			return this.frames[this.imageIndex];
+			BufferedImage img = this.frames[this.imageIndex];
+			if (img != null) {
+				g.drawImage(img, (int) screenCoords.getX(), (int) screenCoords.getY(),
+						((int) scale.getX()) * img.getWidth(), ((int) scale.getY()) * img.getHeight(), null);
+			}
 		}
-		return null;
 	}
 
 	/**
 	 * Passe à l'image suivante de l'animation
 	 */
 	void nextFrame() {
-		if (this.frames != null) {
-			this.imageIndex = (this.imageIndex + 1) % this.frames.length;
+		if (this.loop)
+			this.imageIndex = (this.imageIndex + 1) % this.frameCount;
+		else {
+			if (this.imageIndex == this.frameCount - 1)
+				return;
+			this.imageIndex = this.imageIndex + 1;
 		}
 	}
 
 	@Override
 	public Paintable duplicateFromPath(String path) {
-		AnimatedImage img = new AnimatedImage(path, this.frameCount, this.animationDelay);
+		AnimatedImage img = new AnimatedImage(path, this.frameCount, this.animationDelay, this.loop);
 		img.fixed = this.fixed;
 		img.layer = this.layer;
 		if (this.loaded) {
 			img.load();
 		}
 		return img;
+	}
+
+	public boolean isFinished() {
+		return !this.loop && this.imageIndex == this.frameCount - 1;
+	}
+
+	public void restart() {
+		this.imageIndex = 0;
 	}
 }

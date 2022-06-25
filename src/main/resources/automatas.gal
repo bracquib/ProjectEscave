@@ -46,12 +46,17 @@ Player(Init){
 	| Key(FU)  ? Jump :(Init)
 	| Key(FL) ? Move(W) :(Init)
 	| Key(FR) ? Move(E) :(Init)
+	| Key(FD) ? Move(S) :(Doublure)
 	| Key(SPACE)&Key(d) ? Pop(E) :(Init)
 	| Key(SPACE)&Key(q) ? Pop(W) :(Init)
 	| Key(SPACE)&Key(z) ? Pop(N) :(Init)
 	
 	*(Statue)
 	| True ? :(Statue)
+	
+	*(Doublure)
+	| Key(FU) ? Pop(N) :(Init)
+	| True ? :(Doublure)
 }
 
 Mushroom(Init){

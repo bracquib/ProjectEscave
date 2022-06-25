@@ -2,6 +2,7 @@ package info3.game.physics;
 
 import info3.game.LocalController;
 import info3.game.Vec2;
+import info3.game.automata.Direction;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 
@@ -9,13 +10,15 @@ public class RigidBody extends Entity {
 	private Vec2 force;
 	private Vec2 speed;
 	private float mass;
+	private Direction direction;
 
 	public RigidBody(Entity e, float mass, int points) {
 		super(e.getController(), points);
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;
-		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
+		this.direction = Direction.EST;
 	}
 
 	public RigidBody(float mass, LocalController c, int points) {
@@ -23,7 +26,8 @@ public class RigidBody extends Entity {
 		force = Vec2.nullVector();
 		speed = Vec2.nullVector();
 		this.mass = mass;
-		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
+		this.direction = Direction.EST;
 	}
 
 	public void addSpeed(Vec2 speed) {
@@ -68,6 +72,14 @@ public class RigidBody extends Entity {
 
 	public final Vec2 getForce() {
 		return this.force;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
+
+	public Direction getDirection() {
+		return this.direction;
 	}
 
 }

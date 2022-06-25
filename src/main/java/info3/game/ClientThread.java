@@ -6,11 +6,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import info3.game.network.JoinGame;
 import info3.game.network.KeyPress;
+import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
 import info3.game.network.WheelScroll;
+import info3.game.network.WindowResize;
 
 public class ClientThread extends Thread {
 	Socket sock;
@@ -31,7 +34,6 @@ public class ClientThread extends Thread {
 		this.controller = c;
 		this.messageQueue = new ArrayList<NetworkMessage>();
 		this.view = new RemoteView(this);
-		this.controller.addView(this.view);
 	}
 
 	@Override
@@ -40,15 +42,25 @@ public class ClientThread extends Thread {
 			Object msg;
 			try {
 				msg = this.inputStream.readObject();
-				if (msg instanceof KeyPress) {
+				if (msg instanceof JoinGame) {
+					JoinGame jg = (JoinGame) msg;
+					this.view.setDimensions(jg.screenSize);
+					this.controller.addView(this.view);
+				} else if (msg instanceof KeyPress) {
 					KeyPress k = (KeyPress) msg;
 					this.controller.keyPressed(this.view.getPlayer(), k);
+				} else if (msg instanceof KeyRelease) {
+					KeyRelease kr = (KeyRelease) msg;
+					this.controller.keyReleased(this.view.getPlayer(), kr);
 				} else if (msg instanceof WheelScroll) {
 					WheelScroll w = (WheelScroll) msg;
 					this.controller.mouseScroll(this.view.getPlayer(), w);
 				} else if (msg instanceof MouseClick) {
 					MouseClick mc = (MouseClick) msg;
 					this.controller.mouseClick(this.view.getPlayer(), mc);
+				} else if (msg instanceof WindowResize) {
+					WindowResize wr = (WindowResize) msg;
+					this.controller.windowResize(this.view.getPlayer(), wr.size);
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				this.disconnect();
@@ -79,6 +91,7 @@ public class ClientThread extends Thread {
 		try {
 			this.outputStream.writeObject(msg);
 			this.outputStream.reset();
+			this.setName("Sender: " + getPlayerName());
 		} catch (IOException e) {
 			this.disconnect();
 		}

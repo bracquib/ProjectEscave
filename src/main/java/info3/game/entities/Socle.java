@@ -7,18 +7,17 @@ import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.behaviors.SocleBehaviour;
 
-public class Socle extends Entity {
+public class Socle extends Block {
 	PlayerColor color;
 
 	public boolean isActivated = false;
 
-	public Socle(LocalController c, PlayerColor color, Vec2 position, int points) {
-		super(c, points);
+	public Socle(LocalController c, Vec2 position) {
+		super(c, position, 1000, 1);
 		this.setCategory(Category.JUMPABLE);
 		this.position = position;
-		this.color = color;
 		this.setAutomata(Model.getAutomata("Socle"));
 		this.setBehaviour(new SocleBehaviour());
-		this.avatar = this.controller.createAvatar(this.position, new Image("socle.png"));
+		this.avatar = this.controller.createAvatar(this.position, new Image("classic_block/socle.png"));
 	}
 }

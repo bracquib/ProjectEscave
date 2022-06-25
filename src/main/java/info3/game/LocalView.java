@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
@@ -26,23 +27,24 @@ public class LocalView extends View {
 
 	public LocalView(Controller controller) {
 		super();
-		this.sortedAvatars = new TreeSet<Avatar>((x, y) -> {
+		this.sortedAvatars = Collections.synchronizedSortedSet(new TreeSet<Avatar>((x, y) -> {
 			int cmp = x.image.layer - y.image.layer;
 			if (cmp == 0) {
 				return y.id - x.id;
 			} else {
 				return cmp;
 			}
-		});
+		}));
 		this.isPainting = new Semaphore(1);
 
 		this.controller = controller;
-		this.controller.addView(this);
 
 		this.listener = new CanvasListener(this);
 
 		this.canvas = new GameCanvas(this.listener);
-		Dimension d = new Dimension(1024, 768);
+		Dimension d = new Dimension(1500, 1000);
+		this.setDimensions(new Vec2(1500, 1000));
+		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
 	}
@@ -76,6 +78,7 @@ public class LocalView extends View {
 	 */
 
 	private long textElapsed;
+	public Vec2 mousePos = new Vec2(0);
 
 	/*
 	 * This method is invoked almost periodically, given the number of milli-seconds
@@ -101,6 +104,8 @@ public class LocalView extends View {
 				txt += " ";
 			txt += fps + " fps   ";
 			txt += " AvatarsOnScreen=" + this.getVisibleAvatars().size();
+			txt += "     " + (int) this.camera.getPos().getX() / 64 + " ";
+			txt += (int) this.camera.getPos().getY() / 64;
 			this.text.setText(txt);
 		}
 	}
@@ -157,16 +162,16 @@ public class LocalView extends View {
 	}
 
 	@Override
-	public Avatar createAvatar(int id, Vec2 pos, Paintable img, boolean dup) {
-		Avatar av = new Avatar(id, img, dup);
-		av.setPosition(pos);
+	public void createAvatar(Avatar av) {
 		synchronized (this.avatars) {
-			this.avatars.put(id, av);
+			this.avatars.put(av.getId(), av);
 		}
 		synchronized (this.sortedAvatars) {
-			this.sortedAvatars.add(av);
+			if (!this.sortedAvatars.add(av)) {
+				this.sortedAvatars.remove(av);
+				this.sortedAvatars.add(av);
+			}
 		}
-		return av;
 	}
 
 	@Override
@@ -181,20 +186,15 @@ public class LocalView extends View {
 	}
 
 	@Override
-	protected int getWidth() {
-		return this.frame == null ? 1024 : this.frame.getWidth();
-	}
-
-	@Override
-	protected int getHeight() {
-		return this.frame == null ? 768 : this.frame.getHeight();
-	}
-
-	@Override
 	public void updateAvatar(int id, Paintable p, Vec2 pos) {
 		Avatar av = this.avatars.get(id);
 		Paintable loaded = AssetServer.load(p);
 		av.setPaintable(loaded);
 		av.setPosition(pos);
+	}
+
+	@Override
+	protected void syncCamera(Avatar av) {
+		this.camera.setAvatar(av);
 	}
 }
