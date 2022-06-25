@@ -215,6 +215,15 @@ public abstract class Entity {
 		this.setPaintable(anim);
 	}
 
+	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop,
+			boolean cancellable) {
+		this.avatarOffset.setX(offsetX);
+		this.avatarOffset.setY(offsetY);
+		AnimatedImage anim = new AnimatedImage(this.animationDir() + "/" + name + ".png", frameCount, delay, loop,
+				cancellable);
+		this.setPaintable(anim);
+	}
+
 	public CurrentState getCurrentState() {
 		return this.currentState;
 	}
