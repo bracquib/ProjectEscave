@@ -61,6 +61,8 @@ public class Model {
 	private static Map map;
 
 	static ArrayList<Vec2> spawnPoints;
+	static ArrayList<Avatar> spawnPointsBackground;
+
 	static Vec2 exitPoint;
 	public static Avatar exitAvatar;
 
@@ -151,12 +153,25 @@ public class Model {
 			exitPoint.setY(exitPoint.getY() - 4);
 			exitPoint = exitPoint.multiply(Block.SIZE);
 			exitAvatar = Controller.controller.createAvatar(exitPoint, new Vec2(1), exit);
+			spawnPointsBackground = generateSpawnBackground(spawnPoints);
 			for (Vec2 socle : blocs) {
 				Model.map.set((int) socle.getX(), (int) socle.getY(),
 						new Socle(Model.controller, socle.multiply(Block.SIZE)));
 			}
 
 		}
+	}
+
+	public static ArrayList<Avatar> generateSpawnBackground(ArrayList<Vec2> spawnBackground) {
+		ArrayList<Avatar> res = new ArrayList<>();
+		AnimatedImage sprite = new AnimatedImage("spawn-area.png", 7, 100, true);
+		for (Vec2 posBackground : spawnBackground) {
+			posBackground = posBackground.add(new Vec2(-4, -3)).multiply(Block.SIZE);
+			posBackground = posBackground.add(new Vec2(0, 1));
+			Avatar bg_avatar = Controller.controller.createAvatar(posBackground, new Vec2(1), sprite);
+			res.add(bg_avatar);
+		}
+		return res;
 	}
 
 	public static void tick(long elapsed) {

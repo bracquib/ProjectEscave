@@ -57,6 +57,9 @@ public class LocalController extends Controller {
 			}
 		}
 		v.createAvatar(Model.exitAvatar);
+		for (Avatar posBgAvatar : Model.spawnPointsBackground) {
+			v.createAvatar(posBgAvatar);
+		}
 		int playerNum = Model.playerCount.getAndIncrement();
 		v.setPlayer(Player.colorFromInt(playerNum));
 		Model.spawnPlayer(playerNum);
