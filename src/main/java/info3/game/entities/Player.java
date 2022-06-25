@@ -143,7 +143,7 @@ public class Player extends RigidBody {
 			}
 		}
 
-		if (this.getPosition().getX() >= Model.exitAvatar.getPosition().getX() + 3 * Block.SIZE
+		if (Model.exitOpened && this.getPosition().getX() >= Model.exitAvatar.getPosition().getX() + 3 * Block.SIZE
 				&& this.getPosition().getX() <= Model.exitAvatar.getPosition().getX() + 5 * Block.SIZE
 				&& this.getPosition().getY() >= Model.exitAvatar.getPosition().getY() + 4 * Block.SIZE
 				&& this.getPosition().getY() <= Model.exitAvatar.getPosition().getY() + 6 * Block.SIZE) {
