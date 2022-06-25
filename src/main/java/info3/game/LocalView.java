@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -13,7 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import info3.game.assets.Paintable;
+import info3.game.entities.Player;
 import info3.game.graphics.GameCanvas;
+import info3.game.physics.RayCasting;
 
 public class LocalView extends View {
 	JFrame frame;
@@ -128,6 +131,44 @@ public class LocalView extends View {
 			this.isPainting.release();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+
+		int range = 14;
+		for (Player player : Model.getPlayers()) {
+			/*
+			 * Vec2 coord = player.getPosition().divide(32).round(); Block[][] mapZone =
+			 * Model.getMapZone((int) coord.getX() - range, (int) coord.getY() - range,
+			 * range * 2, range * 2); ArrayList<Line> lines =
+			 * RayCasting.getLinesInMapZone(mapZone, range); ArrayList<Vec2> vertices = new
+			 * ArrayList<Vec2>(); for (Line l : lines) { vertices.add(l.pt1);
+			 * vertices.add(l.pt2);
+			 * 
+			 * g.setColor(Color.green); g.drawOval((int)
+			 * l.pt1.globalToScreen(cameraPos).getX(), (int)
+			 * l.pt1.globalToScreen(cameraPos).getY(), 5, 5); g.drawOval((int)
+			 * l.pt2.globalToScreen(cameraPos).getX(), (int)
+			 * l.pt2.globalToScreen(cameraPos).getY(), 5, 5);
+			 * 
+			 * 
+			 * } ArrayList<Vec2> points = new ArrayList<Vec2>(); for (Vec2 vertice :
+			 * vertices) { Vec2 dir = new Vec2(player.getPosition().sub(vertice)); Ray ray =
+			 * new Ray(player.getPosition(), dir); g.setColor(Color.red); g.drawLine((int)
+			 * player.getPosition().globalToScreen(cameraPos).getX(), (int)
+			 * player.getPosition().globalToScreen(cameraPos).getY(), (int)
+			 * vertice.globalToScreen(cameraPos).getX(), (int)
+			 * vertice.globalToScreen(cameraPos).getY()); Vec2 intersec =
+			 * RayCasting.closestIntersecInDirection(ray, lines); if (intersec == null)
+			 * continue; g.setColor(Color.cyan); g.drawOval((int)
+			 * intersec.globalToScreen(cameraPos).x, (int)
+			 * intersec.globalToScreen(cameraPos).y, 5, 5);
+			 * points.add(intersec.add(dir.normalized().multiply(1))); }
+			 */
+
+			ArrayList<Vec2> vertices = RayCasting.getLightVertices(player.getPosition().add(15), range, 0f);
+			Polygon polygon = RayCasting.vertices2Polygon(vertices, player.getPosition().add(new Vec2(15, 0)),
+					camera.getPos());
+			g.setClip(polygon);
+			g.fillPolygon(polygon);
 		}
 	}
 

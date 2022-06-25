@@ -7,8 +7,8 @@ import java.io.Serializable;
  * 
  * Peut servir à représenter une position, une vitesse, une taille, ou autre.
  * 
- * La position d'une entité correspond à son coin en haut à gauche. L'axe X va
- * vers la droite et l'axe Y vers le bas.
+ * La position d'une entité correspond à son coin en haut à gauche. L'axe X
+ * va vers la droite et l'axe Y vers le bas.
  * 
  * # Le double système de coordonnées
  * 
@@ -17,8 +17,8 @@ import java.io.Serializable;
  * - des coordonnées globales qui indiquent où se trouve une entité dans
  * l'ensemble du monde
  * 
- * - des coordonnées à l'écran qui indiquent où elle se trouve par rapport à la
- * caméra
+ * - des coordonnées à l'écran qui indiquent où elle se trouve par rapport
+ * à la caméra
  * 
  * Des fonctions sont fournies dans cette classe pour faire la conversion entre
  * les deux.
@@ -163,8 +163,12 @@ public class Vec2 extends Object implements Serializable {
 		return new Vec2(0.0f, 0.0f);
 	}
 
-	public float Angle() {
+	public float angle() {
 		return (float) Math.atan(y / x);
+	}
+
+	public float angleDeg() {
+		return angle() * (float) Math.PI / 180f;
 	}
 
 	public void nullX() {

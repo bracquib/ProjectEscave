@@ -7,6 +7,7 @@ import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
 import info3.game.automata.behaviors.PlayerBehaviour;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
@@ -34,6 +35,7 @@ public class Player extends RigidBody {
 		}
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
+		this.collider = new BoxCollider(28, 28, 2, 4);
 	}
 
 	@Override

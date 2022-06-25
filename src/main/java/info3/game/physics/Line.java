@@ -16,6 +16,11 @@ public class Line {
 		this.pt2 = new Vec2(x2, y2);
 	}
 
+	public Line(Line other) {
+		this.pt1 = new Vec2(other.pt1);
+		this.pt2 = new Vec2(other.pt2);
+	}
+
 	public float length() {
 		return pt1.sub(pt2).length();
 	}

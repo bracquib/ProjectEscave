@@ -1,17 +1,19 @@
 package info3.game.physics;
 
+import java.util.ArrayList;
+
 import info3.game.Vec2;
 
 public class Ray {
 	Vec2 origin;
 	Vec2 direction;
 
-	Ray(float x, float y) {
+	public Ray(float x, float y) {
 		this.origin = new Vec2(x, y);
 		this.direction = new Vec2(0, 1);
 	}
 
-	Ray(Vec2 origin, Vec2 direction) {
+	public Ray(Vec2 origin, Vec2 direction) {
 		this.origin = origin;
 		this.direction = direction;
 	}
@@ -47,6 +49,15 @@ public class Ray {
 
 	public Vec2 getDirection() {
 		return this.direction;
+	}
+
+	public ArrayList<Vec2> squareIntersection(Square square) {
+		ArrayList<Vec2> intersecs = new ArrayList<Vec2>();
+		for (Line line : square.lines) {
+			Vec2 intersec = this.intersect(line);
+			intersecs.add(intersec);
+		}
+		return intersecs;
 	}
 
 }
