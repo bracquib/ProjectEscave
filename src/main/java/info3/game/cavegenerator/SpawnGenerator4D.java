@@ -146,7 +146,9 @@ public class SpawnGenerator4D {
 						full = false;
 				}
 				if (full == false || Math.abs(coords.getX() - x) < limit || Math.abs(coords.getY() - y) < limit / 2
-						|| x < 15 || y > this.height - 15 || y < 15 || x > this.width - 15 || values[x][y + 1] != 1)
+						|| x < 15 || y > this.height - 15 || y < 15 || x > this.width - 15 || values[x - 3][y + 1] != 1
+						|| values[x - 2][y + 1] != 1 || values[x - 1][y + 1] != 1 || values[x][y + 1] != 1
+						|| values[x + 1][y + 1] != 1 || values[x + 2][y + 1] != 1 || values[x + 3][y + 1] != 1)
 					find = false;
 
 			}
