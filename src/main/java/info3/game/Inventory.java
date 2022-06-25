@@ -1,6 +1,5 @@
 package info3.game;
 
-import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.automata.behaviors.InventaireBehaviour;
@@ -15,13 +14,12 @@ import info3.game.entities.Water;
 import info3.game.network.UpdateAvatar;
 
 public class Inventory extends Entity {
-	public final short INVENTORY_SIZE = 5; // pickaxe, sword, water,food, block
+	public final static short INVENTORY_SIZE = 5; // pickaxe, sword, water,food, block
 	private InventoryCouple tools[]; // tableau de couples (objet : quantité)
 	private int currentToolIndex; // index de l'objet en main
 	private int size; // le nombre de catégories d'objets présentes dans l'inventaire
 	LocalController controller;
 	private Player owner;
-	private Avatar[] cells;
 
 	public Inventory(LocalController c, Player owner) {
 		super(c, 1);
@@ -32,22 +30,6 @@ public class Inventory extends Entity {
 		this.tools = new InventoryCouple[INVENTORY_SIZE];
 		this.controller = c;
 		this.owner = owner;
-
-		this.cells = new Avatar[INVENTORY_SIZE];
-
-		int totalWidth = 74 * INVENTORY_SIZE - 10;
-		int startX = (this.controller.viewFor(this.owner.getColor()).getWidth() - totalWidth) / 2;
-		int startY = this.controller.viewFor(this.owner.getColor()).getHeight() - 130;
-		Image selectedCell = new Image("inventory-cell-selected.png");
-		selectedCell.layer = 1;
-		selectedCell.fixed = true;
-		this.cells[0] = this.controller.createAvatar(new Vec2(startX, startY), new Vec2(1), selectedCell);
-		for (int i = 1; i < this.cells.length; i++) {
-			Image cell = new Image("inventory-cell.png");
-			cell.layer = 1;
-			cell.fixed = true;
-			this.cells[i] = this.controller.createAvatar(new Vec2(startX + 74 * i, startY), new Vec2(1), cell);
-		}
 	}
 
 	public void updateAvatars() {
