@@ -1,13 +1,15 @@
 package info3.game;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import info3.game.assets.AnimatedImage;
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
 import info3.game.entities.Block;
 
-public class Avatar {
+public class Avatar implements Serializable {
+	private static final long serialVersionUID = -7965867647047274240L;
 	int id;
 	int layer;
 	boolean fixed;
