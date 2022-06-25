@@ -18,7 +18,7 @@ public class Sword extends Weapon {
 	}
 
 	public boolean useTool(Direction d) {
-		owner.playAnimation("attack", 5, 200, 0, -4, false);
+		// owner.playAnimation("attack", 5, 200, 0, -4, false);
 		owner.mousePos.print();
 		Direction orientation = owner.getPosition().orientation(owner.mousePos);
 
