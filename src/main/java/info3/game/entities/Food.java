@@ -6,31 +6,26 @@ import info3.game.automata.Direction;
 
 public class Food extends Consumable {
 
-	private float feedValue;
+	private int feedValue;
 
 	public Food(LocalController c, Player owner) {
 		super(c, owner);
 		this.setName("Food");
-		this.feedValue = 10;
+		this.feedValue = 1;
 	}
 
 	public Food(LocalController c, Vec2 pos, Player owner) {
-		super(c, owner);
-		this.setName("Food");
+		this(c, owner);
 		this.position = pos;
-		this.feedValue = 10;
 	}
 
 	public Food(LocalController c, Vec2 pos, Player owner, int feedVal) {
-		super(c, owner);
-		this.setName("Food");
-		this.position = pos;
+		this(c, pos, owner);
 		this.feedValue = feedVal;
 	}
 
 	@Override
 	public boolean useTool(Direction d) {
-		System.out.println("hunger=" + owner.getHungerPoints());
 		owner.feed(feedValue);
 		return true;
 	}

@@ -1,6 +1,9 @@
 package info3.game.assets;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import info3.game.Vec2;
 
 public class AnimatedImage extends Paintable {
 
@@ -43,7 +46,7 @@ public class AnimatedImage extends Paintable {
 			return;
 		}
 		Image img = AssetServer.load(new Image(this.getPath()));
-		BufferedImage image = img.imageToPaint();
+		BufferedImage image = img.image;
 		int width = image.getWidth() / this.frameCount;
 		int height = image.getHeight();
 
@@ -65,11 +68,14 @@ public class AnimatedImage extends Paintable {
 	}
 
 	@Override
-	public BufferedImage imageToPaint() {
+	public void paint(Graphics g, Vec2 screenCoords, Vec2 scale) {
 		if (this.frames != null) {
-			return this.frames[this.imageIndex];
+			BufferedImage img = this.frames[this.imageIndex];
+			if (img != null) {
+				g.drawImage(img, (int) screenCoords.getX(), (int) screenCoords.getY(),
+						((int) scale.getX()) * img.getWidth(), ((int) scale.getY()) * img.getHeight(), null);
+			}
 		}
-		return null;
 	}
 
 	/**

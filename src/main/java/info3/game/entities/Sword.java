@@ -18,8 +18,6 @@ public class Sword extends Weapon {
 	}
 
 	public boolean useTool(Direction d) {
-		owner.playAnimation("attack", 5, 200, 0, -4, false);
-		owner.mousePos.print();
 		Direction orientation = owner.getPosition().orientation(owner.mousePos);
 
 		int decX, decY, width, height;
@@ -66,7 +64,7 @@ public class Sword extends Weapon {
 				(int) (owner.getPosition().getY()) + decY, width, height);
 		for (Entity e1 : nearEntities) {
 			if (e1.getCategory() == Category.ADVERSAIRE) {
-				if (e1.pointsDeVie - mobDmg <= 0) {
+				if (e1.getPointsDeVie() - mobDmg <= 0) {
 					Inventory inv = owner.getInventory();
 					inv.pick(inv.toolAt(3));
 					System.out.println("récupère de la food");
