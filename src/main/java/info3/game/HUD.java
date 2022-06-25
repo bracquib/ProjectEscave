@@ -88,6 +88,13 @@ public class HUD {
 			Vec2 pos = new Vec2(startX + 74 * i, startY);
 			this.controller.updateAvatar(this.labels[i].getId(), pos.add(new Vec2(40, 60)));
 			this.controller.updateAvatar(this.inventoryCells[i].getId(), new Vec2(startX + 74 * i, startY));
+			if (i == 2) {
+				pos.y -= 2;
+			}
+			if (i == 4) {
+				pos = pos.add(16);
+			}
+			this.controller.updateAvatar(this.inventoryItems[i].getId(), pos);
 		}
 		startY -= 54;
 		for (int i = 0; i < this.lifes.length; i++) {
