@@ -56,6 +56,6 @@ public class Mushroom extends RigidBody {
 
 	@Override
 	public String animationDir() {
-		return "mushroom/";
+		return "mushroom";
 	}
 }

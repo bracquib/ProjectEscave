@@ -1,15 +1,18 @@
 package info3.game.assets;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import info3.game.Vec2;
+
 public class Image extends Paintable {
 
 	private static final long serialVersionUID = -1054334314973696343L;
-	private transient BufferedImage image;
+	transient BufferedImage image;
 
 	public Image(String path) {
 		super(path);
@@ -20,8 +23,11 @@ public class Image extends Paintable {
 	}
 
 	@Override
-	public BufferedImage imageToPaint() {
-		return this.image;
+	public void paint(Graphics g, Vec2 screenCoords, Vec2 scale) {
+		if (this.image != null) {
+			g.drawImage(this.image, (int) screenCoords.getX(), (int) screenCoords.getY(),
+					((int) scale.getX()) * this.image.getWidth(), ((int) scale.getY()) * this.image.getHeight(), null);
+		}
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package info3.game.entities;
 
 import java.util.ArrayList;
 
+import info3.game.Avatar;
+import info3.game.HUD;
 import info3.game.Inventory;
 import info3.game.LocalController;
 import info3.game.Model;
@@ -10,41 +12,61 @@ import info3.game.assets.AnimatedImage;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.automata.behaviors.PlayerBehaviour;
+import info3.game.physics.BoxCollider;
 import info3.game.physics.RigidBody;
 
 public class Player extends RigidBody {
 	PlayerColor color;
-	private float hungerPoints;
-	private float maxHunger = 100;
-	private float thirstPoints;
-	private float maxThirst = 100;
+	private int hungerPoints;
+	private int maxHunger = 10;
+	private int thirstPoints;
+	private int maxThirst = 10;
 	private Inventory inventory;
 	private int compt;
 	Entity controlledEntity;
 	public ArrayList<Integer> pressedKeys;
+	private Avatar background;
+	public HUD hud;
 
-	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
+	static final float bgW = 2461 * 2;
+	static final float bgH = 1675 * 2;
+	static Vec2[] bgDiffs = { new Vec2(-bgW, -bgH), new Vec2(0, -bgH), new Vec2(bgW, -bgH), new Vec2(-bgW, 0),
+			new Vec2(bgW, 0), new Vec2(-bgW, bgH), new Vec2(0, bgH), new Vec2(bgW, bgH) };
+
+	public Player(LocalController c, PlayerColor color, Vec2 pos, int points) {
 		super(1, c, points);
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
-		if (local) {
-			this.setPosition(pos);
-			this.setCategory(Category.PLAYER);
-			this.setAutomata(Model.getAutomata("Player"));
-			this.setBehaviour(new PlayerBehaviour());
-			this.avatarOffset = new Vec2(0, -4);
-			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
-			sprite.layer = 1;
-			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
-			this.inventory = Inventory.createInventory(c, this);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
 
-			this.pressedKeys = new ArrayList<Integer>();
+		this.hungerPoints = maxHunger;
+		this.thirstPoints = maxThirst;
 
-			this.hungerPoints = maxHunger;
-			this.thirstPoints = maxThirst;
-			this.setControlledEntity(this);
-			this.playAnimation("spawn", 9, 100, 0, -10, false);
+		this.setPosition(pos);
+		this.setCategory(Category.PLAYER);
+		this.setAutomata(Model.getAutomata("Player"));
+		this.setBehaviour(new PlayerBehaviour());
+		this.avatarOffset = new Vec2(0, -4);
+		AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
+		AnimatedImage spriteBackground = new AnimatedImage("bg_animated.png", 12, 1250, true);
+		spriteBackground.fixed = true;
+		spriteBackground.layer = -1;
+		sprite.layer = 1;
+		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
+
+		Vec2 bgPos = setBackground();
+		this.background = this.controller.createAvatar(bgPos, spriteBackground);
+		int i = 0;
+		for (Vec2 diff : bgDiffs) {
+			this.background.duplicates[i] = this.controller.createAvatar(bgPos.add(diff), spriteBackground);
+			i++;
 		}
+		this.inventory = Inventory.createInventory(c, this);
+		this.hud = new HUD(this.controller, this);
+
+		this.pressedKeys = new ArrayList<Integer>();
+		this.setControlledEntity(this);
+		this.playAnimation("spawn", 9, 100, 0, -10, false);
 	}
 
 	public void setControlledEntity(Entity entity) {
@@ -53,12 +75,45 @@ public class Player extends RigidBody {
 	}
 
 	@Override
+	public void setPosition(Vec2 pos) {
+		super.setPosition(pos);
+		if (this.background != null) {
+			Vec2 bgPos = this.setBackground();
+			this.background.setPosition(bgPos);
+
+			int i = 0;
+			for (Vec2 diff : bgDiffs) {
+				this.controller.updateAvatar(this.background.duplicates[i].getId(), bgPos.add(diff));
+				i++;
+			}
+		}
+	}
+
+	public Vec2 setBackground() {
+		Vec2 goodPos = new Vec2(0, 0);
+		float heightMap = Model.getMap().height * Block.SIZE;
+		float widthMap = Model.getMap().width * Block.SIZE;
+		float xPlayer = this.getPosition().getX();
+		float yPlayer = this.getPosition().getY();
+		float ratioX = xPlayer / widthMap;
+		float ratioY = yPlayer / heightMap;
+		float posInBackX = bgW * ratioX;
+		float posInBackY = bgH * ratioY;
+
+		Vec2 viewSize = this.controller.viewFor(this.color).getDimensions();
+		goodPos.setX(-posInBackX + viewSize.getX() / 2 + 16);
+		goodPos.setY(-posInBackY + viewSize.getY() / 2 + 16);
+		return goodPos;
+	}
+
+	@Override
 	public void tick(long el) {
 		super.tick(el);
-		compt++;
-		if (compt % 10000 == 0) {
-			this.hungerPoints -= 5;
-			this.thirstPoints -= 5;
+		compt += el;
+		if (compt > 100000) {
+			this.setHungerPoints(this.hungerPoints - 1);
+			this.setThirstPoints(this.thirstPoints - 1);
+			compt = 0;
 		}
 		if (this.hungerPoints <= 0 || this.thirstPoints <= 0) {
 			System.out.println("mort du joueur à cause de la faim ou de la soif");
@@ -78,7 +133,9 @@ public class Player extends RigidBody {
 		}
 
 		AnimatedImage anim = (AnimatedImage) this.getPaintable();
-		if (anim.isFinished() && this.getBehaviour() instanceof PlayerBehaviour) {
+		// Pas en doublure ni en statue
+		if (anim.isFinished() && this.getBehaviour() instanceof PlayerBehaviour
+				&& this.getCategory() == Category.PLAYER) {
 			if (this.getDirection() == Direction.EST) {
 				this.playAnimation("idle-right", 6, 200, 0, -4, true);
 			} else {
@@ -143,36 +200,52 @@ public class Player extends RigidBody {
 		}
 	}
 
-	public float getHungerPoints() {
+	public int getHungerPoints() {
 		return this.hungerPoints;
 	}
 
-	public void setHungerPoints(float hungerPoints) {
+	public void setHungerPoints(int hungerPoints) {
+		int diff = this.hungerPoints - hungerPoints;
 		this.hungerPoints = hungerPoints;
 		if (this.hungerPoints > maxHunger)
 			this.hungerPoints = maxHunger;
+		if (diff > 0) {
+			for (int i = 0; i < diff; i++) {
+				this.hud.loseFood(this.hungerPoints);
+			}
+		} else if (diff < 0) {
+			for (int i = 0; i < -diff; i++) {
+				this.hud.gainFood(this.hungerPoints);
+			}
+		}
 	}
 
-	public void feed(float feedPoints) {
-		this.hungerPoints += feedPoints;
-		if (this.hungerPoints > maxHunger)
-			this.hungerPoints = maxHunger;
+	public void feed(int feedPoints) {
+		this.setHungerPoints(this.hungerPoints + feedPoints);
 	}
 
-	public float getThirstPoints() {
+	public int getThirstPoints() {
 		return this.thirstPoints;
 	}
 
-	public void setThirstPoints(float thirstPoints) {
+	public void setThirstPoints(int thirstPoints) {
+		int diff = this.thirstPoints - thirstPoints;
 		this.thirstPoints = thirstPoints;
 		if (this.thirstPoints > maxThirst)
 			this.thirstPoints = maxThirst;
+		if (diff > 0) {
+			for (int i = 0; i < diff; i++) {
+				this.hud.loseWater(this.thirstPoints);
+			}
+		} else if (diff < 0) {
+			for (int i = 0; i < -diff; i++) {
+				this.hud.gainWater(this.thirstPoints);
+			}
+		}
 	}
 
-	public void water(float waterPoints) {
-		this.thirstPoints += waterPoints;
-		if (this.thirstPoints > maxThirst)
-			this.thirstPoints = maxThirst;
+	public void water(int waterPoints) {
+		this.setThirstPoints(this.thirstPoints + waterPoints);
 	}
 
 	public Inventory getInventory() {

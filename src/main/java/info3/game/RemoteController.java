@@ -69,6 +69,7 @@ public class RemoteController extends Controller {
 				this.networkSender.start();
 
 				this.view = (LocalView) v;
+				System.out.println("send joingame");
 				this.networkSender.send(null, new JoinGame(v.getDimensions()));
 			} catch (ConnectException ce) {
 				try {
@@ -121,7 +122,6 @@ public class RemoteController extends Controller {
 
 	@Override
 	public void windowResize(PlayerColor p, Vec2 size) {
-		size.print();
 		this.networkSender.send(p, new WindowResize(size));
 	}
 }

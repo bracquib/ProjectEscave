@@ -57,7 +57,8 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	public void setFollowedAvatar(Avatar syncWith) {
+	protected void syncCamera(Avatar syncWith) {
+		this.setFollowedAvatar(syncWith);
 		((LocalController) this.controller).sendTo(this.getPlayer(), new SyncCamera(syncWith));
 	}
 }

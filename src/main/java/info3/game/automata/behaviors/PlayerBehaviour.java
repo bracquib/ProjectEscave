@@ -35,16 +35,6 @@ public class PlayerBehaviour extends Behaviour {
 	}
 
 	@Override
-	public boolean gotPower(Entity e) {
-
-		if (e.pointsDeVie > 0) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
 	public boolean gotStuff(Entity e) {
 		// pas besoin pour player
 		return false;
@@ -62,6 +52,7 @@ public class PlayerBehaviour extends Behaviour {
 		// e.setCategory(Category.SOMETHING);
 
 		// action vide pour aller dans l'état statue
+		e.playAnimation("fige", 6, 200, 0, 0, false);
 	}
 
 	@Override
@@ -169,10 +160,9 @@ public class PlayerBehaviour extends Behaviour {
 
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
-		e.pointsDeVie -= dmg;
-		System.out.println("HP=" + e.pointsDeVie);
+		e.setPointsDeVie(e.getPointsDeVie() - dmg);
 		RigidBody p = (RigidBody) e;
-		if (e.pointsDeVie == 0) {
+		if (e.getPointsDeVie() == 0) {
 			System.out.println("mort du joueur");
 			Model.deleteEntity(p);
 		}

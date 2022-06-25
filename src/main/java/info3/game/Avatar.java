@@ -1,7 +1,6 @@
 package info3.game;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
 import info3.game.assets.AnimatedImage;
@@ -26,12 +25,12 @@ public class Avatar {
 		return position;
 	}
 
-	private static transient final float DUPLICATE_RANGE = Block.SIZE * 15;
+	private static transient final float DUPLICATE_RANGE = Block.SIZE * 20;
 
 	public transient Avatar[] duplicates;
 
 	private void updateDuplicates(Vec2 pos) {
-		if (this.duplicates == null) {
+		if (this.duplicates == null || this.image.fixed) {
 			return;
 		}
 		int width = Model.getMap().width * Block.SIZE;
@@ -134,11 +133,7 @@ public class Avatar {
 		} else {
 			screenCoords = this.position;
 		}
-		BufferedImage img = this.image.imageToPaint();
-		if (img != null) {
-			g.drawImage(img, (int) screenCoords.getX(), (int) screenCoords.getY(),
-					((int) scale.getX()) * img.getWidth(), ((int) scale.getY()) * img.getHeight(), null);
-		}
+		this.image.paint(g, screenCoords, scale);
 	}
 
 	public void setPaintablePath(String path) {

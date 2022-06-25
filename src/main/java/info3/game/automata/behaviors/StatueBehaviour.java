@@ -49,11 +49,13 @@ public class StatueBehaviour extends Behaviour {
 		// activer la statue et le il y a un transfert d'automate
 		Statue s = (Statue) e;
 		Player p = s.getPlayer();
+		s.playAnimation("statue-transfert", 12, 200, -16, -104, false);
 		s.setCategory(Category.PLAYER);
 		s.setAutomata(Model.getAutomata("Player"));
 		p.setCategory(Category.SOMETHING);
 		p.setControlledEntity(e);
 		s.getPlayer().getBehaviour().wizz(s.getPlayer(), d);
+		s.getCurrentState().block(1000);
 	}
 
 	@Override
