@@ -24,30 +24,30 @@ public class Sword extends Weapon {
 
 		switch (orientation) {
 		case NORTH:
-			decX = -Block.SIZE;
+			decX = (int) (-Block.SIZE * 1.5);
 			decY = -Block.SIZE * 2;
 			width = Block.SIZE * 3;
-			height = Block.SIZE * 3;
+			height = Block.SIZE * 2;
 			owner.playAnimation("attack-right", 5, 200, 0, -4, false);
 			break;
 		case SOUTH:
-			decX = -Block.SIZE;
-			decY = -Block.SIZE;
+			decX = (int) (-Block.SIZE * 1.5);
+			decY = +Block.SIZE;
 			width = Block.SIZE * 3;
 			height = Block.SIZE * 2;
 			owner.playAnimation("attack-right", 5, 200, 0, -4, false);
 			break;
 		case EST:
-			decX = Block.SIZE;
-			decY = -Block.SIZE;
-			width = Block.SIZE * 2;
+			decX = 0;
+			decY = (int) (-Block.SIZE * 1.5);
+			width = (int) (Block.SIZE * 2.5);
 			height = Block.SIZE * 3;
 			owner.playAnimation("attack-right", 5, 200, 0, -4, false);
 			break;
 		case WEST:
-			decX = -Block.SIZE * 2;
-			decY = -Block.SIZE;
-			width = Block.SIZE * 2;
+			decX = (int) (-Block.SIZE * 2.5);
+			decY = (int) (-Block.SIZE * 1.5);
+			width = Block.SIZE * 3;
 			height = Block.SIZE * 3;
 			owner.playAnimation("attack-left", 5, 200, -32, -4, false);
 			break;

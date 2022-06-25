@@ -123,11 +123,11 @@ public class Player extends RigidBody {
 
 		super.tick(el);
 		float curXSpeed = this.getSpeed().getX();
-		if (Math.abs(curXSpeed) > 5) {
-			if (curXSpeed < 0) {
-				this.getSpeed().setX(curXSpeed + 7f);
+		if (Math.abs(curXSpeed) > 135) {
+			if (curXSpeed < 135) {
+				this.getSpeed().setX(curXSpeed + 20f);
 			} else {
-				this.getSpeed().setX(curXSpeed - 7f);
+				this.getSpeed().setX(curXSpeed - 20f);
 			}
 		} else {
 			this.getSpeed().setX(0);

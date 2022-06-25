@@ -80,13 +80,13 @@ public class PlayerBehaviour extends Behaviour {
 		AnimatedImage anim = (AnimatedImage) e.getPaintable();
 		switch (d) {
 		case EST:
-			p.getSpeed().setX(190);
+			p.getSpeed().setX(390);
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-right", 5, 200, 0, -4, false, true);
 			p.setDirection(Direction.EST);
 			break;
 		case WEST:
-			p.getSpeed().setX(-190);
+			p.getSpeed().setX(-390);
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-left", 5, 200, 0, -4, false, true);
 			p.setDirection(Direction.WEST);
@@ -112,7 +112,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
-		((RigidBody) e).getSpeed().setY(-270);
+		((RigidBody) e).getSpeed().setY(-470);
 	}
 
 	@Override

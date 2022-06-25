@@ -207,6 +207,9 @@ public class Model {
 	 * @return
 	 */
 	public static ArrayList<Entity> getNearEntities(int baseX, int baseY, int width, int height) {
+		LocalView v = (LocalView) View.view;
+		v.checkboxes.add(new Checkbox(baseX, baseY, width, height));
+
 		ArrayList<Entity> nearEntities = new ArrayList<>();
 		// On parcours d'abord la map pour avoir les blocs
 		for (int i = 0; i < width / Block.SIZE; i++) {

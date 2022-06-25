@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
@@ -24,6 +25,8 @@ public class LocalView extends View {
 	CanvasListener listener;
 	Semaphore isPainting;
 	protected SortedSet<Avatar> sortedAvatars;
+
+	public LinkedList<Checkbox> checkboxes = new LinkedList<Checkbox>();
 
 	public LocalView(Controller controller) {
 		super();
@@ -138,6 +141,17 @@ public class LocalView extends View {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+
+		for (Checkbox box : checkboxes) {
+			int X = box.x - (int) cameraPos.getX();
+			int Y = box.y - (int) cameraPos.getY();
+			g.setColor(Color.pink);
+			g.fillRect(X + (int) (box.width / 2), Y + (int) (box.height / 2), 4, 4);
+			g.setColor(Color.yellow);
+			g.drawRect(X, Y, box.width, box.height);
+		}
+		checkboxes.clear();
+
 	}
 
 	/**
