@@ -35,6 +35,7 @@ public class Menu extends State implements Statemethods {
 						Client.startGame();
 						this.game.gameThread.interrupt();
 						this.game.gamewindow.dispose();
+						;
 
 					} else {
 

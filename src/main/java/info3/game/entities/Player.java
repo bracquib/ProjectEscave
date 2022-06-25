@@ -7,6 +7,7 @@ import info3.game.AvatarBuilder;
 import info3.game.HUD;
 import info3.game.Inventory;
 import info3.game.LocalController;
+import info3.game.LocalView;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
@@ -28,6 +29,7 @@ public class Player extends RigidBody {
 	public ArrayList<Integer> pressedKeys;
 	private Avatar background;
 	public HUD hud;
+	private boolean gameOver;
 
 	static final float bgW = 2461 * 2;
 	static final float bgH = 1675 * 2;
@@ -68,6 +70,7 @@ public class Player extends RigidBody {
 		this.pressedKeys = new ArrayList<Integer>();
 		this.setControlledEntity(this);
 		this.playAnimation("spawn", 9, 100, 0, -10, false);
+		this.gameOver = false;
 	}
 
 	public void setControlledEntity(Entity entity) {
@@ -118,7 +121,7 @@ public class Player extends RigidBody {
 		}
 		if (this.hungerPoints <= 0 || this.thirstPoints <= 0) {
 			System.out.println("mort du joueur à cause de la faim ou de la soif");
-			Model.deleteEntity(this);
+			this.gameOver();
 		}
 
 		super.tick(el);
@@ -141,6 +144,24 @@ public class Player extends RigidBody {
 				this.playAnimation("idle-right", 6, 200, 0, -4, true);
 			} else {
 				this.playAnimation("idle-left", 6, 200, 0, -4, true);
+			}
+		}
+
+		if (!this.gameOver && Model.exitOpened
+				&& this.getPosition().getX() >= Model.exitAvatar.getPosition().getX() + 3 * Block.SIZE
+				&& this.getPosition().getX() <= Model.exitAvatar.getPosition().getX() + 5 * Block.SIZE
+				&& this.getPosition().getY() >= Model.exitAvatar.getPosition().getY() + 4 * Block.SIZE
+				&& this.getPosition().getY() <= Model.exitAvatar.getPosition().getY() + 6 * Block.SIZE) {
+			this.gameOver();
+		}
+
+		if (this.gameOver) {
+			AnimatedImage gameOverAnim = (AnimatedImage) this.hud.gameOverAvatar.getPaintable();
+			if (gameOverAnim.isFinished())
+				this.hud.gameOver2();
+			if (this.getController().isKeyPressed(this, 113)) {
+				LocalView v = (LocalView) this.getController().viewFor(this.getColor());
+				v.getFrame().dispose();
 			}
 		}
 	}
@@ -270,6 +291,13 @@ public class Player extends RigidBody {
 			boolean cancellable) {
 		super.playAnimation(name, frameCount, delay, offsetX, offsetY, loop, cancellable);
 		this.controller.setCameraOffset(this.color, new Vec2(-offsetX, -offsetY));
+	}
+
+	public void gameOver() {
+		System.out.println("End");
+		this.hud.showGameOver();
+		this.gameOver = true;
+		// Model.deleteEntity(this);
 	}
 
 	@Override
