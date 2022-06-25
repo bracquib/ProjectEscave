@@ -62,6 +62,7 @@ public class PlayerBehaviour extends Behaviour {
 		// e.setCategory(Category.SOMETHING);
 
 		// action vide pour aller dans l'état statue
+		e.playAnimation("fige", 6, 200, 0, 0, false);
 	}
 
 	@Override
