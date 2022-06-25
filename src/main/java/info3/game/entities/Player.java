@@ -142,6 +142,15 @@ public class Player extends RigidBody {
 				this.playAnimation("idle-left", 6, 200, 0, -4, true);
 			}
 		}
+
+		if (this.getPosition().getX() >= Model.exitAvatar.getPosition().getX() + 3 * Block.SIZE
+				&& this.getPosition().getX() <= Model.exitAvatar.getPosition().getX() + 5 * Block.SIZE
+				&& this.getPosition().getY() >= Model.exitAvatar.getPosition().getY() + 4 * Block.SIZE
+				&& this.getPosition().getY() <= Model.exitAvatar.getPosition().getY() + 6 * Block.SIZE) {
+			System.out.println("End");
+			this.hud.showGameOver();
+			Model.deleteEntity(this);
+		}
 	}
 
 	@Override

@@ -8,7 +8,6 @@ import info3.game.assets.Image;
 import info3.game.assets.Paintable;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
-import info3.game.entities.Mushroom;
 import info3.game.entities.Player;
 import info3.game.entities.PlayerColor;
 import info3.game.entities.Statue;
@@ -82,9 +81,7 @@ public class LocalController extends Controller {
 		}
 
 		if (e.code == 67) {
-			Vec2 newPos = new Vec2(player.getPosition());
-			newPos.setX(newPos.getX() + 64);
-			Model.spawn(new Mushroom(player.getController(), player.getPosition(), 1, 1));
+			player.setPosition(Model.exitPoint);
 		}
 
 		if (e.code >= 97 && e.code <= 102) {

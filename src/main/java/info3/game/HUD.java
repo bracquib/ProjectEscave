@@ -1,5 +1,6 @@
 package info3.game;
 
+import info3.game.assets.AnimatedImage;
 import info3.game.assets.Image;
 import info3.game.assets.Label;
 import info3.game.entities.Player;
@@ -141,5 +142,12 @@ public class HUD {
 
 	public void setCounter(int idx, int cpt) {
 		this.controller.updatePaintable(this.labels[idx], new Label(Integer.toString(cpt)));
+	}
+
+	public void showGameOver() {
+		AnimatedImage anim = new AnimatedImage("gameover/gameover-partie1.png", 21, 50, false);
+		anim.layer = 10;
+		anim.fixed = true;
+		this.controller.createAvatar(new Vec2(0), new Vec2(1), anim);
 	}
 }

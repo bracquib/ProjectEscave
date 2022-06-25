@@ -63,7 +63,7 @@ public class Model {
 	static ArrayList<Vec2> spawnPoints;
 	static ArrayList<Avatar> spawnPointsBackground;
 
-	static Vec2 exitPoint;
+	public static Vec2 exitPoint;
 	public static Avatar exitAvatar;
 
 	private static final int maxPlayers = 1;
@@ -83,7 +83,7 @@ public class Model {
 	private static List<Vec2> statuesSpawns;
 	private static List<Vec2> stalactiteSpawns;
 
-	private static boolean exitOpened = false;
+	public static boolean exitOpened = false;
 
 	public static void init(LocalController controller) {
 		System.out.println("init model");
