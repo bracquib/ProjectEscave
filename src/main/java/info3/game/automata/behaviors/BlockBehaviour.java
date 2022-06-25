@@ -30,16 +30,6 @@ public class BlockBehaviour extends Behaviour {
 	}
 
 	@Override
-	public boolean gotPower(Entity e) {
-		if (e.pointsDeVie > 0) {
-			return true;
-		}
-
-		return false;
-
-	}
-
-	@Override
 	public boolean gotStuff(Entity e) {
 		// pas besoin
 		return false;
@@ -48,14 +38,7 @@ public class BlockBehaviour extends Behaviour {
 	@Override // pas normal les speed
 	public void wizz(Entity e, Direction d) {
 		// wizz=coup_reçu
-		e.pointsDeVie -= 1; // à ajuster (dmg)
-		/*
-		 * RigidBody p = (RigidBody) e; switch (d) { case SOUTH:
-		 * p.getSpeed().setY(-240); break; case EST: p.getSpeed().setX(140); break; case
-		 * WEST: p.getSpeed().setX(-140); break; case NORTH: p.getSpeed().setY(240);
-		 * break; default: break; } return;
-		 */
-
+		e.setPointsDeVie(e.getPointsDeVie() - 1); // à ajuster (dmg)
 	}
 
 	@Override

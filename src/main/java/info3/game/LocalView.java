@@ -185,10 +185,7 @@ public class LocalView extends View {
 
 	@Override
 	public void updateAvatar(int id, Paintable p, Vec2 pos) {
-		System.out.println("update avatar :" + p.getPath());
 		Avatar av = this.avatars.get(id);
-		av.getPosition().print();
-		pos.print();
 		Paintable loaded = AssetServer.load(p);
 		av.setPaintable(loaded);
 		av.setPosition(pos);
