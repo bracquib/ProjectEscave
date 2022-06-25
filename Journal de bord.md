@@ -283,6 +283,8 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Lucas : Implémentation des animations du joueur
 * Amaury et Benjamin : utilisation des objets avec la souris
 * Amaury : test d'ajout de musique
+* Léa et William : fin du jeu
+* Léa : doublure
 
 ### Amaury et Benjamin : objets avec la souris
 * Placement et destruction de blocs selon la position de la souris (avec raycasting)
