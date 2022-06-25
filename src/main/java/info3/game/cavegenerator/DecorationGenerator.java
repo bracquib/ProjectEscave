@@ -27,7 +27,6 @@ public class DecorationGenerator {
 		extendDeco = extensionDecoration(extendDeco.toArray(), 4, cristaux_droit, 15);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 8, cristaux_gauche, 15);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 2, water_sol, 10);
-
 		extendDeco = extensionDecoration(extendDeco.toArray(), 2, cristaux_sol, 20);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 22, cristaux_sol, 20);
 		extendDeco = extensionDecoration(extendDeco.toArray(), 3, cristaux_sol, 20);

@@ -29,8 +29,8 @@ public class Block extends Consumable {
 					new Image("classic_block/" + BlockIDs.IDs.get(id) + ".png"));
 			this.setName("Block");
 		} else {
-			this.avatar = this.controller.createAvatar(this.position.add(offset), new Vec2(0),
-					new AnimatedImage("classic_block/water_sol.png", 16, 100000, true));
+			AnimatedImage sprite = new AnimatedImage("classic_block/water_sol.png", 16, 5500, true);
+			this.avatar = this.controller.createAvatar(this.position, new Vec2(1), sprite);
 			this.setName("Block");
 		}
 

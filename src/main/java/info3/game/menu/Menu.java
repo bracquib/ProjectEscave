@@ -31,9 +31,12 @@ public class Menu extends State implements Statemethods {
 	private void loadButtons() {
 		buttons[0] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (150 * GameJerem.SCALE), 0, Gamestate.PLAYING,
 				() -> {
-					if (Options.ip.equals(""))
+					if (Options.ip.equals("")) {
 						Client.startGame();
-					else {
+						this.game.gameThread.interrupt();
+						this.game.gamewindow.dispose();
+
+					} else {
 
 					}
 				});

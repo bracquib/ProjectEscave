@@ -7,7 +7,7 @@ import java.awt.GraphicsEnvironment;
 public class GameJerem implements Runnable {
 
 	private GamePanel gamePanel;
-	private Thread gameThread;
+	public Thread gameThread;
 	private final int FPS_SET = 120;
 	private final int UPS_SET = 200;
 
