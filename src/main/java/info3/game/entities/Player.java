@@ -37,7 +37,6 @@ public class Player extends RigidBody {
 	public Player(LocalController c, PlayerColor color, Vec2 pos, int points) {
 		super(1, c, points);
 		this.color = color;
-		this.avatarOffset = new Vec2(0, -20);
 		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
 
 		this.hungerPoints = maxHunger;
@@ -47,9 +46,8 @@ public class Player extends RigidBody {
 		this.setCategory(Category.PLAYER);
 		this.setAutomata(Model.getAutomata("Player"));
 		this.setBehaviour(new PlayerBehaviour());
-		this.avatarOffset = new Vec2(0, -4);
 		AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
-		this.avatar = new AvatarBuilder(sprite).layer(1).position(this.getPosition().add(this.avatarOffset))
+		this.avatar = new AvatarBuilder(sprite).layer(1).position(this.getPosition()).offset(new Vec2(0, -4))
 				.build(this.controller);
 
 		Vec2 bgPos = setBackground();

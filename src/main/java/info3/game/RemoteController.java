@@ -205,13 +205,14 @@ class NetworkReceiverThread extends Thread {
 	private void handleMessage(Object msg) {
 		if (msg instanceof CreateAvatar) {
 			CreateAvatar ca = (CreateAvatar) msg;
+			ca.avatar.image.load();
 			this.controller.view.createAvatar(ca.avatar);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
 			try {
 				this.controller.view.isPainting.acquire();
 				if (ua.newPaintable != null) {
-					this.controller.view.updateAvatar(ua.avatarId, ua.newPaintable, ua.position);
+					this.controller.view.updateAvatar(ua.avatarId, ua.newPaintable, ua.offset, ua.position);
 				}
 				if (ua.position != null) {
 					this.controller.view.updateAvatar(ua.avatarId, ua.position);

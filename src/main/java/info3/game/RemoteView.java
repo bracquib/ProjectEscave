@@ -53,8 +53,8 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	public void updateAvatar(int id, Paintable p, Vec2 pos) {
-		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, p, pos));
+	public void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos) {
+		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, p, offset, pos));
 	}
 
 	@Override

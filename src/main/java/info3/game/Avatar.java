@@ -15,6 +15,7 @@ public class Avatar implements Serializable {
 	boolean fixed;
 	Vec2 position;
 	Vec2 scale;
+	Vec2 offset = new Vec2(0);
 	Paintable image;
 
 	public int getId() {
@@ -135,9 +136,9 @@ public class Avatar implements Serializable {
 	public void paint(Graphics g, Vec2 cameraPos) {
 		Vec2 screenCoords;
 		if (!this.fixed) {
-			screenCoords = this.position.globalToScreen(cameraPos);
+			screenCoords = this.position.add(this.offset).globalToScreen(cameraPos);
 		} else {
-			screenCoords = this.position;
+			screenCoords = this.position.add(this.offset);
 		}
 		this.image.paint(g, screenCoords, scale);
 	}
@@ -162,5 +163,13 @@ public class Avatar implements Serializable {
 	@Override
 	public boolean equals(Object other) {
 		return other instanceof Avatar && this.id == ((Avatar) other).id;
+	}
+
+	public Vec2 getOffset() {
+		return this.offset;
+	}
+
+	public void setOffset(Vec2 offset) {
+		this.offset = offset;
 	}
 }

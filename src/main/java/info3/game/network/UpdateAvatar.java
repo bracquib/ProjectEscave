@@ -10,6 +10,7 @@ public class UpdateAvatar extends NetworkMessage {
 	public int avatarId;
 	public String newPath;
 	public Paintable newPaintable;
+	public Vec2 offset;
 
 	public UpdateAvatar(int id, Vec2 pos) {
 		this.position = pos;
@@ -21,9 +22,10 @@ public class UpdateAvatar extends NetworkMessage {
 		this.newPath = path;
 	}
 
-	public UpdateAvatar(int id, Paintable p, Vec2 position) {
+	public UpdateAvatar(int id, Paintable p, Vec2 offset, Vec2 position) {
 		this.avatarId = id;
 		this.newPaintable = p;
 		this.position = position;
+		this.offset = offset;
 	}
 }

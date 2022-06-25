@@ -84,7 +84,7 @@ public abstract class View {
 		return (int) this.dimensions.getY();
 	}
 
-	public abstract void updateAvatar(int id, Paintable p, Vec2 pos);
+	public abstract void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos);
 
 	public void setDimensions(Vec2 size) {
 		this.dimensions = size;

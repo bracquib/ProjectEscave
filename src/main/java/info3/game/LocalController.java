@@ -245,11 +245,11 @@ public class LocalController extends Controller {
 			if (v instanceof RemoteView) {
 				RemoteView rv = (RemoteView) v;
 				if (rv.client != null) {
-					rv.client.send(new UpdateAvatar(av.getId(), p, av.getPosition()));
+					rv.client.send(new UpdateAvatar(av.getId(), p, av.getOffset(), av.getPosition()));
 				}
 			} else if (v instanceof LocalView) {
 				LocalView lv = (LocalView) v;
-				lv.updateAvatar(av.getId(), p, av.getPosition());
+				lv.updateAvatar(av.getId(), p, av.getOffset(), av.getPosition());
 			}
 		}
 	}

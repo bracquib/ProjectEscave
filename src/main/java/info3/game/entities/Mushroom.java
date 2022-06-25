@@ -34,7 +34,6 @@ public class Mushroom extends RigidBody {
 		this.setAutomata(Model.getAutomata("Mushroom"));
 		this.setBehaviour(new MushroomBehaviour());
 		this.degatMob = 1;
-		this.avatarOffset = new Vec2(0, 0);
 		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
 		this.avatar = new AvatarBuilder(new Image(this.avatarPath())).position(this.getPosition())
 				.build(this.controller);
