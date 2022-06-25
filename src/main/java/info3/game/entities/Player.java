@@ -27,6 +27,11 @@ public class Player extends RigidBody {
 	public ArrayList<Integer> pressedKeys;
 	private Avatar background;
 
+	static final float bgW = 2461 * 2;
+	static final float bgH = 1675 * 2;
+	static Vec2[] bgDiffs = { new Vec2(-bgW, -bgH), new Vec2(0, -bgH), new Vec2(bgW, -bgH), new Vec2(-bgW, 0),
+			new Vec2(bgW, 0), new Vec2(-bgW, bgH), new Vec2(0, bgH), new Vec2(bgW, bgH) };
+
 	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
 		super(1, c, points);
 		this.color = color;
@@ -44,7 +49,14 @@ public class Player extends RigidBody {
 			spriteBackground.fixed = true;
 			sprite.layer = 1;
 			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
-			this.background = this.controller.createAvatar(setBackground(), spriteBackground);
+
+			Vec2 bgPos = setBackground();
+			this.background = this.controller.createAvatar(bgPos, spriteBackground);
+			int i = 0;
+			for (Vec2 diff : bgDiffs) {
+				this.background.duplicates[i] = this.controller.createAvatar(bgPos.add(diff), spriteBackground);
+				i++;
+			}
 			this.inventory = Inventory.createInventory(c, this);
 			this.pressedKeys = new ArrayList<Integer>();
 
@@ -63,8 +75,16 @@ public class Player extends RigidBody {
 	@Override
 	public void setPosition(Vec2 pos) {
 		super.setPosition(pos);
-		if (this.background != null)
-			this.background.setPosition(this.setBackground());
+		if (this.background != null) {
+			Vec2 bgPos = this.setBackground();
+			this.background.setPosition(bgPos);
+
+			int i = 0;
+			for (Vec2 diff : bgDiffs) {
+				this.controller.updateAvatar(this.background.duplicates[i].getId(), bgPos.add(diff));
+				i++;
+			}
+		}
 	}
 
 	public Vec2 setBackground() {
@@ -75,16 +95,12 @@ public class Player extends RigidBody {
 		float yPlayer = this.getPosition().getY();
 		float ratioX = xPlayer / widthMap;
 		float ratioY = yPlayer / heightMap;
-		System.out.println(ratioX + " " + ratioY);
-		// bg_big:2461x1675
-		float bgX = 2461 * 2;
-		float bgY = 1675 * 2;
-		float posInBackX = bgX * ratioX;
-		float posInBackY = bgY * ratioY;
+		float posInBackX = bgW * ratioX;
+		float posInBackY = bgH * ratioY;
 
-		goodPos.setX(-posInBackX + 528);
-		goodPos.setY(-posInBackY + 400);
-		goodPos.print();
+		Vec2 viewSize = this.controller.viewFor(this.color).getDimensions();
+		goodPos.setX(-posInBackX + viewSize.getX() / 2 + 16);
+		goodPos.setY(-posInBackY + viewSize.getY() / 2 + 16);
 		return goodPos;
 	}
 

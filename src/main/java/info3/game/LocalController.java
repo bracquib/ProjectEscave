@@ -278,7 +278,7 @@ public class LocalController extends Controller {
 	}
 
 	@Override
-	protected void updateAvatar(int i, Vec2 pos) {
+	public void updateAvatar(int i, Vec2 pos) {
 		for (View v : this.views) {
 			v.updateAvatar(i, pos);
 		}
