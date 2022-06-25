@@ -15,6 +15,8 @@ public class HUD {
 	private Avatar[] water;
 	private Avatar[] labels;
 
+	public Avatar gameOverAvatar;
+
 	public HUD(LocalController c, Player player) {
 		this.player = player;
 		this.controller = c;
@@ -145,9 +147,17 @@ public class HUD {
 	}
 
 	public void showGameOver() {
-		AnimatedImage anim = new AnimatedImage("gameover/gameover-partie1.png", 21, 50, false);
-		anim.layer = 10;
-		anim.fixed = true;
-		this.controller.createAvatar(new Vec2(0), new Vec2(1), anim);
+		AnimatedImage gameOverAnim = new AnimatedImage("gameover/gameover-partie1.png", 21, 50, false);
+		gameOverAnim.layer = 10;
+		gameOverAnim.fixed = true;
+		gameOverAvatar = this.controller.createAvatar(new Vec2(0), new Vec2(1), gameOverAnim);
+	}
+
+	public void gameOver2() {
+		AnimatedImage gameOverAnim = new AnimatedImage("gameover/gameover-partie2.png", 22, 100, true);
+		gameOverAnim.layer = 10;
+		gameOverAnim.fixed = true;
+		Model.controller.updatePaintable(gameOverAvatar, gameOverAnim);
+		// gameOverAvatar.setPaintable(gameOverAnim);
 	}
 }

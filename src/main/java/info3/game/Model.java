@@ -147,7 +147,7 @@ public class Model {
 					}
 				}
 			}
-			AnimatedImage exit = new AnimatedImage("exit/exit.png", 6, 300, true);
+			AnimatedImage exit = new AnimatedImage("exit/exit.png", 6, 200, true);
 			exit.layer = -1;
 			exitPoint.setX(exitPoint.getX() - 4);
 			exitPoint.setY(exitPoint.getY() - 4);
@@ -206,7 +206,7 @@ public class Model {
 			e.tick(elapsed);
 		}
 		if (activatedSocles == playerCount.get() && !exitOpened) {
-			AnimatedImage newAnim = new AnimatedImage("exit/exit-destroy.png", 5, 300, false);
+			AnimatedImage newAnim = new AnimatedImage("exit/exit-destroy.png", 5, 200, false);
 			exitAvatar.setPaintable(newAnim);
 			// exitAvatar.setPosition(this.getPosition().add(this.avatarOffset));
 			Model.controller.updatePaintable(exitAvatar, newAnim);

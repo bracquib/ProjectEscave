@@ -27,6 +27,7 @@ public class Player extends RigidBody {
 	public ArrayList<Integer> pressedKeys;
 	private Avatar background;
 	public HUD hud;
+	private boolean gameOver;
 
 	static final float bgW = 2461 * 2;
 	static final float bgH = 1675 * 2;
@@ -67,6 +68,7 @@ public class Player extends RigidBody {
 		this.pressedKeys = new ArrayList<Integer>();
 		this.setControlledEntity(this);
 		this.playAnimation("spawn", 9, 100, 0, -10, false);
+		this.gameOver = false;
 	}
 
 	public void setControlledEntity(Entity entity) {
@@ -143,11 +145,22 @@ public class Player extends RigidBody {
 			}
 		}
 
-		if (Model.exitOpened && this.getPosition().getX() >= Model.exitAvatar.getPosition().getX() + 3 * Block.SIZE
+		if (!this.gameOver && Model.exitOpened
+				&& this.getPosition().getX() >= Model.exitAvatar.getPosition().getX() + 3 * Block.SIZE
 				&& this.getPosition().getX() <= Model.exitAvatar.getPosition().getX() + 5 * Block.SIZE
 				&& this.getPosition().getY() >= Model.exitAvatar.getPosition().getY() + 4 * Block.SIZE
 				&& this.getPosition().getY() <= Model.exitAvatar.getPosition().getY() + 6 * Block.SIZE) {
 			this.gameOver();
+		}
+
+		if (this.gameOver) {
+			AnimatedImage gameOverAnim = (AnimatedImage) this.hud.gameOverAvatar.getPaintable();
+			if (gameOverAnim.isFinished())
+				this.hud.gameOver2();
+			if (this.getController().isKeyPressed(this, 113)) {
+				System.out.println("Restart");
+				// TODO Restart
+			}
 		}
 	}
 
@@ -279,7 +292,8 @@ public class Player extends RigidBody {
 	public void gameOver() {
 		System.out.println("End");
 		this.hud.showGameOver();
-		Model.deleteEntity(this);
+		this.gameOver = true;
+		// Model.deleteEntity(this);
 	}
 
 }
