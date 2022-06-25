@@ -70,6 +70,14 @@ public class MushroomBehaviour extends Behaviour {
 		if (cell(e, Direction.HERE, Category.PLAYER)) {
 			System.out.println("Mushroom hit player?");
 			super.ret.getBehaviour().protect(ret, d, e.degatMob);
+			switch (d) {
+			case EST:
+				e.playAnimation("attack-right", 4, 200, 0, -64, false);
+				break;
+			default:
+				e.playAnimation("attack-left", 4, 200, 0, -64, false);
+				break;
+			}
 		}
 		return;
 
