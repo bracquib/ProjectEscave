@@ -32,39 +32,37 @@ public class Player extends RigidBody {
 	static Vec2[] bgDiffs = { new Vec2(-bgW, -bgH), new Vec2(0, -bgH), new Vec2(bgW, -bgH), new Vec2(-bgW, 0),
 			new Vec2(bgW, 0), new Vec2(-bgW, bgH), new Vec2(0, bgH), new Vec2(bgW, bgH) };
 
-	public Player(LocalController c, PlayerColor color, Vec2 pos, boolean local, int points) {
+	public Player(LocalController c, PlayerColor color, Vec2 pos, int points) {
 		super(1, c, points);
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
 		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
 
-		if (local) {
-			this.setPosition(pos);
-			this.setCategory(Category.PLAYER);
-			this.setAutomata(Model.getAutomata("Player"));
-			this.setBehaviour(new PlayerBehaviour());
-			this.avatarOffset = new Vec2(0, -4);
-			AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
-			Image spriteBackground = new Image("bg_big.jpg");
-			spriteBackground.fixed = true;
-			sprite.layer = 1;
-			this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
+		this.setPosition(pos);
+		this.setCategory(Category.PLAYER);
+		this.setAutomata(Model.getAutomata("Player"));
+		this.setBehaviour(new PlayerBehaviour());
+		this.avatarOffset = new Vec2(0, -4);
+		AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
+		Image spriteBackground = new Image("bg_big.jpg");
+		spriteBackground.fixed = true;
+		sprite.layer = 1;
+		this.avatar = this.controller.createAvatar(this.getPosition().add(this.avatarOffset), sprite);
 
-			Vec2 bgPos = setBackground();
-			this.background = this.controller.createAvatar(bgPos, spriteBackground);
-			int i = 0;
-			for (Vec2 diff : bgDiffs) {
-				this.background.duplicates[i] = this.controller.createAvatar(bgPos.add(diff), spriteBackground);
-				i++;
-			}
-			this.inventory = Inventory.createInventory(c, this);
-			this.pressedKeys = new ArrayList<Integer>();
-
-			this.hungerPoints = maxHunger;
-			this.thirstPoints = maxThirst;
-			this.setControlledEntity(this);
-			this.playAnimation("spawn", 9, 100, 0, -10, false);
+		Vec2 bgPos = setBackground();
+		this.background = this.controller.createAvatar(bgPos, spriteBackground);
+		int i = 0;
+		for (Vec2 diff : bgDiffs) {
+			this.background.duplicates[i] = this.controller.createAvatar(bgPos.add(diff), spriteBackground);
+			i++;
 		}
+		this.inventory = Inventory.createInventory(c, this);
+		this.pressedKeys = new ArrayList<Integer>();
+
+		this.hungerPoints = maxHunger;
+		this.thirstPoints = maxThirst;
+		this.setControlledEntity(this);
+		this.playAnimation("spawn", 9, 100, 0, -10, false);
 	}
 
 	public void setControlledEntity(Entity entity) {

@@ -43,10 +43,6 @@ public class LocalController extends Controller {
 			this.views.add(v);
 		}
 		v.setController(this);
-		int playerNum = Model.playerCount.getAndIncrement();
-		v.setPlayer(Player.colorFromInt(playerNum));
-		Model.spawnPlayer(playerNum);
-		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer()));
 		for (Entity e : Model.allEntities()) {
 			Avatar a = e.getAvatar();
 			if (a != null) { // if the file couldn't be loaded, a will be null
@@ -60,6 +56,8 @@ public class LocalController extends Controller {
 				}
 			}
 		}
+		int playerNum = Model.playerCount.getAndIncrement();
+		v.setPlayer(Player.colorFromInt(playerNum));
 		Model.spawnPlayer(playerNum);
 		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer()));
 	}
