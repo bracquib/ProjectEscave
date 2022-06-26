@@ -82,7 +82,6 @@ public class MushroomBehaviour extends Behaviour {
 			}
 		}
 		return;
-
 	}
 
 	@Override

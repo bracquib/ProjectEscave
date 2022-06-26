@@ -1,15 +1,18 @@
 package info3.game;
 
 import info3.game.assets.Paintable;
+import info3.game.entities.PlayerColor;
 import info3.game.network.Close;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
+import info3.game.network.NetworkMessage;
 import info3.game.network.PlaySound;
 import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
+import info3.game.network.Welcome;
 
 public class RemoteView extends View {
-	ClientThread client;
+	private ClientThread client;
 
 	/**
 	 * Constructeur réservé aux tests
@@ -27,7 +30,7 @@ public class RemoteView extends View {
 	@Override
 	public void createAvatar(Avatar av) {
 		this.avatars.put(av.getId(), av);
-		this.client.send(new CreateAvatar(av));
+		this.send(new CreateAvatar(av));
 	}
 
 	@Override
@@ -44,32 +47,57 @@ public class RemoteView extends View {
 	@Override
 	public void updateAvatar(int id, Vec2 pos) {
 		super.updateAvatar(id, pos);
-		this.client.send(new UpdateAvatar(id, pos));
+		if (pos.distance(this.camera.getPos()) < 2200) {
+			this.send(new UpdateAvatar(id, pos));
+		}
 	}
 
 	@Override
 	public void updateAvatar(int id, String path) {
 		super.updateAvatar(id, path);
-		this.client.send(new UpdateAvatar(id, path));
+		this.send(new UpdateAvatar(id, path));
 	}
 
 	@Override
 	public void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos) {
-		this.client.send(new UpdateAvatar(id, p, offset, pos));
+		Avatar av = this.avatars.get(id);
+		if (av != null) {
+			if (av.fixed || pos.distance(this.camera.getPos()) < 2200) {
+				this.send(new UpdateAvatar(id, p, offset, pos));
+			}
+		}
 	}
 
 	@Override
 	protected void syncCamera(Avatar syncWith) {
 		this.setFollowedAvatar(syncWith);
-		this.client.send(new SyncCamera(syncWith));
+		this.send(new SyncCamera(syncWith));
 	}
 
 	public void playSound(int idx) {
-		this.client.send(new PlaySound(idx));
+		this.send(new PlaySound(idx));
 	}
 
 	@Override
 	public void close() {
-		this.client.send(new Close());
+		this.send(new Close());
+	}
+
+	private void send(NetworkMessage msg) {
+		if (this.client != null) {
+			this.client.send(msg);
+		}
+	}
+
+	public void actualSend() {
+		if (this.client != null) {
+			this.client.actualSend();
+		}
+	}
+
+	@Override
+	public void setPlayer(PlayerColor p) {
+		super.setPlayer(p);
+		this.send(new Welcome(p));
 	}
 }
