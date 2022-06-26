@@ -27,11 +27,11 @@ public class HUD {
 		int startY = this.startY();
 		Image selectedCell = new Image("inventory-cell-selected.png");
 		this.inventoryCells[0] = new AvatarBuilder(selectedCell).position(new Vec2(startX, startY)).scale(new Vec2(1))
-				.layer(1).fixed().build(this.controller);
+				.layer(1).fixed().buildFor(this.controller, this.player);
 		for (int i = 1; i < this.inventoryCells.length; i++) {
 			Image cell = new Image("inventory-cell.png");
 			this.inventoryCells[i] = new AvatarBuilder(cell).position(new Vec2(startX + 74 * i, startY))
-					.scale(new Vec2(1)).layer(1).fixed().build(this.controller);
+					.scale(new Vec2(1)).layer(1).fixed().buildFor(this.controller, this.player);
 		}
 		String[] items = { "pioche", "sword", "gourde_pleine", "comestibles",
 				"classic_block/player_" + this.player.name().toLowerCase() };
@@ -44,7 +44,7 @@ public class HUD {
 			Vec2 pos = new Vec2(startX + 74 * i, startY);
 			int count = player.getInventory().coupleAt(i).getNumber();
 			this.labels[i] = new AvatarBuilder(new Label(Integer.toString(count))).position(pos.add(new Vec2(40, 60)))
-					.fixed().layer(3).build(this.controller);
+					.fixed().layer(3).buildFor(this.controller, this.player);
 			// miam le code sale
 			if (i == 2) {
 				pos.y -= 2;
@@ -53,7 +53,7 @@ public class HUD {
 				pos = pos.add(16);
 			}
 			this.inventoryItems[i] = new AvatarBuilder(img).position(pos).scale(new Vec2(1)).fixed(true).layer(2)
-					.build(this.controller);
+					.buildFor(this.controller, this.player);
 
 			i++;
 		}
@@ -63,7 +63,7 @@ public class HUD {
 		startY -= 54;
 		for (int j = 0; j < this.lifes.length; j++) {
 			this.lifes[j] = new AvatarBuilder(heart).position(new Vec2(startX + 32 * j, startY)).duplicate(false)
-					.fixed(true).layer(2).scale(new Vec2(1)).build(this.controller);
+					.fixed(true).layer(2).scale(new Vec2(1)).buildFor(this.controller, this.player);
 		}
 
 		this.food = new Avatar[player.getHungerPoints()];
@@ -71,7 +71,7 @@ public class HUD {
 		startY -= 32;
 		for (int j = 0; j < this.food.length; j++) {
 			this.food[j] = new AvatarBuilder(foodImg).position(new Vec2(startX + 32 * j, startY)).duplicate(false)
-					.fixed(true).layer(2).scale(new Vec2(1)).build(this.controller);
+					.fixed(true).layer(2).scale(new Vec2(1)).buildFor(this.controller, this.player);
 		}
 
 		this.water = new Avatar[player.getThirstPoints()];
@@ -79,7 +79,7 @@ public class HUD {
 		startY -= 32;
 		for (int j = 0; j < this.water.length; j++) {
 			this.water[j] = new AvatarBuilder(waterImg).position(new Vec2(startX + 32 * j, startY)).duplicate(false)
-					.fixed(true).layer(2).scale(new Vec2(1)).build(this.controller);
+					.fixed(true).layer(2).scale(new Vec2(1)).buildFor(this.controller, this.player);
 		}
 	}
 
@@ -130,6 +130,9 @@ public class HUD {
 	}
 
 	private void moveAvatar(Avatar[] collection, int idx, float newY) {
+		if (idx < 0 || idx >= collection.length) {
+			return;
+		}
 		float currentX = collection[idx].getPosition().getX();
 		this.controller.updateAvatar(collection[idx].getId(), new Vec2(currentX, newY));
 	}

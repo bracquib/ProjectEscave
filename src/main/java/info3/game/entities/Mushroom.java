@@ -15,17 +15,19 @@ public class Mushroom extends RigidBody {
 
 	public int childRemain;
 
-	public Mushroom(LocalController c, Vec2 pos, int points, int remain) {
-		super(1, c, 100);
-		childRemain = remain;
+	public Mushroom(LocalController c, Vec2 pos, int remain) {
+		super(1, c, 150 * remain);
+		int level = remain + 1;
+		this.childRemain = remain;
 		this.setPosition(pos);
 		this.setCategory(Category.ADVERSAIRE);
 		this.setAutomata(Model.getAutomata("Mushroom"));
 		this.setBehaviour(new MushroomBehaviour());
-		this.degatMob = 1;
+		this.speedFactor = 3 - level;
+		this.degatMob = level;
 		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
-		this.avatar = new AvatarBuilder(new AnimatedImage(this.avatarPath(), 4, 200, true)).position(this.getPosition())
-				.build(this.controller);
+		this.avatar = new AvatarBuilder(new AnimatedImage(this.avatarPath(), 4, 200, true)).scale(new Vec2(level))
+				.position(this.getPosition()).build(this.controller);
 		this.playAnimation("spawn-right", 4, 100, 0, -10, false);
 	}
 

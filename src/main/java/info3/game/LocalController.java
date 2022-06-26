@@ -296,4 +296,12 @@ public class LocalController extends Controller {
 			v.playSound(i);
 		}
 	}
+
+	@Override
+	protected Avatar createAvatarFor(Avatar av, PlayerColor p) {
+		int id = Controller.avatarID.getAndIncrement();
+		av.id = id;
+		this.viewFor(p).createAvatar(av);
+		return av;
+	}
 }

@@ -89,7 +89,7 @@ public class PlayerBehaviour extends Behaviour {
 				}
 				estElapsed = System.currentTimeMillis();
 			}
-			p.getSpeed().setX(190);
+			p.getSpeed().setX(190 * p.speedFactor);
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-right", 5, 200, 0, -4, false, true);
 			p.setDirection(Direction.EST);
@@ -214,7 +214,7 @@ public class PlayerBehaviour extends Behaviour {
 			p.getSpeed().setY(-240);
 			break;
 		case EST:
-			p.getSpeed().setX(240);
+			p.getSpeed().setX(240 * p.speedFactor);
 			break;
 		case WEST:
 			p.getSpeed().setX(-240);

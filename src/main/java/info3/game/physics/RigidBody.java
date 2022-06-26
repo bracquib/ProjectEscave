@@ -9,6 +9,7 @@ import info3.game.entities.Entity;
 public class RigidBody extends Entity {
 	private Vec2 force;
 	private Vec2 speed;
+	public float speedFactor = 1;
 	private float mass;
 	public RbState type;
 	private Direction direction;
@@ -64,7 +65,7 @@ public class RigidBody extends Entity {
 
 	// speed
 	public void setSpeed(Vec2 speed) {
-		this.speed = speed;
+		this.speed = speed.multiply(this.speedFactor);
 	}
 
 	public final Vec2 getSpeed() {

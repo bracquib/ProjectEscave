@@ -38,4 +38,6 @@ public abstract class Controller {
 	protected abstract void updateAvatar(int i, Vec2 pos);
 
 	protected abstract Avatar createAvatar(Avatar a);
+
+	protected abstract Avatar createAvatarFor(Avatar a, PlayerColor p);
 }

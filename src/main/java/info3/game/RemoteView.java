@@ -27,13 +27,13 @@ public class RemoteView extends View {
 	@Override
 	public void createAvatar(Avatar av) {
 		this.avatars.put(av.getId(), av);
-		((LocalController) this.controller).sendToClients(new CreateAvatar(av));
+		this.client.send(new CreateAvatar(av));
 	}
 
 	@Override
 	public void deleteAvatar(int id) {
 		super.deleteAvatar(id);
-		((LocalController) this.controller).sendToClients(new DeleteAvatar(id));
+		this.client.send(new DeleteAvatar(id));
 	}
 
 	@Override
@@ -44,32 +44,32 @@ public class RemoteView extends View {
 	@Override
 	public void updateAvatar(int id, Vec2 pos) {
 		super.updateAvatar(id, pos);
-		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, pos));
+		this.client.send(new UpdateAvatar(id, pos));
 	}
 
 	@Override
 	public void updateAvatar(int id, String path) {
 		super.updateAvatar(id, path);
-		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, path));
+		this.client.send(new UpdateAvatar(id, path));
 	}
 
 	@Override
 	public void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos) {
-		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, p, offset, pos));
+		this.client.send(new UpdateAvatar(id, p, offset, pos));
 	}
 
 	@Override
 	protected void syncCamera(Avatar syncWith) {
 		this.setFollowedAvatar(syncWith);
-		((LocalController) this.controller).sendTo(this.getPlayer(), new SyncCamera(syncWith));
+		this.client.send(new SyncCamera(syncWith));
 	}
 
 	public void playSound(int idx) {
-		((LocalController) this.controller).sendToClients(new PlaySound(idx));
+		this.client.send(new PlaySound(idx));
 	}
 
 	@Override
 	public void close() {
-		((LocalController) this.controller).sendToClients(new Close());
+		this.client.send(new Close());
 	}
 }

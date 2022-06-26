@@ -62,7 +62,7 @@ public class MobSpawner {
 	}
 
 	private static void spawn(Block block) {
-		Mushroom mob = new Mushroom(Model.controller, block.getPosition(), 10, 1);
+		Mushroom mob = new Mushroom(Model.controller, block.getPosition(), 1);
 		Model.spawn(mob);
 	}
 
