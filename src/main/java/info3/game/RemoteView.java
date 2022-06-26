@@ -46,10 +46,7 @@ public class RemoteView extends View {
 	@Override
 	public void updateAvatar(int id, Vec2 pos) {
 		super.updateAvatar(id, pos);
-		Avatar av = this.getAvatar(id);
-		if (pos.distance(this.camera.getPos()) < 2200 || av == null || av.fixed) {
-			this.send(new UpdateAvatar(id, pos));
-		}
+		this.send(new UpdateAvatar(id, pos));
 	}
 
 	@Override
@@ -61,9 +58,7 @@ public class RemoteView extends View {
 	@Override
 	public void updateAvatar(Avatar av) {
 		if (av != null) {
-			if (av.fixed || av.getPosition().distance(this.camera.getPos()) < 2200) {
-				this.send(new UpdateAvatar(av));
-			}
+			this.send(new UpdateAvatar(av));
 		}
 	}
 
