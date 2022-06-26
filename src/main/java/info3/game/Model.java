@@ -67,7 +67,7 @@ public class Model {
 	public static Vec2 exitPoint;
 	public static Avatar exitAvatar;
 
-	private static final int maxPlayers = 1;
+	private static final int maxPlayers = 2;
 
 	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;
