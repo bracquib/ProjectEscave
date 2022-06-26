@@ -107,5 +107,6 @@ Statue(Init){
 Socle(Init){
 	*(Init):
 	|Cell(N,@) ? Wizz() :(Init)
+	|Cell(N,T) ? Wizz() :(Init)
 	|True ? :(Init)
 }

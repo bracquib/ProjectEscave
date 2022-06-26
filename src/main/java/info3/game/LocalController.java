@@ -95,12 +95,14 @@ public class LocalController extends Controller {
 	}
 
 	public View viewFor(PlayerColor p) {
-		for (View v : this.views) {
-			if (v.getPlayer() == p) {
-				return v;
+		synchronized (this.views) {
+			for (View v : this.views) {
+				if (v.getPlayer() == p) {
+					return v;
+				}
 			}
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -110,8 +112,7 @@ public class LocalController extends Controller {
 
 	@Override
 	public Avatar createAvatar(Avatar av) {
-		int id = Controller.avatarID;
-		Controller.avatarID++;
+		int id = Controller.avatarID.getAndIncrement();
 		av.id = id;
 		synchronized (this.views) {
 			for (View v : this.views) {
@@ -261,11 +262,11 @@ public class LocalController extends Controller {
 			if (v instanceof RemoteView) {
 				RemoteView rv = (RemoteView) v;
 				if (rv.client != null) {
-					rv.client.send(new UpdateAvatar(av.getId(), p, av.getPosition()));
+					rv.client.send(new UpdateAvatar(av.getId(), p, av.getOffset(), av.getPosition()));
 				}
 			} else if (v instanceof LocalView) {
 				LocalView lv = (LocalView) v;
-				lv.updateAvatar(av.getId(), p, av.getPosition());
+				lv.updateAvatar(av.getId(), p, av.getOffset(), av.getPosition());
 			}
 		}
 	}
@@ -288,10 +289,6 @@ public class LocalController extends Controller {
 
 	public void syncCamera(PlayerColor p, Entity syncWith) {
 		this.viewFor(p).syncCamera(syncWith.getAvatar());
-	}
-
-	public void setCameraOffset(PlayerColor p, Vec2 offset) {
-		this.viewFor(p).setCameraOffset(offset);
 	}
 
 	public void playSound(int i) {

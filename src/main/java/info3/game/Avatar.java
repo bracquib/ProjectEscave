@@ -1,18 +1,21 @@
 package info3.game;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import info3.game.assets.AnimatedImage;
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
 import info3.game.entities.Block;
 
-public class Avatar {
+public class Avatar implements Serializable {
+	private static final long serialVersionUID = -7965867647047274240L;
 	int id;
 	int layer;
 	boolean fixed;
 	Vec2 position;
 	Vec2 scale;
+	Vec2 offset = new Vec2(0);
 	Paintable image;
 
 	public int getId() {
@@ -133,9 +136,9 @@ public class Avatar {
 	public void paint(Graphics g, Vec2 cameraPos) {
 		Vec2 screenCoords;
 		if (!this.fixed) {
-			screenCoords = this.position.globalToScreen(cameraPos);
+			screenCoords = this.position.add(this.offset).globalToScreen(cameraPos);
 		} else {
-			screenCoords = this.position;
+			screenCoords = this.position.add(this.offset);
 		}
 		this.image.paint(g, screenCoords, scale);
 	}
@@ -160,5 +163,13 @@ public class Avatar {
 	@Override
 	public boolean equals(Object other) {
 		return other instanceof Avatar && this.id == ((Avatar) other).id;
+	}
+
+	public Vec2 getOffset() {
+		return this.offset;
+	}
+
+	public void setOffset(Vec2 offset) {
+		this.offset = offset;
 	}
 }

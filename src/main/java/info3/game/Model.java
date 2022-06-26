@@ -66,7 +66,7 @@ public class Model {
 	public static Vec2 exitPoint;
 	public static Avatar exitAvatar;
 
-	private static final int maxPlayers = 1;
+	private static final int maxPlayers = 2;
 
 	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;
@@ -208,7 +208,6 @@ public class Model {
 		if (activatedSocles == playerCount.get() && !exitOpened) {
 			AnimatedImage newAnim = new AnimatedImage("exit/exit-destroy.png", 5, 200, false);
 			exitAvatar.setPaintable(newAnim);
-			// exitAvatar.setPosition(this.getPosition().add(this.avatarOffset));
 			Model.controller.updatePaintable(exitAvatar, newAnim);
 			System.out.println("Sortie activée");
 			exitOpened = true;

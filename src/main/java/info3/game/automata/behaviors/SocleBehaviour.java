@@ -47,10 +47,12 @@ public class SocleBehaviour extends Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		super.ret = null;
-		if (cell(e, Direction.NORTH, Category.PLAYER)) {
-			if (super.ret.getBehaviour() instanceof StatueBehaviour) {
-				super.ret.getBehaviour().explode(super.ret);
-				super.ret.setPosition(e.getPosition().add(new Vec2(0, -96)));
+		if (cell(e, Direction.NORTH, Category.TEAM) || cell(e, Direction.NORTH, Category.PLAYER)) {
+			if (super.ret.getBehaviour() == null || super.ret.getBehaviour() instanceof StatueBehaviour) {
+				if (super.ret.getBehaviour() != null) {
+					super.ret.getBehaviour().explode(super.ret);
+					super.ret.setPosition(e.getPosition().add(new Vec2(0, -96)));
+				}
 				e.getController().playSound(6);
 				((Socle) e).isActivated = true;
 				Model.incrementActivatedSocles();
