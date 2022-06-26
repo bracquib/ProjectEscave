@@ -67,7 +67,7 @@ public class StalactiteBehaviour extends Behaviour {
 		// pop=exploser
 		System.out.println("pop");
 		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - (int) (Block.SIZE / 2),
-				(int) (e.getPosition().getY()) - Block.SIZE, Block.SIZE * 2, Block.SIZE * 3);
+				(int) (e.getPosition().getY()) - Block.SIZE, Block.SIZE * 3, Block.SIZE * 3);
 		for (Entity e1 : nearEntities) {
 			Category cat = e1.getCategory();
 			if (cat == Category.PLAYER || cat == Category.ADVERSAIRE) {

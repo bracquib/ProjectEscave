@@ -38,7 +38,7 @@ public class Player extends RigidBody {
 		super(1, c, points);
 		this.color = color;
 		this.avatarOffset = new Vec2(0, -20);
-		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 0);
 
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
