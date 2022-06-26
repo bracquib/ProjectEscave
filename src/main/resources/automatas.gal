@@ -81,8 +81,8 @@ Player(Init){
 Mushroom(Init){
 	*(Init):
 	| !GotPower() ? : (Mort)
-	| Cell(W,@) ? Move(S) & Pop(W) :(Cooldown1000)
-	| Cell(H,@) ? Move(S) & Pop(E) :(Cooldown1000)
+	| Cell(W,@) ? Move(S) & Pop(W) :(Cooldown3000)
+	| Cell(H,@) ? Move(S) & Pop(E) :(Cooldown3000)
 
 	| Closest(@,E) & Cell(E,J) ? Wizz(NE) :(Init)
 	| Closest(@,W) & Cell(W,J) ? Wizz(NW) :(Init)
@@ -92,7 +92,7 @@ Mushroom(Init){
 
 	| True ? Move(S) :(Init)
 	
-	*(Cooldown1000)
+	*(Cooldown3000)
 	| True ? :(Init)
 	
 	

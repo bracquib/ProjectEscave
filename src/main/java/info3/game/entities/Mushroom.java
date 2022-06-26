@@ -58,7 +58,7 @@ public class Mushroom extends RigidBody {
 
 	@Override
 	public void playAnimation(String name, int fc, int delay, int offsetX, int offsetY, boolean loop) {
-		int scale = 2 - this.childRemain;
+		int scale = this.childRemain;
 		super.playAnimation(name, fc, delay, offsetX * scale, offsetY * scale, loop);
 	}
 }
