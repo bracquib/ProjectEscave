@@ -38,7 +38,7 @@ public class Pickaxe extends Weapon {
 			Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
 			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
 
-			if (underCursor.id == 600) {
+			if (target.id == 600) {
 				if (owner.getInventory().coupleAt(2).getNumber() == 0) {
 					Inventory inv = owner.getInventory();
 					inv.pick(inv.toolAt(2));
