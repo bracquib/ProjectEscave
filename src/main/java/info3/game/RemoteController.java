@@ -94,8 +94,7 @@ public class RemoteController extends Controller {
 
 	@Override
 	public Avatar createAvatar(Avatar av) {
-		int id = Controller.avatarID;
-		Controller.avatarID++;
+		int id = Controller.avatarID.incrementAndGet();
 		av.id = id;
 		this.view.createAvatar(av);
 		return av;
