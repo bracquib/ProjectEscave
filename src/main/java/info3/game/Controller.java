@@ -1,5 +1,7 @@
 package info3.game;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import info3.game.entities.PlayerColor;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
@@ -23,7 +25,7 @@ public abstract class Controller {
 
 	public abstract void addView(View v);
 
-	static int avatarID = 0;
+	static AtomicInteger avatarID = new AtomicInteger(0);
 
 	protected abstract void removeView(RemoteView view);
 

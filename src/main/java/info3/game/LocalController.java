@@ -112,8 +112,7 @@ public class LocalController extends Controller {
 
 	@Override
 	public Avatar createAvatar(Avatar av) {
-		int id = Controller.avatarID;
-		Controller.avatarID++;
+		int id = Controller.avatarID.getAndIncrement();
 		av.id = id;
 		synchronized (this.views) {
 			for (View v : this.views) {

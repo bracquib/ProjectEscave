@@ -47,7 +47,7 @@ public class SocleBehaviour extends Behaviour {
 	@Override
 	public void wizz(Entity e, Direction d) {
 		super.ret = null;
-		if (cell(e, Direction.NORTH, Category.PLAYER)) {
+		if (cell(e, Direction.NORTH, Category.TEAM)) {
 			if (super.ret.getBehaviour() instanceof StatueBehaviour) {
 				super.ret.getBehaviour().explode(super.ret);
 				super.ret.setPosition(e.getPosition().add(new Vec2(0, -96)));

@@ -19,7 +19,6 @@ public class Pickaxe extends Weapon {
 
 	public boolean useTool(Direction d) { // pas owner de pickaxe car null
 		Vec2 mousePos = owner.mousePos;
-		Block underCursor = Model.getBlock((int) mousePos.getX() / Block.SIZE, (int) mousePos.getY() / Block.SIZE);
 
 		Vec2 playerPos = owner.getPosition();
 
@@ -35,7 +34,7 @@ public class Pickaxe extends Weapon {
 
 		Block target = RayCasting.singleCast(mousePos, playerPos.add(Block.SIZE / 2), 3);
 
-		if (target != null && target == underCursor) {
+		if (target != null) {
 			Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
 			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
 
@@ -44,7 +43,7 @@ public class Pickaxe extends Weapon {
 				elapsed = System.currentTimeMillis();
 			}
 
-			if (underCursor.id == 600) {
+			if (target.id == 600) {
 				if (owner.getInventory().coupleAt(2).getNumber() == 0) {
 					Inventory inv = owner.getInventory();
 					inv.pick(inv.toolAt(2));
