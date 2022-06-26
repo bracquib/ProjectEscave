@@ -31,6 +31,11 @@ public class AssetServer {
 			server.cache.put(path, request);
 			return request;
 		}
-		return asset;
+		// TODO: find a better solution to avoid this special case
+		if (asset instanceof AnimatedImage) {
+			return (T) ((AnimatedImage) asset).clone();
+		} else {
+			return asset;
+		}
 	}
 }
