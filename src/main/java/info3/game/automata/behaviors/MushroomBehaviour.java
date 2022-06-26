@@ -113,6 +113,7 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
 		e.setPointsDeVie(e.getPointsDeVie() - dmg);
+		System.out.println(e.getPointsDeVie());
 		RigidBody p = (RigidBody) e;
 		if (e.getPointsDeVie() <= 0) {
 			if (ret instanceof Player) {
@@ -222,8 +223,8 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public void egg(Entity e, Direction d) {
 		Mushroom pere = (Mushroom) e;
-		for (int c = 0; c < pere.childRemain; c++) {
-			int decX;
+		for (int c = 0; c <= pere.childRemain; c++) {
+			int decX = 48;
 			switch (d) {
 			case EST:
 				decX = 48;

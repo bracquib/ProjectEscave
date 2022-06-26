@@ -23,11 +23,12 @@ public class Mushroom extends RigidBody {
 		this.setCategory(Category.ADVERSAIRE);
 		this.setAutomata(Model.getAutomata("Mushroom"));
 		this.setBehaviour(new MushroomBehaviour());
-		this.speedFactor = 3 - level;
+		this.speedFactor = 5 - (level * 2);
 		this.degatMob = level;
 		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
-		this.avatar = new AvatarBuilder(new AnimatedImage(this.avatarPath(), 4, 200, true)).scale(new Vec2(level))
-				.position(this.getPosition()).build(this.controller);
+		this.avatar = new AvatarBuilder(new AnimatedImage(this.avatarPath(), 4, 200, true))
+				.offsetY((2 - level) * -Block.SIZE).scale(new Vec2(level)).position(this.getPosition())
+				.build(this.controller);
 		this.playAnimation("spawn-right", 4, 100, 0, -10, false);
 	}
 
