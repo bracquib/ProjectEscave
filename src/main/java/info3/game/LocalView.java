@@ -50,8 +50,8 @@ public class LocalView extends View {
 		this.listener = new CanvasListener(this);
 
 		this.canvas = new GameCanvas(this.listener);
-		Dimension d = new Dimension(1500, 1000);
-		this.setDimensions(new Vec2(1500, 1000));
+		Dimension d = new Dimension(1920, 1080);
+		this.setDimensions(new Vec2(1920, 1080));
 		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();

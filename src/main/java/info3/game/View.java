@@ -79,21 +79,24 @@ public abstract class View {
 	}
 
 	protected int getWidth() {
-		return (int) this.dimensions.getX();
+		// return (int) this.dimensions.getX();
+		return 1920;
 	}
 
 	protected int getHeight() {
-		return (int) this.dimensions.getY();
+		// return (int) this.dimensions.getY();
+		return 1080;
 	}
 
 	public abstract void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos);
 
 	public void setDimensions(Vec2 size) {
-		this.dimensions = size;
+		// this.dimensions = size;
 	}
 
 	public Vec2 getDimensions() {
-		return this.dimensions;
+		// return this.dimensions;
+		return new Vec2(1920, 1080);
 	}
 
 	protected abstract void syncCamera(Avatar syncWith);

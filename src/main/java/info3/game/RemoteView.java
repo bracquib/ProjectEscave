@@ -65,9 +65,7 @@ public class RemoteView extends View {
 
 	@Override
 	protected void setCameraOffset(Vec2 offset) {
-		// TODO Auto-generated method stub
-		// ((LocalController) this.controller).sendTo(this.getPlayer(), new
-		// CameraOffset(offset));
+		this.camera.setOffset(offset);
 	}
 
 	public void playSound(int idx) {
