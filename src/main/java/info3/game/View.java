@@ -30,11 +30,13 @@ public abstract class View {
 	public abstract void createAvatar(Avatar av);
 
 	public void deleteAvatar(int id) {
-		Avatar av = this.avatars.remove(id);
-		if (av != null && av.duplicates != null) {
-			for (Avatar dup : av.duplicates) {
-				if (dup != null) {
-					this.controller.deleteAvatar(dup.getId());
+		synchronized (this.avatars) {
+			Avatar av = this.avatars.remove(id);
+			if (av != null && av.duplicates != null) {
+				for (Avatar dup : av.duplicates) {
+					if (dup != null) {
+						this.controller.deleteAvatar(dup.getId());
+					}
 				}
 			}
 		}
