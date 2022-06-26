@@ -196,7 +196,7 @@ public class Model {
 				Model.spawn(new Stalactite((LocalController) Controller.controller, posStalactite.multiply(Block.SIZE),
 						10));
 			}
-			MobSpawner.init(150, 0.00005f);
+			MobSpawner.init(30, 0.00003f);
 		}
 
 		if (elapsed > 200) {

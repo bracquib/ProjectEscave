@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import info3.game.entities.Block;
 import info3.game.entities.Mushroom;
 import info3.game.entities.Player;
+import info3.game.physics.RigidBody;
 
 /*
  * 2 3 22 
@@ -14,8 +15,8 @@ public class MobSpawner {
 	private static int maxEntity;
 	public static float spawnProba;
 
-	public final static int MIN_SPAWN_DISTANCE = 20;
-	public final static int MAX_SPAWN_DISTANCE = 30;
+	public final static int MIN_SPAWN_DISTANCE = 12;
+	public final static int MAX_SPAWN_DISTANCE = 16;
 
 	public static void init(int maxEntityPerPlayer, float probaSpawnPerPlayer) {
 		maxEntity = maxEntityPerPlayer * Model.getPlayers().size();
@@ -31,7 +32,14 @@ public class MobSpawner {
 			maxD = MIN_SPAWN_DISTANCE;
 		}
 
-		if (Model.getEntities().size() >= maxEntity) {
+		int mobCount = 0;
+		for (RigidBody rb : Model.getEntities()) {
+			if (rb instanceof Mushroom) {
+				mobCount++;
+			}
+		}
+
+		if (mobCount >= maxEntity) {
 			System.out.println("Max d'entites atteint");
 			return;
 		}
