@@ -95,12 +95,14 @@ public class LocalController extends Controller {
 	}
 
 	public View viewFor(PlayerColor p) {
-		for (View v : this.views) {
-			if (v.getPlayer() == p) {
-				return v;
+		synchronized (this.views) {
+			for (View v : this.views) {
+				if (v.getPlayer() == p) {
+					return v;
+				}
 			}
+			return null;
 		}
-		return null;
 	}
 
 	@Override

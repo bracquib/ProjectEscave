@@ -179,7 +179,7 @@ public class LocalView extends View {
 			if (!this.sortedAvatars.add(av)) {
 				this.sortedAvatars.remove(av);
 				this.sortedAvatars.add(av);
-				if (av.getId() == this.camera.followedAvatar.getId()) {
+				if (this.camera.followedAvatar != null && av.getId() == this.camera.followedAvatar.getId()) {
 					this.camera.setAvatar(av);
 				}
 			}
