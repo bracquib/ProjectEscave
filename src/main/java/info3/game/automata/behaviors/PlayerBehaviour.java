@@ -90,7 +90,7 @@ public class PlayerBehaviour extends Behaviour {
 				}
 				estElapsed = System.currentTimeMillis();
 			}
-			p.getSpeed().setX(190);
+			p.getSpeed().setX(390);
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-right", 5, 200, 0, -4, false, true);
 			p.setDirection(Direction.EST);
@@ -103,7 +103,7 @@ public class PlayerBehaviour extends Behaviour {
 				}
 				westElapsed = System.currentTimeMillis();
 			}
-			p.getSpeed().setX(-190);
+			p.getSpeed().setX(-390);
 
 			if (anim.isCancellable() || anim.isFinished() || anim.isLoop())
 				p.playAnimation("walk-left", 5, 200, 0, -4, false, true);
@@ -130,7 +130,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
-		((RigidBody) e).getSpeed().setY(-270);
+		((RigidBody) e).getSpeed().setY(-370);
 
 		if (System.currentTimeMillis() - jumpElapsed > 200) {
 			if (e instanceof Player) {

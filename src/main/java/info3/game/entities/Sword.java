@@ -33,14 +33,14 @@ public class Sword extends Weapon {
 			decX = (int) (-Block.SIZE * 1.5);
 			decY = -Block.SIZE * 2;
 			width = Block.SIZE * 3;
-			height = Block.SIZE * 2;
+			height = (int) (Block.SIZE * 2.5);
 			owner.playAnimation("attack-right", 5, 200, 0, -4, false);
 			break;
 		case SOUTH:
 			decX = (int) (-Block.SIZE * 1.5);
-			decY = +Block.SIZE;
+			decY = 0;
 			width = Block.SIZE * 3;
-			height = Block.SIZE * 2;
+			height = Block.SIZE * 3;
 			owner.playAnimation("attack-right", 5, 200, 0, -4, false);
 			break;
 		case EST:

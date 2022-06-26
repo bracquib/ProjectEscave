@@ -43,8 +43,8 @@ public class Model {
 	/**
 	 * La liste des entités dynamiques à spawner au prochain tick
 	 * 
-	 * On ajoute pas directement dans entities pour éviter des accès concurrents
-	 * par plusieurs threads #réseau #parallélisme
+	 * On ajoute pas directement dans entities pour éviter des accès concurrents par
+	 * plusieurs threads #réseau #parallélisme
 	 */
 	static ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
 
@@ -52,11 +52,11 @@ public class Model {
 	 * La liste des blocs de la carte.
 	 * 
 	 * Les élements de ce tableau sont aussi dans le tableau `entities`. Cette
-	 * duplication permet d'accéder précisément à un bloc à une position
-	 * donnée. En réalité, il n'y a pas de duplication, juste de l'aliasing.
+	 * duplication permet d'accéder précisément à un bloc à une position donnée. En
+	 * réalité, il n'y a pas de duplication, juste de l'aliasing.
 	 * 
-	 * On peut voir la carte comme une matrice, dont on peut accéder à un
-	 * élément précis avec la méthode getBlock(x, y) de cette classe.
+	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
+	 * précis avec la méthode getBlock(x, y) de cette classe.
 	 */
 	private static Map map;
 
@@ -66,7 +66,7 @@ public class Model {
 	public static Vec2 exitPoint;
 	public static Avatar exitAvatar;
 
-	private static final int maxPlayers = 2;
+	private static final int maxPlayers = 1;
 
 	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;

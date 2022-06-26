@@ -31,7 +31,7 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public boolean closest(Entity e, Category c, Direction d, int diam_vision) {
 
-		int diam = 320; // en pixel
+		int diam = 420; // en pixel
 		return super.closest(e, c, d, diam);
 	}
 
@@ -49,14 +49,14 @@ public class MushroomBehaviour extends Behaviour {
 		case NORTHEST:
 			RigidBody p = (RigidBody) e;
 			// new RigidBody(e, 1, 5);
-			p.getSpeed().setY(-270);
-			p.getSpeed().setX(150);
+			p.getSpeed().setY(-370);
+			p.getSpeed().setX(250);
 			break;
 		case NORTHWEST:
 			RigidBody p1 = (RigidBody) e;
 			// new RigidBody(e, 1, 5);
-			p1.getSpeed().setY(-270);
-			p1.getSpeed().setX(150);
+			p1.getSpeed().setY(-370);
+			p1.getSpeed().setX(250);
 			break;
 		default:
 			break;
