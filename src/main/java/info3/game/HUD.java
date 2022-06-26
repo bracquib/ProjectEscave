@@ -139,27 +139,39 @@ public class HUD {
 	}
 
 	public void loseLife(int newVal) {
-		this.moveAvatar(this.lifes, newVal, -10000);
+		for (int i = newVal; i < this.lifes.length; i++) {
+			this.moveAvatar(this.lifes, i, -10000);
+		}
 	}
 
 	public void loseFood(int newVal) {
-		this.moveAvatar(this.food, newVal, -10000);
+		for (int i = newVal; i < this.food.length; i++) {
+			this.moveAvatar(this.food, i, -10000);
+		}
 	}
 
 	public void loseWater(int newVal) {
-		this.moveAvatar(this.water, newVal, -10000);
+		for (int i = newVal; i < this.water.length; i++) {
+			this.moveAvatar(this.water, i, -10000);
+		}
 	}
 
 	public void gainLife(int newVal) {
-		this.moveAvatar(this.lifes, newVal - 1, this.startY() - 54);
+		for (int i = 0; i < newVal; i++) {
+			this.moveAvatar(this.lifes, i, this.startY() - 54);
+		}
 	}
 
 	public void gainFood(int newVal) {
-		this.moveAvatar(this.food, newVal - 1, this.startY() - 86);
+		for (int i = 0; i < newVal; i++) {
+			this.moveAvatar(this.food, i, this.startY() - 86);
+		}
 	}
 
 	public void gainWater(int newVal) {
-		this.moveAvatar(this.water, newVal - 1, this.startY() - 118);
+		for (int i = 0; i < newVal; i++) {
+			this.moveAvatar(this.water, i, this.startY() - 118);
+		}
 	}
 
 	private int startY() {
