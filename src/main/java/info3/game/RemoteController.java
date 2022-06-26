@@ -58,8 +58,7 @@ public class RemoteController extends Controller {
 	public void tick(long elapsed) {
 		// Le serveur tick de lui-même, pas besoin de lui signaler qu'il faut ticker
 		// cependant pour que les animations aillent à la bonne vitesse, il faut les
-		// faire
-		// tick deux fois (dont une dans le controlleur)
+		// faire tick deux fois (dont une dans le controlleur)
 		synchronized (this.view.avatars) {
 			for (Avatar a : this.view.avatars.values()) {
 				a.tick(elapsed);
@@ -79,7 +78,7 @@ public class RemoteController extends Controller {
 
 				this.view = (LocalView) v;
 				System.out.println("send joingame");
-				this.networkSender.send(null, new JoinGame(v.getDimensions()));
+				this.networkSender.send(null, new JoinGame(v.getDimensions(), v.options));
 			} catch (ConnectException ce) {
 				try {
 					Thread.sleep(500);

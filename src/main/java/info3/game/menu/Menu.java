@@ -5,6 +5,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import info3.game.Client;
+import info3.game.LocalController;
+import info3.game.Server;
 import info3.game.Sound;
 
 public class Menu extends State implements Statemethods {
@@ -42,10 +44,17 @@ public class Menu extends State implements Statemethods {
 						Client.startGame();
 						this.game.gameThread.interrupt();
 						this.game.gamewindow.dispose();
-						;
-
 					} else {
-
+						if (Options.ip.equals("127.0.0.1")) {
+							Thread serverThread = new Thread(() -> {
+								LocalController controller = new LocalController();
+								Server.run(controller);
+							});
+							serverThread.start();
+						}
+						Client.startGame(Options.ip, 1906);
+						this.game.gameThread.interrupt();
+						this.game.gamewindow.dispose();
 					}
 				});
 		buttons[1] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (220 * GameJerem.SCALE), 1, Gamestate.OPTIONS,

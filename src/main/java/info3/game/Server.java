@@ -13,18 +13,18 @@ public class Server {
 	public static void main(String[] args) {
 		AssetServer.init(false);
 		// TODO: parse parameters
-		ArrayList<View> clients = new ArrayList<View>();
-		LocalController controller = new LocalController(clients);
+		LocalController controller = new LocalController();
 		Server.run(controller);
 	}
 
-	private static void run(LocalController controller) {
+	public static void run(LocalController controller) {
 		try {
 			ServerThread server = new ServerThread(controller);
 			TickerThread ticker = new TickerThread(controller, server);
 			ticker.start();
 			server.start();
 
+			server.join();
 			for (ClientThread ct : server.clients) {
 				ct.join();
 			}
@@ -61,7 +61,7 @@ class TickerThread extends Thread {
 							rv.actualSend();
 						}
 					}
-					if (views.isEmpty() && !Model.getPlayers().isEmpty()) {
+					if (Model.options != null && views.isEmpty() && Model.getPlayers().size() > 0) {
 						this.serverThread.sock.close();
 						return;
 					}
@@ -95,6 +95,7 @@ class ServerThread extends Thread {
 			try {
 				Socket client = this.sock.accept();
 				ClientThread thread = new ClientThread(client, this.controller);
+				this.clients.add(thread);
 				thread.start();
 			} catch (SocketException e) {
 				return;

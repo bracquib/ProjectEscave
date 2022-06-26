@@ -2,6 +2,8 @@ package info3.game;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -22,6 +24,7 @@ import info3.game.entities.PlayerColor;
 import info3.game.entities.Socle;
 import info3.game.entities.Stalactite;
 import info3.game.entities.Statue;
+import info3.game.menu.GameOptions;
 import info3.game.physics.PhysicsWorld;
 import info3.game.physics.RigidBody;
 import info3.game.torus.IntTorus;
@@ -67,7 +70,7 @@ public class Model {
 	public static Vec2 exitPoint;
 	public static Avatar exitAvatar;
 
-	private static final int maxPlayers = 3;
+	public static GameOptions options;
 
 	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;
@@ -76,7 +79,8 @@ public class Model {
 
 	private static boolean started() {
 		// TODO: memoization
-		return Model.playerCount.get() == Model.maxPlayers && Model.getPlayers().size() == Model.maxPlayers;
+		return Model.options != null && Model.playerCount.get() == Model.options.playerCount
+				&& Model.getPlayers().size() == Model.options.playerCount;
 	}
 
 	private static PhysicsWorld physics;
@@ -91,8 +95,13 @@ public class Model {
 		Model.controller = controller;
 		Model.entities = Collections.synchronizedList(new ArrayList<RigidBody>());
 		Model.physics = new PhysicsWorld();
-		Model.loadAutomatas();
-		Model.generateMapIfNeeded();
+	}
+
+	public static void configure(GameOptions options) {
+		if (Model.options == null) {
+			Model.options = options;
+			Model.loadAutomatas();
+		}
 	}
 
 	public static void deleteEntity(RigidBody e) {
@@ -127,11 +136,11 @@ public class Model {
 		Model.controller.deleteAvatar(avatarId);
 	}
 
-	private static void generateMapIfNeeded() {
+	static void generateMapIfNeeded() {
 		if (Model.map == null) {
 			// génération de la map
 			SpawnGenerator4D generationMap = new SpawnGenerator4D();
-			int[][] values = generationMap.spawnStatueTotal(Model.maxPlayers);
+			int[][] values = generationMap.spawnStatueTotal(Model.options.playerCount);
 			Model.spawnPoints = generationMap.listSpawnPlayer;
 			Model.exitPoint = generationMap.exit;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
@@ -193,8 +202,7 @@ public class Model {
 			Model.statuesSpawns = null;
 
 			for (Vec2 posStalactite : Model.stalactiteSpawns) {
-				Model.spawn(new Stalactite((LocalController) Controller.controller, posStalactite.multiply(Block.SIZE),
-						10));
+				Model.spawn(new Stalactite((LocalController) Model.controller, posStalactite.multiply(Block.SIZE), 10));
 			}
 			MobSpawner.init(30, 0.00003f);
 		}
@@ -313,7 +321,13 @@ public class Model {
 	private static void loadAutomatas() {
 		AST ast = null;
 		try {
-			ast = new AutomataParser(new BufferedReader(new FileReader("src/main/resources/automatas.gal"))).Run();
+			Reader gal;
+			if (Model.options.fichierGal != null) {
+				gal = new StringReader(Model.options.fichierGal);
+			} else {
+				gal = new BufferedReader(new FileReader("src/main/resources/automatas.gal"));
+			}
+			ast = new AutomataParser(gal).Run();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

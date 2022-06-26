@@ -51,13 +51,13 @@ public class AutomataSelectionPage extends JFrame {
 	private void loadModelAutomatas(JComboBox<String> playerCombo, JComboBox<String> statueCombo,
 			JComboBox<String> blockCombo, JComboBox<String> mushroomCombo, JComboBox<String> socleCombo,
 			JComboBox<String> waterCombo, JComboBox<String> foodCombo) {
-		GameOptions.Automates.put("Player", (String) playerCombo.getSelectedItem());
-		GameOptions.Automates.put("Statue", (String) statueCombo.getSelectedItem());
-		GameOptions.Automates.put("Block", (String) blockCombo.getSelectedItem());
-		GameOptions.Automates.put("Mushroom", (String) mushroomCombo.getSelectedItem());
-		GameOptions.Automates.put("Socle", (String) socleCombo.getSelectedItem());
-		GameOptions.Automates.put("Water", (String) waterCombo.getSelectedItem());
-		GameOptions.Automates.put("Food", (String) foodCombo.getSelectedItem());
+		GameOptions.instance.automates.put("Player", (String) playerCombo.getSelectedItem());
+		GameOptions.instance.automates.put("Statue", (String) statueCombo.getSelectedItem());
+		GameOptions.instance.automates.put("Block", (String) blockCombo.getSelectedItem());
+		GameOptions.instance.automates.put("Mushroom", (String) mushroomCombo.getSelectedItem());
+		GameOptions.instance.automates.put("Socle", (String) socleCombo.getSelectedItem());
+		GameOptions.instance.automates.put("Water", (String) waterCombo.getSelectedItem());
+		GameOptions.instance.automates.put("Food", (String) foodCombo.getSelectedItem());
 	}
 
 	private void setup() {
@@ -229,12 +229,11 @@ public class AutomataSelectionPage extends JFrame {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		String line = null;
 		StringBuilder stringBuilder = new StringBuilder();
-		String ls = System.getProperty("line.separator");
 
 		try {
 			while ((line = reader.readLine()) != null) {
 				stringBuilder.append(line);
-				stringBuilder.append(ls);
+				stringBuilder.append("\n");
 			}
 
 			return stringBuilder.toString();
@@ -247,7 +246,7 @@ public class AutomataSelectionPage extends JFrame {
 
 		AST ast = new AutomataParser(new BufferedReader(new FileReader(url))).Run();
 		try {
-			GameOptions.fichierGal = readFile(url);
+			GameOptions.instance.fichierGal = readFile(url);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

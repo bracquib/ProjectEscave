@@ -35,7 +35,7 @@ public class RemoteView extends View {
 	@Override
 	public void deleteAvatar(int id) {
 		super.deleteAvatar(id);
-		this.client.send(new DeleteAvatar(id));
+		this.send(new DeleteAvatar(id));
 	}
 
 	@Override

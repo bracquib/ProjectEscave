@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
 import info3.game.graphics.GameCanvas;
+import info3.game.menu.GameOptions;
 
 public class LocalView extends View {
 	JFrame frame;
@@ -34,6 +35,8 @@ public class LocalView extends View {
 			System.out.println("[WARN] Son non fonctionnel");
 			e.printStackTrace();
 		}
+
+		this.options = GameOptions.instance;
 
 		this.sortedAvatars = Collections.synchronizedSortedSet(new TreeSet<Avatar>((x, y) -> {
 			int cmp = x.layer - y.layer;

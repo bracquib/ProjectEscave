@@ -34,6 +34,8 @@ public class LocalController extends Controller {
 
 	@Override
 	public void addView(View v) {
+		Model.configure(v.options);
+		Model.generateMapIfNeeded();
 		synchronized (this.views) {
 			this.views.add(v);
 		}

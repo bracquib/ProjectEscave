@@ -3,6 +3,7 @@ package info3.game;
 import java.util.HashMap;
 
 import info3.game.entities.PlayerColor;
+import info3.game.menu.GameOptions;
 
 public abstract class View {
 	static View view;
@@ -19,6 +20,8 @@ public abstract class View {
 	protected Camera camera;
 
 	private Vec2 dimensions;
+
+	public GameOptions options;
 
 	protected View() {
 		this.avatars = new HashMap<Integer, Avatar>();

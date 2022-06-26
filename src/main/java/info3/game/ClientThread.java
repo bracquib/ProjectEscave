@@ -44,6 +44,7 @@ public class ClientThread extends Thread {
 				msg = this.inputStream.readObject();
 				if (msg instanceof JoinGame) {
 					JoinGame jg = (JoinGame) msg;
+					this.view.options = jg.options;
 					this.view.setDimensions(jg.screenSize);
 					this.controller.addView(this.view);
 				} else if (msg instanceof KeyPress) {
