@@ -11,7 +11,7 @@ public class AvatarBuilder {
 
 	public AvatarBuilder(Paintable p) {
 		this.a = new Avatar();
-		this.a.image = p;
+		this.a.setPaintable(p);
 	}
 
 	public AvatarBuilder scale(Vec2 scale) {

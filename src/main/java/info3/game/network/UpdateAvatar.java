@@ -1,5 +1,6 @@
 package info3.game.network;
 
+import info3.game.Avatar;
 import info3.game.Vec2;
 import info3.game.assets.Paintable;
 
@@ -22,10 +23,10 @@ public class UpdateAvatar extends NetworkMessage {
 		this.newPath = path;
 	}
 
-	public UpdateAvatar(int id, Paintable p, Vec2 offset, Vec2 position) {
-		this.avatarId = id;
-		this.newPaintable = p;
-		this.position = position;
-		this.offset = offset;
+	public UpdateAvatar(Avatar av) {
+		this.avatarId = av.getId();
+		this.newPaintable = av.getPaintable();
+		this.position = av.getPosition();
+		this.offset = av.getOffset();
 	}
 }

@@ -2,7 +2,6 @@ package info3.game;
 
 import java.util.HashMap;
 
-import info3.game.assets.Paintable;
 import info3.game.entities.PlayerColor;
 
 public abstract class View {
@@ -88,7 +87,7 @@ public abstract class View {
 		return 1080;
 	}
 
-	public abstract void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos);
+	public abstract void updateAvatar(Avatar av);
 
 	public void setDimensions(Vec2 size) {
 		// this.dimensions = size;

@@ -77,8 +77,9 @@ public class Player extends RigidBody {
 
 	@Override
 	public void setPosition(Vec2 pos) {
+		Vec2 prevPos = this.getPosition();
 		super.setPosition(pos);
-		if (this.getPosition() != null && !this.getPosition().equals(pos) && this.background != null) {
+		if (prevPos != null && !prevPos.equals(pos) && this.background != null) {
 			Vec2 bgPos = this.setBackground();
 			this.controller.updateAvatar(this.background.getId(), bgPos);
 
@@ -282,7 +283,6 @@ public class Player extends RigidBody {
 		System.out.println("End");
 		this.hud.showGameOver();
 		this.gameOver = true;
-		// Model.deleteEntity(this);
 	}
 
 	@Override

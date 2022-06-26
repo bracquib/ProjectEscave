@@ -211,7 +211,7 @@ public class Model {
 		if (activatedSocles == playerCount.get() && !exitOpened) {
 			AnimatedImage newAnim = new AnimatedImage("exit/exit-destroy.png", 5, 200, false);
 			exitAvatar.setPaintable(newAnim);
-			Model.controller.updatePaintable(exitAvatar, newAnim);
+			Model.controller.updateAvatar(exitAvatar);
 			System.out.println("Sortie activée");
 			exitOpened = true;
 			for (View v : Model.controller.views) {

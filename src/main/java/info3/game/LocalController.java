@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import info3.game.assets.Paintable;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
@@ -237,10 +236,10 @@ public class LocalController extends Controller {
 		}
 	}
 
-	public void updatePaintable(Avatar av, Paintable p) {
+	public void updateAvatar(Avatar av) {
 		synchronized (this.views) {
 			for (View v : this.views) {
-				v.updateAvatar(av.getId(), p, av.getOffset(), av.getPosition());
+				v.updateAvatar(av);
 			}
 		}
 	}
