@@ -9,6 +9,8 @@ import info3.game.entities.Socle;
 
 public class SocleBehaviour extends Behaviour {
 
+	private boolean atDest = false;
+
 	@Override
 	public boolean true_(Entity e) {
 		return true;
@@ -53,7 +55,10 @@ public class SocleBehaviour extends Behaviour {
 					super.ret.getBehaviour().explode(super.ret);
 					super.ret.setPosition(e.getPosition().add(new Vec2(0, -96)));
 				}
-				e.getController().playSound(6);
+				if (!atDest) {
+					e.getController().playSound(6);
+					atDest = true;
+				}
 				((Socle) e).isActivated = true;
 				Model.incrementActivatedSocles();
 			}
