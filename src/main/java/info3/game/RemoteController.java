@@ -225,7 +225,12 @@ class NetworkReceiverThread extends Thread {
 			try {
 				this.controller.view.isPainting.acquire();
 				if (ua.newPaintable != null) {
-					this.controller.view.updateAvatar(ua.avatarId, ua.newPaintable, ua.offset, ua.position);
+					Avatar av = new Avatar();
+					av.setId(ua.avatarId);
+					av.setOffset(ua.offset);
+					av.position = ua.position;
+					av.setPaintable(ua.newPaintable);
+					this.controller.view.updateAvatar(av);
 				}
 				if (ua.position != null) {
 					this.controller.view.updateAvatar(ua.avatarId, ua.position);

@@ -1,6 +1,5 @@
 package info3.game;
 
-import info3.game.assets.Paintable;
 import info3.game.entities.PlayerColor;
 import info3.game.network.Close;
 import info3.game.network.CreateAvatar;
@@ -59,11 +58,10 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	public void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos) {
-		Avatar av = this.avatars.get(id);
+	public void updateAvatar(Avatar av) {
 		if (av != null) {
-			if (av.fixed || pos.distance(this.camera.getPos()) < 2200) {
-				this.send(new UpdateAvatar(id, p, offset, pos));
+			if (av.fixed || av.getPosition().distance(this.camera.getPos()) < 2200) {
+				this.send(new UpdateAvatar(av));
 			}
 		}
 	}

@@ -120,13 +120,14 @@ public class HUD {
 	}
 
 	public void unselect(int idx) {
-		this.controller.updatePaintable(this.inventoryCells[idx],
-				this.inventoryCells[idx].image.duplicateFromPath("inventory-cell.png"));
+		this.inventoryCells[idx].setPaintable(this.inventoryCells[idx].image.duplicateFromPath("inventory-cell.png"));
+		this.controller.updateAvatar(this.inventoryCells[idx]);
 	}
 
 	public void select(int idx) {
-		this.controller.updatePaintable(this.inventoryCells[idx],
-				this.inventoryCells[idx].image.duplicateFromPath("inventory-cell-selected.png"));
+		this.inventoryCells[idx]
+				.setPaintable(this.inventoryCells[idx].image.duplicateFromPath("inventory-cell-selected.png"));
+		this.controller.updateAvatar(this.inventoryCells[idx]);
 	}
 
 	private void moveAvatar(Avatar[] collection, int idx, float newY) {
@@ -166,7 +167,8 @@ public class HUD {
 	}
 
 	public void setCounter(int idx, int cpt) {
-		this.controller.updatePaintable(this.labels[idx], new Label(Integer.toString(cpt)));
+		this.labels[idx].setPaintable(new Label(Integer.toString(cpt)));
+		this.controller.updateAvatar(this.labels[idx]);
 	}
 
 	public void showGameOver() {
@@ -177,9 +179,7 @@ public class HUD {
 
 	public void gameOver2() {
 		AnimatedImage gameOverAnim = new AnimatedImage("gameover/gameover-partie2.png", 22, 100, true);
-//		gameOverAnim.layer = 10;
-//		gameOverAnim.fixed = true;
-		Model.controller.updatePaintable(gameOverAvatar, gameOverAnim);
-		// gameOverAvatar.setPaintable(gameOverAnim);
+		gameOverAvatar.setPaintable(gameOverAnim);
+		this.controller.updateAvatar(gameOverAvatar);
 	}
 }

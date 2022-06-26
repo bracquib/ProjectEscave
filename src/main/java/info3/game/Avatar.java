@@ -148,7 +148,7 @@ public class Avatar implements Serializable {
 	}
 
 	public void setPaintable(Paintable p) {
-		this.image = p;
+		this.image = AssetServer.load(p);
 		if (this.image instanceof AnimatedImage) {
 			AnimatedImage anim = (AnimatedImage) this.image;
 			if (anim.isFinished())

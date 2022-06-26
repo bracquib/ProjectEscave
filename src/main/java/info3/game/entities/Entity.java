@@ -1,7 +1,5 @@
 package info3.game.entities;
 
-import java.awt.Graphics;
-
 import info3.game.Avatar;
 import info3.game.LocalController;
 import info3.game.Model;
@@ -161,17 +159,6 @@ public abstract class Entity {
 		}
 	}
 
-	/**
-	 * Dessine cette entité à l'écran
-	 * 
-	 * @param g         La toile sur laquelle on dessine
-	 * @param cameraPos La position de la caméra en coordonées globales
-	 */
-	public void paint(Graphics g, Vec2 cameraPos) {
-		Vec2 screenPos = this.position.globalToScreen(cameraPos);
-		this.avatar.paint(g, screenPos);
-	}
-
 	public Avatar getAvatar() {
 		return this.avatar;
 	}
@@ -199,7 +186,7 @@ public abstract class Entity {
 		this.avatar.setPaintable(p);
 		Vec2 pos = this.getPosition();
 		this.avatar.setPosition(pos);
-		this.controller.updatePaintable(this.getAvatar(), p);
+		this.controller.updateAvatar(this.avatar);
 	}
 
 	public Paintable getPaintable() {
