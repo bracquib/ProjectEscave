@@ -1,6 +1,5 @@
 package info3.game;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,7 +10,6 @@ import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
@@ -19,12 +17,14 @@ import info3.game.graphics.GameCanvas;
 
 public class LocalView extends View {
 	JFrame frame;
-	JLabel text;
+	String text = "";
 	public GameCanvas canvas;
 	CanvasListener listener;
 	Semaphore isPainting;
 	protected SortedSet<Avatar> sortedAvatars;
 	Sound sound;
+	int visibleAvatars = 0;
+	boolean debug = true;
 
 	public LocalView(Controller controller) {
 		super();
@@ -64,13 +64,8 @@ public class LocalView extends View {
 	 */
 	private void setupFrame() {
 		this.frame.setTitle("Game");
-		this.frame.setLayout(new BorderLayout());
 
-		this.frame.add(this.canvas, BorderLayout.CENTER);
-
-		this.text = new JLabel();
-		this.text.setText("Tick: 0ms FPS=0 AvatarsOnScreen=0");
-		this.frame.add(this.text, BorderLayout.NORTH);
+		this.frame.add(this.canvas);
 
 		// center the window on the screen
 		this.frame.setLocationRelativeTo(null);
@@ -112,10 +107,10 @@ public class LocalView extends View {
 			while (txt.length() < 15)
 				txt += " ";
 			txt += fps + " fps   ";
-			txt += " AvatarsOnScreen=" + this.getVisibleAvatars().size();
-			txt += "     " + (int) this.camera.getPos().getX() / 64 + " ";
-			txt += (int) this.camera.getPos().getY() / 64;
-			this.text.setText(txt);
+			txt += " AvatarsOnScreen=" + this.visibleAvatars;
+			txt += "     (" + (int) this.camera.getPos().getX() / 64 + ", ";
+			txt += (int) this.camera.getPos().getY() / 64 + ")";
+			this.text = txt;
 		}
 	}
 
@@ -127,6 +122,7 @@ public class LocalView extends View {
 		// get the size of the canvas
 		int width = this.canvas.getWidth();
 		int height = this.canvas.getHeight();
+		this.visibleAvatars = 0;
 
 		// erase background
 		g.setColor(Color.gray);
@@ -141,9 +137,14 @@ public class LocalView extends View {
 			for (Avatar a : this.getVisibleAvatars()) {
 				synchronized (a) {
 					a.paint(g, cameraPos);
+					this.visibleAvatars++;
 				}
 			}
 			this.isPainting.release();
+			if (this.debug) {
+				char[] chars = this.text.toCharArray();
+				g.drawChars(chars, 0, chars.length, 5, 20);
+			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

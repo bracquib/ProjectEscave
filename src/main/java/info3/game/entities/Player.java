@@ -78,7 +78,7 @@ public class Player extends RigidBody {
 	@Override
 	public void setPosition(Vec2 pos) {
 		super.setPosition(pos);
-		if (this.background != null) {
+		if (this.getPosition() != null && !this.getPosition().equals(pos) && this.background != null) {
 			Vec2 bgPos = this.setBackground();
 			this.controller.updateAvatar(this.background.getId(), bgPos);
 

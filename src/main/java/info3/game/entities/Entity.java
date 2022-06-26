@@ -66,6 +66,9 @@ public abstract class Entity {
 	}
 
 	public void setPosition(Vec2 pos) {
+		if (this.position != null && this.position.equals(pos)) {
+			return;
+		}
 		Map map = Model.getMap();
 
 		// dépassement du haut
