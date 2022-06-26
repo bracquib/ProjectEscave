@@ -55,7 +55,7 @@
 
 ### William et Jérémy : génération des grottes
 
-* convertir le code de cette génération qui est en javascript en java.
+* convertir le code de cette génération qui est en javascript en java. Perlin noise première version+ dessin sprite
 ### Ali Conception de la partie physique du jeu 
 
 ### Idées
@@ -92,6 +92,9 @@
 - Conception de la partie physique et des colliders . 
 - Utilisation de la méthode AABB de détéction des collisions . 
 
+### Jérémy
+* Réalisation de la V1 du perlin Noise, premier rendu de grotte en 2D+ dessin sprite
+
 ## Jeudi 9 Juin 2022
 
 Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afin de définir techniquement les tâches à faire (ainsi qu'évaluer leur difficulté et temps), réaliser des diagrammes de classes et d'objets, et répondre aux éventuelles questions des membres de l'équipe.
@@ -99,6 +102,7 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 ### Répartition des tâches
 * Benjamin, Léa, Lucas et Amaury travaillent sur les automates
 * Ana optimise le code du réseau et règle quelques bugs
+* Jérémy s'occupe de la génération du monde+ dessin sprite
 ### Lucas,  Benjamin, Léa, Amaury: conception des automates
 
 * Amélioratons des automates (Bloc, Inventaire, Consumables)
@@ -119,13 +123,17 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
    -Classe Boxcollider qui hérite de Collider et gère les collisions par des rectangles . 
    -Classe Circle Collider(pas encore implémenter pour le moment ), on pourra introduire de cette classe pour la gestion des collisions de type  cercle-cerlce ou rectangle-cercle .
    
+### Jérémy
+* Réalisation du Simplex Noise en 2D, rendu de tore.+ dessin sprite
+
 ## Vendredi 10 Juin 2022
 
 ### Répartition des tâches
 
 - Ana : review de code et aide
 - Benjamin, Léa, et Amaury travaillent sur les automates
-
+- Jérémy travaille sur la génération
+- 
 ### Lucas: ajout d'une caméra
 
 * Ajout d'un système de caméra basique contrôlable avec les flêches du clavier, pour l'instant les différents clients sur le réseau partagent la même caméra
@@ -139,6 +147,9 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Création de la classe ColliderSide qui permet de déterminer le coté du rectangle où il a eu une collision . 
 * Création de la classe RigidBody pour la mise en place des forces physiques. 
 
+### Jérémy
+* Implémentation du Open Simplex Noise
+* Recherches intensives et etudes mathématiques pour comprendre comment générer un tore avec du simplex noise+ dessin sprite
 
 ## Lundi 13 juin 2022
 
@@ -148,7 +159,7 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Lucas, Benjamin et Léa : rédaction du contrat
 * Lucas : rédaction du planning
 * Ali : Gestion du déplacements du joueur dans une Tore
-
+* Jérémy travaille sur la réalisation du tore en OpenSimplexNoise
 ### Ana : merge de trois branches
 
 - Merge du code permettant de différencier les joueurs côté serveur.
@@ -158,6 +169,9 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
     - crée des blocs dans le modèle là où le code de génération indique qu'il en faut
 - Merge du code de physique
 
+### Jérémy
+* Implementation du Simplex noise en 4D pour générer de la 2D 
+* Implémentation du spawn des joueurs et de la sortie+ dessin sprite
 
 ## Mardi 14 juin 2022
 
@@ -165,7 +179,10 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 - Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 - Benjamin et Amaury : implémentation des classes pour les conditions des automates et fonctions de la classe playerBehaviour.
 - Léa : review des automates et mise au propre du fichier GAL, remodification des automates de l'inventaire et de la statue.
--Ali : Conception du déplacement du joueur lorqu'il atteint les limites de la Map et déplacement de la map en permanence ne plus avoir du vide aux limites . 
+
+- Ali : Conception du déplacement du joueur lorqu'il atteint les limites de la Map et déplacement de la map en permanence ne plus avoir du vide aux limites . 
+- Jérémy : génération de la sortie, des statues de manière cohérentes en fonction du nombre de joueur, rendre générique le code.+ dessin sprite
+
 
 ### Lucas : implémentation des classes pour les Automates + commencement de BotBuilder
 
@@ -188,6 +205,9 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Ajout des classes Behaviours pour toutes les entités.
 * implémentation des fonctions  hit et coup_reçu.
 
+### Jérémy
+* Première version des identifiants de blocs et des patterns.+ dessin sprite
+
 ## Jeudi 16 juin 2022
 
 * Benjamin, Amaury : implémentation des fonctions des Behaviours de chaque entité.
@@ -197,6 +217,9 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * implémentation des fonctions de déplacements (Move,Jump...)
 
 *Ali: implémentation de la fonction setposition dans la classe Entity qui gère le deplacement du joueurs lorqu'il franchit les limites de la map . 
+
+### Jérémy
+* Implémentation des patterns de couche 1 et 2+ dessin sprite
 
 ## Vendredi 17 juin 2022
 
@@ -208,6 +231,9 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 
 * implémentation des fonctions de hit et coup reçu.
 * implémentation des fonctions de cell et closest.
+
+### Jérémy
+* Rajout de la décoration dans les grottes + dessin sprite
 
 ## Dimanche 19 juin 2022
 
@@ -272,6 +298,9 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * Début de l'implémentation du RayCasting multi ray pour simuler la lumière
 * Implémentation de l'algorithme d'apparition des monstres sur la carte
 
+### Jérémy
+* Implementation des sprites et première version des stalactites
+
 ## Mardi 21 juin 2022
 
 * Lucas : implémentation des automates des mobs et des statues
@@ -279,12 +308,14 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 
 ## Mercredi 22 juin 2022
 
-* Lucas : synchronisation de la caméra quand le joueur devient statue et inversement
+* Lucas : Synchronisation de la caméra quand le joueur devient statue et inversement
 * Lucas : Implémentation des animations du joueur
 * Amaury et Benjamin : utilisation des objets avec la souris
 * Amaury : test d'ajout de musique
-* Léa et William : fin du jeu
-* Léa : doublure
+* Léa et William : Implémentation de la détection des conditions de fin de partie
+* Léa : Implémentation de la doublure
+* William : Création de la page de selection des automates et de selection de l'IP dans le menu
+* Jérémy : Implémentation du menu du jeu
 
 ### Amaury et Benjamin : objets avec la souris
 * Placement et destruction de blocs selon la position de la souris (avec raycasting)
@@ -294,19 +325,47 @@ Après l'entretien avec M. Gruber, nous avons décidé de faire une réunion afi
 * ramasser de l'eau et de la nourriture et l'utiliser 
 
 ## Jeudi 23 juin 2022
-* Benjamin:fix quelques bugs ou implémentation
+* Benjamin : fix quelques bugs ou implémentation
+* William : Finir l'implémentation du menu, implémentation du spawn des monstres
+* Jérémy : sprites manquant + implémentation du menu du jeu
 
-###Benjamin:fix quelques bugs ou implémentation
+### Benjamin : fix quelques bugs ou implémentation
 * réglage collider player
 * mouvement du player dans l'état statue
 * egg du Mushroom
 * fix point de vie du mob et sa mort
 
-##Vendredi 24 juin 2022
-* Benjamin:fix quelques bugs ou implémentation
+### Amaury : musiques
+* composition thème menu sur Bandlab
+* recherche de bruitages et solutions pour lire le son dans le jeu différemment qu'avec ogg player
 
-###Benjamin:fix quelques bugs ou implémentation
+
+## Vendredi 24 juin 2022
+* Benjamin : fix quelques bugs ou implémentation
+* Jérémy: fix beaucoup de bug + implementation sprite + dessins sprites sortie + statue + spawn
+* William : Début de l'implémentation d'une extension pour la lumière en utilisant le ray casting
+
+### Benjamin : fix quelques bugs ou implémentation
 * implémentation des stalactites avec toutes ses conséquences
 * fix collider
 
 
+### Amaury : intégration des musiques et bruitages
+* Lecture des sons .wav grâce java.Clip
+
+
+
+
+## Samedi 25 juin 2022
+
+* Lucas : Réglage de nombreux bugs + ajout de la fin du jeu
+* Amaury : branche checkbox, affichage des zones analysées par les automates pour améliorer le debug graphique. Fix de bugs mineurs (utilisation de raycasting, bruitages)
+* William : Fix du spawn des monstres, fin de l'implémentation de la lumière. Impasse technique due à AWT.
+* Jérémy: Merge des deux menus, le mien et celui de william. Finir le design du menu. Implementation de l'eau et de la parallax
+
+## Dimanche 26 juin 2022
+
+* William : Tests du jeu et fixs des quelques problèmes restants
+* William : Ajustements sur la difficulté du jeu, enregistrement de vidéos pour la vidéo de démonstration
+* Jérémy : implementation des tout dernier sprites + réalisation de la vidéo finale (tournage, voix off, montage...)
+* Amaury : prolongement musique menu, intégration du thème de jeu, fix de bugs mineurs.
