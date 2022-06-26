@@ -15,8 +15,8 @@ public class Sound {
 	String m_name;
 	String m_filename;
 
-	Clip[] clips = new Clip[14];
-	URL soundUrl[] = new URL[14];
+	Clip[] clips = new Clip[16];
+	URL soundUrl[] = new URL[16];
 	boolean volumed = false;
 
 	public Sound() {
@@ -34,6 +34,8 @@ public class Sound {
 		soundUrl[11] = getClass().getResource("/src/main/resources/step3.wav");
 		soundUrl[12] = getClass().getResource("/src/main/resources/block.wav");
 		soundUrl[13] = getClass().getResource("/src/main/resources/menu.wav");
+		soundUrl[14] = getClass().getResource("/src/main/resources/click.wav");
+		soundUrl[15] = getClass().getResource("/src/main/resources/theme.wav");
 
 		for (int i = 0; i < soundUrl.length; i++) {
 
@@ -42,6 +44,7 @@ public class Sound {
 				clips[i] = AudioSystem.getClip();
 				clips[i].open(ais);
 				clips[i].start();
+				clips[i].stop();
 				FloatControl gainControl = (FloatControl) clips[i].getControl(FloatControl.Type.MASTER_GAIN);
 				gainControl.setValue(20f * (float) Math.log10(0f));
 			} catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {

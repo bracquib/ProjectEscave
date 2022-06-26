@@ -46,22 +46,27 @@ public class Options extends State implements Statemethods {
 	private void loadButtons() {
 
 		buttons[0] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 40, (int) (230 * GameJerem.SCALE), 1, () -> {
+			Menu.sound.play(14);
 			JFrame mainwindow = this.getGame().getMainFrame();
 			new AutomataSelectionPage(mainwindow);
 		}, LoadSave.OPTIONS_AUTOMATES, LoadSave.OPTIONS_AUTOMATES1);
 		buttons[1] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 100, (int) (270 * GameJerem.SCALE), 2, () -> {
+			Menu.sound.play(14);
 			JFrame mainwindow = this.getGame().getMainFrame();
 			new IPSelectionPage(mainwindow);
 		}, LoadSave.OPTIONS_IP, LoadSave.OPTIONS_IP1);
 		buttons[2] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 70, (int) (310 * GameJerem.SCALE), 2, () -> {
+			Menu.sound.play(14);
 			Gamestate.state = Gamestate.MENU;
 		}, LoadSave.BUTTON_QUIT, LoadSave.BUTTON_QUIT1);
 		buttons[3] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 50, (int) (190 * GameJerem.SCALE), 2, () -> {
+			Menu.sound.play(14);
 			GameOptions.instance.playerCount--;
 			if (GameOptions.instance.playerCount < 1)
 				GameOptions.instance.playerCount = 8;
 		}, LoadSave.FLECHE_GAUCHE, LoadSave.FLECHE_GAUCHE1);
 		buttons[4] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 205, (int) (190 * GameJerem.SCALE), 2, () -> {
+			Menu.sound.play(14);
 			GameOptions.instance.playerCount++;
 			if (GameOptions.instance.playerCount > 8)
 				GameOptions.instance.playerCount = 1;

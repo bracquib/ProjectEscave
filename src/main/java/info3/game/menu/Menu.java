@@ -5,17 +5,21 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import info3.game.Client;
+import info3.game.Sound;
 
 public class Menu extends State implements Statemethods {
 
 	private MenuButton[] buttons = new MenuButton[3];
 	private BufferedImage backgroundImg;
 	private int menuX, menuY, menuWidth, menuHeight;
+	public static Sound sound = new Sound();
 
 	public Menu(GameJerem game) {
 		super(game);
 		loadButtons();
 		loadBackground();
+		sound.play(13);
+		sound.loop(13);
 
 	}
 
@@ -31,6 +35,9 @@ public class Menu extends State implements Statemethods {
 	private void loadButtons() {
 		buttons[0] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (150 * GameJerem.SCALE), 0, Gamestate.PLAYING,
 				() -> {
+					sound.stop(13);
+
+					sound.play(14);
 					if (Options.ip.equals("")) {
 						Client.startGame();
 						this.game.gameThread.interrupt();
@@ -43,8 +50,10 @@ public class Menu extends State implements Statemethods {
 				});
 		buttons[1] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (220 * GameJerem.SCALE), 1, Gamestate.OPTIONS,
 				() -> {
+					sound.play(14);
 				});
 		buttons[2] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (290 * GameJerem.SCALE), 2, Gamestate.QUIT, () -> {
+			sound.play(14);
 		});
 	}
 
