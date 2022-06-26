@@ -80,7 +80,7 @@ Player(Init){
 
 Mushroom(Init){
 	*(Init):
-	| GotPower() ? : (Mort)
+	| !GotPower() ? : (Mort)
 	| Cell(W,@) ? Move(S) & Pop(W) :(Cooldown1000)
 	| Cell(H,@) ? Move(S) & Pop(E) :(Cooldown1000)
 

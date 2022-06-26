@@ -13,9 +13,6 @@ import info3.game.entities.Statue;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
-import info3.game.network.NetworkMessage;
-import info3.game.network.UpdateAvatar;
-import info3.game.network.Welcome;
 import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
@@ -62,7 +59,6 @@ public class LocalController extends Controller {
 		int playerNum = Model.playerCount.getAndIncrement();
 		v.setPlayer(Player.colorFromInt(playerNum));
 		Model.spawnPlayer(playerNum);
-		this.sendTo(v.getPlayer(), new Welcome(v.getPlayer()));
 	}
 
 	@Override
@@ -122,36 +118,21 @@ public class LocalController extends Controller {
 		return av;
 	}
 
-	public void sendTo(Player p, NetworkMessage msg) {
-		this.sendTo(p.getColor(), msg);
-	}
+	/*
+	 * public void sendTo(Player p, NetworkMessage msg) { this.sendTo(p.getColor(),
+	 * msg); }
+	 * 
+	 * public void sendTo(PlayerColor p, NetworkMessage msg) { synchronized
+	 * (this.views) { for (View v : views) { if (v instanceof RemoteView) {
+	 * RemoteView rv = (RemoteView) v; if (rv.getPlayer() == p) {
+	 * rv.client.send(msg); return; } } } } }
+	 */
 
-	public void sendTo(PlayerColor p, NetworkMessage msg) {
-		synchronized (this.views) {
-			for (View v : views) {
-				if (v instanceof RemoteView) {
-					RemoteView rv = (RemoteView) v;
-					if (rv.client != null && rv.getPlayer() == p) {
-						rv.client.send(msg);
-						return;
-					}
-				}
-			}
-		}
-	}
-
-	public void sendToClients(NetworkMessage msg) {
-		synchronized (this.views) {
-			for (View v : this.views) {
-				if (v instanceof RemoteView) {
-					RemoteView rv = (RemoteView) v;
-					if (rv.client != null) {
-						rv.client.send(msg);
-					}
-				}
-			}
-		}
-	}
+	/*
+	 * public void sendToClients(NetworkMessage msg) { synchronized (this.views) {
+	 * for (View v : this.views) { if (v instanceof RemoteView) { RemoteView rv =
+	 * (RemoteView) v; if (rv.client != null) { rv.client.send(msg); } } } } }
+	 */
 
 	@Override
 	protected void removeView(RemoteView view) {
@@ -257,16 +238,9 @@ public class LocalController extends Controller {
 	}
 
 	public void updatePaintable(Avatar av, Paintable p) {
-		for (View v : this.views) {
-			// TODO: move this to each view implementation
-			if (v instanceof RemoteView) {
-				RemoteView rv = (RemoteView) v;
-				if (rv.client != null) {
-					rv.client.send(new UpdateAvatar(av.getId(), p, av.getOffset(), av.getPosition()));
-				}
-			} else if (v instanceof LocalView) {
-				LocalView lv = (LocalView) v;
-				lv.updateAvatar(av.getId(), p, av.getOffset(), av.getPosition());
+		synchronized (this.views) {
+			for (View v : this.views) {
+				v.updateAvatar(av.getId(), p, av.getOffset(), av.getPosition());
 			}
 		}
 	}
@@ -295,5 +269,13 @@ public class LocalController extends Controller {
 		for (View v : this.views) {
 			v.playSound(i);
 		}
+	}
+
+	@Override
+	protected Avatar createAvatarFor(Avatar av, PlayerColor p) {
+		int id = Controller.avatarID.getAndIncrement();
+		av.id = id;
+		this.viewFor(p).createAvatar(av);
+		return av;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
+import info3.game.entities.Player;
 
 public class AvatarBuilder {
 	private Avatar a;
@@ -69,5 +70,9 @@ public class AvatarBuilder {
 	public AvatarBuilder offsetY(int yOff) {
 		this.a.offset.setY(yOff);
 		return this;
+	}
+
+	public Avatar buildFor(LocalController controller, Player player) {
+		return controller.createAvatarFor(this.a, player.getColor());
 	}
 }

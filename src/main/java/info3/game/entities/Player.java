@@ -111,9 +111,11 @@ public class Player extends RigidBody {
 	public void tick(long el) {
 		super.tick(el);
 		compt += el;
-		if (compt > 100000) {
+		if (compt > 30000) {
 			this.setHungerPoints(this.hungerPoints - 1);
 			this.setThirstPoints(this.thirstPoints - 1);
+			this.speedFactor = 0.5f + 0.5f
+					* (((float) (this.hungerPoints + this.thirstPoints)) / ((float) (this.maxHunger + this.maxThirst)));
 			compt = 0;
 		}
 		if (this.hungerPoints <= 0 || this.thirstPoints <= 0) {
@@ -121,7 +123,6 @@ public class Player extends RigidBody {
 			this.gameOver();
 		}
 
-		super.tick(el);
 		float curXSpeed = this.getSpeed().getX();
 		if (Math.abs(curXSpeed) > 5) {
 			if (curXSpeed < 0) {

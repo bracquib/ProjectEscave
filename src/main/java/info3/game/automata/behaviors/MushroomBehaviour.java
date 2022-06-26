@@ -48,15 +48,13 @@ public class MushroomBehaviour extends Behaviour {
 		switch (d) {
 		case NORTHEST:
 			RigidBody p = (RigidBody) e;
-			// new RigidBody(e, 1, 5);
-			p.getSpeed().setY(-270);
-			p.getSpeed().setX(150);
+			p.getSpeed().setY(-370);
+			p.getSpeed().setX(150 * p.speedFactor);
 			break;
 		case NORTHWEST:
 			RigidBody p1 = (RigidBody) e;
-			// new RigidBody(e, 1, 5);
-			p1.getSpeed().setY(-270);
-			p1.getSpeed().setX(150);
+			p1.getSpeed().setY(-370);
+			p1.getSpeed().setX(150 * p1.speedFactor);
 			break;
 		default:
 			break;
@@ -84,7 +82,6 @@ public class MushroomBehaviour extends Behaviour {
 			}
 		}
 		return;
-
 	}
 
 	@Override
@@ -94,7 +91,7 @@ public class MushroomBehaviour extends Behaviour {
 		// new RigidBody(e, 1, 5);
 		switch (d) {
 		case EST:
-			p.getSpeed().setX(50);
+			p.getSpeed().setX(50 * p.speedFactor);
 			p.playAnimation("walk-right", 5, 400, 0, -64, false);
 			p.setDirection(Direction.EST);
 			break;
@@ -115,6 +112,7 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public void protect(Entity e, Direction d, int dmg) {
 		e.setPointsDeVie(e.getPointsDeVie() - dmg);
+		System.out.println(e.getPointsDeVie());
 		RigidBody p = (RigidBody) e;
 		if (e.getPointsDeVie() <= 0) {
 			if (ret instanceof Player) {
@@ -224,8 +222,8 @@ public class MushroomBehaviour extends Behaviour {
 	@Override
 	public void egg(Entity e, Direction d) {
 		Mushroom pere = (Mushroom) e;
-		if (pere.childRemain > 0) {
-			int decX;
+		for (int c = 0; c <= pere.childRemain; c++) {
+			int decX = 48;
 			switch (d) {
 			case EST:
 				decX = 48;
@@ -237,11 +235,9 @@ public class MushroomBehaviour extends Behaviour {
 				decX = 0;
 				break;
 			}
-			Vec2 childPos = new Vec2(pere.getPosition().getX() + decX, pere.getPosition().getY());
-			Mushroom child = new Mushroom(pere.getController(), childPos, 100, pere.childRemain - 1);
-			// pts de vie?
+			Vec2 childPos = new Vec2(pere.getPosition().getX() + decX * c, pere.getPosition().getY());
+			Mushroom child = new Mushroom(pere.getController(), childPos, pere.childRemain - 1);
 			Model.spawn(child);
-
 		}
 	}
 

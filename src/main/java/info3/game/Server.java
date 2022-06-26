@@ -58,7 +58,7 @@ class TickerThread extends Thread {
 					for (View view : views) {
 						if (view instanceof RemoteView) {
 							RemoteView rv = (RemoteView) view;
-							rv.client.actualSend();
+							rv.actualSend();
 						}
 					}
 					if (views.isEmpty() && !Model.getPlayers().isEmpty()) {

@@ -38,6 +38,7 @@ import info3.game.automata.conditions.GotPower;
 import info3.game.automata.conditions.GotStuff;
 import info3.game.automata.conditions.ICondition;
 import info3.game.automata.conditions.MyDir;
+import info3.game.automata.conditions.Not;
 import info3.game.automata.conditions.True;
 import info3.game.automata.parser.AutomataParser;
 
@@ -214,7 +215,11 @@ public class BotBuilder implements IVisitor {
 
 	@Override
 	public Object visit(UnaryOp operator, Object expression) {
-		// TODO Auto-generated method stub
+		if (expression instanceof ICondition) {
+			ArrayList<ICondition> conditions = new ArrayList<ICondition>();
+			conditions.add(new Not((ICondition) expression));
+			return conditions;
+		}
 		return null;
 	}
 

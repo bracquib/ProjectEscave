@@ -13,7 +13,6 @@ import info3.game.automata.AutomataState;
 import info3.game.automata.Category;
 import info3.game.automata.CurrentState;
 import info3.game.automata.behaviors.Behaviour;
-import info3.game.network.UpdateAvatar;
 import info3.game.physics.BoxCollider;
 import info3.game.physics.Collider;
 import info3.game.torus.Map;
@@ -98,7 +97,7 @@ public abstract class Entity {
 		if (this.avatar != null) {
 			this.avatar.setPosition(this.position);
 
-			this.controller.sendToClients(new UpdateAvatar(this.avatar.getId(), this.avatar.getPosition()));
+			this.controller.updateAvatar(this.avatar.getId(), this.avatar.getPosition());
 		}
 	}
 
@@ -194,6 +193,9 @@ public abstract class Entity {
 	}
 
 	public void setPaintable(Paintable p) {
+		if (p.getPath().equals(this.avatar.getPaintable().getPath())) {
+			return;
+		}
 		this.avatar.setPaintable(p);
 		Vec2 pos = this.getPosition();
 		this.avatar.setPosition(pos);

@@ -102,6 +102,11 @@ public class RemoteController extends Controller {
 	}
 
 	@Override
+	public Avatar createAvatarFor(Avatar av, PlayerColor p) {
+		return this.createAvatar(av);
+	}
+
+	@Override
 	protected void removeView(RemoteView view) {
 		// Ne doit jamais être appelé normalement
 	}

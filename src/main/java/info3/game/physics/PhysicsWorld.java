@@ -23,7 +23,7 @@ public class PhysicsWorld {
 	 */
 	public void tick(long elapsed) {
 		float elapsedSec = elapsed / 1000.0f;
-		ArrayList<RigidBody> entities = Model.getEntities();
+		ArrayList<RigidBody> entities = new ArrayList<>(Model.getEntities());
 
 		for (RigidBody rb : entities) {
 			if (rb.type == RbState.STATIC)

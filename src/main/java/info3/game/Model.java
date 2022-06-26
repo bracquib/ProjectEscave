@@ -3,6 +3,7 @@ package info3.game;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,13 +39,13 @@ public class Model {
 	/**
 	 * La liste de toutes les entités dynamiques dans le monde.
 	 */
-	static ArrayList<RigidBody> entities;
+	static List<RigidBody> entities;
 
 	/**
 	 * La liste des entités dynamiques à spawner au prochain tick
 	 * 
-	 * On ajoute pas directement dans entities pour éviter des accès concurrents
-	 * par plusieurs threads #réseau #parallélisme
+	 * On ajoute pas directement dans entities pour éviter des accès concurrents par
+	 * plusieurs threads #réseau #parallélisme
 	 */
 	static ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
 
@@ -52,11 +53,11 @@ public class Model {
 	 * La liste des blocs de la carte.
 	 * 
 	 * Les élements de ce tableau sont aussi dans le tableau `entities`. Cette
-	 * duplication permet d'accéder précisément à un bloc à une position
-	 * donnée. En réalité, il n'y a pas de duplication, juste de l'aliasing.
+	 * duplication permet d'accéder précisément à un bloc à une position donnée. En
+	 * réalité, il n'y a pas de duplication, juste de l'aliasing.
 	 * 
-	 * On peut voir la carte comme une matrice, dont on peut accéder à un
-	 * élément précis avec la méthode getBlock(x, y) de cette classe.
+	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
+	 * précis avec la méthode getBlock(x, y) de cette classe.
 	 */
 	private static Map map;
 
@@ -66,7 +67,7 @@ public class Model {
 	public static Vec2 exitPoint;
 	public static Avatar exitAvatar;
 
-	private static final int maxPlayers = 2;
+	private static final int maxPlayers = 1;
 
 	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;
@@ -88,7 +89,7 @@ public class Model {
 	public static void init(LocalController controller) {
 		System.out.println("init model");
 		Model.controller = controller;
-		Model.entities = new ArrayList<RigidBody>();
+		Model.entities = Collections.synchronizedList(new ArrayList<RigidBody>());
 		Model.physics = new PhysicsWorld();
 		Model.loadAutomatas();
 		Model.generateMapIfNeeded();
@@ -195,7 +196,7 @@ public class Model {
 				Model.spawn(new Stalactite((LocalController) Controller.controller, posStalactite.multiply(Block.SIZE),
 						10));
 			}
-			MobSpawner.init(500, 0.0001f);
+			MobSpawner.init(150, 0.00005f);
 		}
 
 		if (elapsed > 200) {
@@ -255,7 +256,8 @@ public class Model {
 			}
 		}
 		// Puis on parcours les entités "dynamiques"
-		for (Entity e : Model.entities) {
+		ArrayList<RigidBody> entities = new ArrayList<>(Model.entities);
+		for (Entity e : entities) {
 			Vec2 pos = e.getPosition();
 			if (pos.getX() >= baseX && pos.getX() <= baseX + width && pos.getY() >= baseY
 					&& pos.getY() <= baseY + height) {
@@ -296,7 +298,7 @@ public class Model {
 		return nearBlocks;
 	}
 
-	public static ArrayList<RigidBody> getEntities() {
+	public static List<RigidBody> getEntities() {
 		return Model.entities;
 	}
 
