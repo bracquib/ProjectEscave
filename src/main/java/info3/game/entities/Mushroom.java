@@ -5,7 +5,6 @@ import info3.game.LocalController;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
-import info3.game.assets.Image;
 import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.automata.behaviors.MushroomBehaviour;
@@ -16,16 +15,6 @@ public class Mushroom extends RigidBody {
 
 	public int childRemain;
 
-	public Mushroom(Vec2 pos) {
-		super(1, Model.controller, 100);
-		childRemain = 3;
-		this.setPosition(pos);
-		this.setCategory(Category.ADVERSAIRE);
-		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
-		this.avatar = new AvatarBuilder(new Image(this.avatarPath())).position(this.getPosition())
-				.build(this.controller);
-	}
-
 	public Mushroom(LocalController c, Vec2 pos, int points, int remain) {
 		super(1, c, 100);
 		childRemain = remain;
@@ -35,7 +24,7 @@ public class Mushroom extends RigidBody {
 		this.setBehaviour(new MushroomBehaviour());
 		this.degatMob = 1;
 		this.collider = new BoxCollider(Block.SIZE, Block.SIZE, 0, 0);
-		this.avatar = new AvatarBuilder(new Image(this.avatarPath())).position(this.getPosition())
+		this.avatar = new AvatarBuilder(new AnimatedImage(this.avatarPath(), 4, 200, true)).position(this.getPosition())
 				.build(this.controller);
 		this.playAnimation("spawn-right", 4, 100, 0, -10, false);
 	}
