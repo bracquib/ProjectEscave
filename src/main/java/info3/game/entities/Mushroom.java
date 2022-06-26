@@ -16,7 +16,7 @@ public class Mushroom extends RigidBody {
 	public int childRemain;
 
 	public Mushroom(LocalController c, Vec2 pos, int remain) {
-		super(1, c, 150 * (remain + 1));
+		super(1, c, 50 * (remain + 1));
 		int level = remain + 1;
 		this.childRemain = remain;
 		this.setPosition(pos);
