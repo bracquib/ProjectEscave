@@ -44,7 +44,7 @@ public class Pickaxe extends Weapon {
 				elapsed = System.currentTimeMillis();
 			}
 
-			if (underCursor.id == 600) {
+			if (target.id == 600) {
 				if (owner.getInventory().coupleAt(2).getNumber() == 0) {
 					Inventory inv = owner.getInventory();
 					inv.pick(inv.toolAt(2));
