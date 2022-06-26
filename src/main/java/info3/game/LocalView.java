@@ -55,7 +55,8 @@ public class LocalView extends View {
 		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
-		this.playSound(13);
+		sound.play(15);
+		sound.loop(15);
 	}
 
 	/*
