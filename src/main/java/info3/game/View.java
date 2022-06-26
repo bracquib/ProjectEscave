@@ -104,4 +104,6 @@ public abstract class View {
 	protected abstract void setCameraOffset(Vec2 offset);
 
 	public abstract void playSound(int idx);
+
+	public abstract void close();
 }

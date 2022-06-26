@@ -1,6 +1,7 @@
 package info3.game;
 
 import info3.game.assets.Paintable;
+import info3.game.network.Close;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
 import info3.game.network.PlaySound;
@@ -70,5 +71,10 @@ public class RemoteView extends View {
 
 	public void playSound(int idx) {
 		((LocalController) this.controller).sendToClients(new PlaySound(idx));
+	}
+
+	@Override
+	public void close() {
+		((LocalController) this.controller).sendToClients(new Close());
 	}
 }

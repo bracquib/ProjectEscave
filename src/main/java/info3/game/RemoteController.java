@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import info3.game.entities.PlayerColor;
+import info3.game.network.Close;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
 import info3.game.network.JoinGame;
@@ -250,6 +251,8 @@ class NetworkReceiverThread extends Thread {
 		} else if (msg instanceof PlaySound) {
 			PlaySound ps = (PlaySound) msg;
 			this.controller.view.playSound(ps.idx);
+		} else if (msg instanceof Close) {
+			this.controller.view.close();
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}

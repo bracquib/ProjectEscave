@@ -229,4 +229,9 @@ public class LocalView extends View {
 			sound.play(idx);
 		}
 	}
+
+	@Override
+	public void close() {
+		this.getFrame().dispose();
+	}
 }

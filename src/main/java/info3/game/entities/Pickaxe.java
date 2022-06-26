@@ -35,6 +35,10 @@ public class Pickaxe extends Weapon {
 		Block target = RayCasting.singleCast(mousePos, playerPos.add(Block.SIZE / 2), 3);
 
 		if (target != null) {
+			// on ne peut pas casser les socles
+			if (target instanceof Socle) {
+				return false;
+			}
 			Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
 			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
 
