@@ -59,8 +59,8 @@ public class ClientThread extends Thread {
 					MouseClick mc = (MouseClick) msg;
 					this.controller.mouseClick(this.view.getPlayer(), mc);
 				} else if (msg instanceof WindowResize) {
-					WindowResize wr = (WindowResize) msg;
-					this.controller.windowResize(this.view.getPlayer(), wr.size);
+					// WindowResize wr = (WindowResize) msg;
+					// this.controller.windowResize(this.view.getPlayer(), wr.size);
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				this.disconnect();

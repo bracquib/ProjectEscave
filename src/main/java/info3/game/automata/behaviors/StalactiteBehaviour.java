@@ -9,6 +9,7 @@ import info3.game.automata.Category;
 import info3.game.automata.Direction;
 import info3.game.entities.Block;
 import info3.game.entities.Entity;
+import info3.game.entities.Player;
 import info3.game.physics.RbState;
 import info3.game.physics.RigidBody;
 
@@ -65,14 +66,17 @@ public class StalactiteBehaviour extends Behaviour {
 	@Override
 	public void pop(Entity e, Direction d) {
 		// pop=exploser
-		System.out.println("pop");
-		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - (int) (Block.SIZE / 2),
+
+		ArrayList<Entity> nearEntities = Model.getNearEntities((int) (e.getPosition().getX()) - Block.SIZE,
 				(int) (e.getPosition().getY()) - Block.SIZE, Block.SIZE * 3, Block.SIZE * 3);
 		for (Entity e1 : nearEntities) {
 			Category cat = e1.getCategory();
 			if (cat == Category.PLAYER || cat == Category.ADVERSAIRE) {
 				System.out.println("stala explose");
 				e1.getBehaviour().protect(e1, Direction.HERE, 1);
+				if (e1 instanceof Player) {
+					e.getController().viewFor(((Player) e1).getColor()).playSound(9);
+				}
 			}
 		}
 		return;

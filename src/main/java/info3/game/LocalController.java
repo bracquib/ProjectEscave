@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import info3.game.assets.Paintable;
+import info3.game.entities.Block;
 import info3.game.entities.Entity;
 import info3.game.entities.Player;
 import info3.game.entities.PlayerColor;
+import info3.game.entities.Statue;
 import info3.game.network.KeyPress;
 import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
@@ -18,6 +20,7 @@ import info3.game.network.WheelScroll;
 
 public class LocalController extends Controller {
 	List<View> views;
+	ArrayList<Integer> pressedKeys;
 
 	public LocalController() {
 		super();
@@ -52,6 +55,10 @@ public class LocalController extends Controller {
 				}
 			}
 		}
+		v.createAvatar(Model.exitAvatar);
+		for (Avatar posBgAvatar : Model.spawnPointsBackground) {
+			v.createAvatar(posBgAvatar);
+		}
 		int playerNum = Model.playerCount.getAndIncrement();
 		v.setPlayer(Player.colorFromInt(playerNum));
 		Model.spawnPlayer(playerNum);
@@ -63,6 +70,16 @@ public class LocalController extends Controller {
 		this.addPressedKey(p, e.code);
 
 		Player player = Model.getPlayer(p);
+		if (e.code == 32) {
+			Vec2 newPos = new Vec2(player.getPosition());
+			newPos.setX(newPos.getX() + Block.SIZE);
+			Model.spawn(new Statue(this, player, newPos, 1));
+		}
+
+		if (e.code == 67) {
+			player.setPosition(Model.exitPoint);
+		}
+
 		if (e.code >= 97 && e.code <= 102) {
 			player.getInventory().selectCurrentTool(e.code - 97);
 		}
@@ -78,12 +95,14 @@ public class LocalController extends Controller {
 	}
 
 	public View viewFor(PlayerColor p) {
-		for (View v : this.views) {
-			if (v.getPlayer() == p) {
-				return v;
+		synchronized (this.views) {
+			for (View v : this.views) {
+				if (v.getPlayer() == p) {
+					return v;
+				}
 			}
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -93,8 +112,7 @@ public class LocalController extends Controller {
 
 	@Override
 	public Avatar createAvatar(Avatar av) {
-		int id = Controller.avatarID;
-		Controller.avatarID++;
+		int id = Controller.avatarID.getAndIncrement();
 		av.id = id;
 		synchronized (this.views) {
 			for (View v : this.views) {
@@ -244,11 +262,11 @@ public class LocalController extends Controller {
 			if (v instanceof RemoteView) {
 				RemoteView rv = (RemoteView) v;
 				if (rv.client != null) {
-					rv.client.send(new UpdateAvatar(av.getId(), p, av.getPosition()));
+					rv.client.send(new UpdateAvatar(av.getId(), p, av.getOffset(), av.getPosition()));
 				}
 			} else if (v instanceof LocalView) {
 				LocalView lv = (LocalView) v;
-				lv.updateAvatar(av.getId(), p, av.getPosition());
+				lv.updateAvatar(av.getId(), p, av.getOffset(), av.getPosition());
 			}
 		}
 	}
@@ -272,8 +290,10 @@ public class LocalController extends Controller {
 	public void syncCamera(PlayerColor p, Entity syncWith) {
 		this.viewFor(p).syncCamera(syncWith.getAvatar());
 	}
-	
-	public void setCameraOffset(PlayerColor p, Vec2 offset) {
-		this.viewFor(p).setCameraOffset(offset);
+
+	public void playSound(int i) {
+		for (View v : this.views) {
+			v.playSound(i);
+		}
 	}
 }

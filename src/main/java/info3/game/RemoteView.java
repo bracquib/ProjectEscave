@@ -1,8 +1,10 @@
 package info3.game;
 
 import info3.game.assets.Paintable;
+import info3.game.network.Close;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
+import info3.game.network.PlaySound;
 import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 
@@ -52,8 +54,8 @@ public class RemoteView extends View {
 	}
 
 	@Override
-	public void updateAvatar(int id, Paintable p, Vec2 pos) {
-		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, p, pos));
+	public void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos) {
+		((LocalController) this.controller).sendToClients(new UpdateAvatar(id, p, offset, pos));
 	}
 
 	@Override
@@ -62,9 +64,12 @@ public class RemoteView extends View {
 		((LocalController) this.controller).sendTo(this.getPlayer(), new SyncCamera(syncWith));
 	}
 
+	public void playSound(int idx) {
+		((LocalController) this.controller).sendToClients(new PlaySound(idx));
+	}
+
 	@Override
-	protected void setCameraOffset(Vec2 offset) {
-		// TODO Auto-generated method stub
-		//((LocalController) this.controller).sendTo(this.getPlayer(), new CameraOffset(offset));
+	public void close() {
+		((LocalController) this.controller).sendToClients(new Close());
 	}
 }

@@ -28,6 +28,7 @@ public class Player extends RigidBody {
 	public ArrayList<Integer> pressedKeys;
 	private Avatar background;
 	public HUD hud;
+	private boolean gameOver;
 
 	static final float bgW = 2461 * 2;
 	static final float bgH = 1675 * 2;
@@ -37,8 +38,8 @@ public class Player extends RigidBody {
 	public Player(LocalController c, PlayerColor color, Vec2 pos, int points) {
 		super(1, c, points);
 		this.color = color;
-		this.avatarOffset = new Vec2(0, -20);
-		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 0);
+
+		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
 
 		this.hungerPoints = maxHunger;
 		this.thirstPoints = maxThirst;
@@ -47,9 +48,8 @@ public class Player extends RigidBody {
 		this.setCategory(Category.PLAYER);
 		this.setAutomata(Model.getAutomata("Player"));
 		this.setBehaviour(new PlayerBehaviour());
-		this.avatarOffset = new Vec2(0, -4);
 		AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
-		this.avatar = new AvatarBuilder(sprite).layer(1).position(this.getPosition().add(this.avatarOffset))
+		this.avatar = new AvatarBuilder(sprite).layer(1).position(this.getPosition()).offset(new Vec2(0, -4))
 				.build(this.controller);
 
 		Vec2 bgPos = setBackground();
@@ -68,6 +68,7 @@ public class Player extends RigidBody {
 		this.pressedKeys = new ArrayList<Integer>();
 		this.setControlledEntity(this);
 		this.playAnimation("spawn", 9, 100, 0, -10, false);
+		this.gameOver = false;
 	}
 
 	public void setControlledEntity(Entity entity) {
@@ -78,9 +79,9 @@ public class Player extends RigidBody {
 	@Override
 	public void setPosition(Vec2 pos) {
 		super.setPosition(pos);
-		if (this.background != null) {
+		if (this.getPosition() != null && !this.getPosition().equals(pos) && this.background != null) {
 			Vec2 bgPos = this.setBackground();
-			this.background.setPosition(bgPos);
+			this.controller.updateAvatar(this.background.getId(), bgPos);
 
 			int i = 0;
 			for (Vec2 diff : bgDiffs) {
@@ -118,7 +119,7 @@ public class Player extends RigidBody {
 		}
 		if (this.hungerPoints <= 0 || this.thirstPoints <= 0) {
 			System.out.println("mort du joueur à cause de la faim ou de la soif");
-			Model.deleteEntity(this);
+			this.gameOver();
 		}
 
 		super.tick(el);
@@ -142,6 +143,24 @@ public class Player extends RigidBody {
 			} else {
 				this.playAnimation("idle-left", 6, 200, 0, -4, true);
 			}
+		}
+
+		if (!this.gameOver && Model.exitOpened
+				&& this.getPosition().getX() >= Model.exitAvatar.getPosition().getX() + 3 * Block.SIZE
+				&& this.getPosition().getX() <= Model.exitAvatar.getPosition().getX() + 5 * Block.SIZE
+				&& this.getPosition().getY() >= Model.exitAvatar.getPosition().getY() + 4 * Block.SIZE
+				&& this.getPosition().getY() <= Model.exitAvatar.getPosition().getY() + 6 * Block.SIZE) {
+			this.gameOver();
+		}
+
+		if (this.gameOver) {
+			AnimatedImage gameOverAnim = (AnimatedImage) this.hud.gameOverAvatar.getPaintable();
+			if (gameOverAnim.isFinished())
+				this.hud.gameOver2();
+			if (this.getController().isKeyPressed(this, 113)) {
+				this.getController().viewFor(this.getColor()).close();
+			}
+			this.hud.gameOverAvatar.tick(el);
 		}
 	}
 
@@ -259,17 +278,11 @@ public class Player extends RigidBody {
 		return this.controlledEntity;
 	}
 
-	@Override
-	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop) {
-		super.playAnimation(name, frameCount, delay, offsetX, offsetY, loop);
-		this.controller.setCameraOffset(this.color, new Vec2(-offsetX, -offsetY));
-	}
-
-	@Override
-	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop,
-			boolean cancellable) {
-		super.playAnimation(name, frameCount, delay, offsetX, offsetY, loop, cancellable);
-		this.controller.setCameraOffset(this.color, new Vec2(-offsetX, -offsetY));
+	public void gameOver() {
+		System.out.println("End");
+		this.hud.showGameOver();
+		this.gameOver = true;
+		// Model.deleteEntity(this);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import info3.game.entities.PlayerColor;
+import info3.game.network.Close;
 import info3.game.network.CreateAvatar;
 import info3.game.network.DeleteAvatar;
 import info3.game.network.JoinGame;
@@ -19,6 +20,7 @@ import info3.game.network.KeyRelease;
 import info3.game.network.MouseClick;
 import info3.game.network.MultiMessage;
 import info3.game.network.NetworkMessage;
+import info3.game.network.PlaySound;
 import info3.game.network.SyncCamera;
 import info3.game.network.UpdateAvatar;
 import info3.game.network.Welcome;
@@ -55,6 +57,14 @@ public class RemoteController extends Controller {
 	@Override
 	public void tick(long elapsed) {
 		// Le serveur tick de lui-même, pas besoin de lui signaler qu'il faut ticker
+		// cependant pour que les animations aillent à la bonne vitesse, il faut les
+		// faire
+		// tick deux fois (dont une dans le controlleur)
+		synchronized (this.view.avatars) {
+			for (Avatar a : this.view.avatars.values()) {
+				a.tick(elapsed);
+			}
+		}
 	}
 
 	@Override
@@ -85,8 +95,7 @@ public class RemoteController extends Controller {
 
 	@Override
 	public Avatar createAvatar(Avatar av) {
-		int id = Controller.avatarID;
-		Controller.avatarID++;
+		int id = Controller.avatarID.incrementAndGet();
 		av.id = id;
 		this.view.createAvatar(av);
 		return av;
@@ -204,13 +213,14 @@ class NetworkReceiverThread extends Thread {
 	private void handleMessage(Object msg) {
 		if (msg instanceof CreateAvatar) {
 			CreateAvatar ca = (CreateAvatar) msg;
+			ca.avatar.image.load();
 			this.controller.view.createAvatar(ca.avatar);
 		} else if (msg instanceof UpdateAvatar) {
 			UpdateAvatar ua = (UpdateAvatar) msg;
 			try {
 				this.controller.view.isPainting.acquire();
 				if (ua.newPaintable != null) {
-					this.controller.view.updateAvatar(ua.avatarId, ua.newPaintable, ua.position);
+					this.controller.view.updateAvatar(ua.avatarId, ua.newPaintable, ua.offset, ua.position);
 				}
 				if (ua.position != null) {
 					this.controller.view.updateAvatar(ua.avatarId, ua.position);
@@ -238,6 +248,11 @@ class NetworkReceiverThread extends Thread {
 		} else if (msg instanceof DeleteAvatar) {
 			DeleteAvatar da = (DeleteAvatar) msg;
 			this.controller.view.deleteAvatar(da.id);
+		} else if (msg instanceof PlaySound) {
+			PlaySound ps = (PlaySound) msg;
+			this.controller.view.playSound(ps.idx);
+		} else if (msg instanceof Close) {
+			this.controller.view.close();
 		} else {
 			System.out.println("[WARN] Unknown message type: " + msg.getClass().getName());
 		}

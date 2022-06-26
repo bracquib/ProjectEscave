@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import info3.game.assets.AnimatedImage;
 import info3.game.automata.Automata;
 import info3.game.automata.BotBuilder;
 import info3.game.automata.ast.AST;
@@ -42,8 +43,8 @@ public class Model {
 	/**
 	 * La liste des entités dynamiques à spawner au prochain tick
 	 * 
-	 * On ajoute pas directement dans entities pour éviter des accès concurrents par
-	 * plusieurs threads #réseau #parallélisme
+	 * On ajoute pas directement dans entities pour éviter des accès concurrents
+	 * par plusieurs threads #réseau #parallélisme
 	 */
 	static ArrayList<RigidBody> spawnQueue = new ArrayList<RigidBody>();
 
@@ -51,17 +52,21 @@ public class Model {
 	 * La liste des blocs de la carte.
 	 * 
 	 * Les élements de ce tableau sont aussi dans le tableau `entities`. Cette
-	 * duplication permet d'accéder précisément à un bloc à une position donnée. En
-	 * réalité, il n'y a pas de duplication, juste de l'aliasing.
+	 * duplication permet d'accéder précisément à un bloc à une position
+	 * donnée. En réalité, il n'y a pas de duplication, juste de l'aliasing.
 	 * 
-	 * On peut voir la carte comme une matrice, dont on peut accéder à un élément
-	 * précis avec la méthode getBlock(x, y) de cette classe.
+	 * On peut voir la carte comme une matrice, dont on peut accéder à un
+	 * élément précis avec la méthode getBlock(x, y) de cette classe.
 	 */
 	private static Map map;
 
 	static ArrayList<Vec2> spawnPoints;
+	static ArrayList<Avatar> spawnPointsBackground;
 
-	private static final int maxPlayers = 1;
+	public static Vec2 exitPoint;
+	public static Avatar exitAvatar;
+
+	private static final int maxPlayers = 2;
 
 	static AtomicInteger playerCount = new AtomicInteger(0);
 	private static int activatedSocles = 0;
@@ -77,6 +82,8 @@ public class Model {
 
 	private static List<Vec2> statuesSpawns;
 	private static List<Vec2> stalactiteSpawns;
+
+	public static boolean exitOpened = false;
 
 	public static void init(LocalController controller) {
 		System.out.println("init model");
@@ -125,6 +132,7 @@ public class Model {
 			SpawnGenerator4D generationMap = new SpawnGenerator4D();
 			int[][] values = generationMap.spawnStatueTotal(Model.maxPlayers);
 			Model.spawnPoints = generationMap.listSpawnPlayer;
+			Model.exitPoint = generationMap.exit;
 			List<Vec2> blocs = generationMap.listSpawnBlocsStatues;
 			Model.statuesSpawns = generationMap.listSpawnStatues;
 			Model.stalactiteSpawns = DecorationGenerator.listSpawnStalactites;
@@ -139,12 +147,32 @@ public class Model {
 					}
 				}
 			}
+			AnimatedImage exit = new AnimatedImage("exit/exit.png", 6, 200, true);
+			exitPoint.setX(exitPoint.getX() - 4);
+			exitPoint.setY(exitPoint.getY() - 4);
+			exitPoint = exitPoint.multiply(Block.SIZE);
+			exitAvatar = new AvatarBuilder(exit).position(exitPoint).scale(new Vec2(1)).layer(-1)
+					.build(Controller.controller);
+			spawnPointsBackground = generateSpawnBackground(spawnPoints);
 			for (Vec2 socle : blocs) {
 				Model.map.set((int) socle.getX(), (int) socle.getY(),
 						new Socle(Model.controller, socle.multiply(Block.SIZE)));
 			}
 
 		}
+	}
+
+	public static ArrayList<Avatar> generateSpawnBackground(ArrayList<Vec2> spawnBackground) {
+		ArrayList<Avatar> res = new ArrayList<>();
+		AnimatedImage sprite = new AnimatedImage("spawn-area.png", 7, 100, true);
+		for (Vec2 posBackground : spawnBackground) {
+			posBackground = posBackground.add(new Vec2(-4, -3)).multiply(Block.SIZE);
+			posBackground = posBackground.add(new Vec2(0, 1));
+			Avatar bg_avatar = new AvatarBuilder(sprite).position(posBackground).scale(new Vec2(1)).layer(-1)
+					.build(Controller.controller);
+			res.add(bg_avatar);
+		}
+		return res;
 	}
 
 	public static void tick(long elapsed) {
@@ -167,18 +195,27 @@ public class Model {
 				Model.spawn(new Stalactite((LocalController) Controller.controller, posStalactite.multiply(Block.SIZE),
 						10));
 			}
+			MobSpawner.init(500, 0.0001f);
 		}
 
 		if (elapsed > 200) {
 			System.out.println("[WARN] Tick ignored in model");
 			return;
 		}
+		MobSpawner.tick();
 		Model.physics.tick(elapsed);
 		for (Entity e : Model.allEntities()) {
 			e.tick(elapsed);
 		}
-		if (activatedSocles == playerCount.get()) {
+		if (activatedSocles == playerCount.get() && !exitOpened) {
+			AnimatedImage newAnim = new AnimatedImage("exit/exit-destroy.png", 5, 200, false);
+			exitAvatar.setPaintable(newAnim);
+			Model.controller.updatePaintable(exitAvatar, newAnim);
 			System.out.println("Sortie activée");
+			exitOpened = true;
+			for (View v : Model.controller.views) {
+				v.playSound(10);
+			}
 		}
 	}
 

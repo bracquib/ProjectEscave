@@ -1,6 +1,5 @@
 package info3.game;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,7 +11,6 @@ import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import info3.game.assets.AssetServer;
 import info3.game.assets.Paintable;
@@ -20,16 +18,26 @@ import info3.game.graphics.GameCanvas;
 
 public class LocalView extends View {
 	JFrame frame;
-	JLabel text;
-	GameCanvas canvas;
+	String text = "";
+	public GameCanvas canvas;
 	CanvasListener listener;
 	Semaphore isPainting;
 	protected SortedSet<Avatar> sortedAvatars;
+	Sound sound;
+	int visibleAvatars = 0;
+	boolean debug = true;
 
 	public LinkedList<Checkbox> checkboxes = new LinkedList<Checkbox>();
 
 	public LocalView(Controller controller) {
 		super();
+		try {
+			this.sound = new Sound();
+		} catch (Exception e) {
+			System.out.println("[WARN] Son non fonctionnel");
+			e.printStackTrace();
+		}
+
 		this.sortedAvatars = Collections.synchronizedSortedSet(new TreeSet<Avatar>((x, y) -> {
 			int cmp = x.layer - y.layer;
 			if (cmp == 0) {
@@ -45,11 +53,12 @@ public class LocalView extends View {
 		this.listener = new CanvasListener(this);
 
 		this.canvas = new GameCanvas(this.listener);
-		Dimension d = new Dimension(1500, 1000);
-		this.setDimensions(new Vec2(1500, 1000));
+		Dimension d = new Dimension(1920, 1080);
+		this.setDimensions(new Vec2(1920, 1080));
 		this.controller.addView(this);
 		this.frame = this.canvas.createFrame(d);
 		setupFrame();
+		this.playSound(13);
 	}
 
 	/*
@@ -58,13 +67,8 @@ public class LocalView extends View {
 	 */
 	private void setupFrame() {
 		this.frame.setTitle("Game");
-		this.frame.setLayout(new BorderLayout());
 
-		this.frame.add(this.canvas, BorderLayout.CENTER);
-
-		this.text = new JLabel();
-		this.text.setText("Tick: 0ms FPS=0 AvatarsOnScreen=0");
-		this.frame.add(this.text, BorderLayout.NORTH);
+		this.frame.add(this.canvas);
 
 		// center the window on the screen
 		this.frame.setLocationRelativeTo(null);
@@ -106,10 +110,10 @@ public class LocalView extends View {
 			while (txt.length() < 15)
 				txt += " ";
 			txt += fps + " fps   ";
-			txt += " AvatarsOnScreen=" + this.getVisibleAvatars().size();
-			txt += "     " + (int) this.camera.getPos().getX() / 64 + " ";
-			txt += (int) this.camera.getPos().getY() / 64;
-			this.text.setText(txt);
+			txt += " AvatarsOnScreen=" + this.visibleAvatars;
+			txt += "     (" + (int) this.camera.getPos().getX() / 64 + ", ";
+			txt += (int) this.camera.getPos().getY() / 64 + ")";
+			this.text = txt;
 		}
 	}
 
@@ -121,6 +125,7 @@ public class LocalView extends View {
 		// get the size of the canvas
 		int width = this.canvas.getWidth();
 		int height = this.canvas.getHeight();
+		this.visibleAvatars = 0;
 
 		// erase background
 		g.setColor(Color.gray);
@@ -135,9 +140,14 @@ public class LocalView extends View {
 			for (Avatar a : this.getVisibleAvatars()) {
 				synchronized (a) {
 					a.paint(g, cameraPos);
+					this.visibleAvatars++;
 				}
 			}
 			this.isPainting.release();
+			if (this.debug) {
+				char[] chars = this.text.toCharArray();
+				g.drawChars(chars, 0, chars.length, 5, 20);
+			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -184,6 +194,9 @@ public class LocalView extends View {
 			if (!this.sortedAvatars.add(av)) {
 				this.sortedAvatars.remove(av);
 				this.sortedAvatars.add(av);
+				if (this.camera.followedAvatar != null && av.getId() == this.camera.followedAvatar.getId()) {
+					this.camera.setAvatar(av);
+				}
 			}
 		}
 	}
@@ -191,7 +204,9 @@ public class LocalView extends View {
 	@Override
 	public void deleteAvatar(int id) {
 		super.deleteAvatar(id);
-		this.sortedAvatars.removeIf((x) -> x.getId() == id);
+		synchronized (this.sortedAvatars) {
+			this.sortedAvatars.removeIf((x) -> x.getId() == id);
+		}
 	}
 
 	@Override
@@ -200,11 +215,14 @@ public class LocalView extends View {
 	}
 
 	@Override
-	public void updateAvatar(int id, Paintable p, Vec2 pos) {
+	public void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos) {
 		Avatar av = this.avatars.get(id);
-		Paintable loaded = AssetServer.load(p);
-		av.setPaintable(loaded);
-		av.setPosition(pos);
+		if (av != null) {
+			Paintable loaded = AssetServer.load(p);
+			av.setPaintable(loaded);
+			av.setPosition(pos);
+			av.setOffset(offset);
+		}
 	}
 
 	@Override
@@ -212,8 +230,18 @@ public class LocalView extends View {
 		this.camera.setAvatar(av);
 	}
 
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void playSound(int idx) {
+		if (this.sound != null) {
+			sound.play(idx);
+		}
+	}
+
 	@Override
-	protected void setCameraOffset(Vec2 offset) {
-		this.camera.setOffset(offset);
+	public void close() {
+		this.getFrame().dispose();
 	}
 }

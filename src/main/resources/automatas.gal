@@ -81,6 +81,7 @@ Player(Init){
 
 Mushroom(Init){
 	*(Init):
+	| GotPower() ? : (Mort)
 	| Cell(W,@) ? Move(S) & Pop(W) :(Cooldown1000)
 	| Cell(H,@) ? Move(S) & Pop(E) :(Cooldown1000)
 
@@ -107,5 +108,6 @@ Statue(Init){
 Socle(Init){
 	*(Init):
 	|Cell(N,@) ? Wizz() :(Init)
+	|Cell(N,T) ? Wizz() :(Init)
 	|True ? :(Init)
 }
