@@ -179,6 +179,9 @@ public class LocalView extends View {
 			if (!this.sortedAvatars.add(av)) {
 				this.sortedAvatars.remove(av);
 				this.sortedAvatars.add(av);
+				if (av.getId() == this.camera.followedAvatar.getId()) {
+					this.camera.setAvatar(av);
+				}
 			}
 		}
 	}
@@ -199,10 +202,12 @@ public class LocalView extends View {
 	@Override
 	public void updateAvatar(int id, Paintable p, Vec2 offset, Vec2 pos) {
 		Avatar av = this.avatars.get(id);
-		Paintable loaded = AssetServer.load(p);
-		av.setPaintable(loaded);
-		av.setPosition(pos);
-		av.setOffset(offset);
+		if (av != null) {
+			Paintable loaded = AssetServer.load(p);
+			av.setPaintable(loaded);
+			av.setPosition(pos);
+			av.setOffset(offset);
+		}
 	}
 
 	@Override
