@@ -127,7 +127,7 @@ public class PlayerBehaviour extends Behaviour {
 	@Override
 	public void jump(Entity e) {
 		// jump=wizz donc fait dans wizz
-		((RigidBody) e).getSpeed().setY(-270);
+		((RigidBody) e).getSpeed().setY(-550);
 
 		if (System.currentTimeMillis() - jumpElapsed > 200) {
 			if (e instanceof Player) {

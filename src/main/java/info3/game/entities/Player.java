@@ -113,8 +113,11 @@ public class Player extends RigidBody {
 		super.tick(el);
 		compt += el;
 		if (compt > 30000) {
+			if (this.getHungerPoints() == maxHunger) {
+				this.setPointsDeVie(this.getPointsDeVie() + 3);
+			}
 			this.setHungerPoints(this.hungerPoints - 1);
-			this.setThirstPoints(this.thirstPoints - 1);
+			// this.setThirstPoints(this.thirstPoints - 1);
 			this.speedFactor = 0.5f + 0.5f
 					* (((float) (this.hungerPoints + this.thirstPoints)) / ((float) (this.maxHunger + this.maxThirst)));
 			compt = 0;

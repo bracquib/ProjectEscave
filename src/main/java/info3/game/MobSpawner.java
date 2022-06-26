@@ -14,6 +14,7 @@ import info3.game.physics.RigidBody;
 public class MobSpawner {
 	private static int maxEntity;
 	public static float spawnProba;
+	private static ArrayList<Player> players;
 
 	public final static int MIN_SPAWN_DISTANCE = 12;
 	public final static int MAX_SPAWN_DISTANCE = 16;
@@ -24,7 +25,7 @@ public class MobSpawner {
 	}
 
 	public static void tick() {
-		ArrayList<Player> players = Model.getPlayers();
+		players = new ArrayList<>(Model.getPlayers());
 		int minD = MIN_SPAWN_DISTANCE;
 		int maxD = MAX_SPAWN_DISTANCE;
 		if (minD >= maxD) {
@@ -40,7 +41,6 @@ public class MobSpawner {
 		}
 
 		if (mobCount >= maxEntity) {
-			System.out.println("Max d'entites atteint");
 			return;
 		}
 
@@ -111,7 +111,7 @@ public class MobSpawner {
 	private static boolean isInPlayersRange(Block block) {
 		if (block == null)
 			return true;
-		for (Player player : Model.getPlayers()) {
+		for (Player player : MobSpawner.players) {
 			if (block.getPosition().sub(player.getPosition()).length() <= MIN_SPAWN_DISTANCE * Block.SIZE) {
 				return true;
 			}

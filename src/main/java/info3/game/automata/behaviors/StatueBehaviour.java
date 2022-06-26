@@ -103,7 +103,7 @@ public class StatueBehaviour extends Behaviour {
 
 	@Override
 	public void jump(Entity e) {
-		((RigidBody) e).getSpeed().setY(-250);
+		((RigidBody) e).getSpeed().setY(-350);
 		return;
 	}
 
