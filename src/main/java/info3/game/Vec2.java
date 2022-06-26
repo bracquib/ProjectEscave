@@ -222,4 +222,9 @@ public class Vec2 extends Object implements Serializable {
 
 		return new Vec2(x, y);
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof Vec2 && ((Vec2) other).x == this.x && ((Vec2) other).y == this.y;
+	}
 }

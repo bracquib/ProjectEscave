@@ -19,7 +19,6 @@ public class Pickaxe extends Weapon {
 
 	public boolean useTool(Direction d) { // pas owner de pickaxe car null
 		Vec2 mousePos = owner.mousePos;
-		Block underCursor = Model.getBlock((int) mousePos.getX() / Block.SIZE, (int) mousePos.getY() / Block.SIZE);
 
 		Vec2 playerPos = owner.getPosition();
 
@@ -35,7 +34,11 @@ public class Pickaxe extends Weapon {
 
 		Block target = RayCasting.quadCast(mousePos, playerPos.add(Block.SIZE / 2), 3);
 
-		if (target != null) { // && target == underCursor
+		if (target != null) {
+			// on ne peut pas casser les socles
+			if (target instanceof Socle) {
+				return false;
+			}
 			Vec2 coords = new Vec2(target.getPosition()).divide(Block.SIZE);
 			Model.deleteBlock((int) coords.getX(), (int) coords.getY());
 

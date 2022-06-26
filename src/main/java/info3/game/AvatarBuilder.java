@@ -55,4 +55,19 @@ public class AvatarBuilder {
 	public AvatarBuilder duplicate() {
 		return this.duplicate(true);
 	}
+
+	public AvatarBuilder offset(Vec2 off) {
+		this.a.offset = off;
+		return this;
+	}
+
+	public AvatarBuilder offsetX(int xOff) {
+		this.a.offset.setX(xOff);
+		return this;
+	}
+
+	public AvatarBuilder offsetY(int yOff) {
+		this.a.offset.setY(yOff);
+		return this;
+	}
 }

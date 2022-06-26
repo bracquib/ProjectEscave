@@ -30,7 +30,7 @@ public class Block extends Consumable {
 			this.setName("Block");
 		} else {
 			this.avatar = new AvatarBuilder(new AnimatedImage("classic_block/water_sol.png", 16, 5500, true))
-					.position(position).scale(new Vec2(1)).build(this.controller);
+					.scale(new Vec2(1)).position(position).build(this.controller);
 			this.setName("Block");
 		}
 

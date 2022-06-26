@@ -21,6 +21,7 @@
 package info3.game;
 
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -82,8 +83,15 @@ public class CanvasListener implements GameCanvasListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		KeyPress kp = new KeyPress(e.getKeyCode());
-		this.view.controller.keyPressed(this.view.getPlayer(), kp);
+		int code = e.getKeyCode();
+		if (code == 114) { // F3: toggle debug mode
+			this.view.debug = !this.view.debug;
+		} else if (code == 27) { // Echap: exit full screen
+			GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(null);
+		} else {
+			KeyPress kp = new KeyPress(e.getKeyCode());
+			this.view.controller.keyPressed(this.view.getPlayer(), kp);
+		}
 	}
 
 	@Override

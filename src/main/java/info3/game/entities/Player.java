@@ -7,7 +7,6 @@ import info3.game.AvatarBuilder;
 import info3.game.HUD;
 import info3.game.Inventory;
 import info3.game.LocalController;
-import info3.game.LocalView;
 import info3.game.Model;
 import info3.game.Vec2;
 import info3.game.assets.AnimatedImage;
@@ -39,7 +38,6 @@ public class Player extends RigidBody {
 	public Player(LocalController c, PlayerColor color, Vec2 pos, int points) {
 		super(1, c, points);
 		this.color = color;
-		this.avatarOffset = new Vec2(0, -20);
 		this.collider = new BoxCollider(Block.SIZE - 3, Block.SIZE - 3, 1, 1);
 
 		this.hungerPoints = maxHunger;
@@ -49,9 +47,8 @@ public class Player extends RigidBody {
 		this.setCategory(Category.PLAYER);
 		this.setAutomata(Model.getAutomata("Player"));
 		this.setBehaviour(new PlayerBehaviour());
-		this.avatarOffset = new Vec2(0, -4);
 		AnimatedImage sprite = new AnimatedImage(this.avatarPath(), 6, 200, true);
-		this.avatar = new AvatarBuilder(sprite).layer(1).position(this.getPosition().add(this.avatarOffset))
+		this.avatar = new AvatarBuilder(sprite).layer(1).position(this.getPosition()).offset(new Vec2(0, -4))
 				.build(this.controller);
 
 		Vec2 bgPos = setBackground();
@@ -81,9 +78,9 @@ public class Player extends RigidBody {
 	@Override
 	public void setPosition(Vec2 pos) {
 		super.setPosition(pos);
-		if (this.background != null) {
+		if (this.getPosition() != null && !this.getPosition().equals(pos) && this.background != null) {
 			Vec2 bgPos = this.setBackground();
-			this.background.setPosition(bgPos);
+			this.controller.updateAvatar(this.background.getId(), bgPos);
 
 			int i = 0;
 			for (Vec2 diff : bgDiffs) {
@@ -160,9 +157,9 @@ public class Player extends RigidBody {
 			if (gameOverAnim.isFinished())
 				this.hud.gameOver2();
 			if (this.getController().isKeyPressed(this, 113)) {
-				LocalView v = (LocalView) this.getController().viewFor(this.getColor());
-				v.getFrame().dispose();
+				this.getController().viewFor(this.getColor()).close();
 			}
+			this.hud.gameOverAvatar.tick(el);
 		}
 	}
 
@@ -278,19 +275,6 @@ public class Player extends RigidBody {
 
 	public Entity getControlledEntity() {
 		return this.controlledEntity;
-	}
-
-	@Override
-	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop) {
-		super.playAnimation(name, frameCount, delay, offsetX, offsetY, loop);
-		this.controller.setCameraOffset(this.color, new Vec2(-offsetX, -offsetY));
-	}
-
-	@Override
-	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop,
-			boolean cancellable) {
-		super.playAnimation(name, frameCount, delay, offsetX, offsetY, loop, cancellable);
-		this.controller.setCameraOffset(this.color, new Vec2(-offsetX, -offsetY));
 	}
 
 	public void gameOver() {

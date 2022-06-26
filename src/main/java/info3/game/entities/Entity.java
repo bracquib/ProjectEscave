@@ -57,7 +57,6 @@ public abstract class Entity {
 	public int degatEpee;
 	public int degatPioche;
 	protected Category category;
-	protected Vec2 avatarOffset;
 	public Vec2 mousePos;
 
 	protected LocalController controller;
@@ -67,6 +66,9 @@ public abstract class Entity {
 	}
 
 	public void setPosition(Vec2 pos) {
+		if (this.position != null && this.position.equals(pos)) {
+			return;
+		}
 		Map map = Model.getMap();
 
 		// dépassement du haut
@@ -94,11 +96,8 @@ public abstract class Entity {
 
 		this.position = pos;
 		if (this.avatar != null) {
-			if (this.avatarOffset != null) {
-				this.avatar.setPosition(pos.add(this.avatarOffset));
-			} else {
-				this.avatar.setPosition(this.position);
-			}
+			this.avatar.setPosition(this.position);
+
 			this.controller.sendToClients(new UpdateAvatar(this.avatar.getId(), this.avatar.getPosition()));
 		}
 	}
@@ -197,9 +196,6 @@ public abstract class Entity {
 	public void setPaintable(Paintable p) {
 		this.avatar.setPaintable(p);
 		Vec2 pos = this.getPosition();
-		if (this.avatarOffset != null) {
-			pos = pos.add(this.avatarOffset);
-		}
 		this.avatar.setPosition(pos);
 		this.controller.updatePaintable(this.getAvatar(), p);
 	}
@@ -213,16 +209,16 @@ public abstract class Entity {
 	}
 
 	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop) {
-		this.avatarOffset.setX(offsetX);
-		this.avatarOffset.setY(offsetY);
+		this.getAvatar().getOffset().setX(offsetX);
+		this.getAvatar().getOffset().setY(offsetY);
 		AnimatedImage anim = new AnimatedImage(this.animationDir() + "/" + name + ".png", frameCount, delay, loop);
 		this.setPaintable(anim);
 	}
 
 	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop,
 			boolean cancellable) {
-		this.avatarOffset.setX(offsetX);
-		this.avatarOffset.setY(offsetY);
+		this.getAvatar().getOffset().setX(offsetX);
+		this.getAvatar().getOffset().setY(offsetY);
 		AnimatedImage anim = new AnimatedImage(this.animationDir() + "/" + name + ".png", frameCount, delay, loop,
 				cancellable);
 		this.setPaintable(anim);
