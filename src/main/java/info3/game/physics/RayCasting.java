@@ -8,6 +8,25 @@ import info3.game.entities.Block;
 
 public class RayCasting {
 
+	public static Block quadCast(Vec2 mousePos, Vec2 playerPos, int range) {
+		Vec2[] playPos = new Vec2[4];
+		playPos[0] = playerPos;
+		playPos[1] = new Vec2(playerPos.getX() - 1, playerPos.getY());
+		playPos[2] = new Vec2(playerPos.getX() - 1, playerPos.getY() - 4);
+		playPos[3] = new Vec2(playerPos.getX(), playerPos.getY() - 4);
+
+		Block retBlock = null;
+		Block temp;
+		for (int i = 0; i < 4; i++) {
+			temp = singleCast(mousePos, playPos[i], range);
+			if (temp != null) {
+				retBlock = temp;
+			}
+		}
+		return retBlock;
+
+	}
+
 	/*
 	 * Retourne 1er block touché par le RayCasting
 	 */

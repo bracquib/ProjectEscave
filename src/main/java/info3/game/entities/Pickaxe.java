@@ -32,7 +32,7 @@ public class Pickaxe extends Weapon {
 			break;
 		}
 
-		Block target = RayCasting.singleCast(mousePos, playerPos.add(Block.SIZE / 2), 3);
+		Block target = RayCasting.quadCast(mousePos, playerPos.add(Block.SIZE / 2), 3);
 
 		if (target != null) {
 			// on ne peut pas casser les socles
