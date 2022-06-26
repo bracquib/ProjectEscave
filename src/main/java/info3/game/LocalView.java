@@ -215,11 +215,6 @@ public class LocalView extends View {
 		this.camera.setAvatar(av);
 	}
 
-	@Override
-	protected void setCameraOffset(Vec2 offset) {
-		this.camera.setOffset(offset);
-	}
-
 	public JFrame getFrame() {
 		return frame;
 	}

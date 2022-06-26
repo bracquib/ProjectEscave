@@ -291,10 +291,6 @@ public class LocalController extends Controller {
 		this.viewFor(p).syncCamera(syncWith.getAvatar());
 	}
 
-	public void setCameraOffset(PlayerColor p, Vec2 offset) {
-		this.viewFor(p).setCameraOffset(offset);
-	}
-
 	public void playSound(int i) {
 		for (View v : this.views) {
 			v.playSound(i);

@@ -64,11 +64,6 @@ public class RemoteView extends View {
 		((LocalController) this.controller).sendTo(this.getPlayer(), new SyncCamera(syncWith));
 	}
 
-	@Override
-	protected void setCameraOffset(Vec2 offset) {
-		this.camera.setOffset(offset);
-	}
-
 	public void playSound(int idx) {
 		((LocalController) this.controller).sendToClients(new PlaySound(idx));
 	}

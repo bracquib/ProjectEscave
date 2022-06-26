@@ -277,19 +277,6 @@ public class Player extends RigidBody {
 		return this.controlledEntity;
 	}
 
-	@Override
-	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop) {
-		super.playAnimation(name, frameCount, delay, offsetX, offsetY, loop);
-		this.controller.setCameraOffset(this.color, new Vec2(-offsetX, -offsetY));
-	}
-
-	@Override
-	public void playAnimation(String name, int frameCount, int delay, int offsetX, int offsetY, boolean loop,
-			boolean cancellable) {
-		super.playAnimation(name, frameCount, delay, offsetX, offsetY, loop, cancellable);
-		this.controller.setCameraOffset(this.color, new Vec2(-offsetX, -offsetY));
-	}
-
 	public void gameOver() {
 		System.out.println("End");
 		this.hud.showGameOver();
