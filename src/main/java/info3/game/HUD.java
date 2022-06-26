@@ -151,7 +151,7 @@ public class HUD {
 	}
 
 	public void gainLife(int newVal) {
-		this.moveAvatar(this.lifes, newVal - 1, this.startY() - 184);
+		this.moveAvatar(this.lifes, newVal - 1, this.startY() - 54);
 	}
 
 	public void gainFood(int newVal) {
@@ -159,7 +159,7 @@ public class HUD {
 	}
 
 	public void gainWater(int newVal) {
-		this.moveAvatar(this.water, newVal - 1, this.startY() - 268);
+		this.moveAvatar(this.water, newVal - 1, this.startY() - 118);
 	}
 
 	private int startY() {
