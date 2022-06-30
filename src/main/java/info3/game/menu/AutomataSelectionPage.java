@@ -67,8 +67,6 @@ public class AutomataSelectionPage extends JFrame {
 
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setMinimumSize(new Dimension(800, 850));
-		// this.setIconImage(new
-		// ImageIcon(getClass().getResource("image.jgp)).getImage());
 	}
 
 	private JPanel genPanel(Color color) {
@@ -248,7 +246,6 @@ public class AutomataSelectionPage extends JFrame {
 		try {
 			GameOptions.instance.fichierGal = readFile(url);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		BotBuilder bot_builder = new BotBuilder();

@@ -14,10 +14,10 @@ public class GamePanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -2703227226283234010L;
 	private MouseInputs mouseInputs;
-	private GameJerem game;
+	private MainMenu game;
 	private Image bg;
 
-	public GamePanel(GameJerem game2) {
+	public GamePanel(MainMenu game2) {
 		mouseInputs = new MouseInputs(this);
 		this.game = game2;
 		setOpaque(false);
@@ -42,7 +42,7 @@ public class GamePanel extends JPanel {
 		game.render(g);
 	}
 
-	public GameJerem getGame() {
+	public MainMenu getGame() {
 		return game;
 	}
 

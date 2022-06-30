@@ -16,7 +16,7 @@ public class Menu extends State implements Statemethods {
 	private int menuX, menuY, menuWidth, menuHeight;
 	public static Sound sound = new Sound();
 
-	public Menu(GameJerem game) {
+	public Menu(MainMenu game) {
 		super(game);
 		loadButtons();
 		loadBackground();
@@ -27,41 +27,39 @@ public class Menu extends State implements Statemethods {
 
 	private void loadBackground() {
 		backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BACKGROUND);
-		menuWidth = (int) (backgroundImg.getWidth() * GameJerem.SCALE);
-		menuHeight = (int) (backgroundImg.getHeight() * GameJerem.SCALE);
-		menuX = GameJerem.GAME_WIDTH / 2 - menuWidth / 2;
-		menuY = (int) (45 * GameJerem.SCALE);
+		menuWidth = (int) (backgroundImg.getWidth() * MainMenu.SCALE);
+		menuHeight = (int) (backgroundImg.getHeight() * MainMenu.SCALE);
+		menuX = MainMenu.GAME_WIDTH / 2 - menuWidth / 2;
+		menuY = (int) (45 * MainMenu.SCALE);
 
 	}
 
 	private void loadButtons() {
-		buttons[0] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (150 * GameJerem.SCALE), 0, Gamestate.PLAYING,
-				() -> {
-					sound.stop(13);
+		buttons[0] = new MenuButton(MainMenu.GAME_WIDTH / 2, (int) (150 * MainMenu.SCALE), 0, Gamestate.PLAYING, () -> {
+			sound.stop(13);
 
-					sound.play(14);
-					if (Options.ip.equals("")) {
-						Client.startGame();
-						this.game.gameThread.interrupt();
-						this.game.gamewindow.dispose();
-					} else {
-						if (Options.ip.equals("127.0.0.1")) {
-							Thread serverThread = new Thread(() -> {
-								LocalController controller = new LocalController();
-								Server.run(controller);
-							});
-							serverThread.start();
-						}
-						Client.startGame(Options.ip, 1906);
-						this.game.gameThread.interrupt();
-						this.game.gamewindow.dispose();
-					}
-				});
-		buttons[1] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (220 * GameJerem.SCALE), 1, Gamestate.OPTIONS,
-				() -> {
-					sound.play(14);
-				});
-		buttons[2] = new MenuButton(GameJerem.GAME_WIDTH / 2, (int) (290 * GameJerem.SCALE), 2, Gamestate.QUIT, () -> {
+			sound.play(14);
+			if (Options.ip.equals("")) {
+				Client.startGame();
+				this.game.gameThread.interrupt();
+				this.game.gamewindow.dispose();
+			} else {
+				if (Options.ip.equals("127.0.0.1")) {
+					Thread serverThread = new Thread(() -> {
+						LocalController controller = new LocalController();
+						Server.run(controller);
+					});
+					serverThread.start();
+				}
+				Client.startGame(Options.ip, 1906);
+				this.game.gameThread.interrupt();
+				this.game.gamewindow.dispose();
+			}
+		});
+		buttons[1] = new MenuButton(MainMenu.GAME_WIDTH / 2, (int) (220 * MainMenu.SCALE), 1, Gamestate.OPTIONS, () -> {
+			sound.play(14);
+		});
+		buttons[2] = new MenuButton(MainMenu.GAME_WIDTH / 2, (int) (290 * MainMenu.SCALE), 2, Gamestate.QUIT, () -> {
 			sound.play(14);
 		});
 	}

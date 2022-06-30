@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Playing extends State {
 
-	public Playing(GameJerem game) {
+	public Playing(MainMenu game) {
 		super(game);
 		initClasses();
 	}

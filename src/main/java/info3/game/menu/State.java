@@ -4,9 +4,9 @@ import java.awt.event.MouseEvent;
 
 public class State {
 
-	protected GameJerem game;
+	protected MainMenu game;
 
-	public State(GameJerem game2) {
+	public State(MainMenu game2) {
 		this.game = game2;
 	}
 
@@ -18,7 +18,7 @@ public class State {
 		return mb.getBounds().contains(e.getX(), e.getY());
 	}
 
-	public GameJerem getGame() {
+	public MainMenu getGame() {
 		return game;
 	}
 }

@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 public class NumberSelector {
 	private BufferedImage numbers[];
 
-	public NumberSelector(GameJerem game) {
+	public NumberSelector(MainMenu game) {
 		loadImgs();
 	}
 
@@ -18,7 +18,7 @@ public class NumberSelector {
 	}
 
 	public void draw(Graphics g) {
-		g.drawImage(numbers[GameOptions.instance.playerCount - 1], GameJerem.GAME_WIDTH / 2 - 7,
-				(int) (195 * GameJerem.SCALE), 20, 22, null);
+		g.drawImage(numbers[GameOptions.instance.playerCount - 1], MainMenu.GAME_WIDTH / 2 - 7,
+				(int) (195 * MainMenu.SCALE), 20, 22, null);
 	}
 }

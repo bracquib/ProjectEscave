@@ -29,8 +29,8 @@ public class OptionButton {
 	}
 
 	private void initBounds() {
-		bounds = new Rectangle(xPos - xOffsetCenter, yPos, (int) (imgs[0].getWidth() * GameJerem.SCALE + 1),
-				(int) (imgs[0].getHeight() * GameJerem.SCALE + 1));
+		bounds = new Rectangle(xPos - xOffsetCenter, yPos, (int) (imgs[0].getWidth() * MainMenu.SCALE + 1),
+				(int) (imgs[0].getHeight() * MainMenu.SCALE + 1));
 
 	}
 
@@ -43,8 +43,8 @@ public class OptionButton {
 	}
 
 	public void draw(Graphics g) {
-		g.drawImage(imgs[index], xPos - xOffsetCenter, yPos, (int) (imgs[index].getWidth() * GameJerem.SCALE + 1),
-				(int) (imgs[index].getHeight() * GameJerem.SCALE + 1), null);
+		g.drawImage(imgs[index], xPos - xOffsetCenter, yPos, (int) (imgs[index].getWidth() * MainMenu.SCALE + 1),
+				(int) (imgs[index].getHeight() * MainMenu.SCALE + 1), null);
 	}
 
 	public void update() {

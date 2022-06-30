@@ -14,7 +14,7 @@ public class Options extends State implements Statemethods {
 	private NumberSelector selector;
 	public static String ip = "127.0.0.1";
 
-	public Options(GameJerem game) {
+	public Options(MainMenu game) {
 		super(game);
 		this.selector = new NumberSelector(game);
 		loadButtons();
@@ -25,47 +25,47 @@ public class Options extends State implements Statemethods {
 
 	private void loadBackground() {
 		backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BACKGROUND);
-		menuWidth = (int) (backgroundImg.getWidth() * GameJerem.SCALE);
-		menuHeight = (int) (backgroundImg.getHeight() * GameJerem.SCALE);
-		menuX = GameJerem.GAME_WIDTH / 2 - menuWidth / 2;
-		menuY = (int) (45 * GameJerem.SCALE);
+		menuWidth = (int) (backgroundImg.getWidth() * MainMenu.SCALE);
+		menuHeight = (int) (backgroundImg.getHeight() * MainMenu.SCALE);
+		menuX = MainMenu.GAME_WIDTH / 2 - menuWidth / 2;
+		menuY = (int) (45 * MainMenu.SCALE);
 	}
 
 	private void loadPlayer() {
 		playerspng = LoadSave.GetSpriteAtlas(LoadSave.OPTIONS_PLAYERS);
-		playerX = GameJerem.GAME_WIDTH / 2 - 90;
-		playerY = (int) (150 * GameJerem.SCALE);
+		playerX = MainMenu.GAME_WIDTH / 2 - 90;
+		playerY = (int) (150 * MainMenu.SCALE);
 	}
 
 	private void loadBox() {
 		boxpng = LoadSave.GetSpriteAtlas(LoadSave.BOX);
-		boxX = GameJerem.GAME_WIDTH / 2 - 25;
-		boxY = (int) (185 * GameJerem.SCALE);
+		boxX = MainMenu.GAME_WIDTH / 2 - 25;
+		boxY = (int) (185 * MainMenu.SCALE);
 	}
 
 	private void loadButtons() {
 
-		buttons[0] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 40, (int) (230 * GameJerem.SCALE), 1, () -> {
+		buttons[0] = new OptionButton(MainMenu.GAME_WIDTH / 2 + 40, (int) (230 * MainMenu.SCALE), 1, () -> {
 			Menu.sound.play(14);
 			JFrame mainwindow = this.getGame().getMainFrame();
 			new AutomataSelectionPage(mainwindow);
 		}, LoadSave.OPTIONS_AUTOMATES, LoadSave.OPTIONS_AUTOMATES1);
-		buttons[1] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 100, (int) (270 * GameJerem.SCALE), 2, () -> {
+		buttons[1] = new OptionButton(MainMenu.GAME_WIDTH / 2 + 100, (int) (270 * MainMenu.SCALE), 2, () -> {
 			Menu.sound.play(14);
 			JFrame mainwindow = this.getGame().getMainFrame();
 			new IPSelectionPage(mainwindow);
 		}, LoadSave.OPTIONS_IP, LoadSave.OPTIONS_IP1);
-		buttons[2] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 70, (int) (310 * GameJerem.SCALE), 2, () -> {
+		buttons[2] = new OptionButton(MainMenu.GAME_WIDTH / 2 + 70, (int) (310 * MainMenu.SCALE), 2, () -> {
 			Menu.sound.play(14);
 			Gamestate.state = Gamestate.MENU;
 		}, LoadSave.BUTTON_QUIT, LoadSave.BUTTON_QUIT1);
-		buttons[3] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 50, (int) (190 * GameJerem.SCALE), 2, () -> {
+		buttons[3] = new OptionButton(MainMenu.GAME_WIDTH / 2 + 50, (int) (190 * MainMenu.SCALE), 2, () -> {
 			Menu.sound.play(14);
 			GameOptions.instance.playerCount--;
 			if (GameOptions.instance.playerCount < 1)
 				GameOptions.instance.playerCount = 8;
 		}, LoadSave.FLECHE_GAUCHE, LoadSave.FLECHE_GAUCHE1);
-		buttons[4] = new OptionButton(GameJerem.GAME_WIDTH / 2 + 205, (int) (190 * GameJerem.SCALE), 2, () -> {
+		buttons[4] = new OptionButton(MainMenu.GAME_WIDTH / 2 + 205, (int) (190 * MainMenu.SCALE), 2, () -> {
 			Menu.sound.play(14);
 			GameOptions.instance.playerCount++;
 			if (GameOptions.instance.playerCount > 8)
