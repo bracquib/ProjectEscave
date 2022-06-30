@@ -1,5 +1,7 @@
 package info3.game;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 import info3.game.entities.Block;
@@ -15,16 +17,23 @@ public class MobSpawner {
 	private static int maxEntity;
 	public static float spawnProba;
 	private static ArrayList<Player> players;
+	private static boolean initialized = false;
+	public static ArrayList<Block> spawnable;
 
-	public final static int MIN_SPAWN_DISTANCE = 12;
-	public final static int MAX_SPAWN_DISTANCE = 16;
+	public final static int MIN_SPAWN_DISTANCE = 5;
+	public final static int MAX_SPAWN_DISTANCE = 10;
 
 	public static void init(int maxEntityPerPlayer, float probaSpawnPerPlayer) {
 		maxEntity = maxEntityPerPlayer * Model.getPlayers().size();
 		spawnProba = probaSpawnPerPlayer * Model.getPlayers().size();
+		initialized = true;
 	}
 
-	public static void tick() {
+	public static void tick() throws Exception {
+		if (!isInitialized()) {
+			throw new Exception("Class not initialized");
+		}
+
 		players = new ArrayList<>(Model.getPlayers());
 		int minD = MIN_SPAWN_DISTANCE;
 		int maxD = MAX_SPAWN_DISTANCE;
@@ -45,8 +54,15 @@ public class MobSpawner {
 		}
 
 		for (Player player : players) {
-			Block[][] spawnable = getSpawnableBlocks(player.getPosition().add(new Vec2(0, -Block.SIZE)), minD, maxD);
-			randomSpawn(spawnable);
+			// Spawn By ID
+			ArrayList<Block> spawnableID = getSpawnableByID(player.getPosition().add(new Vec2(0, -Block.SIZE)), minD,
+					maxD);
+			randomSpawnByID(spawnableID);
+
+			// * Spawn by checking blocks
+			// Block[][] spawnable = getSpawnableBlocks(player.getPosition().add(new Vec2(0,
+			// -Block.SIZE)), minD, maxD);
+			// randomSpawn(spawnable);
 		}
 	}
 
@@ -61,9 +77,25 @@ public class MobSpawner {
 				else {
 					int rand = (int) Math.floor((float) Math.random() + spawnProba);
 					if (rand != 0) {
-						spawn(blocks[i][j]);
+						spawn(bl);
 						return;
 					}
+				}
+			}
+		}
+	}
+
+	private static void randomSpawnByID(ArrayList<Block> blocks) {
+		for (Block bl : blocks) {
+			if (bl == null)
+				continue;
+			if (isInPlayersRange(bl))
+				blocks.remove(bl);
+			else {
+				int rand = (int) Math.floor((float) Math.random() + spawnProba);
+				if (rand != 0) {
+					spawn(bl);
+					return;
 				}
 			}
 		}
@@ -86,7 +118,7 @@ public class MobSpawner {
 			}
 		}
 
-		for (int i = 0; i < mapZone.length; i++) {
+		for (int i = 1; i < mapZone.length - 1; i++) {
 			for (int j = 0; j < mapZone[0].length; j++) {
 				if (mapZone[i][j] == null)
 					continue;
@@ -100,7 +132,10 @@ public class MobSpawner {
 				}
 				if (mapZone[i][j].id == 0)
 					blocks[i][j] = null;
-				if (!(mapZone[i][j + 1] == null && mapZone[i][j + 2] == null)) {
+				if (!(mapZone[i][j - 1] == null && mapZone[i][j - 2] == null)) {
+					blocks[i][j] = null;
+				}
+				if (!(mapZone[i + 1][j] == null && mapZone[i - 1][j] == null)) {
 					blocks[i][j] = null;
 				}
 			}
@@ -117,5 +152,44 @@ public class MobSpawner {
 			}
 		}
 		return false;
+	}
+
+	private static ArrayList<Block> getSpawnableByID(Vec2 center, int rangeMin, int rangeMax) {
+		Vec2 coords = new Vec2(center).divide(Block.SIZE).round();
+		Block[][] mapZone = Model.getMapZone((int) coords.getX() - rangeMax, (int) coords.getY() - rangeMax,
+				2 * rangeMax, 2 * rangeMax);
+		ArrayList<Block> spawnable = new ArrayList<Block>();
+		for (int i = 0; i < mapZone.length; i++) {
+			for (int j = 0; j < mapZone[0].length; j++) {
+				Block block = mapZone[i][j];
+				if (block == null)
+					continue;
+				if (block.id == 2 || block.id == 3 || block.id == 22) {
+					spawnable.add(block);
+				}
+			}
+		}
+		MobSpawner.spawnable = spawnable;
+		return spawnable;
+	}
+
+	public static boolean isInitialized() {
+		return initialized;
+	}
+
+	public static void drawBlocks(Vec2 camPos, Graphics g) {
+		if (initialized == false)
+			return;
+		if (spawnable == null)
+			return;
+
+		for (Block bl : MobSpawner.spawnable) {
+			if (bl == null)
+				continue;
+			g.setColor(Color.green);
+			Vec2 blockPos = bl.getPosition().globalToScreen(camPos);
+			g.drawRect((int) blockPos.x, (int) blockPos.y, 64, 64);
+
+		}
 	}
 }
